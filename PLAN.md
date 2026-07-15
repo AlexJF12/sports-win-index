@@ -2,28 +2,30 @@
 
 ## Overview
 
-A scheduled pipeline that scrapes final scores for NFL, NBA, MLB, and NHL games from the previous day, writes them to dated CSV files, and commits them to this repo. The CSVs are the data layer for a backend app that answers: *"How many wins have my teams had this month?"*
+A scheduled pipeline that pulls final scores for NFL, NBA, MLB, and NHL games from the previous day via ESPN's public scoreboard API, appends them to per-league CSV files, and commits them to this repo. The CSVs are the data layer for a backend app that answers: *"How many wins have my teams had this month?"*
 
-- **Cadence:** Daily at ~3:00 AM Eastern via GitHub Actions
-- **Source:** plaintextsports.com (ESPN JSON as fallback — see Section 2)
-- **Output:** One CSV per day containing all final games across the four leagues
+- **Cadence:** Daily at 10:00 UTC (~5–6am US/Eastern depending on DST) via GitHub Actions
+- **Source:** ESPN's unofficial scoreboard JSON endpoints
+- **Output:** One append-only CSV per league (`data/nfl_scores.csv`, etc.), deduped on `game_id`
 - **Consumer:** Backend app aggregating wins-per-team-per-month
+
+A reference implementation of the scraper (`scrape_scores.py`) and workflow already exists; this plan describes that design plus the fixes required before it ships (Section 4.3).
 
 ---
 
 ## 1. Architecture
 
 ```
-GitHub Actions (cron, ~3am ET)
+GitHub Actions (cron, 10:00 UTC)
         │
         ▼
-scrape.py ──► fetch yesterday's pages (4 leagues)
+scrape_scores.py ──► GET ESPN scoreboard JSON (4 leagues, dates=YYYYMMDD)
         │
         ▼
-parse ──► normalize into common Game schema
+flatten completed games ──► flat score rows
         │
         ▼
-write data/scores/YYYY-MM-DD.csv
+append to data/{league}_scores.csv (dedupe on game_id)
         │
         ▼
 git commit + push to main
@@ -39,68 +41,92 @@ Everything lives in one repo. No servers, no database required for v1 — the re
 
 ## 2. Data Source
 
-### Primary: plaintextsports.com
+### ESPN scoreboard API
 
-- Serves scores as near-plain HTML with minimal markup — ideal for scraping.
-- Date-based URLs, e.g. `https://plaintextsports.com/all/2026-07-01/` shows all leagues for that date; league pages like `/nba/2026-07-01/` also exist.
-- No JS rendering required — `requests` + light parsing is enough. No Selenium/Playwright.
+```
+https://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/scoreboard?dates=YYYYMMDD
+```
 
-### Risks & fallback
+League path segments:
 
-- **Fragility:** The site is a hobby project with no API contract. Layout can change silently.
-- **Fallback (build in v1.1):** ESPN's undocumented scoreboard JSON endpoints (`site.api.espn.com/apis/site/v2/sports/{sport}/{league}/scoreboard?dates=YYYYMMDD`). Free, JSON, covers all four leagues. Parsing JSON beats parsing text, so this is a candidate to *become* the primary source if plaintextsports parsing proves brittle in practice — but v1 uses plain-text scraping per the requirement, with ESPN as the fallback path when a parse fails.
+| league | sport | league slug |
+|---|---|---|
+| NFL | `football` | `nfl` |
+| NBA | `basketball` | `nba` |
+| MLB | `baseball` | `mlb` |
+| NHL | `hockey` | `nhl` |
 
-### Etiquette
+- Free, no auth, no JS rendering — a plain `requests.get` returns structured JSON.
+- Each event carries a stable `id`, competitors with `homeAway`, `score`, `winner` flags, team abbreviations, and a status object (`status.type.state`, `status.type.completed`, `status.type.description`).
+- Structured JSON means no parser to break when a page layout changes — the main failure mode is ESPN changing or retiring the endpoint.
 
-- Single fetch per league per day (4–5 requests total). Well within polite limits.
-- Set a descriptive User-Agent identifying this project; add a 1–2 s delay between requests.
+### Risks & etiquette
+
+- **Unofficial API:** No contract. It has been stable for years, but a schema change or removal is possible. The scraper's malformed-event handling logs and skips rather than crashing, and a whole-league fetch failure exits non-zero so the Actions run shows red.
+- **Etiquette:** 4 requests per day with a 15 s timeout and 3-attempt retry (5 s backoff, linearly increasing). Well within polite limits.
+- **Fallback (only if ever needed):** plaintextsports.com date pages could be scraped as a backup source. Not worth building unless ESPN actually breaks.
 
 ---
 
 ## 3. Data Model
 
-### CSV schema — `data/scores/YYYY-MM-DD.csv`
+### CSV schema — `data/{league}_scores.csv` (one file per league, append-only)
 
 | column | type | example | notes |
 |---|---|---|---|
-| `game_date` | date | `2026-07-01` | The date the game was played (ET) |
-| `league` | string | `MLB` | One of `NFL`, `NBA`, `MLB`, `NHL` |
-| `away_team` | string | `New York Mets` | Canonical name from `teams.json` |
-| `home_team` | string | `Philadelphia Phillies` | |
+| `date` | string | `20260701` | YYYYMMDD, the date scraped (ET reference) |
+| `league` | string | `mlb` | `nfl`, `nba`, `mlb`, `nhl` |
+| `game_id` | string | `401696234` | ESPN event id — the dedupe key |
+| `away_team` | string | `NYM` | ESPN team abbreviation |
 | `away_score` | int | `4` | |
+| `home_team` | string | `PHI` | |
 | `home_score` | int | `6` | |
-| `winner` | string | `Philadelphia Phillies` | Empty for ties (NFL can tie) |
-| `status` | string | `final` | `final`, `final_ot`, `final_so` |
-| `game_seq` | int | `1` | Game number for same matchup same day (MLB doubleheaders → `2`); default `1` |
-| `scraped_at` | ISO 8601 | `2026-07-02T07:05:12Z` | Provenance |
+| `winner` | string | `PHI` | Abbreviation; **empty for ties** (NFL can tie) |
+| `status` | string | `Final` | ESPN status description (`Final`, `Final/OT`, …) |
 
 Design notes:
 
-- **`winner` is precomputed** so the backend's monthly-wins query is a trivial filter + count — no score comparison logic downstream.
-- **Uniqueness key:** `(game_date, league, away_team, home_team, game_seq)`. The `game_seq` column makes MLB doubleheaders unambiguous and gives a future Postgres table a clean natural key.
-- **Postponed/suspended games are skipped**, not written — the game will appear on its makeup date. `status` is therefore always a completed-game value.
-- **Team names must be normalized** to a canonical form via a `teams.json` reference file (see 9.4). The scraper resolves whatever the source prints ("NY Mets", "Mets") to the canonical name. This file is also what the backend uses to let a user pick "their teams."
-- One file per day (not per league) keeps the repo tidy; the `league` column makes filtering trivial.
-- Only completed games are written. In-progress or scheduled games are skipped (shouldn't exist at 3am ET, but West Coast extra-inning games are why we run at 3, not midnight).
-- **Zero-game days still write a CSV** containing only the header row — an explicit "no games" beats an ambiguous gap.
+- **`game_id` is the uniqueness key.** Reruns and backfills are safe: rows whose `game_id` already exists in the file are skipped. This also makes MLB doubleheaders a non-issue — each game has its own id.
+- **`winner` is precomputed** so the backend's monthly-wins query is a trivial filter + count.
+- **ESPN abbreviations are the canonical team identifiers.** No alias resolution needed — the source is already normalized. A small `teams.json` maps abbreviation → full display name per league, for the UI and for validating `my_teams.json` (see 9.3).
+- **Only completed games are written.** In-progress, scheduled, postponed, and canceled games are skipped; a postponed game's makeup appears later under its own final status.
+- **Append-only, one file per league** (not per day): the whole dataset is 4 files, each a few thousand rows per season. Month filtering is a prefix match on `date`.
+- A zero-game day (off-season) simply appends nothing — no commit that day for that league.
 
 ---
 
-## 4. Scraper Design (`scraper/scrape.py`)
+## 4. Scraper Design (`scrape_scores.py`)
 
-Python 3.12, dependencies: `requests`, `beautifulsoup4` (even "plain text" sites have enough HTML structure to warrant it).
+Python 3.12. Single dependency: `requests`. Stdlib `csv`, `argparse`, `logging`, `zoneinfo` for everything else.
 
-### Flow
+### 4.1 Flow (as implemented in the reference script)
 
-1. **Compute target date:** `yesterday = now(ET) - 1 day`, overridable via `--date YYYY-MM-DD`. Use `zoneinfo("America/New_York")` — never naive datetimes, since the Actions runner is UTC. `--date` with an empty value is treated the same as omitting it (this is what the workflow passes on scheduled runs).
-2. **Fetch:** For each league in `[nfl, nba, mlb, nhl]`, GET the league's date page. Retry: plain loop, 3 attempts, 5-second sleep. Handle 404/empty as "no games" (off-season is normal — in July, NFL and NHL pages are empty; that's a valid zero-game result, not an error).
-3. **Parse:** Extract matchup blocks → `(away, away_score, home, home_score, status)`. Detect OT/SO markers for NHL/NBA/NFL. Assign `game_seq` by order of appearance for repeated matchups.
-4. **Normalize:** Resolve team names against `teams.json`. An unrecognized team name is a **hard failure** (fail loudly — it means the source format changed or a name variant is missing). Exception: All-Star/exhibition games, whose "teams" won't resolve, are skipped with a log line rather than failing (see Section 7).
-5. **Validate:** Scores are non-negative ints; no duplicate `(matchup, game_seq)` keys; winner logic handles NFL ties.
-6. **Write:** `data/scores/YYYY-MM-DD.csv`. Idempotent — rerunning overwrites the same file, so manual re-triggers and backfills are safe.
-7. **Exit codes:** `0` success (including zero-game days), non-zero on parse/validation failure so the Actions run shows red.
+1. **Compute target date:** `--date YYYYMMDD` if given, else yesterday in `America/New_York`. Running at 10:00 UTC means every previous-day game (including West Coast extra innings) is long finished.
+2. **Fetch:** For each league, GET the scoreboard with `dates=<target>`. Retry loop: 3 attempts, 15 s timeout, backoff of `5 × attempt` seconds. A league that fails all attempts is logged as an error and skipped; the run continues so partial success still writes what it can, then exits non-zero at the end.
+3. **Flatten:** For each event, keep only completed games; extract home/away competitors, scores, winner, status description. A malformed event is logged and skipped, never fatal.
+4. **Append:** Load existing `game_id`s from the league CSV, write only new rows, creating the file with a header if absent. Returns the count written.
+5. **Exit codes:** `0` on success (including zero new rows); `1` if any league's fetch failed outright, so the Actions run shows red.
 
-### Repo layout
+### 4.2 CLI
+
+```
+python scrape_scores.py                    # yesterday, US/Eastern
+python scrape_scores.py --date 20260114    # specific date (backfill)
+python scrape_scores.py --data-dir data    # output directory override
+```
+
+`--date` accepts one date per invocation; backfilling a month is a shell loop or repeated `workflow_dispatch` runs.
+
+### 4.3 Required fixes before shipping the reference script
+
+These are bugs/gaps in the current draft — fix them as step 1 of the build:
+
+1. **Winner-on-tie bug.** `winner = home if home.get("winner") else away` credits the **away team** whenever the home team didn't win — including ties, where *neither* competitor has `winner: true`. NFL ties would wrongly count as away-team wins. Fix: check both flags; if neither is true, write `winner` as empty string. Ties then naturally count as zero wins downstream.
+2. **Completed-game check.** `status.type.state == "post"` can include postponed/canceled events (ESPN marks some of these `post`). Use `status.type.completed is True` instead (optionally *and* `state == "post"`), so only genuinely finished games are written.
+3. **Empty `--date` handling.** If the workflow ever passes `--date "${{ inputs.date }}"` with no input, the script receives an empty string and must treat it as "yesterday" (currently `args.date or yesterday_eastern()` handles `""` correctly since empty string is falsy — keep it that way, with a test).
+4. **Date validation.** Reject `--date` values that aren't 8 digits / a real date, so a typo'd backfill fails fast instead of writing garbage rows keyed to a bad date.
+
+### 4.4 Repo layout
 
 ```
 sports-win-index/
@@ -108,16 +134,16 @@ sports-win-index/
 ├── PLAN.md
 ├── README.md
 ├── my_teams.json
-├── scraper/
-│   ├── scrape.py
-│   ├── parsers/           # one module per league if formats differ
-│   ├── teams.json         # canonical team reference
-│   └── requirements.txt
+├── scrape_scores.py
+├── teams.json              # abbreviation → display name, per league
+├── requirements.txt        # requests
 ├── data/
-│   └── scores/
-│       └── 2026-07-01.csv
+│   ├── mlb_scores.csv
+│   ├── nba_scores.csv
+│   ├── nfl_scores.csv
+│   └── nhl_scores.csv
 └── tests/
-    ├── fixtures/
+    ├── fixtures/           # saved ESPN JSON payloads
     └── golden/
 ```
 
@@ -125,21 +151,22 @@ sports-win-index/
 
 ## 5. GitHub Actions Workflow
 
-### The DST wrinkle
-
-Cron in Actions is **UTC only**. 3:00 AM ET is `07:00 UTC` during daylight time and `08:00 UTC` during standard time. Schedule at `08:00 UTC` year-round: runs at 3am EST / 4am EDT. One hour late half the year costs nothing. (The "exact" alternative — schedule both hours and have the script exit early when it isn't 3am ET — is overkill here.)
+10:00 UTC is comfortably after every league's last game ends, and DST only shifts the local run time between 5am and 6am ET — no dual-cron tricks needed.
 
 ### `scrape.yml`
 
 ```yaml
-name: Daily scores scrape
+name: Daily Scores Scrape
+
 on:
   schedule:
-    - cron: "0 8 * * *"     # 3am EST / 4am EDT
-  workflow_dispatch:          # manual re-runs + backfills
+    # 10:00 UTC daily (~5-6am US/Eastern depending on DST) —
+    # comfortably after every league's last game of the previous day finishes.
+    - cron: "0 10 * * *"
+  workflow_dispatch:
     inputs:
       date:
-        description: "Override date (YYYY-MM-DD), defaults to yesterday"
+        description: "Override date (YYYYMMDD), defaults to yesterday"
         required: false
 
 permissions:
@@ -154,24 +181,30 @@ jobs:
   scrape:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: { python-version: "3.12" }
-      - run: pip install -r scraper/requirements.txt
-      - name: Scrape
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run scraper
+        run: python scrape_scores.py --date "${{ inputs.date }}"
+
+      - name: Commit and push updated CSVs
         run: |
-          # scrape.py treats an empty --date as "yesterday ET" and prints the
-          # resolved date as its last line for the commit step to pick up
-          python scraper/scrape.py --date "${{ inputs.date }}" | tee scrape.log
-          echo "TARGET_DATE=$(grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}' scrape.log | head -1)" >> "$GITHUB_ENV"
-      - name: Commit results
-        run: |
-          git config user.name "scores-bot"
-          git config user.email "actions@github.com"
-          git add data/scores/
-          git diff --cached --quiet || git commit -m "Scores for ${TARGET_DATE}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/*.csv
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "Add scores for ${{ inputs.date || 'yesterday' }} ($(date -u +%Y-%m-%dT%H:%MZ))"
           git pull --rebase origin main   # tolerate pushes that landed mid-run
           git push
+
       - name: Alert on failure
         if: failure()
         uses: actions/github-script@v7
@@ -187,9 +220,10 @@ jobs:
 
 Notes:
 
-- `workflow_dispatch` with a date input gives **free backfill** — run it manually for any past date. The commit message uses the date the scraper actually resolved (from its log output), so backfill commits are labeled correctly rather than as "yesterday."
-- The `git diff --cached --quiet ||` guard avoids empty commits when a rerun produces an identical file.
-- The failure step opens a GitHub issue; otherwise a broken parser fails silently at 3am forever.
+- The `date` input on `workflow_dispatch` gives **free backfill** — run it manually for any past date. On scheduled runs the input is empty and the script defaults to yesterday (see fix 4.3.3).
+- The `git diff --cached --quiet && exit 0` guard skips the commit on zero-change days (off-season, or a rerun that found nothing new).
+- `git pull --rebase` before push plus the `concurrency` group keep a manual backfill and the nightly run from clobbering each other.
+- The failure step opens a GitHub issue; otherwise a broken scraper fails silently at 5am forever.
 - **Scheduled workflow auto-disable:** GitHub disables cron on repos with no activity for 60 days. The daily commit itself counts as activity, so this self-sustains — but if the scraper fails for 60 straight days, the schedule dies. The failure-issue alerting is the mitigation: a human sees the issue long before day 60.
 
 ---
@@ -198,35 +232,34 @@ Notes:
 
 The CSVs are designed so the backend query is dead simple:
 
-1. Load all `data/scores/YYYY-MM-*.csv` for the current month (raw.githubusercontent.com URLs work fine, no auth needed on a public repo; use the Contents API if private).
-2. Concatenate, filter `winner IN (user's teams)`, group by `winner`, count.
+1. Fetch the relevant league CSVs (at most 4 files total; raw.githubusercontent.com URLs work fine, no auth needed on a public repo; use the Contents API if private).
+2. Filter `date` by month prefix (`date.startswith("202607")`), filter `winner IN (user's team abbreviations)`, group by `winner`, count.
 
-For v1 the backend can read CSVs directly on each request (a month is ≤ 31 small files, cacheable). If/when this grows: a second Actions step can upsert each day's rows into Supabase Postgres — same schema, `(game_date, league, away_team, home_team, game_seq)` as the natural key — and the app queries SQL instead. The CSV layer stays as the durable source of truth either way.
+For v1 the backend can read the CSVs directly on each request (4 small files, cacheable). If/when this grows: a second Actions step can upsert each day's rows into Supabase Postgres — same schema, `game_id` as the primary key — and the app queries SQL instead. The CSV layer stays as the durable source of truth either way.
 
 ---
 
 ## 7. Edge Cases
 
-- **Off-season:** July = no NFL/NHL. Empty league page → zero rows, not an error.
-- **Postponed/suspended games:** Skipped entirely; the game appears on its makeup date. (Decided — see Section 3.)
-- **Doubleheaders (MLB):** Same matchup twice in one day is legitimate — `game_seq` disambiguates.
-- **NFL ties:** `winner` empty, both teams get no win. Backend counts wins only, so ties naturally don't count.
-- **All-Star games / exhibitions:** Their "teams" won't resolve in `teams.json`, which conveniently catches them — this specific case is skip-with-log, not the usual hard-fail on unrecognized names.
-- **Relocations/rebrands:** `teams.json` has an aliases array per team so historical names still resolve.
+- **Off-season:** July = no NFL/NHL. ESPN returns an empty `events` array → zero rows, no error, no commit for that league.
+- **Postponed/suspended/canceled games:** Excluded by the completed check (4.3.2); the makeup game appears later with its own final status.
+- **Doubleheaders (MLB):** Two distinct `game_id`s — handled automatically by the dedupe key.
+- **NFL ties:** `winner` empty (after fix 4.3.1); ties naturally count as zero wins.
+- **All-Star games / exhibitions:** These appear in ESPN's feed with their own pseudo-team abbreviations (e.g. All-Star squads). They're harmless to keep — no user's team abbreviation ever matches them — so v1 writes them as-is rather than maintaining an exclusion list. Revisit only if they pollute a UI listing.
+- **Abbreviation collisions across leagues:** The same abbreviation can appear in two leagues (e.g. `NY`-prefixed teams). Per-league files plus the `league` column keep them distinct; `my_teams.json` entries are `(league, abbreviation)` pairs, not bare abbreviations (see 9.3).
 
 ---
 
 ## 8. Build Order
 
-1. `teams.json` — all 124 teams across 4 leagues (32 NFL + 30 NBA + 30 MLB + 32 NHL) with aliases.
-2. Fetch + parse one league (MLB, since it's in season) for a known date; validate against actual scores.
-3. Generalize to 4 leagues, add normalization + validation + CSV writer.
-4. CLI with `--date` override; idempotency check.
-5. GitHub Actions workflow + commit step + failure alerting.
-6. Backfill the current month via `workflow_dispatch`.
-7. (v1.1) ESPN JSON fallback path.
+1. Commit the reference `scrape_scores.py` with the four fixes from 4.3, plus `requirements.txt`.
+2. Save real ESPN JSON payloads as test fixtures; write tests for flattening (ties, OT, postponed, malformed events, doubleheaders) and for append/dedupe.
+3. `teams.json` (abbreviation → display name for all 124 teams: 32 NFL + 30 NBA + 30 MLB + 32 NHL) and `my_teams.json` + validation test.
+4. Run locally against yesterday's real date; spot-check output against ESPN's site.
+5. Commit the Actions workflow; trigger once via `workflow_dispatch`; confirm the commit lands.
+6. Backfill the current month via repeated `workflow_dispatch` runs (or a local shell loop + one commit).
 
-**Definition of done:** Workflow runs green on schedule for 3 consecutive days; a manually backfilled month of MLB data produces correct win counts spot-checked against standings.
+**Definition of done:** Workflow runs green on schedule for 3 consecutive days; a backfilled month of MLB data produces correct win counts spot-checked against standings.
 
 ---
 
@@ -234,79 +267,73 @@ For v1 the backend can read CSVs directly on each request (a month is ≤ 31 sma
 
 ### 9.1 Test fixtures (build these first)
 
-Save raw HTML snapshots of real plaintextsports.com pages into `tests/fixtures/` and write all parser tests against them — never against the live site:
+Save raw ESPN scoreboard JSON responses into `tests/fixtures/` and write all tests against them — never against the live API:
 
-- One in-season page per league (use recent real dates; NFL will need a fall date — grab whatever's available and note the date in the filename, e.g. `mlb_2026-07-01.html`)
-- One off-season/empty league page (NFL in July)
+- One in-season payload per league (name files by league + date, e.g. `mlb_20260701.json`; NFL needs a fall date)
+- One off-season/empty payload (`events: []`)
 - One MLB doubleheader day
-- One page containing an OT and/or shootout result (NHL)
+- One payload containing an OT and/or shootout result (NHL)
+- One payload containing a postponed game and an NFL tie (edit a real payload by hand if no natural example is handy, and note that in the filename)
 
-Parser tests assert exact parsed output per fixture. When the site changes format, a fixture refresh + failing test tells us exactly what broke.
+Tests assert exact flattened rows per fixture. If ESPN changes its schema, a fixture refresh + failing test tells us exactly what broke.
 
 ### 9.2 Golden output file
 
-Create `tests/golden/2026-07-01.csv` by hand-verifying every game from that date against ESPN. An end-to-end test runs the full pipeline against the corresponding fixtures and asserts byte-for-byte match with the golden file (with `scraped_at` normalized or excluded from the comparison, since it varies per run). This is the definition of "correct" — not "output looks reasonable."
+Create `tests/golden/mlb_20260701.csv` by hand-verifying every game from that date against ESPN's site. An end-to-end test runs fetch-flatten-append against the corresponding fixture and asserts exact match with the golden file. This is the definition of "correct" — not "output looks reasonable."
 
-### 9.3 Constraints (do not over-build)
+### 9.3 "My teams" config format
 
-- No Selenium, Playwright, or any headless browser. `requests` + `beautifulsoup4` only.
-- Use stdlib `csv`, `json`, `datetime`, `zoneinfo` — no pandas, no ORM.
-- No retry frameworks (tenacity, backoff). A plain loop with 3 attempts and a 5-second sleep is sufficient.
-- Prefer plain functions over classes unless state genuinely demands it.
-- No config framework — constants at the top of `scrape.py` and CLI args are enough.
-- Total dependency count stays at 2 (`requests`, `beautifulsoup4`) plus `pytest` for dev.
-
-### 9.4 "My teams" config format
-
-The backend reads `my_teams.json` at the repo root:
+The backend reads `my_teams.json` at the repo root. Entries are league-qualified to avoid cross-league abbreviation collisions:
 
 ```json
 {
-  "teams": ["New York Mets", "New York Knicks", "New York Rangers", "Buffalo Bills"]
-}
-```
-
-Values must be canonical names exactly as they appear in `teams.json`. The scraper doesn't read this file, but `teams.json` must be structured so this lookup is trivial:
-
-```json
-{
-  "MLB": [
-    {
-      "canonical": "New York Mets",
-      "abbreviation": "NYM",
-      "aliases": ["NY Mets", "Mets"]
-    }
+  "teams": [
+    { "league": "mlb", "abbreviation": "NYM" },
+    { "league": "nba", "abbreviation": "NYK" },
+    { "league": "nhl", "abbreviation": "NYR" },
+    { "league": "nfl", "abbreviation": "BUF" }
   ]
 }
 ```
 
-Rules, enforced by a validation test:
+`teams.json` maps every abbreviation to a display name:
 
-- Every alias (and canonical name, and abbreviation) must be **unique within its league** — e.g. `"New York"` can't be a Mets alias because the Yankees share the city. Ambiguous short forms simply aren't aliases; if the source prints one, that's a hard parse failure to investigate, not something to guess at.
-- Every entry in `my_teams.json` must resolve to a canonical name in `teams.json`.
+```json
+{
+  "mlb": { "NYM": "New York Mets", "PHI": "Philadelphia Phillies" }
+}
+```
+
+A validation test checks that every `my_teams.json` entry resolves against `teams.json`, and that `teams.json` abbreviations are unique within each league.
+
+### 9.4 Constraints (do not over-build)
+
+- Total dependency count stays at 1 (`requests`) plus `pytest` for dev. No pandas, no ORM, no bs4 — the source is JSON.
+- No retry frameworks (tenacity, backoff). The existing plain retry loop is sufficient.
+- Prefer plain functions over classes unless state genuinely demands it.
+- No config framework — module-level constants and CLI args are enough.
 
 ### 9.5 Logging spec
 
-A successful run prints exactly this shape to stdout (this is what gets eyeballed in the Actions log, and the first line's date is what the workflow's commit step extracts):
+The script uses stdlib `logging` at INFO. A successful run's Actions log looks like:
 
 ```
-[2026-07-02T08:00:14Z] Scraping scores for 2026-07-01
-  MLB: 15 games (15 final, 0 skipped)
-  NBA: 0 games (off-season or no games)
-  NHL: 0 games (off-season or no games)
-  NFL: 0 games (off-season or no games)
-Wrote data/scores/2026-07-01.csv (15 rows)
-Done in 8.2s
+2026-07-02 10:00:14 [INFO] Scraping scores for date=20260701
+2026-07-02 10:00:16 [INFO] MLB: 15 completed game(s) found, 15 new row(s) written to data/mlb_scores.csv
+2026-07-02 10:00:17 [INFO] NBA: 0 completed game(s) found, 0 new row(s) written to data/nba_scores.csv
+2026-07-02 10:00:18 [INFO] NHL: 0 completed game(s) found, 0 new row(s) written to data/nhl_scores.csv
+2026-07-02 10:00:19 [INFO] NFL: 0 completed game(s) found, 0 new row(s) written to data/nfl_scores.csv
+2026-07-02 10:00:19 [INFO] Done. 15 total new row(s) written across all leagues.
 ```
 
-Failures print the league, the URL fetched, and the first 500 chars of the unparseable content before exiting non-zero.
+Malformed events log a WARNING with the league and error; a league that fails all fetch attempts logs an ERROR with the URL, and the run exits `1` after finishing the remaining leagues.
 
 ### 9.6 Verification checkpoints (pause here)
 
 Work in stages and **stop for review at each checkpoint** rather than building end-to-end unreviewed:
 
-1. **Checkpoint 1 — after `teams.json` + MLB parser:** Run against a real recent date, print the parsed games. *Human spot-checks 3–4 scores against ESPN before continuing.*
-2. **Checkpoint 2 — after all four parsers + CSV writer:** Produce the golden file candidate for review and hand-verification.
-3. **Checkpoint 3 — after Actions workflow:** Trigger via `workflow_dispatch` once manually; confirm the commit lands and the log matches the spec in 9.5. Only then let the schedule take over.
+1. **Checkpoint 1 — after the 4.3 fixes + fixture tests:** Run against a real recent date, print the flattened rows. *Human spot-checks 3–4 scores against ESPN before continuing.*
+2. **Checkpoint 2 — after teams.json + golden file:** Hand-verify the golden CSV.
+3. **Checkpoint 3 — after Actions workflow:** Trigger via `workflow_dispatch` once manually; confirm the commit lands and the log matches 9.5. Only then let the schedule take over.
 
 Do not proceed past a checkpoint without explicit sign-off.
