@@ -69,6 +69,9 @@ def validate_date(date: str) -> str:
     """Ensure the date is a real YYYYMMDD date so a typo'd backfill fails
     fast instead of writing rows keyed to a bad date."""
     try:
+        # strptime alone accepts 7-digit strings like "2026071"
+        if len(date) != 8:
+            raise ValueError
         datetime.strptime(date, "%Y%m%d")
     except ValueError:
         raise SystemExit(f"Invalid date {date!r}: expected YYYYMMDD")
@@ -132,7 +135,9 @@ def flatten_completed_games(payload: dict, league: str, date: str) -> list[dict]
                 "home_team": home["team"]["abbreviation"],
                 "home_score": int(home["score"]),
                 "winner": winner,
-                "status": status.get("description", ""),
+                # "detail" carries OT/SO markers ("Final/OT"); "description"
+                # is just "Final" for those games
+                "status": status.get("detail") or status.get("description", ""),
             })
         except (KeyError, IndexError, StopIteration, ValueError) as exc:
             log.warning("Skipping malformed event in %s: %s", league, exc)
