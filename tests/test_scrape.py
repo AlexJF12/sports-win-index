@@ -11,6 +11,7 @@ Fixture inventory (real payloads, edge case each was chosen for):
     nfl_20260710.json  off-season, empty events array
     mlb_20260425.json  COL@NYM postponed
     mlb_20260426.json  COL@NYM doubleheader (the makeup)
+    mlb_20260226.json  spring training day (season.type == 1, all skipped)
 """
 
 import csv
@@ -98,6 +99,14 @@ def test_nba_slate():
     rows = flatten_completed_games(load_fixture("nba_20260115.json"), "nba", "20260115")
     assert len(rows) == 9
     assert all(r["winner"] for r in rows)
+
+
+def test_preseason_games_are_skipped():
+    # 16 completed spring-training games, all season.type == 1 — exhibitions
+    # must not count as wins
+    payload = load_fixture("mlb_20260226.json")
+    assert len(payload["events"]) == 16
+    assert flatten_completed_games(payload, "mlb", "20260226") == []
 
 
 def test_off_season_empty():

@@ -106,6 +106,11 @@ def flatten_completed_games(payload: dict, league: str, date: str) -> list[dict]
     rows = []
     for event in payload.get("events", []):
         try:
+            # Exhibitions (MLB spring training, NFL preseason) shouldn't
+            # count as wins. ESPN: 1=preseason, 2=regular, 3=postseason.
+            if event.get("season", {}).get("type") == 1:
+                continue
+
             comp = event["competitions"][0]
             status = comp["status"]["type"]
 
