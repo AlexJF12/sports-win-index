@@ -1,0 +1,7 @@
+date,league,game_id,away_team,away_score,home_team,home_score,winner,status
+20260602,nhl,401874171,VGK,5,CAR,4,VGK,Final
+20260604,nhl,401874172,VGK,3,CAR,4,CAR,Final/OT
+20260606,nhl,401874173,CAR,4,VGK,5,VGK,Final/2OT
+20260609,nhl,401874174,CAR,5,VGK,3,CAR,Final
+20260611,nhl,401874175,VGK,2,CAR,4,CAR,Final
+20260614,nhl,401874176,CAR,3,VGK,0,CAR,Final

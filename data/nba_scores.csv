@@ -1,0 +1,6 @@
+date,league,game_id,away_team,away_score,home_team,home_score,winner,status
+20260603,nba,401859963,NY,105,SA,95,NY,Final
+20260605,nba,401859964,NY,105,SA,104,NY,Final
+20260608,nba,401859965,SA,115,NY,111,SA,Final
+20260610,nba,401859966,SA,106,NY,107,NY,Final
+20260613,nba,401859967,NY,94,SA,90,NY,Final
