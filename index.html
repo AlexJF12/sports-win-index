@@ -86,6 +86,8 @@
   .tile .label { font-size: 13px; color: var(--text-secondary); }
   .tile .league { color: var(--text-muted); }
   .tile .value { font-size: 34px; font-weight: 650; margin: 2px 0 0; }
+  .tile .value.pos { color: var(--win); }
+  .tile .value.neg { color: var(--loss); }
   .tile .record { font-size: 13px; color: var(--text-muted); }
   .tile svg { display: block; margin-top: 8px; width: 100%; height: 28px; }
 
@@ -112,6 +114,10 @@
       <div class="scope" role="group" aria-label="Time range">
         <button id="scope-month" aria-pressed="true">Month</button>
         <button id="scope-year" aria-pressed="false">Year</button>
+      </div>
+      <div class="scope" role="group" aria-label="Metric">
+        <button id="metric-wins" aria-pressed="true">Wins</button>
+        <button id="metric-net" aria-pressed="false">Net W−L</button>
       </div>
       <div class="month-nav">
         <button id="prev" aria-label="Previous period">&lsaquo;</button>
@@ -152,6 +158,7 @@ const DATA_START = { y: 2026, m: 1 };
 
 const state = {
   scope: "month",   // "month" | "year"
+  metric: "wins",   // "wins" | "net"  (net: win +1, loss -1, tie 0)
   view: (() => { const now = new Date(); return { y: now.getFullYear(), m: now.getMonth() + 1 }; })(),
   teams: null,       // teams.json: league -> {ABBR: display name}
   picks: null,       // league -> abbr
@@ -206,28 +213,36 @@ function teamStats(league, abbr, month) {
   return { games, w, l, t };
 }
 
-function sparkline(games, start, end) {
-  // cumulative wins per day from start to end (Date objects, inclusive)
-  const wonOn = {};
-  for (const g of games) if (g.res === "W") wonOn[g.date] = (wonOn[g.date] || 0) + 1;
+function sparkline(games, start, end, metric) {
+  // cumulative wins (or net W-L) per day from start to end (Dates, inclusive)
+  const deltaOn = {};
+  for (const g of games) {
+    const d = g.res === "W" ? 1 : g.res === "L" && metric === "net" ? -1 : 0;
+    if (d) deltaOn[g.date] = (deltaOn[g.date] || 0) + d;
+  }
   let cum = 0, byDay = [];
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
     const key = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
-    cum += wonOn[key] || 0;
+    cum += deltaOn[key] || 0;
     byDay.push(cum);
   }
-  if (byDay.length < 2 || cum === 0) return "";
+  const min = Math.min(0, ...byDay), max = Math.max(0, ...byDay);
+  if (byDay.length < 2 || min === max) return "";
   const W = 100, H = 28, pad = 2;
-  const max = Math.max(...byDay);
+  const y = v => H - pad - ((v - min) / (max - min)) * (H - 2 * pad);
   const pts = byDay.map((v, i) => {
     const x = pad + (i / (byDay.length - 1)) * (W - 2 * pad);
-    const y = H - pad - (v / max) * (H - 2 * pad);
-    return `${x.toFixed(1)},${y.toFixed(1)}`;
+    return `${x.toFixed(1)},${y(v).toFixed(1)}`;
   });
-  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
+  const zero = min < 0
+    ? `<line x1="0" y1="${y(0).toFixed(1)}" x2="${W}" y2="${y(0).toFixed(1)}" stroke="var(--hairline)" stroke-width="1"/>`
+    : "";
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${zero}
     <polyline points="${pts.join(" ")}" fill="none" stroke="var(--spark)" stroke-width="2"
       stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 }
+
+function fmtSigned(n) { return n > 0 ? `+${n}` : String(n); }
 
 function fmtDate(d) { return `${MONTHS[+d.slice(4, 6) - 1].slice(0, 3)} ${+d.slice(6, 8)}`; }
 
@@ -261,23 +276,28 @@ function render() {
     const abbr = state.picks[league];
     const name = state.teams[league][abbr] || abbr;
     const { games, w, l, t } = teamStats(league, abbr, prefix);
-    total += w;
+    const netMode = state.metric === "net";
+    const metricValue = netMode ? w - l : w;
+    total += metricValue;
     allGames = allGames.concat(games);
     const periodShort = yearMode ? periodName : MONTHS[state.view.m - 1];
     const record = games.length
       ? `${w}–${l}${t ? "–" + t : ""} in ${periodShort}`
       : `No games this ${yearMode ? "year" : "month"}`;
+    const valueClass = netMode && games.length ? (metricValue > 0 ? " pos" : metricValue < 0 ? " neg" : "") : "";
     tiles.push(`<div class="tile">
       <div class="label">${name} <span class="league">· ${LEAGUE_EMOJI[league]} ${LEAGUE_LABEL[league]}</span></div>
-      <div class="value">${games.length ? w : "–"}</div>
+      <div class="value${valueClass}">${games.length ? (netMode ? fmtSigned(metricValue) : metricValue) : "–"}</div>
       <div class="record">${record}</div>
-      ${sparkline(games, start, end)}
+      ${sparkline(games, start, end, state.metric)}
     </div>`);
   }
+  const netMode = state.metric === "net";
   document.getElementById("tiles").innerHTML = tiles.join("");
-  document.getElementById("hero-num").textContent = total;
-  document.getElementById("hero-caption").textContent =
-    `win${total === 1 ? "" : "s"} for your teams in ${periodName}`;
+  document.getElementById("hero-num").textContent = netMode ? fmtSigned(total) : total;
+  document.getElementById("hero-caption").textContent = netMode
+    ? `net wins (W − L) for your teams in ${periodName}`
+    : `win${total === 1 ? "" : "s"} for your teams in ${periodName}`;
 
   allGames.sort((a, b) => b.date.localeCompare(a.date) || a.league.localeCompare(b.league));
   const body = document.getElementById("games-body");
@@ -338,11 +358,20 @@ function setScope(scope) {
   render();
 }
 
+function setMetric(metric) {
+  state.metric = metric;
+  document.getElementById("metric-wins").setAttribute("aria-pressed", String(metric === "wins"));
+  document.getElementById("metric-net").setAttribute("aria-pressed", String(metric === "net"));
+  render();
+}
+
 async function init() {
   document.getElementById("prev").addEventListener("click", () => shiftPeriod(-1));
   document.getElementById("next").addEventListener("click", () => shiftPeriod(1));
   document.getElementById("scope-month").addEventListener("click", () => setScope("month"));
   document.getElementById("scope-year").addEventListener("click", () => setScope("year"));
+  document.getElementById("metric-wins").addEventListener("click", () => setMetric("wins"));
+  document.getElementById("metric-net").addEventListener("click", () => setMetric("net"));
   try {
     const [teams, myTeams, ...scores] = await Promise.all([
       fetchJson("teams.json"),
