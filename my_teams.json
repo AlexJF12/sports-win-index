@@ -1,8 +1,8 @@
 {
   "teams": [
-    { "league": "mlb", "abbreviation": "NYM" },
-    { "league": "nba", "abbreviation": "NY" },
-    { "league": "nhl", "abbreviation": "NYR" },
-    { "league": "nfl", "abbreviation": "BUF" }
+    { "league": "mlb", "abbreviation": "WSH" },
+    { "league": "nba", "abbreviation": "WSH" },
+    { "league": "nhl", "abbreviation": "WSH" },
+    { "league": "nfl", "abbreviation": "WSH" }
   ]
 }
