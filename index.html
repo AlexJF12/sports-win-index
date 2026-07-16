@@ -128,6 +128,7 @@
 <script>
 const LEAGUES = ["mlb", "nba", "nhl", "nfl"];
 const LEAGUE_LABEL = { mlb: "MLB", nba: "NBA", nhl: "NHL", nfl: "NFL" };
+const LEAGUE_EMOJI = { mlb: "⚾", nba: "🏀", nhl: "🏒", nfl: "🏈" };
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const DATA_START = { y: 2026, m: 1 };
 
@@ -251,7 +252,7 @@ function render() {
       : `${Math.min(+g.away_score, +g.home_score)}–${Math.max(+g.away_score, +g.home_score)}`;
     return `<tr>
       <td>${fmtDate(g.date)}</td>
-      <td>${LEAGUE_LABEL[g.league]}</td>
+      <td>${LEAGUE_EMOJI[g.league]} ${LEAGUE_LABEL[g.league]}</td>
       <td>${state.teams[g.league][g.team] || g.team} ${opp}</td>
       <td class="num">${score}</td>
       <td><span class="res ${g.res}">${g.res}</span></td>
