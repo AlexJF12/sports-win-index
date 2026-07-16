@@ -143,7 +143,7 @@
   <div class="table-wrap">
     <table>
       <thead>
-        <tr><th>Date</th><th>League</th><th>Matchup</th><th>Score</th><th>Result</th><th>Status</th></tr>
+        <tr><th>Date</th><th>League</th><th>Matchup</th><th>Score</th><th>Result</th><th>Status</th><th>Pts</th><th>Total</th></tr>
       </thead>
       <tbody id="games-body"></tbody>
     </table>
@@ -249,6 +249,7 @@ function sparkline(games, start, end, metric) {
 }
 
 function fmtSigned(n, decimals = 0) {
+  if (Math.abs(n) < 1e-9) n = 0;  // avoid float residue rendering as -0.0
   const s = n.toFixed(decimals);
   return n > 0 ? `+${s}` : s;
 }
@@ -314,7 +315,16 @@ function render() {
     metric === "net" ? `net wins (W − L) for your teams in ${periodName}` :
     `weighted points for your teams in ${periodName} (each game = 365 ÷ season length)`;
 
-  allGames.sort((a, b) => b.date.localeCompare(a.date) || a.league.localeCompare(b.league));
+  // running total in the selected metric, accumulated in game order
+  allGames.sort((a, b) => a.date.localeCompare(b.date) || a.league.localeCompare(b.league));
+  let running = 0;
+  for (const g of allGames) {
+    const unit = metric === "weighted" ? LEAGUE_WEIGHT[g.league] : 1;
+    g.pts = g.res === "W" ? unit : g.res === "L" && metric !== "wins" ? -unit : 0;
+    running += g.pts;
+    g.cum = running;
+  }
+  allGames.reverse();  // display newest first
   const body = document.getElementById("games-body");
   body.innerHTML = allGames.map(g => {
     const opp = g.away_team === g.team ? `at ${g.home_team}` : `vs ${g.away_team}`;
@@ -328,6 +338,8 @@ function render() {
       <td class="num">${score}</td>
       <td><span class="res ${g.res}">${g.res}</span></td>
       <td>${g.status}</td>
+      <td class="num">${g.pts ? fmtSigned(g.pts, decimals) : "0"}</td>
+      <td class="num">${metric === "wins" ? g.cum : fmtSigned(g.cum, decimals)}</td>
     </tr>`;
   }).join("");
   document.getElementById("games-empty").textContent =
