@@ -45,6 +45,18 @@
   header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
   h1 { font-size: 20px; font-weight: 650; margin: 0; }
 
+  .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .scope {
+    display: inline-flex; border: 1px solid var(--border); border-radius: 8px;
+    overflow: hidden; background: var(--surface);
+  }
+  .scope button {
+    background: none; border: none; color: var(--text-secondary);
+    font: inherit; font-size: 13px; padding: 5px 12px; cursor: pointer;
+  }
+  .scope button[aria-pressed="true"] {
+    background: var(--text-primary); color: var(--page); font-weight: 600;
+  }
   .month-nav { display: flex; align-items: center; gap: 4px; }
   .month-nav button {
     background: var(--surface); color: var(--text-primary);
@@ -96,10 +108,16 @@
 <main>
   <header>
     <h1>Team Wins</h1>
-    <div class="month-nav">
-      <button id="prev" aria-label="Previous month">&lsaquo;</button>
-      <span id="month-label"></span>
-      <button id="next" aria-label="Next month">&rsaquo;</button>
+    <div class="controls">
+      <div class="scope" role="group" aria-label="Time range">
+        <button id="scope-month" aria-pressed="true">Month</button>
+        <button id="scope-year" aria-pressed="false">Year</button>
+      </div>
+      <div class="month-nav">
+        <button id="prev" aria-label="Previous period">&lsaquo;</button>
+        <span id="month-label"></span>
+        <button id="next" aria-label="Next period">&rsaquo;</button>
+      </div>
     </div>
   </header>
 
@@ -133,6 +151,7 @@ const MONTHS = ["January","February","March","April","May","June","July","August
 const DATA_START = { y: 2026, m: 1 };
 
 const state = {
+  scope: "month",   // "month" | "year"
   view: (() => { const now = new Date(); return { y: now.getFullYear(), m: now.getMonth() + 1 }; })(),
   teams: null,       // teams.json: league -> {ABBR: display name}
   picks: null,       // league -> abbr
@@ -187,15 +206,14 @@ function teamStats(league, abbr, month) {
   return { games, w, l, t };
 }
 
-function sparkline(games, month, viewMonth) {
-  // cumulative wins across the days of the month
-  const year = +month.slice(0, 4), mon = +month.slice(4, 6);
-  const isCurrent = cmpMonth(viewMonth, currentMonth()) === 0;
-  const lastDay = isCurrent ? new Date().getDate() : new Date(year, mon, 0).getDate();
+function sparkline(games, start, end) {
+  // cumulative wins per day from start to end (Date objects, inclusive)
+  const wonOn = {};
+  for (const g of games) if (g.res === "W") wonOn[g.date] = (wonOn[g.date] || 0) + 1;
   let cum = 0, byDay = [];
-  for (let d = 1; d <= lastDay; d++) {
-    const key = month + String(d).padStart(2, "0");
-    cum += games.filter(g => g.date === key && g.res === "W").length;
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    const key = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
+    cum += wonOn[key] || 0;
     byDay.push(cum);
   }
   if (byDay.length < 2 || cum === 0) return "";
@@ -214,10 +232,27 @@ function sparkline(games, month, viewMonth) {
 function fmtDate(d) { return `${MONTHS[+d.slice(4, 6) - 1].slice(0, 3)} ${+d.slice(6, 8)}`; }
 
 function render() {
-  const month = monthKey(state.view);
-  document.getElementById("month-label").textContent = monthLabel(state.view);
-  document.getElementById("prev").disabled = cmpMonth(state.view, DATA_START) <= 0;
-  document.getElementById("next").disabled = cmpMonth(state.view, currentMonth()) >= 0;
+  const yearMode = state.scope === "year";
+  const prefix = yearMode ? String(state.view.y) : monthKey(state.view);
+  const periodName = yearMode ? String(state.view.y) : monthLabel(state.view);
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  // sparkline span: the viewed period, capped at today
+  let start, end;
+  if (yearMode) {
+    start = new Date(state.view.y, 0, 1);
+    end = state.view.y === now.getFullYear() ? today : new Date(state.view.y, 11, 31);
+  } else {
+    start = new Date(state.view.y, state.view.m - 1, 1);
+    end = cmpMonth(state.view, currentMonth()) === 0 ? today : new Date(state.view.y, state.view.m, 0);
+  }
+  document.getElementById("month-label").textContent = periodName;
+  document.getElementById("prev").disabled = yearMode
+    ? state.view.y <= DATA_START.y
+    : cmpMonth(state.view, DATA_START) <= 0;
+  document.getElementById("next").disabled = yearMode
+    ? state.view.y >= now.getFullYear()
+    : cmpMonth(state.view, currentMonth()) >= 0;
 
   let total = 0;
   const tiles = [];
@@ -225,23 +260,24 @@ function render() {
   for (const league of LEAGUES) {
     const abbr = state.picks[league];
     const name = state.teams[league][abbr] || abbr;
-    const { games, w, l, t } = teamStats(league, abbr, month);
+    const { games, w, l, t } = teamStats(league, abbr, prefix);
     total += w;
     allGames = allGames.concat(games);
+    const periodShort = yearMode ? periodName : MONTHS[state.view.m - 1];
     const record = games.length
-      ? `${w}–${l}${t ? "–" + t : ""} in ${MONTHS[state.view.m - 1]}`
-      : "No games this month";
+      ? `${w}–${l}${t ? "–" + t : ""} in ${periodShort}`
+      : `No games this ${yearMode ? "year" : "month"}`;
     tiles.push(`<div class="tile">
       <div class="label">${name} <span class="league">· ${LEAGUE_EMOJI[league]} ${LEAGUE_LABEL[league]}</span></div>
       <div class="value">${games.length ? w : "–"}</div>
       <div class="record">${record}</div>
-      ${sparkline(games, month, state.view)}
+      ${sparkline(games, start, end)}
     </div>`);
   }
   document.getElementById("tiles").innerHTML = tiles.join("");
   document.getElementById("hero-num").textContent = total;
   document.getElementById("hero-caption").textContent =
-    `win${total === 1 ? "" : "s"} for your teams in ${monthLabel(state.view)}`;
+    `win${total === 1 ? "" : "s"} for your teams in ${periodName}`;
 
   allGames.sort((a, b) => b.date.localeCompare(a.date) || a.league.localeCompare(b.league));
   const body = document.getElementById("games-body");
@@ -259,6 +295,8 @@ function render() {
       <td>${g.status}</td>
     </tr>`;
   }).join("");
+  document.getElementById("games-empty").textContent =
+    `No games for your teams this ${yearMode ? "year" : "month"}.`;
   document.getElementById("games-empty").hidden = allGames.length > 0;
 }
 
@@ -280,18 +318,31 @@ function renderPickers() {
   }));
 }
 
-function shiftMonth(delta) {
+function shiftPeriod(delta) {
   let { y, m } = state.view;
-  m += delta;
-  if (m === 0) { m = 12; y--; }
-  if (m === 13) { m = 1; y++; }
+  if (state.scope === "year") {
+    y += delta;
+  } else {
+    m += delta;
+    if (m === 0) { m = 12; y--; }
+    if (m === 13) { m = 1; y++; }
+  }
   state.view = { y, m };
   render();
 }
 
+function setScope(scope) {
+  state.scope = scope;
+  document.getElementById("scope-month").setAttribute("aria-pressed", String(scope === "month"));
+  document.getElementById("scope-year").setAttribute("aria-pressed", String(scope === "year"));
+  render();
+}
+
 async function init() {
-  document.getElementById("prev").addEventListener("click", () => shiftMonth(-1));
-  document.getElementById("next").addEventListener("click", () => shiftMonth(1));
+  document.getElementById("prev").addEventListener("click", () => shiftPeriod(-1));
+  document.getElementById("next").addEventListener("click", () => shiftPeriod(1));
+  document.getElementById("scope-month").addEventListener("click", () => setScope("month"));
+  document.getElementById("scope-year").addEventListener("click", () => setScope("year"));
   try {
     const [teams, myTeams, ...scores] = await Promise.all([
       fetchJson("teams.json"),
