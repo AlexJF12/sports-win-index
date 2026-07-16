@@ -144,7 +144,7 @@ function cmpMonth(a, b) { return (a.y - b.y) || (a.m - b.m); }
 function currentMonth() { const now = new Date(); return { y: now.getFullYear(), m: now.getMonth() + 1 }; }
 
 function parseCsv(text) {
-  const lines = text.trim().split("\n");
+  const lines = text.trim().split(/\r?\n/);  // python csv writes CRLF
   if (lines.length < 2) return [];
   const cols = lines[0].split(",");
   return lines.slice(1).map(line => {
