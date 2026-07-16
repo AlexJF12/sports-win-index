@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sports Win Index</title>
+  <style>
+    :root {
+      --bg: #0f1420;
+      --card: #1a2130;
+      --line: #2a3346;
+      --text: #e8ecf4;
+      --muted: #8a95ac;
+      --accent: #4ade80;
+      --accent-dim: #2a6b45;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 32px 20px 64px; }
+    header h1 { margin: 0 0 6px; font-size: 1.6rem; }
+    header p { margin: 0 0 28px; color: var(--muted); }
+
+    .month-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    select {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    select:focus { outline: 2px solid var(--accent-dim); }
+
+    .picks { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+    @media (max-width: 520px) { .picks { grid-template-columns: 1fr; } }
+    .pick {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .pick .league { font-size: 0.72rem; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; }
+    .pick select { width: 100%; margin-top: 8px; }
+
+    .results { border-top: 1px solid var(--line); padding-top: 24px; }
+    .total {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .total .num { font-size: 3.2rem; font-weight: 700; color: var(--accent); line-height: 1; }
+    .total .cap { color: var(--muted); margin-top: 6px; }
+
+    .team-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 4px;
+      border-bottom: 1px solid var(--line);
+    }
+    .team-line:last-child { border-bottom: none; }
+    .team-line .who { display: flex; align-items: baseline; gap: 10px; }
+    .team-line .tag {
+      font-size: 0.68rem;
+      background: var(--line);
+      color: var(--muted);
+      padding: 2px 7px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .team-line .name { font-weight: 500; }
+    .team-line .w { font-variant-numeric: tabular-nums; }
+    .team-line .w b { color: var(--accent); font-size: 1.15rem; }
+    .empty { color: var(--muted); text-align: center; padding: 20px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🏆 Sports Win Index</h1>
+      <p>Pick your team in each league and see how good your month has been.</p>
+    </header>
+
+    <div class="month-row">
+      <label for="month">Month</label>
+      <select id="month"></select>
+    </div>
+
+    <div class="picks" id="picks"></div>
+
+    <div class="results">
+      <div class="total">
+        <div class="num" id="total">0</div>
+        <div class="cap" id="total-cap">total wins</div>
+      </div>
+      <div id="breakdown"></div>
+    </div>
+  </div>
+
+  <script>
+    const LEAGUE_LABELS = { nfl: "NFL", nba: "NBA", mlb: "MLB", nhl: "NHL" };
+    let CONFIG = null;
+
+    function monthLabel(ym) {
+      // ym is YYYYMM
+      const year = ym.slice(0, 4);
+      const month = parseInt(ym.slice(4, 6), 10);
+      const names = ["", "January", "February", "March", "April", "May", "June",
+                     "July", "August", "September", "October", "November", "December"];
+      return `${names[month]} ${year}`;
+    }
+
+    function buildPicks() {
+      const container = document.getElementById("picks");
+      container.innerHTML = "";
+      for (const league of CONFIG.leagues) {
+        const teams = CONFIG.teams[league] || {};
+        const div = document.createElement("div");
+        div.className = "pick";
+        const options = ['<option value="">— none —</option>'];
+        for (const [abbr, name] of Object.entries(teams).sort((a, b) => a[1].localeCompare(b[1]))) {
+          const selected = CONFIG.defaults[league] === abbr ? " selected" : "";
+          options.push(`<option value="${abbr}"${selected}>${name}</option>`);
+        }
+        div.innerHTML = `<div class="league">${LEAGUE_LABELS[league] || league}</div>
+          <select data-league="${league}">${options.join("")}</select>`;
+        container.appendChild(div);
+      }
+      container.querySelectorAll("select").forEach((s) => s.addEventListener("change", refresh));
+    }
+
+    function buildMonths() {
+      const sel = document.getElementById("month");
+      if (!CONFIG.months.length) {
+        sel.innerHTML = '<option value="">no data yet</option>';
+        return;
+      }
+      sel.innerHTML = CONFIG.months
+        .map((m) => `<option value="${m}">${monthLabel(m)}</option>`)
+        .join("");
+      sel.addEventListener("change", refresh);
+    }
+
+    async function refresh() {
+      const month = document.getElementById("month").value;
+      const params = new URLSearchParams();
+      if (month) params.set("month", month);
+      document.querySelectorAll("#picks select").forEach((s) => {
+        if (s.value) params.set(s.dataset.league, s.value);
+      });
+
+      const res = await fetch(`/api/wins?${params.toString()}`);
+      const data = await res.json();
+
+      document.getElementById("total").textContent = data.total;
+      document.getElementById("total-cap").textContent =
+        data.month ? `total wins in ${monthLabel(data.month)}` : "total wins";
+
+      const bd = document.getElementById("breakdown");
+      if (!data.teams.length) {
+        bd.innerHTML = '<div class="empty">Pick at least one team above.</div>';
+        return;
+      }
+      bd.innerHTML = data.teams
+        .map((t) => `<div class="team-line">
+            <div class="who">
+              <span class="tag">${LEAGUE_LABELS[t.league] || t.league}</span>
+              <span class="name">${t.name}</span>
+            </div>
+            <div class="w"><b>${t.wins}</b> ${t.wins === 1 ? "win" : "wins"}</div>
+          </div>`)
+        .join("");
+    }
+
+    async function init() {
+      const res = await fetch("/api/config");
+      CONFIG = await res.json();
+      buildMonths();
+      buildPicks();
+      refresh();
+    }
+
+    init();
+  </script>
+</body>
+</html>
