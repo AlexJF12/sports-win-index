@@ -334,7 +334,7 @@ function render() {
     return `<tr>
       <td>${fmtDate(g.date)}</td>
       <td>${LEAGUE_EMOJI[g.league]} ${LEAGUE_LABEL[g.league]}</td>
-      <td>${state.teams[g.league][g.team] || g.team} ${opp}</td>
+      <td>${g.team} ${opp}</td>
       <td class="num">${score}</td>
       <td><span class="res ${g.res}">${g.res}</span></td>
       <td>${g.status}</td>
