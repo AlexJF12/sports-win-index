@@ -286,6 +286,7 @@ function render() {
   const decimals = metric === "weighted" ? 1 : 0;
   for (const league of LEAGUES) {
     const abbr = state.picks[league];
+    if (!abbr) continue;  // "None" selected for this league
     const name = state.teams[league][abbr] || abbr;
     const { games, w, l, t } = teamStats(league, abbr, prefix);
     const metricValue =
@@ -350,8 +351,8 @@ function render() {
 function renderPickers() {
   const el = document.getElementById("pickers");
   el.innerHTML = LEAGUES.map(league => {
-    const options = Object.entries(state.teams[league])
-      .sort((a, b) => a[1].localeCompare(b[1]))
+    const options = [["", "None"], ...Object.entries(state.teams[league])
+      .sort((a, b) => a[1].localeCompare(b[1]))]
       .map(([abbr, name]) =>
         `<option value="${abbr}"${abbr === state.picks[league] ? " selected" : ""}>${name}</option>`)
       .join("");
