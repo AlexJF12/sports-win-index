@@ -232,7 +232,7 @@ function render() {
       ? `${w}–${l}${t ? "–" + t : ""} in ${MONTHS[state.view.m - 1]}`
       : "No games this month";
     tiles.push(`<div class="tile">
-      <div class="label">${name} <span class="league">· ${LEAGUE_LABEL[league]}</span></div>
+      <div class="label">${name} <span class="league">· ${LEAGUE_EMOJI[league]} ${LEAGUE_LABEL[league]}</span></div>
       <div class="value">${games.length ? w : "–"}</div>
       <div class="record">${record}</div>
       ${sparkline(games, month, state.view)}
