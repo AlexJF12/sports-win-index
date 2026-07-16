@@ -118,6 +118,8 @@
       <div class="scope" role="group" aria-label="Metric">
         <button id="metric-wins" aria-pressed="true">Wins</button>
         <button id="metric-net" aria-pressed="false">Net W−L</button>
+        <button id="metric-weighted" aria-pressed="false"
+          title="Each game is worth 365 ÷ season length: MLB ±2.25, NBA/NHL ±4.45, NFL ±21.47">Weighted</button>
       </div>
       <div class="month-nav">
         <button id="prev" aria-label="Previous period">&lsaquo;</button>
@@ -153,12 +155,15 @@
 const LEAGUES = ["mlb", "nba", "nhl", "nfl"];
 const LEAGUE_LABEL = { mlb: "MLB", nba: "NBA", nhl: "NHL", nfl: "NFL" };
 const LEAGUE_EMOJI = { mlb: "⚾", nba: "🏀", nhl: "🏒", nfl: "🏈" };
+// a game's share of the year: 365 / regular-season games
+const LEAGUE_WEIGHT = { mlb: 365 / 162, nba: 365 / 82, nhl: 365 / 82, nfl: 365 / 17 };
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const DATA_START = { y: 2026, m: 1 };
 
 const state = {
   scope: "month",   // "month" | "year"
-  metric: "wins",   // "wins" | "net"  (net: win +1, loss -1, tie 0)
+  metric: "wins",   // "wins" | "net" | "weighted"  (net: ±1 per game, tie 0;
+                    //  weighted: ±LEAGUE_WEIGHT per game, tie 0)
   view: (() => { const now = new Date(); return { y: now.getFullYear(), m: now.getMonth() + 1 }; })(),
   teams: null,       // teams.json: league -> {ABBR: display name}
   picks: null,       // league -> abbr
@@ -217,7 +222,8 @@ function sparkline(games, start, end, metric) {
   // cumulative wins (or net W-L) per day from start to end (Dates, inclusive)
   const deltaOn = {};
   for (const g of games) {
-    const d = g.res === "W" ? 1 : g.res === "L" && metric === "net" ? -1 : 0;
+    const unit = metric === "weighted" ? LEAGUE_WEIGHT[g.league] : 1;
+    const d = g.res === "W" ? unit : g.res === "L" && metric !== "wins" ? -unit : 0;
     if (d) deltaOn[g.date] = (deltaOn[g.date] || 0) + d;
   }
   let cum = 0, byDay = [];
@@ -242,7 +248,10 @@ function sparkline(games, start, end, metric) {
       stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 }
 
-function fmtSigned(n) { return n > 0 ? `+${n}` : String(n); }
+function fmtSigned(n, decimals = 0) {
+  const s = n.toFixed(decimals);
+  return n > 0 ? `+${s}` : s;
+}
 
 function fmtDate(d) { return `${MONTHS[+d.slice(4, 6) - 1].slice(0, 3)} ${+d.slice(6, 8)}`; }
 
@@ -272,32 +281,38 @@ function render() {
   let total = 0;
   const tiles = [];
   let allGames = [];
+  const metric = state.metric;
+  const decimals = metric === "weighted" ? 1 : 0;
   for (const league of LEAGUES) {
     const abbr = state.picks[league];
     const name = state.teams[league][abbr] || abbr;
     const { games, w, l, t } = teamStats(league, abbr, prefix);
-    const netMode = state.metric === "net";
-    const metricValue = netMode ? w - l : w;
+    const metricValue =
+      metric === "wins" ? w :
+      metric === "net" ? w - l :
+      (w - l) * LEAGUE_WEIGHT[league];
     total += metricValue;
     allGames = allGames.concat(games);
     const periodShort = yearMode ? periodName : MONTHS[state.view.m - 1];
     const record = games.length
       ? `${w}–${l}${t ? "–" + t : ""} in ${periodShort}`
       : `No games this ${yearMode ? "year" : "month"}`;
-    const valueClass = netMode && games.length ? (metricValue > 0 ? " pos" : metricValue < 0 ? " neg" : "") : "";
+    const signed = metric !== "wins";
+    const valueClass = signed && games.length ? (metricValue > 0 ? " pos" : metricValue < 0 ? " neg" : "") : "";
     tiles.push(`<div class="tile">
       <div class="label">${name} <span class="league">· ${LEAGUE_EMOJI[league]} ${LEAGUE_LABEL[league]}</span></div>
-      <div class="value${valueClass}">${games.length ? (netMode ? fmtSigned(metricValue) : metricValue) : "–"}</div>
+      <div class="value${valueClass}">${games.length ? (signed ? fmtSigned(metricValue, decimals) : metricValue) : "–"}</div>
       <div class="record">${record}</div>
-      ${sparkline(games, start, end, state.metric)}
+      ${sparkline(games, start, end, metric)}
     </div>`);
   }
-  const netMode = state.metric === "net";
   document.getElementById("tiles").innerHTML = tiles.join("");
-  document.getElementById("hero-num").textContent = netMode ? fmtSigned(total) : total;
-  document.getElementById("hero-caption").textContent = netMode
-    ? `net wins (W − L) for your teams in ${periodName}`
-    : `win${total === 1 ? "" : "s"} for your teams in ${periodName}`;
+  document.getElementById("hero-num").textContent =
+    metric === "wins" ? total : fmtSigned(total, decimals);
+  document.getElementById("hero-caption").textContent =
+    metric === "wins" ? `win${total === 1 ? "" : "s"} for your teams in ${periodName}` :
+    metric === "net" ? `net wins (W − L) for your teams in ${periodName}` :
+    `weighted points for your teams in ${periodName} (each game = 365 ÷ season length)`;
 
   allGames.sort((a, b) => b.date.localeCompare(a.date) || a.league.localeCompare(b.league));
   const body = document.getElementById("games-body");
@@ -360,8 +375,9 @@ function setScope(scope) {
 
 function setMetric(metric) {
   state.metric = metric;
-  document.getElementById("metric-wins").setAttribute("aria-pressed", String(metric === "wins"));
-  document.getElementById("metric-net").setAttribute("aria-pressed", String(metric === "net"));
+  for (const m of ["wins", "net", "weighted"]) {
+    document.getElementById(`metric-${m}`).setAttribute("aria-pressed", String(metric === m));
+  }
   render();
 }
 
@@ -370,8 +386,9 @@ async function init() {
   document.getElementById("next").addEventListener("click", () => shiftPeriod(1));
   document.getElementById("scope-month").addEventListener("click", () => setScope("month"));
   document.getElementById("scope-year").addEventListener("click", () => setScope("year"));
-  document.getElementById("metric-wins").addEventListener("click", () => setMetric("wins"));
-  document.getElementById("metric-net").addEventListener("click", () => setMetric("net"));
+  for (const m of ["wins", "net", "weighted"]) {
+    document.getElementById(`metric-${m}`).addEventListener("click", () => setMetric(m));
+  }
   try {
     const [teams, myTeams, ...scores] = await Promise.all([
       fetchJson("teams.json"),
