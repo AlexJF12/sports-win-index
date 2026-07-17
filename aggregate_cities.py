@@ -2,10 +2,12 @@
 """
 City aggregations for the daily scores data.
 
-Builds "city groups" from cities.json — one group per combination of teams
-for metros with multiple teams in the same league (e.g. Chicago 1 = Cubs,
-Chicago 2 = White Sox) — and totals each group's results over four periods
-anchored on a reference date (normally yesterday, US/Eastern):
+Loads the hardcoded city groups from city_groups.json — one group per
+combination of teams for metros with multiple teams in the same league
+(e.g. Chicago 1 = Cubs, Chicago 2 = White Sox; regenerate the file with
+generate_city_groups.py when cities.json changes) — and totals each
+group's results over four periods anchored on a reference date (normally
+yesterday, US/Eastern):
 
     day    the reference date itself
     week   Tuesday through Monday containing the reference date
@@ -23,7 +25,6 @@ Usage:
 
 import argparse
 import csv
-import itertools
 import json
 import logging
 import os
@@ -38,52 +39,6 @@ LEAGUES = ["mlb", "nba", "nhl", "nfl"]
 LEAGUE_WEIGHT = {"mlb": 365 / 162, "nba": 365 / 82, "nhl": 365 / 82, "nfl": 365 / 17}
 DATA_DIR = "data"
 OUTPUT = os.path.join(DATA_DIR, "city_rankings.json")
-
-# Multi-word location prefixes that a simple first-word strip would break
-MULTIWORD_LOCATIONS = [
-    "New York", "Los Angeles", "San Francisco", "San Jose", "Tampa Bay",
-    "Green Bay", "New England", "Las Vegas", "St. Louis", "San Diego",
-    "San Antonio", "New Orleans", "Oklahoma City", "Golden State",
-    "Kansas City", "New Jersey",
-]
-
-
-def nickname(display_name: str) -> str:
-    """'Boston Red Sox' -> 'Red Sox', 'Vegas Golden Knights' -> 'Golden Knights',
-    'Athletics' -> 'Athletics'."""
-    for loc in MULTIWORD_LOCATIONS:
-        if display_name.startswith(loc + " "):
-            return display_name[len(loc) + 1:]
-    parts = display_name.split(" ", 1)
-    return parts[1] if len(parts) == 2 else display_name
-
-
-def build_groups(cities: dict, teams: dict) -> list[dict]:
-    """One group per combination of same-league teams within a city.
-    A city with a single combination keeps its plain name; multiples are
-    numbered 'City 1', 'City 2', ... in deterministic (sorted) order."""
-    groups = []
-    for city, leagues in cities.items():
-        league_slots = [
-            [(league, abbr) for abbr in sorted(leagues[league])]
-            for league in LEAGUES if league in leagues
-        ]
-        combos = list(itertools.product(*league_slots))
-        for i, combo in enumerate(combos, start=1):
-            groups.append({
-                "name": city if len(combos) == 1 else f"{city} {i}",
-                "city": city,
-                "teams": [
-                    {
-                        "league": league,
-                        "abbr": abbr,
-                        "nickname": nickname(teams[league][abbr]),
-                    }
-                    for league, abbr in combo
-                ],
-            })
-    return groups
-
 
 def load_scores(data_dir: str) -> dict:
     """league -> list of game rows (completed games only, as scraped)."""
@@ -177,12 +132,8 @@ def main():
     else:
         ref = (datetime.now(ZoneInfo("America/New_York")) - timedelta(days=1)).date()
 
-    with open("teams.json") as f:
-        teams = json.load(f)
-    with open("cities.json") as f:
-        cities = json.load(f)
-
-    groups = build_groups(cities, teams)
+    with open("city_groups.json") as f:
+        groups = json.load(f)
     by_team = index_by_team(load_scores(args.data_dir))
     bounds = period_bounds(ref)
 

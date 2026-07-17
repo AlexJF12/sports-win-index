@@ -1,0 +1,1880 @@
+[
+  {
+    "name": "New York 1",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYM",
+        "nickname": "Mets"
+      },
+      {
+        "league": "nba",
+        "abbr": "BKN",
+        "nickname": "Nets"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NJ",
+        "nickname": "Devils"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYG",
+        "nickname": "Giants"
+      }
+    ]
+  },
+  {
+    "name": "New York 2",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYM",
+        "nickname": "Mets"
+      },
+      {
+        "league": "nba",
+        "abbr": "BKN",
+        "nickname": "Nets"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NJ",
+        "nickname": "Devils"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYJ",
+        "nickname": "Jets"
+      }
+    ]
+  },
+  {
+    "name": "New York 3",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYM",
+        "nickname": "Mets"
+      },
+      {
+        "league": "nba",
+        "abbr": "BKN",
+        "nickname": "Nets"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYI",
+        "nickname": "Islanders"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYG",
+        "nickname": "Giants"
+      }
+    ]
+  },
+  {
+    "name": "New York 4",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYM",
+        "nickname": "Mets"
+      },
+      {
+        "league": "nba",
+        "abbr": "BKN",
+        "nickname": "Nets"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYI",
+        "nickname": "Islanders"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYJ",
+        "nickname": "Jets"
+      }
+    ]
+  },
+  {
+    "name": "New York 5",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYM",
+        "nickname": "Mets"
+      },
+      {
+        "league": "nba",
+        "abbr": "BKN",
+        "nickname": "Nets"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYR",
+        "nickname": "Rangers"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYG",
+        "nickname": "Giants"
+      }
+    ]
+  },
+  {
+    "name": "New York 6",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYM",
+        "nickname": "Mets"
+      },
+      {
+        "league": "nba",
+        "abbr": "BKN",
+        "nickname": "Nets"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYR",
+        "nickname": "Rangers"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYJ",
+        "nickname": "Jets"
+      }
+    ]
+  },
+  {
+    "name": "New York 7",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYM",
+        "nickname": "Mets"
+      },
+      {
+        "league": "nba",
+        "abbr": "NY",
+        "nickname": "Knicks"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NJ",
+        "nickname": "Devils"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYG",
+        "nickname": "Giants"
+      }
+    ]
+  },
+  {
+    "name": "New York 8",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYM",
+        "nickname": "Mets"
+      },
+      {
+        "league": "nba",
+        "abbr": "NY",
+        "nickname": "Knicks"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NJ",
+        "nickname": "Devils"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYJ",
+        "nickname": "Jets"
+      }
+    ]
+  },
+  {
+    "name": "New York 9",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYM",
+        "nickname": "Mets"
+      },
+      {
+        "league": "nba",
+        "abbr": "NY",
+        "nickname": "Knicks"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYI",
+        "nickname": "Islanders"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYG",
+        "nickname": "Giants"
+      }
+    ]
+  },
+  {
+    "name": "New York 10",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYM",
+        "nickname": "Mets"
+      },
+      {
+        "league": "nba",
+        "abbr": "NY",
+        "nickname": "Knicks"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYI",
+        "nickname": "Islanders"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYJ",
+        "nickname": "Jets"
+      }
+    ]
+  },
+  {
+    "name": "New York 11",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYM",
+        "nickname": "Mets"
+      },
+      {
+        "league": "nba",
+        "abbr": "NY",
+        "nickname": "Knicks"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYR",
+        "nickname": "Rangers"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYG",
+        "nickname": "Giants"
+      }
+    ]
+  },
+  {
+    "name": "New York 12",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYM",
+        "nickname": "Mets"
+      },
+      {
+        "league": "nba",
+        "abbr": "NY",
+        "nickname": "Knicks"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYR",
+        "nickname": "Rangers"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYJ",
+        "nickname": "Jets"
+      }
+    ]
+  },
+  {
+    "name": "New York 13",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYY",
+        "nickname": "Yankees"
+      },
+      {
+        "league": "nba",
+        "abbr": "BKN",
+        "nickname": "Nets"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NJ",
+        "nickname": "Devils"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYG",
+        "nickname": "Giants"
+      }
+    ]
+  },
+  {
+    "name": "New York 14",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYY",
+        "nickname": "Yankees"
+      },
+      {
+        "league": "nba",
+        "abbr": "BKN",
+        "nickname": "Nets"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NJ",
+        "nickname": "Devils"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYJ",
+        "nickname": "Jets"
+      }
+    ]
+  },
+  {
+    "name": "New York 15",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYY",
+        "nickname": "Yankees"
+      },
+      {
+        "league": "nba",
+        "abbr": "BKN",
+        "nickname": "Nets"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYI",
+        "nickname": "Islanders"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYG",
+        "nickname": "Giants"
+      }
+    ]
+  },
+  {
+    "name": "New York 16",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYY",
+        "nickname": "Yankees"
+      },
+      {
+        "league": "nba",
+        "abbr": "BKN",
+        "nickname": "Nets"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYI",
+        "nickname": "Islanders"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYJ",
+        "nickname": "Jets"
+      }
+    ]
+  },
+  {
+    "name": "New York 17",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYY",
+        "nickname": "Yankees"
+      },
+      {
+        "league": "nba",
+        "abbr": "BKN",
+        "nickname": "Nets"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYR",
+        "nickname": "Rangers"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYG",
+        "nickname": "Giants"
+      }
+    ]
+  },
+  {
+    "name": "New York 18",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYY",
+        "nickname": "Yankees"
+      },
+      {
+        "league": "nba",
+        "abbr": "BKN",
+        "nickname": "Nets"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYR",
+        "nickname": "Rangers"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYJ",
+        "nickname": "Jets"
+      }
+    ]
+  },
+  {
+    "name": "New York 19",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYY",
+        "nickname": "Yankees"
+      },
+      {
+        "league": "nba",
+        "abbr": "NY",
+        "nickname": "Knicks"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NJ",
+        "nickname": "Devils"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYG",
+        "nickname": "Giants"
+      }
+    ]
+  },
+  {
+    "name": "New York 20",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYY",
+        "nickname": "Yankees"
+      },
+      {
+        "league": "nba",
+        "abbr": "NY",
+        "nickname": "Knicks"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NJ",
+        "nickname": "Devils"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYJ",
+        "nickname": "Jets"
+      }
+    ]
+  },
+  {
+    "name": "New York 21",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYY",
+        "nickname": "Yankees"
+      },
+      {
+        "league": "nba",
+        "abbr": "NY",
+        "nickname": "Knicks"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYI",
+        "nickname": "Islanders"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYG",
+        "nickname": "Giants"
+      }
+    ]
+  },
+  {
+    "name": "New York 22",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYY",
+        "nickname": "Yankees"
+      },
+      {
+        "league": "nba",
+        "abbr": "NY",
+        "nickname": "Knicks"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYI",
+        "nickname": "Islanders"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYJ",
+        "nickname": "Jets"
+      }
+    ]
+  },
+  {
+    "name": "New York 23",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYY",
+        "nickname": "Yankees"
+      },
+      {
+        "league": "nba",
+        "abbr": "NY",
+        "nickname": "Knicks"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYR",
+        "nickname": "Rangers"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYG",
+        "nickname": "Giants"
+      }
+    ]
+  },
+  {
+    "name": "New York 24",
+    "city": "New York",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "NYY",
+        "nickname": "Yankees"
+      },
+      {
+        "league": "nba",
+        "abbr": "NY",
+        "nickname": "Knicks"
+      },
+      {
+        "league": "nhl",
+        "abbr": "NYR",
+        "nickname": "Rangers"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NYJ",
+        "nickname": "Jets"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 1",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAA",
+        "nickname": "Angels"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAC",
+        "nickname": "Clippers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "ANA",
+        "nickname": "Ducks"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAC",
+        "nickname": "Chargers"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 2",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAA",
+        "nickname": "Angels"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAC",
+        "nickname": "Clippers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "ANA",
+        "nickname": "Ducks"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAR",
+        "nickname": "Rams"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 3",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAA",
+        "nickname": "Angels"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAC",
+        "nickname": "Clippers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "LA",
+        "nickname": "Kings"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAC",
+        "nickname": "Chargers"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 4",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAA",
+        "nickname": "Angels"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAC",
+        "nickname": "Clippers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "LA",
+        "nickname": "Kings"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAR",
+        "nickname": "Rams"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 5",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAA",
+        "nickname": "Angels"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAL",
+        "nickname": "Lakers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "ANA",
+        "nickname": "Ducks"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAC",
+        "nickname": "Chargers"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 6",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAA",
+        "nickname": "Angels"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAL",
+        "nickname": "Lakers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "ANA",
+        "nickname": "Ducks"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAR",
+        "nickname": "Rams"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 7",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAA",
+        "nickname": "Angels"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAL",
+        "nickname": "Lakers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "LA",
+        "nickname": "Kings"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAC",
+        "nickname": "Chargers"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 8",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAA",
+        "nickname": "Angels"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAL",
+        "nickname": "Lakers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "LA",
+        "nickname": "Kings"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAR",
+        "nickname": "Rams"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 9",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAD",
+        "nickname": "Dodgers"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAC",
+        "nickname": "Clippers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "ANA",
+        "nickname": "Ducks"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAC",
+        "nickname": "Chargers"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 10",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAD",
+        "nickname": "Dodgers"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAC",
+        "nickname": "Clippers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "ANA",
+        "nickname": "Ducks"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAR",
+        "nickname": "Rams"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 11",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAD",
+        "nickname": "Dodgers"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAC",
+        "nickname": "Clippers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "LA",
+        "nickname": "Kings"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAC",
+        "nickname": "Chargers"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 12",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAD",
+        "nickname": "Dodgers"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAC",
+        "nickname": "Clippers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "LA",
+        "nickname": "Kings"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAR",
+        "nickname": "Rams"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 13",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAD",
+        "nickname": "Dodgers"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAL",
+        "nickname": "Lakers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "ANA",
+        "nickname": "Ducks"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAC",
+        "nickname": "Chargers"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 14",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAD",
+        "nickname": "Dodgers"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAL",
+        "nickname": "Lakers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "ANA",
+        "nickname": "Ducks"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAR",
+        "nickname": "Rams"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 15",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAD",
+        "nickname": "Dodgers"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAL",
+        "nickname": "Lakers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "LA",
+        "nickname": "Kings"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAC",
+        "nickname": "Chargers"
+      }
+    ]
+  },
+  {
+    "name": "Los Angeles 16",
+    "city": "Los Angeles",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "LAD",
+        "nickname": "Dodgers"
+      },
+      {
+        "league": "nba",
+        "abbr": "LAL",
+        "nickname": "Lakers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "LA",
+        "nickname": "Kings"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LAR",
+        "nickname": "Rams"
+      }
+    ]
+  },
+  {
+    "name": "Chicago 1",
+    "city": "Chicago",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "CHC",
+        "nickname": "Cubs"
+      },
+      {
+        "league": "nba",
+        "abbr": "CHI",
+        "nickname": "Bulls"
+      },
+      {
+        "league": "nhl",
+        "abbr": "CHI",
+        "nickname": "Blackhawks"
+      },
+      {
+        "league": "nfl",
+        "abbr": "CHI",
+        "nickname": "Bears"
+      }
+    ]
+  },
+  {
+    "name": "Chicago 2",
+    "city": "Chicago",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "CHW",
+        "nickname": "White Sox"
+      },
+      {
+        "league": "nba",
+        "abbr": "CHI",
+        "nickname": "Bulls"
+      },
+      {
+        "league": "nhl",
+        "abbr": "CHI",
+        "nickname": "Blackhawks"
+      },
+      {
+        "league": "nfl",
+        "abbr": "CHI",
+        "nickname": "Bears"
+      }
+    ]
+  },
+  {
+    "name": "San Francisco",
+    "city": "San Francisco",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "SF",
+        "nickname": "Giants"
+      },
+      {
+        "league": "nba",
+        "abbr": "GS",
+        "nickname": "Warriors"
+      },
+      {
+        "league": "nhl",
+        "abbr": "SJ",
+        "nickname": "Sharks"
+      },
+      {
+        "league": "nfl",
+        "abbr": "SF",
+        "nickname": "49ers"
+      }
+    ]
+  },
+  {
+    "name": "Sacramento",
+    "city": "Sacramento",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "ATH",
+        "nickname": "Athletics"
+      },
+      {
+        "league": "nba",
+        "abbr": "SAC",
+        "nickname": "Kings"
+      }
+    ]
+  },
+  {
+    "name": "Dallas",
+    "city": "Dallas",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "TEX",
+        "nickname": "Rangers"
+      },
+      {
+        "league": "nba",
+        "abbr": "DAL",
+        "nickname": "Mavericks"
+      },
+      {
+        "league": "nhl",
+        "abbr": "DAL",
+        "nickname": "Stars"
+      },
+      {
+        "league": "nfl",
+        "abbr": "DAL",
+        "nickname": "Cowboys"
+      }
+    ]
+  },
+  {
+    "name": "Boston",
+    "city": "Boston",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "BOS",
+        "nickname": "Red Sox"
+      },
+      {
+        "league": "nba",
+        "abbr": "BOS",
+        "nickname": "Celtics"
+      },
+      {
+        "league": "nhl",
+        "abbr": "BOS",
+        "nickname": "Bruins"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NE",
+        "nickname": "Patriots"
+      }
+    ]
+  },
+  {
+    "name": "Washington",
+    "city": "Washington",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "WSH",
+        "nickname": "Nationals"
+      },
+      {
+        "league": "nba",
+        "abbr": "WSH",
+        "nickname": "Wizards"
+      },
+      {
+        "league": "nhl",
+        "abbr": "WSH",
+        "nickname": "Capitals"
+      },
+      {
+        "league": "nfl",
+        "abbr": "WSH",
+        "nickname": "Commanders"
+      }
+    ]
+  },
+  {
+    "name": "Philadelphia",
+    "city": "Philadelphia",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "PHI",
+        "nickname": "Phillies"
+      },
+      {
+        "league": "nba",
+        "abbr": "PHI",
+        "nickname": "76ers"
+      },
+      {
+        "league": "nhl",
+        "abbr": "PHI",
+        "nickname": "Flyers"
+      },
+      {
+        "league": "nfl",
+        "abbr": "PHI",
+        "nickname": "Eagles"
+      }
+    ]
+  },
+  {
+    "name": "Denver",
+    "city": "Denver",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "COL",
+        "nickname": "Rockies"
+      },
+      {
+        "league": "nba",
+        "abbr": "DEN",
+        "nickname": "Nuggets"
+      },
+      {
+        "league": "nhl",
+        "abbr": "COL",
+        "nickname": "Avalanche"
+      },
+      {
+        "league": "nfl",
+        "abbr": "DEN",
+        "nickname": "Broncos"
+      }
+    ]
+  },
+  {
+    "name": "Detroit",
+    "city": "Detroit",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "DET",
+        "nickname": "Tigers"
+      },
+      {
+        "league": "nba",
+        "abbr": "DET",
+        "nickname": "Pistons"
+      },
+      {
+        "league": "nhl",
+        "abbr": "DET",
+        "nickname": "Red Wings"
+      },
+      {
+        "league": "nfl",
+        "abbr": "DET",
+        "nickname": "Lions"
+      }
+    ]
+  },
+  {
+    "name": "Minneapolis",
+    "city": "Minneapolis",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "MIN",
+        "nickname": "Twins"
+      },
+      {
+        "league": "nba",
+        "abbr": "MIN",
+        "nickname": "Timberwolves"
+      },
+      {
+        "league": "nhl",
+        "abbr": "MIN",
+        "nickname": "Wild"
+      },
+      {
+        "league": "nfl",
+        "abbr": "MIN",
+        "nickname": "Vikings"
+      }
+    ]
+  },
+  {
+    "name": "Miami",
+    "city": "Miami",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "MIA",
+        "nickname": "Marlins"
+      },
+      {
+        "league": "nba",
+        "abbr": "MIA",
+        "nickname": "Heat"
+      },
+      {
+        "league": "nhl",
+        "abbr": "FLA",
+        "nickname": "Panthers"
+      },
+      {
+        "league": "nfl",
+        "abbr": "MIA",
+        "nickname": "Dolphins"
+      }
+    ]
+  },
+  {
+    "name": "Phoenix",
+    "city": "Phoenix",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "ARI",
+        "nickname": "Diamondbacks"
+      },
+      {
+        "league": "nba",
+        "abbr": "PHX",
+        "nickname": "Suns"
+      },
+      {
+        "league": "nfl",
+        "abbr": "ARI",
+        "nickname": "Cardinals"
+      }
+    ]
+  },
+  {
+    "name": "Tampa Bay",
+    "city": "Tampa Bay",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "TB",
+        "nickname": "Rays"
+      },
+      {
+        "league": "nhl",
+        "abbr": "TB",
+        "nickname": "Lightning"
+      },
+      {
+        "league": "nfl",
+        "abbr": "TB",
+        "nickname": "Buccaneers"
+      }
+    ]
+  },
+  {
+    "name": "Toronto",
+    "city": "Toronto",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "TOR",
+        "nickname": "Blue Jays"
+      },
+      {
+        "league": "nba",
+        "abbr": "TOR",
+        "nickname": "Raptors"
+      },
+      {
+        "league": "nhl",
+        "abbr": "TOR",
+        "nickname": "Maple Leafs"
+      }
+    ]
+  },
+  {
+    "name": "Atlanta",
+    "city": "Atlanta",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "ATL",
+        "nickname": "Braves"
+      },
+      {
+        "league": "nba",
+        "abbr": "ATL",
+        "nickname": "Hawks"
+      },
+      {
+        "league": "nfl",
+        "abbr": "ATL",
+        "nickname": "Falcons"
+      }
+    ]
+  },
+  {
+    "name": "Houston",
+    "city": "Houston",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "HOU",
+        "nickname": "Astros"
+      },
+      {
+        "league": "nba",
+        "abbr": "HOU",
+        "nickname": "Rockets"
+      },
+      {
+        "league": "nfl",
+        "abbr": "HOU",
+        "nickname": "Texans"
+      }
+    ]
+  },
+  {
+    "name": "Cleveland",
+    "city": "Cleveland",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "CLE",
+        "nickname": "Guardians"
+      },
+      {
+        "league": "nba",
+        "abbr": "CLE",
+        "nickname": "Cavaliers"
+      },
+      {
+        "league": "nfl",
+        "abbr": "CLE",
+        "nickname": "Browns"
+      }
+    ]
+  },
+  {
+    "name": "Pittsburgh",
+    "city": "Pittsburgh",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "PIT",
+        "nickname": "Pirates"
+      },
+      {
+        "league": "nhl",
+        "abbr": "PIT",
+        "nickname": "Penguins"
+      },
+      {
+        "league": "nfl",
+        "abbr": "PIT",
+        "nickname": "Steelers"
+      }
+    ]
+  },
+  {
+    "name": "Seattle",
+    "city": "Seattle",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "SEA",
+        "nickname": "Mariners"
+      },
+      {
+        "league": "nhl",
+        "abbr": "SEA",
+        "nickname": "Kraken"
+      },
+      {
+        "league": "nfl",
+        "abbr": "SEA",
+        "nickname": "Seahawks"
+      }
+    ]
+  },
+  {
+    "name": "Milwaukee",
+    "city": "Milwaukee",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "MIL",
+        "nickname": "Brewers"
+      },
+      {
+        "league": "nba",
+        "abbr": "MIL",
+        "nickname": "Bucks"
+      }
+    ]
+  },
+  {
+    "name": "St. Louis",
+    "city": "St. Louis",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "STL",
+        "nickname": "Cardinals"
+      },
+      {
+        "league": "nhl",
+        "abbr": "STL",
+        "nickname": "Blues"
+      }
+    ]
+  },
+  {
+    "name": "Kansas City",
+    "city": "Kansas City",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "KC",
+        "nickname": "Royals"
+      },
+      {
+        "league": "nfl",
+        "abbr": "KC",
+        "nickname": "Chiefs"
+      }
+    ]
+  },
+  {
+    "name": "Cincinnati",
+    "city": "Cincinnati",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "CIN",
+        "nickname": "Reds"
+      },
+      {
+        "league": "nfl",
+        "abbr": "CIN",
+        "nickname": "Bengals"
+      }
+    ]
+  },
+  {
+    "name": "Baltimore",
+    "city": "Baltimore",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "BAL",
+        "nickname": "Orioles"
+      },
+      {
+        "league": "nfl",
+        "abbr": "BAL",
+        "nickname": "Ravens"
+      }
+    ]
+  },
+  {
+    "name": "San Diego",
+    "city": "San Diego",
+    "teams": [
+      {
+        "league": "mlb",
+        "abbr": "SD",
+        "nickname": "Padres"
+      }
+    ]
+  },
+  {
+    "name": "Charlotte",
+    "city": "Charlotte",
+    "teams": [
+      {
+        "league": "nba",
+        "abbr": "CHA",
+        "nickname": "Hornets"
+      },
+      {
+        "league": "nfl",
+        "abbr": "CAR",
+        "nickname": "Panthers"
+      }
+    ]
+  },
+  {
+    "name": "Raleigh",
+    "city": "Raleigh",
+    "teams": [
+      {
+        "league": "nhl",
+        "abbr": "CAR",
+        "nickname": "Hurricanes"
+      }
+    ]
+  },
+  {
+    "name": "Nashville",
+    "city": "Nashville",
+    "teams": [
+      {
+        "league": "nhl",
+        "abbr": "NSH",
+        "nickname": "Predators"
+      },
+      {
+        "league": "nfl",
+        "abbr": "TEN",
+        "nickname": "Titans"
+      }
+    ]
+  },
+  {
+    "name": "Buffalo",
+    "city": "Buffalo",
+    "teams": [
+      {
+        "league": "nhl",
+        "abbr": "BUF",
+        "nickname": "Sabres"
+      },
+      {
+        "league": "nfl",
+        "abbr": "BUF",
+        "nickname": "Bills"
+      }
+    ]
+  },
+  {
+    "name": "Indianapolis",
+    "city": "Indianapolis",
+    "teams": [
+      {
+        "league": "nba",
+        "abbr": "IND",
+        "nickname": "Pacers"
+      },
+      {
+        "league": "nfl",
+        "abbr": "IND",
+        "nickname": "Colts"
+      }
+    ]
+  },
+  {
+    "name": "New Orleans",
+    "city": "New Orleans",
+    "teams": [
+      {
+        "league": "nba",
+        "abbr": "NO",
+        "nickname": "Pelicans"
+      },
+      {
+        "league": "nfl",
+        "abbr": "NO",
+        "nickname": "Saints"
+      }
+    ]
+  },
+  {
+    "name": "Las Vegas",
+    "city": "Las Vegas",
+    "teams": [
+      {
+        "league": "nhl",
+        "abbr": "VGK",
+        "nickname": "Golden Knights"
+      },
+      {
+        "league": "nfl",
+        "abbr": "LV",
+        "nickname": "Raiders"
+      }
+    ]
+  },
+  {
+    "name": "Salt Lake City",
+    "city": "Salt Lake City",
+    "teams": [
+      {
+        "league": "nba",
+        "abbr": "UTAH",
+        "nickname": "Jazz"
+      },
+      {
+        "league": "nhl",
+        "abbr": "UTAH",
+        "nickname": "Mammoth"
+      }
+    ]
+  },
+  {
+    "name": "Columbus",
+    "city": "Columbus",
+    "teams": [
+      {
+        "league": "nhl",
+        "abbr": "CBJ",
+        "nickname": "Blue Jackets"
+      }
+    ]
+  },
+  {
+    "name": "Winnipeg",
+    "city": "Winnipeg",
+    "teams": [
+      {
+        "league": "nhl",
+        "abbr": "WPG",
+        "nickname": "Jets"
+      }
+    ]
+  },
+  {
+    "name": "Ottawa",
+    "city": "Ottawa",
+    "teams": [
+      {
+        "league": "nhl",
+        "abbr": "OTT",
+        "nickname": "Senators"
+      }
+    ]
+  },
+  {
+    "name": "Montreal",
+    "city": "Montreal",
+    "teams": [
+      {
+        "league": "nhl",
+        "abbr": "MTL",
+        "nickname": "Canadiens"
+      }
+    ]
+  },
+  {
+    "name": "Vancouver",
+    "city": "Vancouver",
+    "teams": [
+      {
+        "league": "nhl",
+        "abbr": "VAN",
+        "nickname": "Canucks"
+      }
+    ]
+  },
+  {
+    "name": "Calgary",
+    "city": "Calgary",
+    "teams": [
+      {
+        "league": "nhl",
+        "abbr": "CGY",
+        "nickname": "Flames"
+      }
+    ]
+  },
+  {
+    "name": "Edmonton",
+    "city": "Edmonton",
+    "teams": [
+      {
+        "league": "nhl",
+        "abbr": "EDM",
+        "nickname": "Oilers"
+      }
+    ]
+  },
+  {
+    "name": "Memphis",
+    "city": "Memphis",
+    "teams": [
+      {
+        "league": "nba",
+        "abbr": "MEM",
+        "nickname": "Grizzlies"
+      }
+    ]
+  },
+  {
+    "name": "Oklahoma City",
+    "city": "Oklahoma City",
+    "teams": [
+      {
+        "league": "nba",
+        "abbr": "OKC",
+        "nickname": "Thunder"
+      }
+    ]
+  },
+  {
+    "name": "Orlando",
+    "city": "Orlando",
+    "teams": [
+      {
+        "league": "nba",
+        "abbr": "ORL",
+        "nickname": "Magic"
+      }
+    ]
+  },
+  {
+    "name": "Portland",
+    "city": "Portland",
+    "teams": [
+      {
+        "league": "nba",
+        "abbr": "POR",
+        "nickname": "Trail Blazers"
+      }
+    ]
+  },
+  {
+    "name": "San Antonio",
+    "city": "San Antonio",
+    "teams": [
+      {
+        "league": "nba",
+        "abbr": "SA",
+        "nickname": "Spurs"
+      }
+    ]
+  },
+  {
+    "name": "Green Bay",
+    "city": "Green Bay",
+    "teams": [
+      {
+        "league": "nfl",
+        "abbr": "GB",
+        "nickname": "Packers"
+      }
+    ]
+  },
+  {
+    "name": "Jacksonville",
+    "city": "Jacksonville",
+    "teams": [
+      {
+        "league": "nfl",
+        "abbr": "JAX",
+        "nickname": "Jaguars"
+      }
+    ]
+  }
+]

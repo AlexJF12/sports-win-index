@@ -4,13 +4,8 @@ import json
 from datetime import date
 from pathlib import Path
 
-from aggregate_cities import (
-    build_groups,
-    nickname,
-    period_bounds,
-    totals,
-    week_bounds,
-)
+from aggregate_cities import period_bounds, totals, week_bounds
+from generate_city_groups import build_groups, nickname
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -33,6 +28,13 @@ def test_every_team_mapped_exactly_once():
             f"extra {set(mapped) - set(teams[league])}"
         )
         assert len(mapped) == len(set(mapped)), f"{league}: duplicate mapping"
+
+
+def test_city_groups_json_matches_generator():
+    # city_groups.json is the hardcoded runtime source of truth; it must stay
+    # in sync with cities.json + teams.json (re-run generate_city_groups.py
+    # after editing either)
+    assert load("city_groups.json") == build_groups(load("cities.json"), load("teams.json"))
 
 
 # --- group generation --------------------------------------------------------
