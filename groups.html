@@ -136,6 +136,12 @@ async function init() {
     const r = await fetch("city_groups.json");
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     render(await r.json());
+    // cards render after fetch, so the browser's own #fragment scroll already
+    // missed — do it ourselves now that the target exists
+    if (location.hash) {
+      const target = document.getElementById(location.hash.slice(1));
+      if (target) target.scrollIntoView();
+    }
   } catch (err) {
     const e = document.getElementById("error");
     e.style.display = "block";
