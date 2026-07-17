@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>City Index</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page:           #f9f9f7;
+    --surface:        #fcfcfb;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --hairline:       #e1e0d9;
+    --border:         rgba(11, 11, 11, 0.10);
+    --win:            #006300;
+    --loss:           #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --page:           #0d0d0d;
+      --surface:        #1a1a19;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --hairline:       #2c2c2a;
+      --border:         rgba(255, 255, 255, 0.10);
+      --win:            #0ca30c;
+      --loss:           #d03b3b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text-primary);
+    font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 880px; margin: 0 auto; padding: 24px 20px 64px; }
+
+  header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  h1 { font-size: 20px; font-weight: 650; margin: 0; }
+  nav a { color: var(--text-secondary); font-size: 13px; text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+
+  .scope {
+    display: inline-flex; border: 1px solid var(--border); border-radius: 8px;
+    overflow: hidden; background: var(--surface);
+  }
+  .scope button {
+    background: none; border: none; color: var(--text-secondary);
+    font: inherit; font-size: 13px; padding: 5px 12px; cursor: pointer;
+  }
+  .scope button[aria-pressed="true"] {
+    background: var(--text-primary); color: var(--page); font-weight: 600;
+  }
+
+  .as-of { color: var(--text-muted); font-size: 13px; margin: 6px 0 24px; }
+
+  section.period { margin-bottom: 36px; }
+  h2 { font-size: 15px; font-weight: 650; margin: 0 0 2px; }
+  .range { color: var(--text-muted); font-size: 13px; margin-bottom: 10px; }
+
+  .champ {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 10px;
+    display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+  }
+  .champ .city { font-size: 24px; font-weight: 650; }
+  .champ .score { font-size: 24px; font-weight: 650; margin-left: auto; }
+  .champ .score.pos { color: var(--win); }
+  .champ .score.neg { color: var(--loss); }
+  .champ .detail { color: var(--text-muted); font-size: 13px; flex-basis: 100%; }
+
+  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 7px 14px; white-space: nowrap; }
+  th { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid var(--hairline); }
+  tr + tr td { border-top: 1px solid var(--hairline); }
+  td.num { font-variant-numeric: tabular-nums; }
+  td.teams { color: var(--text-muted); font-size: 13px; white-space: normal; }
+  .empty { color: var(--text-muted); padding: 18px 14px; }
+  #error { color: var(--loss); margin: 24px 0; display: none; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>City Index</h1>
+    <nav><a href="index.html">← my teams</a></nav>
+    <div class="scope" role="group" aria-label="Metric">
+      <button id="metric-wins" aria-pressed="false">Wins</button>
+      <button id="metric-net" aria-pressed="false">Net W−L</button>
+      <button id="metric-weighted" aria-pressed="true"
+        title="Each game is worth 365 ÷ season length: MLB ±2.25, NBA/NHL ±4.45, NFL ±21.47">Weighted</button>
+    </div>
+  </header>
+  <p class="as-of" id="as-of"></p>
+  <p id="error"></p>
+  <div id="sections"></div>
+</main>
+
+<script>
+const LEAGUE_EMOJI = { mlb: "⚾", nba: "🏀", nhl: "🏒", nfl: "🏈" };
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const PERIODS = [
+  { key: "day", title: "Best day" },
+  { key: "week", title: "Best week", note: "Tuesday–Monday" },
+  { key: "month", title: "Best month" },
+  { key: "year", title: "Best year" },
+];
+
+let data = null;
+let metric = "weighted";
+
+function fmtDate(d) { return `${MONTHS[+d.slice(4, 6) - 1].slice(0, 3)} ${+d.slice(6, 8)}`; }
+
+function fmtSigned(n, decimals) {
+  if (Math.abs(n) < 1e-9) n = 0;
+  const s = n.toFixed(decimals);
+  return n > 0 ? `+${s}` : s;
+}
+
+function score(g, period) {
+  const t = g[period];
+  return metric === "wins" ? t.w : metric === "net" ? t.w - t.l : t.weighted;
+}
+
+function fmtScore(v) {
+  return metric === "wins" ? String(v) : fmtSigned(v, metric === "weighted" ? 2 : 0);
+}
+
+function rangeLabel(period) {
+  const p = data.periods[period];
+  if (period === "day") return fmtDate(p.start);
+  if (period === "week") return `${fmtDate(p.start)} – ${fmtDate(p.end)}`;
+  if (period === "month") return `${MONTHS[+p.start.slice(4, 6) - 1]} ${p.start.slice(0, 4)}`;
+  return p.start.slice(0, 4);
+}
+
+function roster(g) {
+  return g.teams.map(t => `${LEAGUE_EMOJI[t.league]} ${t.nickname}`).join("  ·  ");
+}
+
+function bestPerCity(period) {
+  // rank each city by its best-scoring combination for this period
+  const best = new Map();
+  for (const g of data.groups) {
+    const games = g[period].w + g[period].l + g[period].t;
+    if (!games) continue;
+    const cur = best.get(g.city);
+    if (!cur || score(g, period) > score(cur, period)
+        || (score(g, period) === score(cur, period) && g[period].w > cur[period].w)) {
+      best.set(g.city, g);
+    }
+  }
+  return [...best.values()].sort((a, b) =>
+    score(b, period) - score(a, period) || b[period].w - a[period].w || a.city.localeCompare(b.city));
+}
+
+function render() {
+  document.getElementById("as-of").textContent =
+    `As of ${fmtDate(data.reference_date)}, ${data.reference_date.slice(0, 4)} — updated each morning after the previous day's games.`;
+  const sections = PERIODS.map(({ key, title, note }) => {
+    const ranked = bestPerCity(key);
+    const range = rangeLabel(key) + (note ? ` (${note})` : "");
+    if (!ranked.length) {
+      return `<section class="period"><h2>${title}</h2><div class="range">${range}</div>
+        <div class="table-wrap"><div class="empty">No games in this period.</div></div></section>`;
+    }
+    const champ = ranked[0];
+    const cv = score(champ, key);
+    const champCls = metric === "wins" ? "" : cv > 0 ? " pos" : cv < 0 ? " neg" : "";
+    const rows = ranked.slice(0, 10).map((g, i) => {
+      const t = g[key];
+      return `<tr>
+        <td class="num">${i + 1}</td>
+        <td>${g.name}</td>
+        <td class="teams">${roster(g)}</td>
+        <td class="num">${t.w}–${t.l}${t.t ? "–" + t.t : ""}</td>
+        <td class="num">${fmtScore(score(g, key))}</td>
+      </tr>`;
+    }).join("");
+    return `<section class="period">
+      <h2>${title}</h2>
+      <div class="range">${range}</div>
+      <div class="champ">
+        <span class="city">${champ.name}</span>
+        <span class="detail-record">${champ[key].w}–${champ[key].l}${champ[key].t ? "–" + champ[key].t : ""}</span>
+        <span class="score${champCls}">${fmtScore(cv)}</span>
+        <span class="detail">${roster(champ)}</span>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>#</th><th>City</th><th>Teams</th><th>Record</th><th>Score</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div>
+    </section>`;
+  });
+  document.getElementById("sections").innerHTML = sections.join("");
+}
+
+function setMetric(m) {
+  metric = m;
+  for (const x of ["wins", "net", "weighted"]) {
+    document.getElementById(`metric-${x}`).setAttribute("aria-pressed", String(m === x));
+  }
+  render();
+}
+
+async function init() {
+  for (const m of ["wins", "net", "weighted"]) {
+    document.getElementById(`metric-${m}`).addEventListener("click", () => setMetric(m));
+  }
+  try {
+    const r = await fetch("data/city_rankings.json");
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    data = await r.json();
+    render();
+  } catch (err) {
+    const e = document.getElementById("error");
+    e.style.display = "block";
+    e.textContent = `Could not load data/city_rankings.json (${err.message}). Serve this page over HTTP from the repo root, e.g.: python3 -m http.server`;
+  }
+}
+init();
+</script>
+</body>
+</html>
