@@ -121,6 +121,11 @@
   td.num { font-variant-numeric: tabular-nums; }
   td.teams { color: var(--text-muted); font-size: 13px; white-space: normal; }
   .empty { color: var(--text-muted); padding: 18px 14px; }
+  .show-more { text-align: center; padding: 9px; border-top: 1px solid var(--hairline); }
+  .show-more button {
+    background: none; border: none; color: var(--text-secondary); font-size: 13px;
+    cursor: pointer; text-decoration: underline;
+  }
   #error { color: var(--loss); margin: 24px 0; display: none; }
 </style>
 </head>
@@ -141,10 +146,6 @@
       <button id="metric-weighted" aria-pressed="true"
         title="Each game is worth 365 ÷ season length: MLB ±2.25, NBA/NHL ±4.45, NFL ±21.47">Weighted</button>
     </div>
-    <div class="scope" role="group" aria-label="How many cities to show">
-      <button id="depth-top3" aria-pressed="true">Top 3</button>
-      <button id="depth-all" aria-pressed="false">Show all</button>
-    </div>
   </div>
   <p class="as-of" id="as-of"></p>
   <p class="metric-note" id="metric-note" hidden>weighted: each game = 365 ÷ season length — MLB ±2.25 · NBA/NHL ±4.45 · NFL ±21.47</p>
@@ -164,7 +165,7 @@ const PERIODS = [
 
 let data = null;
 let metric = "weighted";
-let depth = "top3";   // "top3" | "all"
+const expanded = new Set();  // periods currently showing all cities
 
 function fmtDate(d) { return `${MONTHS[+d.slice(4, 6) - 1].slice(0, 3)} ${+d.slice(6, 8)}`; }
 
@@ -241,8 +242,8 @@ function raceChart(period, ranked) {
   const series = top.map(g => ({
     name: g.name, color: cityColors[g.city] || SLOT_COLORS[0], values: cumulative(g),
   }));
-  // "show all": every other city as a thin de-emphasized context line
-  const others = depth === "all" ? ranked.slice(3).map(g => cumulative(g)) : [];
+  // expanded: every other city as a thin de-emphasized context line
+  const others = expanded.has(period) ? ranked.slice(3).map(g => cumulative(g)) : [];
   const all = series.flatMap(s => s.values).concat(others.flat());
   const min = Math.min(0, ...all), max = Math.max(0, ...all);
   if (max === min) return "";
@@ -409,7 +410,8 @@ function render() {
     const champ = ranked[0];
     const cv = score(champ, key);
     const champCls = metric === "wins" ? "" : cv > 0 ? " pos" : cv < 0 ? " neg" : "";
-    const rows = (depth === "all" ? ranked : ranked.slice(0, 3)).map((g, i) => {
+    const isExpanded = expanded.has(key);
+    const rows = (isExpanded ? ranked : ranked.slice(0, 3)).map((g, i) => {
       const t = g[key];
       // competition ranking: tied scores share a rank (1, 1, 3, ...)
       let rank = i + 1;
@@ -435,11 +437,20 @@ function render() {
       <div class="table-wrap"><table>
         <thead><tr><th>#</th><th>City</th><th>Teams</th><th>Record</th><th>Score</th></tr></thead>
         <tbody>${rows}</tbody>
-      </table></div>
+      </table>${ranked.length > 3 ? `<div class="show-more">
+        <button data-period="${key}">${isExpanded ? "Show top 3" : `Show all ${ranked.length} cities`}</button>
+      </div>` : ""}</div>
     </section>`;
   });
   document.getElementById("sections").innerHTML = sections.join("");
   wireRaceHover();
+  document.querySelectorAll(".show-more button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const p = btn.dataset.period;
+      if (expanded.has(p)) expanded.delete(p); else expanded.add(p);
+      render();
+    });
+  });
 }
 
 function setMetric(m) {
@@ -450,19 +461,11 @@ function setMetric(m) {
   render();
 }
 
-function setDepth(d) {
-  depth = d;
-  document.getElementById("depth-top3").setAttribute("aria-pressed", String(d === "top3"));
-  document.getElementById("depth-all").setAttribute("aria-pressed", String(d === "all"));
-  render();
-}
 
 async function init() {
   for (const m of ["wins", "net", "weighted"]) {
     document.getElementById(`metric-${m}`).addEventListener("click", () => setMetric(m));
   }
-  document.getElementById("depth-top3").addEventListener("click", () => setDepth("top3"));
-  document.getElementById("depth-all").addEventListener("click", () => setDepth("all"));
   try {
     const r = await fetch("data/city_rankings.json");
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
