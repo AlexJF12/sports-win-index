@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>City Index</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page:           #f9f9f7;
+    --surface:        #fcfcfb;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --hairline:       #e1e0d9;
+    --border:         rgba(11, 11, 11, 0.10);
+    --win:            #006300;
+    --loss:           #d03b3b;
+    --baseline:       #c3c2b7;
+    --series-1:       #2a78d6;
+    --series-2:       #008300;
+    --series-3:       #e87ba4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --page:           #0d0d0d;
+      --surface:        #1a1a19;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --hairline:       #2c2c2a;
+      --border:         rgba(255, 255, 255, 0.10);
+      --win:            #0ca30c;
+      --loss:           #d03b3b;
+      --baseline:       #383835;
+      --series-1:       #3987e5;
+      --series-2:       #008300;
+      --series-3:       #d55181;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text-primary);
+    font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 880px; margin: 0 auto; padding: 24px 20px 64px; }
+
+  header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  h1 { font-size: 20px; font-weight: 650; margin: 0; }
+  nav a { color: var(--text-secondary); font-size: 13px; text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+
+  .scope {
+    display: inline-flex; border: 1px solid var(--border); border-radius: 8px;
+    overflow: hidden; background: var(--surface);
+  }
+  .scope button {
+    background: none; border: none; color: var(--text-secondary);
+    font: inherit; font-size: 13px; padding: 5px 12px; cursor: pointer;
+  }
+  .scope button[aria-pressed="true"] {
+    background: var(--text-primary); color: var(--page); font-weight: 600;
+  }
+
+  .as-of { color: var(--text-muted); font-size: 13px; margin: 6px 0 24px; }
+
+  section.period { margin-bottom: 36px; }
+  h2 { font-size: 15px; font-weight: 650; margin: 0 0 2px; }
+  .range { color: var(--text-muted); font-size: 13px; margin-bottom: 10px; }
+
+  .champ {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 10px;
+    display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+  }
+  .champ .city { font-size: 24px; font-weight: 650; }
+  .champ .score { font-size: 24px; font-weight: 650; margin-left: auto; }
+  .champ .score.pos { color: var(--win); }
+  .champ .score.neg { color: var(--loss); }
+  .champ .detail { color: var(--text-muted); font-size: 13px; flex-basis: 100%; }
+
+  .race {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px 16px 8px; margin-bottom: 10px; position: relative;
+  }
+  .race .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+  .race .legend .key { display: inline-flex; align-items: center; gap: 6px; }
+  .race .legend .swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .race svg { display: block; width: 100%; height: auto; }
+  .race .tooltip {
+    position: absolute; pointer-events: none; display: none;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 6px 10px; font-size: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); z-index: 2;
+    white-space: nowrap;
+  }
+  .race .tooltip .tt-date { color: var(--text-muted); margin-bottom: 2px; }
+  .race .tooltip .tt-row { display: flex; align-items: center; gap: 6px; }
+  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 7px 14px; white-space: nowrap; }
+  th { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid var(--hairline); }
+  tr + tr td { border-top: 1px solid var(--hairline); }
+  td.num { font-variant-numeric: tabular-nums; }
+  td.teams { color: var(--text-muted); font-size: 13px; white-space: normal; }
+  .empty { color: var(--text-muted); padding: 18px 14px; }
+  #error { color: var(--loss); margin: 24px 0; display: none; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>City Index</h1>
+    <nav style="display:flex;gap:16px">
+      <a href="index.html">my teams</a>
+      <a href="groups.html">city groups</a>
+    </nav>
+    <div class="scope" role="group" aria-label="Metric">
+      <button id="metric-wins" aria-pressed="false">Wins</button>
+      <button id="metric-net" aria-pressed="false">Net W−L</button>
+      <button id="metric-weighted" aria-pressed="true"
+        title="Each game is worth 365 ÷ season length: MLB ±2.25, NBA/NHL ±4.45, NFL ±21.47">Weighted</button>
+    </div>
+  </header>
+  <p class="as-of" id="as-of"></p>
+  <p id="error"></p>
+  <div id="sections"></div>
+</main>
+
+<script>
+const LEAGUE_EMOJI = { mlb: "⚾", nba: "🏀", nhl: "🏒", nfl: "🏈" };
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const PERIODS = [
+  { key: "day", title: "Best day" },
+  { key: "week", title: "Best week", note: "Tuesday–Monday" },
+  { key: "month", title: "Best month" },
+  { key: "year", title: "Best year" },
+];
+
+let data = null;
+let metric = "weighted";
+
+function fmtDate(d) { return `${MONTHS[+d.slice(4, 6) - 1].slice(0, 3)} ${+d.slice(6, 8)}`; }
+
+function fmtSigned(n, decimals) {
+  if (Math.abs(n) < 1e-9) n = 0;
+  const s = n.toFixed(decimals);
+  return n > 0 ? `+${s}` : s;
+}
+
+function score(g, period) {
+  const t = g[period];
+  return metric === "wins" ? t.w : metric === "net" ? t.w - t.l : t.weighted;
+}
+
+function fmtScore(v) {
+  return metric === "wins" ? String(v) : fmtSigned(v, metric === "weighted" ? 2 : 0);
+}
+
+function rangeLabel(period) {
+  const p = data.periods[period];
+  if (period === "day") return fmtDate(p.start);
+  if (period === "week") return `${fmtDate(p.start)} – ${fmtDate(p.end)}`;
+  if (period === "month") return `${MONTHS[+p.start.slice(4, 6) - 1]} ${p.start.slice(0, 4)}`;
+  return p.start.slice(0, 4);
+}
+
+function roster(g) {
+  return g.teams.map(t => `${LEAGUE_EMOJI[t.league]} ${t.nickname}`).join("  ·  ");
+}
+
+// --- race chart -------------------------------------------------------------
+
+const SERIES_COLORS = ["var(--series-1)", "var(--series-2)", "var(--series-3)"];
+const charts = {};  // period -> {days, series} for hover lookup
+const VB_W = 640, VB_H = 230, PLOT = { l: 38, r: 556, t: 12, b: 200 };
+
+function* dayRange(startKey, endKey) {
+  const d = new Date(+startKey.slice(0, 4), +startKey.slice(4, 6) - 1, +startKey.slice(6, 8));
+  const end = new Date(+endKey.slice(0, 4), +endKey.slice(4, 6) - 1, +endKey.slice(6, 8));
+  while (d <= end) {
+    yield `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
+    d.setDate(d.getDate() + 1);
+  }
+}
+
+function dayMetric(entry) {
+  // entry: [w, l, t, weighted]
+  if (!entry) return 0;
+  return metric === "wins" ? entry[0] : metric === "net" ? entry[0] - entry[1] : entry[3];
+}
+
+function niceTicks(min, max) {
+  const span = max - min;
+  const raw = span / 4;
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 5, 10].map(m => m * mag).find(s => span / s <= 5) || 10 * mag;
+  const ticks = [];
+  for (let v = Math.ceil(min / step) * step; v <= max + 1e-9; v += step) ticks.push(v);
+  return ticks;
+}
+
+function raceChart(period, ranked) {
+  const p = data.periods[period];
+  const end = data.reference_date < p.end ? data.reference_date : p.end;
+  const days = [...dayRange(p.start, end)];
+  if (days.length < 2 || !ranked.length) return "";
+  const top = ranked.slice(0, 3);
+  const series = top.map(g => {
+    let cum = 0;
+    return { name: g.name, values: days.map(d => (cum += dayMetric(g.daily[d]))) };
+  });
+  const all = series.flatMap(s => s.values);
+  const min = Math.min(0, ...all), max = Math.max(0, ...all);
+  if (max === min) return "";
+  const x = i => PLOT.l + (i / (days.length - 1)) * (PLOT.r - PLOT.l);
+  const y = v => PLOT.b - ((v - min) / (max - min)) * (PLOT.b - PLOT.t);
+  const dec = metric === "weighted" ? 1 : 0;
+
+  const ticks = niceTicks(min, max);
+  const grid = ticks.map(v => `
+    <line x1="${PLOT.l}" y1="${y(v)}" x2="${PLOT.r}" y2="${y(v)}"
+      stroke="${v === 0 ? "var(--baseline)" : "var(--hairline)"}" stroke-width="1"/>
+    <text x="${PLOT.l - 6}" y="${y(v) + 3.5}" text-anchor="end" font-size="10"
+      fill="var(--text-muted)">${metric === "wins" ? v : fmtSigned(v, 0)}</text>`).join("");
+
+  const midIdx = Math.floor((days.length - 1) / 2);
+  const xLabels = [[0, "start"], [midIdx, "middle"], [days.length - 1, "end"]]
+    .map(([i, anchor]) => `<text x="${x(i)}" y="${VB_H - 10}" font-size="10" fill="var(--text-muted)"
+      text-anchor="${anchor}">${fmtDate(days[i])}</text>`).join("");
+
+  const lines = series.map((s, i) => `<polyline fill="none" stroke="${SERIES_COLORS[i]}"
+    stroke-width="2" stroke-linejoin="round" stroke-linecap="round"
+    points="${s.values.map((v, j) => `${x(j).toFixed(1)},${y(v).toFixed(1)}`).join(" ")}"/>`).join("");
+
+  // end dots (surface ring) + direct end labels, nudged apart vertically
+  const ends = series.map((s, i) => ({ i, v: s.values[s.values.length - 1], name: s.name }))
+    .sort((a, b) => y(a.v) - y(b.v));
+  for (let k = 1; k < ends.length; k++) {
+    ends[k].ly = Math.max((ends[k].ly = y(ends[k].v)), (ends[k - 1].ly ?? y(ends[k - 1].v)) + 14);
+  }
+  ends.forEach(e => { if (e.ly === undefined) e.ly = y(e.v); });
+  const dots = ends.map(e => `
+    <circle cx="${x(days.length - 1)}" cy="${y(e.v)}" r="4" fill="${SERIES_COLORS[e.i]}"
+      stroke="var(--surface)" stroke-width="2"/>
+    <text x="${PLOT.r + 8}" y="${e.ly + 3.5}" font-size="11" fill="var(--text-secondary)">
+      ${e.name} ${metric === "wins" ? e.v : fmtSigned(e.v, dec)}</text>`).join("");
+
+  charts[period] = { days, series };
+  const legend = series.map((s, i) => `<span class="key"><span class="swatch"
+    style="background:${SERIES_COLORS[i]}"></span>${s.name}</span>`).join("");
+
+  return `<div class="race" data-period="${period}">
+    <div class="legend">${legend}</div>
+    <svg viewBox="0 0 ${VB_W} ${VB_H}" aria-label="Cumulative ${metric} race, top 3 cities">
+      ${grid}${xLabels}${lines}${dots}
+      <line class="crosshair" x1="0" y1="${PLOT.t}" x2="0" y2="${PLOT.b}"
+        stroke="var(--baseline)" stroke-width="1" visibility="hidden"/>
+      <rect x="${PLOT.l}" y="${PLOT.t}" width="${PLOT.r - PLOT.l}" height="${PLOT.b - PLOT.t}"
+        fill="transparent"/>
+    </svg>
+    <div class="tooltip"></div>
+  </div>`;
+}
+
+function wireRaceHover() {
+  document.querySelectorAll(".race").forEach(wrap => {
+    const period = wrap.dataset.period;
+    const svg = wrap.querySelector("svg");
+    const cross = wrap.querySelector(".crosshair");
+    const tip = wrap.querySelector(".tooltip");
+    svg.addEventListener("mousemove", e => {
+      const { days, series } = charts[period];
+      const rect = svg.getBoundingClientRect();
+      const vx = (e.clientX - rect.left) * VB_W / rect.width;
+      const frac = Math.min(1, Math.max(0, (vx - PLOT.l) / (PLOT.r - PLOT.l)));
+      const idx = Math.round(frac * (days.length - 1));
+      const cx = PLOT.l + (idx / (days.length - 1)) * (PLOT.r - PLOT.l);
+      cross.setAttribute("x1", cx); cross.setAttribute("x2", cx);
+      cross.setAttribute("visibility", "visible");
+      const dec = metric === "weighted" ? 1 : 0;
+      tip.innerHTML = `<div class="tt-date">${fmtDate(days[idx])}</div>` + series.map((s, i) => {
+        const v = s.values[idx];
+        return `<div class="tt-row"><span class="swatch" style="background:${SERIES_COLORS[i]};width:8px;height:8px;border-radius:2px;display:inline-block"></span>
+          ${s.name}: ${metric === "wins" ? v : fmtSigned(v, dec)}</div>`;
+      }).join("");
+      tip.style.display = "block";
+      const px = cx * rect.width / VB_W;
+      tip.style.left = `${Math.min(px + 12, rect.width - tip.offsetWidth - 4)}px`;
+      tip.style.top = "40px";
+    });
+    svg.addEventListener("mouseleave", () => {
+      cross.setAttribute("visibility", "hidden");
+      tip.style.display = "none";
+    });
+  });
+}
+
+function bestPerCity(period) {
+  // rank each city by its best-scoring combination for this period
+  const best = new Map();
+  for (const g of data.groups) {
+    const games = g[period].w + g[period].l + g[period].t;
+    if (!games) continue;
+    const cur = best.get(g.city);
+    if (!cur || score(g, period) > score(cur, period)
+        || (score(g, period) === score(cur, period) && g[period].w > cur[period].w)) {
+      best.set(g.city, g);
+    }
+  }
+  return [...best.values()].sort((a, b) =>
+    score(b, period) - score(a, period) || b[period].w - a[period].w || a.city.localeCompare(b.city));
+}
+
+function render() {
+  document.getElementById("as-of").textContent =
+    `As of ${fmtDate(data.reference_date)}, ${data.reference_date.slice(0, 4)} — updated each morning after the previous day's games.`;
+  const sections = PERIODS.map(({ key, title, note }) => {
+    const ranked = bestPerCity(key);
+    const range = rangeLabel(key) + (note ? ` (${note})` : "");
+    if (!ranked.length) {
+      return `<section class="period"><h2>${title}</h2><div class="range">${range}</div>
+        <div class="table-wrap"><div class="empty">No games in this period.</div></div></section>`;
+    }
+    const champ = ranked[0];
+    const cv = score(champ, key);
+    const champCls = metric === "wins" ? "" : cv > 0 ? " pos" : cv < 0 ? " neg" : "";
+    const rows = ranked.slice(0, 10).map((g, i) => {
+      const t = g[key];
+      return `<tr>
+        <td class="num">${i + 1}</td>
+        <td>${g.name}</td>
+        <td class="teams">${roster(g)}</td>
+        <td class="num">${t.w}–${t.l}${t.t ? "–" + t.t : ""}</td>
+        <td class="num">${fmtScore(score(g, key))}</td>
+      </tr>`;
+    }).join("");
+    return `<section class="period">
+      <h2>${title}</h2>
+      <div class="range">${range}</div>
+      <div class="champ">
+        <span class="city">${champ.name}</span>
+        <span class="detail-record">${champ[key].w}–${champ[key].l}${champ[key].t ? "–" + champ[key].t : ""}</span>
+        <span class="score${champCls}">${fmtScore(cv)}</span>
+        <span class="detail">${roster(champ)}</span>
+      </div>
+      ${key === "day" ? "" : raceChart(key, ranked)}
+      <div class="table-wrap"><table>
+        <thead><tr><th>#</th><th>City</th><th>Teams</th><th>Record</th><th>Score</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div>
+    </section>`;
+  });
+  document.getElementById("sections").innerHTML = sections.join("");
+  wireRaceHover();
+}
+
+function setMetric(m) {
+  metric = m;
+  for (const x of ["wins", "net", "weighted"]) {
+    document.getElementById(`metric-${x}`).setAttribute("aria-pressed", String(m === x));
+  }
+  render();
+}
+
+async function init() {
+  for (const m of ["wins", "net", "weighted"]) {
+    document.getElementById(`metric-${m}`).addEventListener("click", () => setMetric(m));
+  }
+  try {
+    const r = await fetch("data/city_rankings.json");
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    data = await r.json();
+    render();
+  } catch (err) {
+    const e = document.getElementById("error");
+    e.style.display = "block";
+    e.textContent = `Could not load data/city_rankings.json (${err.message}). Serve this page over HTTP from the repo root, e.g.: python3 -m http.server`;
+  }
+}
+init();
+</script>
+</body>
+</html>

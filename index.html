@@ -44,6 +44,8 @@
 
   header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
   h1 { font-size: 20px; font-weight: 650; margin: 0; }
+  nav a { color: var(--text-secondary); font-size: 13px; text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
 
   .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
   .scope {
@@ -110,6 +112,10 @@
 <main>
   <header>
     <h1>Team Wins</h1>
+    <nav style="display:flex;gap:16px">
+      <a href="cities.html">city index</a>
+      <a href="groups.html">city groups</a>
+    </nav>
     <div class="controls">
       <div class="scope" role="group" aria-label="Time range">
         <button id="scope-month" aria-pressed="true">Month</button>
