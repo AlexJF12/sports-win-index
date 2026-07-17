@@ -18,6 +18,7 @@
     --win:            #006300;
     --loss:           #d03b3b;
     --baseline:       #c3c2b7;
+    --deemph:         #c3c2b7;
     --series-1:       #2a78d6;
     --series-2:       #008300;
     --series-3:       #e87ba4;
@@ -38,6 +39,7 @@
       --win:            #0ca30c;
       --loss:           #d03b3b;
       --baseline:       #383835;
+      --deemph:         #52514e;
       --series-1:       #3987e5;
       --series-2:       #008300;
       --series-3:       #d55181;
@@ -139,6 +141,10 @@
       <button id="metric-weighted" aria-pressed="true"
         title="Each game is worth 365 ÷ season length: MLB ±2.25, NBA/NHL ±4.45, NFL ±21.47">Weighted</button>
     </div>
+    <div class="scope" role="group" aria-label="How many cities to show">
+      <button id="depth-top3" aria-pressed="true">Top 3</button>
+      <button id="depth-all" aria-pressed="false">Show all</button>
+    </div>
   </div>
   <p class="as-of" id="as-of"></p>
   <p class="metric-note" id="metric-note" hidden>weighted: each game = 365 ÷ season length — MLB ±2.25 · NBA/NHL ±4.45 · NFL ±21.47</p>
@@ -158,6 +164,7 @@ const PERIODS = [
 
 let data = null;
 let metric = "weighted";
+let depth = "top3";   // "top3" | "all"
 
 function fmtDate(d) { return `${MONTHS[+d.slice(4, 6) - 1].slice(0, 3)} ${+d.slice(6, 8)}`; }
 
@@ -227,12 +234,16 @@ function raceChart(period, ranked) {
   const days = [...dayRange(p.start, end)];
   if (days.length < 2 || !ranked.length) return "";
   const top = ranked.slice(0, 3);
-  const series = top.map(g => {
+  const cumulative = g => {
     let cum = 0;
-    return { name: g.name, color: cityColors[g.city] || SLOT_COLORS[0],
-             values: days.map(d => (cum += dayMetric(g.daily[d]))) };
-  });
-  const all = series.flatMap(s => s.values);
+    return days.map(d => (cum += dayMetric(g.daily[d])));
+  };
+  const series = top.map(g => ({
+    name: g.name, color: cityColors[g.city] || SLOT_COLORS[0], values: cumulative(g),
+  }));
+  // "show all": every other city as a thin de-emphasized context line
+  const others = depth === "all" ? ranked.slice(3).map(g => cumulative(g)) : [];
+  const all = series.flatMap(s => s.values).concat(others.flat());
   const min = Math.min(0, ...all), max = Math.max(0, ...all);
   if (max === min) return "";
   const x = i => PLOT.l + (i / (days.length - 1)) * (PLOT.r - PLOT.l);
@@ -251,6 +262,9 @@ function raceChart(period, ranked) {
     .map(([i, anchor]) => `<text x="${x(i)}" y="${VB_H - 8}" font-size="12" fill="var(--text-muted)"
       text-anchor="${anchor}">${fmtDate(days[i])}</text>`).join("");
 
+  const ghostLines = others.map(vals => `<polyline fill="none" stroke="var(--deemph)"
+    stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" opacity="0.6"
+    points="${vals.map((v, j) => `${x(j).toFixed(1)},${y(v).toFixed(1)}`).join(" ")}"/>`).join("");
   const lines = series.map(s => `<polyline fill="none" stroke="${s.color}"
     stroke-width="2" stroke-linejoin="round" stroke-linecap="round"
     points="${s.values.map((v, j) => `${x(j).toFixed(1)},${y(v).toFixed(1)}`).join(" ")}"/>`).join("");
@@ -269,13 +283,17 @@ function raceChart(period, ranked) {
       ${e.name} ${metric === "wins" ? e.v : fmtSigned(e.v, dec)}</text>`).join("");
 
   charts[period] = { days, series };
-  const legend = series.map(s => `<span class="key"><span class="swatch"
+  let legend = series.map(s => `<span class="key"><span class="swatch"
     style="background:${s.color}"></span>${s.name}</span>`).join("");
+  if (others.length) {
+    legend += `<span class="key"><span class="swatch" style="background:var(--deemph)"></span>
+      ${others.length} other cit${others.length === 1 ? "y" : "ies"}</span>`;
+  }
 
   return `<div class="race" data-period="${period}">
     <div class="legend">${legend}</div>
-    <svg viewBox="0 0 ${VB_W} ${VB_H}" aria-label="Cumulative ${metric} race, top 3 cities">
-      ${grid}${xLabels}${lines}${dots}
+    <svg viewBox="0 0 ${VB_W} ${VB_H}" aria-label="Cumulative ${metric} race, top 3 cities${others.length ? " plus " + others.length + " others" : ""}">
+      ${grid}${xLabels}${ghostLines}${lines}${dots}
       <line class="crosshair" x1="0" y1="${PLOT.t}" x2="0" y2="${PLOT.b}"
         stroke="var(--baseline)" stroke-width="1" visibility="hidden"/>
       <rect x="${PLOT.l}" y="${PLOT.t}" width="${PLOT.r - PLOT.l}" height="${PLOT.b - PLOT.t}"
@@ -379,7 +397,7 @@ function render() {
     const champ = ranked[0];
     const cv = score(champ, key);
     const champCls = metric === "wins" ? "" : cv > 0 ? " pos" : cv < 0 ? " neg" : "";
-    const rows = ranked.slice(0, 10).map((g, i) => {
+    const rows = (depth === "all" ? ranked : ranked.slice(0, 3)).map((g, i) => {
       const t = g[key];
       // competition ranking: tied scores share a rank (1, 1, 3, ...)
       let rank = i + 1;
@@ -420,10 +438,19 @@ function setMetric(m) {
   render();
 }
 
+function setDepth(d) {
+  depth = d;
+  document.getElementById("depth-top3").setAttribute("aria-pressed", String(d === "top3"));
+  document.getElementById("depth-all").setAttribute("aria-pressed", String(d === "all"));
+  render();
+}
+
 async function init() {
   for (const m of ["wins", "net", "weighted"]) {
     document.getElementById(`metric-${m}`).addEventListener("click", () => setMetric(m));
   }
+  document.getElementById("depth-top3").addEventListener("click", () => setDepth("top3"));
+  document.getElementById("depth-all").addEventListener("click", () => setDepth("all"));
   try {
     const r = await fetch("data/city_rankings.json");
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
