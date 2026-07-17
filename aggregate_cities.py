@@ -134,6 +134,27 @@ def totals(games_by_team: dict, group: dict, start: date, end: date) -> dict:
     return {"w": w, "l": l, "t": t, "weighted": round(weighted, 2)}
 
 
+def daily_series(games_by_team: dict, group: dict, start: date, end: date) -> dict:
+    """date -> [w, l, t, weighted] for days in range where the group played.
+    Sparse; feeds the cumulative 'race' charts on cities.html."""
+    lo, hi = start.strftime("%Y%m%d"), end.strftime("%Y%m%d")
+    days = {}
+    for team in group["teams"]:
+        for row in games_by_team.get((team["league"], team["abbr"]), []):
+            if not (lo <= row["date"] <= hi):
+                continue
+            d = days.setdefault(row["date"], [0, 0, 0, 0.0])
+            if row["winner"] == team["abbr"]:
+                d[0] += 1
+                d[3] += LEAGUE_WEIGHT[team["league"]]
+            elif row["winner"] == "":
+                d[2] += 1
+            else:
+                d[1] += 1
+                d[3] -= LEAGUE_WEIGHT[team["league"]]
+    return {k: [v[0], v[1], v[2], round(v[3], 3)] for k, v in sorted(days.items())}
+
+
 def index_by_team(scores: dict) -> dict:
     """(league, abbr) -> rows involving that team."""
     by_team = {}
@@ -168,6 +189,8 @@ def main():
     for group in groups:
         for period, (start, end) in bounds.items():
             group[period] = totals(by_team, group, start, end)
+        # per-day results across the year (covers week and month too)
+        group["daily"] = daily_series(by_team, group, *bounds["year"])
 
     out = {
         "reference_date": ref.strftime("%Y%m%d"),
