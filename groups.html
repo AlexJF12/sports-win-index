@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>City Groups</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page:           #f9f9f7;
+    --surface:        #fcfcfb;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --hairline:       #e1e0d9;
+    --border:         rgba(11, 11, 11, 0.10);
+    --loss:           #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --page:           #0d0d0d;
+      --surface:        #1a1a19;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --hairline:       #2c2c2a;
+      --border:         rgba(255, 255, 255, 0.10);
+      --loss:           #d03b3b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text-primary);
+    font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 880px; margin: 0 auto; padding: 24px 20px 64px; }
+
+  header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  h1 { font-size: 20px; font-weight: 650; margin: 0; }
+  nav { display: flex; gap: 16px; }
+  nav a { color: var(--text-secondary); font-size: 13px; text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+
+  .intro { color: var(--text-secondary); font-size: 14px; margin: 8px 0 24px; max-width: 640px; }
+  .intro .count { color: var(--text-primary); font-weight: 600; }
+
+  .city-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; align-items: start; }
+  .city-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 16px;
+  }
+  .city-card.wide { grid-column: 1 / -1; }
+  .city-card h2 { font-size: 15px; font-weight: 650; margin: 0; }
+  .city-card .meta { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+  .group { padding: 7px 0; }
+  .group + .group { border-top: 1px solid var(--hairline); }
+  .group .gname { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+  .group .roster { font-size: 13px; color: var(--text-muted); }
+  .group.single { display: flex; flex-direction: column; }
+  .multi-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 0 24px; }
+  #error { color: var(--loss); margin: 24px 0; display: none; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>City Groups</h1>
+    <nav>
+      <a href="index.html">my teams</a>
+      <a href="cities.html">city index</a>
+    </nav>
+  </header>
+  <p class="intro" id="intro"></p>
+  <p id="error"></p>
+  <div class="city-grid" id="grid"></div>
+</main>
+
+<script>
+const LEAGUE_EMOJI = { mlb: "⚾", nba: "🏀", nhl: "🏒", nfl: "🏈" };
+
+function roster(g) {
+  return g.teams.map(t => `${LEAGUE_EMOJI[t.league]} ${t.nickname}`).join(" · ");
+}
+
+function render(groups) {
+  const byCity = new Map();
+  for (const g of groups) {
+    if (!byCity.has(g.city)) byCity.set(g.city, []);
+    byCity.get(g.city).push(g);
+  }
+  const cities = [...byCity.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  const multiCities = cities.filter(([, gs]) => gs.length > 1).length;
+
+  document.getElementById("intro").innerHTML =
+    `Every city competes as one or more <span class="count">groups</span> — one team per league. ` +
+    `A city with multiple teams in the same league gets one group per combination, so no group ever ` +
+    `has two teams from one league. <span class="count">${byCity.size} cities</span> · ` +
+    `<span class="count">${groups.length} groups</span> · ${multiCities} cities with multiple combinations.`;
+
+  document.getElementById("grid").innerHTML = cities.map(([city, gs]) => {
+    const wide = gs.length > 4;
+    const groupsHtml = gs.map(g => `<div class="group single">
+        <span class="gname">${gs.length > 1 ? g.name : ""}</span>
+        <span class="roster">${roster(g)}</span>
+      </div>`).join("");
+    return `<div class="city-card${wide ? " wide" : ""}">
+      <h2>${city}</h2>
+      <div class="meta">${gs.length === 1 ? "1 group" : `${gs.length} combinations`}
+        · ${gs[0].teams.length} league${gs[0].teams.length === 1 ? "" : "s"}</div>
+      ${wide ? `<div class="multi-list">${groupsHtml}</div>` : groupsHtml}
+    </div>`;
+  }).join("");
+}
+
+async function init() {
+  try {
+    const r = await fetch("city_groups.json");
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    render(await r.json());
+  } catch (err) {
+    const e = document.getElementById("error");
+    e.style.display = "block";
+    e.textContent = `Could not load city_groups.json (${err.message}). Serve this page over HTTP from the repo root, e.g.: python3 -m http.server`;
+  }
+}
+init();
+</script>
+</body>
+</html>
