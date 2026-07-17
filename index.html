@@ -212,12 +212,17 @@ function loadCity() {
   return saved && saved in state.cities ? saved : "";
 }
 
-// teams currently on the dashboard: every team in the selected city,
+// teams currently on the dashboard: one team per league for the selected
+// city (first alphabetically by display name when the city has several),
 // or the per-league picks when no city is selected
 function currentSelection() {
   if (state.city) {
     const byLeague = state.cities[state.city] || {};
-    return LEAGUES.flatMap(l => (byLeague[l] || []).map(abbr => ({ league: l, abbr })));
+    return LEAGUES.flatMap(l => {
+      const abbrs = [...(byLeague[l] || [])].sort((a, b) =>
+        (state.teams[l][a] || a).localeCompare(state.teams[l][b] || b));
+      return abbrs.length ? [{ league: l, abbr: abbrs[0] }] : [];
+    });
   }
   return LEAGUES.filter(l => state.picks[l]).map(l => ({ league: l, abbr: state.picks[l] }));
 }
@@ -374,7 +379,7 @@ function renderPickers() {
     .join("");
   const cityPicker = `<div><label for="pick-city">City</label>
     <select id="pick-city">${cityOptions}</select></div>`;
-  // a city fully determines the teams (possibly several per league),
+  // a city fully determines the teams (one per league),
   // so the per-league pickers only appear in custom mode
   const leaguePickers = state.city ? "" : LEAGUES.map(league => {
     const options = [["", "None"], ...Object.entries(state.teams[league])
