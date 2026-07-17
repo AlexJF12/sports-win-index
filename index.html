@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Team Wins</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
 <style>
   :root {
     color-scheme: light;
@@ -44,10 +45,14 @@
 
   header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
   h1 { font-size: 20px; font-weight: 650; margin: 0; }
+  nav { display: flex; gap: 16px; }
   nav a { color: var(--text-secondary); font-size: 13px; text-decoration: none; }
   nav a:hover { text-decoration: underline; }
+  nav [aria-current="page"] { color: var(--text-primary); font-size: 13px; font-weight: 650; }
+  .as-of { color: var(--text-muted); font-size: 13px; margin: 6px 0 0; }
+  .metric-note { color: var(--text-muted); font-size: 12px; margin-top: 6px; }
 
-  .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
   .scope {
     display: inline-flex; border: 1px solid var(--border); border-radius: 8px;
     overflow: hidden; background: var(--surface);
@@ -66,7 +71,28 @@
     width: 30px; height: 30px; font-size: 15px; cursor: pointer;
   }
   .month-nav button:disabled { opacity: 0.35; cursor: default; }
-  #month-label { min-width: 130px; text-align: center; font-weight: 600; }
+  #month-label {
+    min-width: 130px; text-align: center; font-weight: 600;
+    background: none; border: none; color: var(--text-primary); font-size: 15px;
+    cursor: pointer; padding: 0 4px;
+  }
+  .reset-row { margin: -20px 0 24px; }
+  .reset-row button {
+    background: none; border: none; color: var(--text-muted); font-size: 12px;
+    cursor: pointer; padding: 0; text-decoration: underline;
+  }
+  .show-more { text-align: center; padding: 10px; border-top: 1px solid var(--hairline); }
+  .show-more button {
+    background: none; border: none; color: var(--text-secondary); font-size: 13px;
+    cursor: pointer; text-decoration: underline;
+  }
+  tr.sep td {
+    color: var(--text-muted); font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em; padding-top: 12px;
+  }
+  @media (max-width: 560px) {
+    .col-status { display: none; }
+  }
 
   .pickers { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 20px 0 28px; }
   .pickers label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
@@ -112,35 +138,40 @@
 <main>
   <header>
     <h1>Team Wins</h1>
-    <nav style="display:flex;gap:16px">
+    <nav>
+      <span aria-current="page">my teams</span>
       <a href="cities.html">city index</a>
       <a href="groups.html">city groups</a>
     </nav>
-    <div class="controls">
-      <div class="scope" role="group" aria-label="Time range">
-        <button id="scope-month" aria-pressed="true">Month</button>
-        <button id="scope-year" aria-pressed="false">Year</button>
-      </div>
+  </header>
+  <div class="controls">
       <div class="scope" role="group" aria-label="Metric">
         <button id="metric-wins" aria-pressed="true">Wins</button>
         <button id="metric-net" aria-pressed="false">Net W−L</button>
         <button id="metric-weighted" aria-pressed="false"
           title="Each game is worth 365 ÷ season length: MLB ±2.25, NBA/NHL ±4.45, NFL ±21.47">Weighted</button>
       </div>
+      <div class="scope" role="group" aria-label="Time range">
+        <button id="scope-month" aria-pressed="true">Month</button>
+        <button id="scope-year" aria-pressed="false">Year</button>
+      </div>
       <div class="month-nav">
         <button id="prev" aria-label="Previous period">&lsaquo;</button>
-        <span id="month-label"></span>
+        <button id="month-label" title="Back to the current period"></button>
         <button id="next" aria-label="Next period">&rsaquo;</button>
       </div>
-    </div>
-  </header>
+  </div>
+  <p class="as-of" id="freshness"></p>
 
   <p id="error"></p>
   <section class="pickers" id="pickers"></section>
+  <div class="reset-row"><button id="reset-picks">reset to default teams</button></div>
 
   <div class="hero">
     <div class="num" id="hero-num">–</div>
     <div class="caption" id="hero-caption"></div>
+    <div class="metric-note" id="hero-record"></div>
+    <div class="metric-note" id="metric-note" hidden>each game = 365 ÷ season length: MLB ±2.25 · NBA/NHL ±4.45 · NFL ±21.47</div>
   </div>
 
   <section class="tiles" id="tiles"></section>
@@ -149,10 +180,11 @@
   <div class="table-wrap">
     <table>
       <thead>
-        <tr><th>Date</th><th>League</th><th>Matchup</th><th>Score</th><th>Result</th><th>Status</th><th>Pts</th><th>Total</th></tr>
+        <tr><th>Date</th><th>League</th><th>Matchup</th><th>Score</th><th>Result</th><th class="col-status">Status</th><th>Pts</th><th>Total</th></tr>
       </thead>
       <tbody id="games-body"></tbody>
     </table>
+    <div class="show-more" id="games-more" hidden><button id="games-more-btn"></button></div>
     <div class="empty" id="games-empty" hidden>No games for your teams this month.</div>
   </div>
 </main>
@@ -168,6 +200,8 @@ const DATA_START = { y: 2026, m: 1 };
 
 const state = {
   scope: "month",   // "month" | "year"
+  showAllGames: false,
+  defaults: null,
   metric: "wins",   // "wins" | "net" | "weighted"  (net: ±1 per game, tie 0;
                     //  weighted: ±LEAGUE_WEIGHT per game, tie 0)
   view: (() => { const now = new Date(); return { y: now.getFullYear(), m: now.getMonth() + 1 }; })(),
@@ -239,9 +273,10 @@ function sparkline(games, start, end, metric) {
     byDay.push(cum);
   }
   const min = Math.min(0, ...byDay), max = Math.max(0, ...byDay);
-  if (byDay.length < 2 || min === max) return "";
+  if (byDay.length < 2 || !games.length) return "";
   const W = 100, H = 28, pad = 2;
-  const y = v => H - pad - ((v - min) / (max - min)) * (H - 2 * pad);
+  // a flat series (e.g. all losses in Wins mode) still draws, as a level line
+  const y = v => max === min ? H / 2 : H - pad - ((v - min) / (max - min)) * (H - 2 * pad);
   const pts = byDay.map((v, i) => {
     const x = pad + (i / (byDay.length - 1)) * (W - 2 * pad);
     return `${x.toFixed(1)},${y(v).toFixed(1)}`;
@@ -286,6 +321,7 @@ function render() {
     : cmpMonth(state.view, currentMonth()) >= 0;
 
   let total = 0;
+  let totW = 0, totL = 0, totT = 0;
   const tiles = [];
   let allGames = [];
   const metric = state.metric;
@@ -300,6 +336,7 @@ function render() {
       metric === "net" ? w - l :
       (w - l) * LEAGUE_WEIGHT[league];
     total += metricValue;
+    totW += w; totL += l; totT += t;
     allGames = allGames.concat(games);
     const periodShort = yearMode ? periodName : MONTHS[state.view.m - 1];
     const record = games.length
@@ -320,7 +357,10 @@ function render() {
   document.getElementById("hero-caption").textContent =
     metric === "wins" ? `win${total === 1 ? "" : "s"} for your teams in ${periodName}` :
     metric === "net" ? `net wins (W − L) for your teams in ${periodName}` :
-    `weighted points for your teams in ${periodName} (each game = 365 ÷ season length)`;
+    `weighted points for your teams in ${periodName}`;
+  document.getElementById("hero-record").textContent = (totW + totL + totT)
+    ? `combined ${totW}–${totL}${totT ? "–" + totT : ""}` : "";
+  document.getElementById("metric-note").hidden = metric !== "weighted";
 
   // running total in the selected metric, accumulated in game order
   allGames.sort((a, b) => a.date.localeCompare(b.date) || a.league.localeCompare(b.league));
@@ -332,23 +372,43 @@ function render() {
     g.cum = running;
   }
   allGames.reverse();  // display newest first
+  const LOG_LIMIT = 25;
+  const truncated = !state.showAllGames && allGames.length > LOG_LIMIT;
+  const visible = truncated ? allGames.slice(0, LOG_LIMIT) : allGames;
   const body = document.getElementById("games-body");
-  body.innerHTML = allGames.map(g => {
+  let lastMonth = null;
+  body.innerHTML = visible.map(g => {
     const opp = g.away_team === g.team ? `at ${g.home_team}` : `vs ${g.away_team}`;
     const score = g.res === "W" || (g.res === "T")
       ? `${Math.max(+g.away_score, +g.home_score)}–${Math.min(+g.away_score, +g.home_score)}`
       : `${Math.min(+g.away_score, +g.home_score)}–${Math.max(+g.away_score, +g.home_score)}`;
-    return `<tr>
+    let sep = "";
+    if (yearMode) {
+      const m = g.date.slice(0, 6);
+      if (lastMonth !== null && m !== lastMonth) {
+        sep = `<tr class="sep"><td colspan="8">${MONTHS[+m.slice(4, 6) - 1]}</td></tr>`;
+      } else if (lastMonth === null) {
+        sep = `<tr class="sep"><td colspan="8">${MONTHS[+m.slice(4, 6) - 1]}</td></tr>`;
+      }
+      lastMonth = m;
+    }
+    return `${sep}<tr>
       <td>${fmtDate(g.date)}</td>
       <td>${LEAGUE_EMOJI[g.league]} ${LEAGUE_LABEL[g.league]}</td>
       <td>${g.team} ${opp}</td>
       <td class="num">${score}</td>
       <td><span class="res ${g.res}">${g.res}</span></td>
-      <td>${g.status}</td>
+      <td class="col-status">${g.status}</td>
       <td class="num">${g.pts ? fmtSigned(g.pts, decimals) : "0"}</td>
       <td class="num">${metric === "wins" ? g.cum : fmtSigned(g.cum, decimals)}</td>
     </tr>`;
   }).join("");
+  const more = document.getElementById("games-more");
+  more.hidden = !truncated;
+  if (truncated) {
+    document.getElementById("games-more-btn").textContent =
+      `Show all ${allGames.length} games`;
+  }
   document.getElementById("games-empty").textContent =
     `No games for your teams this ${yearMode ? "year" : "month"}.`;
   document.getElementById("games-empty").hidden = allGames.length > 0;
@@ -387,6 +447,7 @@ function shiftPeriod(delta) {
 
 function setScope(scope) {
   state.scope = scope;
+  state.showAllGames = false;
   document.getElementById("scope-month").setAttribute("aria-pressed", String(scope === "month"));
   document.getElementById("scope-year").setAttribute("aria-pressed", String(scope === "year"));
   render();
@@ -403,11 +464,25 @@ function setMetric(metric) {
 async function init() {
   document.getElementById("prev").addEventListener("click", () => shiftPeriod(-1));
   document.getElementById("next").addEventListener("click", () => shiftPeriod(1));
+  document.getElementById("month-label").addEventListener("click", () => {
+    state.view = currentMonth();
+    render();
+  });
   document.getElementById("scope-month").addEventListener("click", () => setScope("month"));
   document.getElementById("scope-year").addEventListener("click", () => setScope("year"));
   for (const m of ["wins", "net", "weighted"]) {
     document.getElementById(`metric-${m}`).addEventListener("click", () => setMetric(m));
   }
+  document.getElementById("games-more-btn").addEventListener("click", () => {
+    state.showAllGames = true;
+    render();
+  });
+  document.getElementById("reset-picks").addEventListener("click", () => {
+    localStorage.removeItem("picks");
+    state.picks = { ...state.defaults };
+    renderPickers();
+    render();
+  });
   try {
     const [teams, myTeams, ...scores] = await Promise.all([
       fetchJson("teams.json"),
@@ -417,7 +492,14 @@ async function init() {
     state.teams = teams;
     LEAGUES.forEach((l, i) => { state.scores[l] = scores[i]; });
     const defaults = Object.fromEntries(myTeams.teams.map(t => [t.league, t.abbreviation]));
+    state.defaults = defaults;
     state.picks = loadPicks(defaults);
+    const latest = LEAGUES.flatMap(l => state.scores[l].map(r => r.date))
+      .reduce((a, b) => (a > b ? a : b), "");
+    if (latest) {
+      document.getElementById("freshness").textContent =
+        `Scores through ${fmtDate(latest)}, ${latest.slice(0, 4)} — updated each morning.`;
+    }
     renderPickers();
     render();
   } catch (err) {

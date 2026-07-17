@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>City Groups</title>
+<title>City Groups — Team Wins</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
 <style>
   :root {
     color-scheme: light;
@@ -43,6 +44,9 @@
   nav { display: flex; gap: 16px; }
   nav a { color: var(--text-secondary); font-size: 13px; text-decoration: none; }
   nav a:hover { text-decoration: underline; }
+  nav [aria-current="page"] { color: var(--text-primary); font-size: 13px; font-weight: 650; }
+  .roster .varies { color: var(--text-primary); font-weight: 600; }
+  .city-card:target { outline: 2px solid var(--text-muted); outline-offset: 2px; }
 
   .intro { color: var(--text-secondary); font-size: 14px; margin: 8px 0 24px; max-width: 640px; }
   .intro .count { color: var(--text-primary); font-weight: 600; }
@@ -71,6 +75,7 @@
     <nav>
       <a href="index.html">my teams</a>
       <a href="cities.html">city index</a>
+      <span aria-current="page">city groups</span>
     </nav>
   </header>
   <p class="intro" id="intro"></p>
@@ -81,8 +86,13 @@
 <script>
 const LEAGUE_EMOJI = { mlb: "⚾", nba: "🏀", nhl: "🏒", nfl: "🏈" };
 
-function roster(g) {
-  return g.teams.map(t => `${LEAGUE_EMOJI[t.league]} ${t.nickname}`).join(" · ");
+function slug(city) { return "g-" + city.toLowerCase().replace(/[^a-z0-9]+/g, "-"); }
+
+function roster(g, varying) {
+  return g.teams.map(t => {
+    const txt = `${LEAGUE_EMOJI[t.league]} ${t.nickname}`;
+    return varying && varying.has(t.league) ? `<span class="varies">${txt}</span>` : txt;
+  }).join(" · ");
 }
 
 function render(groups) {
@@ -102,11 +112,17 @@ function render(groups) {
 
   document.getElementById("grid").innerHTML = cities.map(([city, gs]) => {
     const wide = gs.length > 4;
+    // leagues where this city fields more than one team — highlight those in rosters
+    const varying = new Set();
+    for (const league of ["mlb", "nba", "nhl", "nfl"]) {
+      const abbrs = new Set(gs.flatMap(g => g.teams.filter(t => t.league === league).map(t => t.abbr)));
+      if (abbrs.size > 1) varying.add(league);
+    }
     const groupsHtml = gs.map(g => `<div class="group single">
         <span class="gname">${gs.length > 1 ? g.name : ""}</span>
-        <span class="roster">${roster(g)}</span>
+        <span class="roster">${roster(g, varying)}</span>
       </div>`).join("");
-    return `<div class="city-card${wide ? " wide" : ""}">
+    return `<div class="city-card${wide ? " wide" : ""}" id="${slug(city)}">
       <h2>${city}</h2>
       <div class="meta">${gs.length === 1 ? "1 group" : `${gs.length} combinations`}
         · ${gs[0].teams.length} league${gs[0].teams.length === 1 ? "" : "s"}</div>
@@ -120,6 +136,12 @@ async function init() {
     const r = await fetch("city_groups.json");
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     render(await r.json());
+    // cards render after fetch, so the browser's own #fragment scroll already
+    // missed — do it ourselves now that the target exists
+    if (location.hash) {
+      const target = document.getElementById(location.hash.slice(1));
+      if (target) target.scrollIntoView();
+    }
   } catch (err) {
     const e = document.getElementById("error");
     e.style.display = "block";
