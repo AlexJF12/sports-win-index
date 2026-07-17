@@ -166,6 +166,8 @@ const state = {
                     //  weighted: ±LEAGUE_WEIGHT per game, tie 0)
   view: (() => { const now = new Date(); return { y: now.getFullYear(), m: now.getMonth() + 1 }; })(),
   teams: null,       // teams.json: league -> {ABBR: display name}
+  cities: null,      // cities.json: city -> league -> [abbr, ...]
+  city: "",          // selected city, "" = custom per-league picks
   picks: null,       // league -> abbr
   scores: {},        // league -> rows
 };
@@ -203,6 +205,21 @@ function loadPicks(defaults) {
     if (saved && LEAGUES.every(l => l in saved)) return saved;
   } catch (e) { /* fall through to defaults */ }
   return defaults;
+}
+
+function loadCity() {
+  const saved = localStorage.getItem("city");
+  return saved && saved in state.cities ? saved : "";
+}
+
+// teams currently on the dashboard: every team in the selected city,
+// or the per-league picks when no city is selected
+function currentSelection() {
+  if (state.city) {
+    const byLeague = state.cities[state.city] || {};
+    return LEAGUES.flatMap(l => (byLeague[l] || []).map(abbr => ({ league: l, abbr })));
+  }
+  return LEAGUES.filter(l => state.picks[l]).map(l => ({ league: l, abbr: state.picks[l] }));
 }
 
 function teamStats(league, abbr, month) {
@@ -284,9 +301,7 @@ function render() {
   let allGames = [];
   const metric = state.metric;
   const decimals = metric === "weighted" ? 1 : 0;
-  for (const league of LEAGUES) {
-    const abbr = state.picks[league];
-    if (!abbr) continue;  // "None" selected for this league
+  for (const { league, abbr } of currentSelection()) {
     const name = state.teams[league][abbr] || abbr;
     const { games, w, l, t } = teamStats(league, abbr, prefix);
     const metricValue =
@@ -309,12 +324,13 @@ function render() {
     </div>`);
   }
   document.getElementById("tiles").innerHTML = tiles.join("");
+  const subject = state.city ? `${state.city} teams` : "your teams";
   document.getElementById("hero-num").textContent =
     metric === "wins" ? total : fmtSigned(total, decimals);
   document.getElementById("hero-caption").textContent =
-    metric === "wins" ? `win${total === 1 ? "" : "s"} for your teams in ${periodName}` :
-    metric === "net" ? `net wins (W − L) for your teams in ${periodName}` :
-    `weighted points for your teams in ${periodName} (each game = 365 ÷ season length)`;
+    metric === "wins" ? `win${total === 1 ? "" : "s"} for ${subject} in ${periodName}` :
+    metric === "net" ? `net wins (W − L) for ${subject} in ${periodName}` :
+    `weighted points for ${subject} in ${periodName} (each game = 365 ÷ season length)`;
 
   // running total in the selected metric, accumulated in game order
   allGames.sort((a, b) => a.date.localeCompare(b.date) || a.league.localeCompare(b.league));
@@ -344,13 +360,23 @@ function render() {
     </tr>`;
   }).join("");
   document.getElementById("games-empty").textContent =
-    `No games for your teams this ${yearMode ? "year" : "month"}.`;
+    `No games for ${subject} this ${yearMode ? "year" : "month"}.`;
   document.getElementById("games-empty").hidden = allGames.length > 0;
 }
 
 function renderPickers() {
   const el = document.getElementById("pickers");
-  el.innerHTML = LEAGUES.map(league => {
+  const cityOptions = [["", "Custom teams"], ...Object.keys(state.cities)
+    .sort((a, b) => a.localeCompare(b))
+    .map(c => [c, c])]
+    .map(([value, label]) =>
+      `<option value="${value}"${value === state.city ? " selected" : ""}>${label}</option>`)
+    .join("");
+  const cityPicker = `<div><label for="pick-city">City</label>
+    <select id="pick-city">${cityOptions}</select></div>`;
+  // a city fully determines the teams (possibly several per league),
+  // so the per-league pickers only appear in custom mode
+  const leaguePickers = state.city ? "" : LEAGUES.map(league => {
     const options = [["", "None"], ...Object.entries(state.teams[league])
       .sort((a, b) => a[1].localeCompare(b[1]))]
       .map(([abbr, name]) =>
@@ -359,7 +385,14 @@ function renderPickers() {
     return `<div><label for="pick-${league}">${LEAGUE_LABEL[league]}</label>
       <select id="pick-${league}" data-league="${league}">${options}</select></div>`;
   }).join("");
-  el.querySelectorAll("select").forEach(s => s.addEventListener("change", () => {
+  el.innerHTML = cityPicker + leaguePickers;
+  document.getElementById("pick-city").addEventListener("change", e => {
+    state.city = e.target.value;
+    localStorage.setItem("city", state.city);
+    renderPickers();
+    render();
+  });
+  el.querySelectorAll("select[data-league]").forEach(s => s.addEventListener("change", () => {
     state.picks[s.dataset.league] = s.value;
     localStorage.setItem("picks", JSON.stringify(state.picks));
     render();
@@ -403,15 +436,18 @@ async function init() {
     document.getElementById(`metric-${m}`).addEventListener("click", () => setMetric(m));
   }
   try {
-    const [teams, myTeams, ...scores] = await Promise.all([
+    const [teams, cities, myTeams, ...scores] = await Promise.all([
       fetchJson("teams.json"),
+      fetchJson("cities.json"),
       fetchJson("my_teams.json"),
       ...LEAGUES.map(fetchScores),
     ]);
     state.teams = teams;
+    state.cities = cities;
     LEAGUES.forEach((l, i) => { state.scores[l] = scores[i]; });
     const defaults = Object.fromEntries(myTeams.teams.map(t => [t.league, t.abbreviation]));
     state.picks = loadPicks(defaults);
+    state.city = loadCity();
     renderPickers();
     render();
   } catch (err) {
