@@ -64,6 +64,7 @@
   a.glink { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--text-muted); }
   a.glink:hover { border-bottom-style: solid; }
 
+  .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
   .scope {
     display: inline-flex; border: 1px solid var(--border); border-radius: 8px;
     overflow: hidden; background: var(--surface);
@@ -130,13 +131,15 @@
       <span aria-current="page">city index</span>
       <a href="groups.html">city groups</a>
     </nav>
+  </header>
+  <div class="controls">
     <div class="scope" role="group" aria-label="Metric">
       <button id="metric-wins" aria-pressed="false">Wins</button>
       <button id="metric-net" aria-pressed="false">Net W−L</button>
       <button id="metric-weighted" aria-pressed="true"
         title="Each game is worth 365 ÷ season length: MLB ±2.25, NBA/NHL ±4.45, NFL ±21.47">Weighted</button>
     </div>
-  </header>
+  </div>
   <p class="as-of" id="as-of"></p>
   <p class="metric-note" id="metric-note" hidden>weighted: each game = 365 ÷ season length — MLB ±2.25 · NBA/NHL ±4.45 · NFL ±21.47</p>
   <p id="error"></p>

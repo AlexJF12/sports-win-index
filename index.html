@@ -52,7 +52,7 @@
   .as-of { color: var(--text-muted); font-size: 13px; margin: 6px 0 0; }
   .metric-note { color: var(--text-muted); font-size: 12px; margin-top: 6px; }
 
-  .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
   .scope {
     display: inline-flex; border: 1px solid var(--border); border-radius: 8px;
     overflow: hidden; background: var(--surface);
@@ -143,7 +143,8 @@
       <a href="cities.html">city index</a>
       <a href="groups.html">city groups</a>
     </nav>
-    <div class="controls">
+  </header>
+  <div class="controls">
       <div class="scope" role="group" aria-label="Time range">
         <button id="scope-month" aria-pressed="true">Month</button>
         <button id="scope-year" aria-pressed="false">Year</button>
@@ -159,8 +160,7 @@
         <button id="month-label" title="Back to the current period"></button>
         <button id="next" aria-label="Next period">&rsaquo;</button>
       </div>
-    </div>
-  </header>
+  </div>
   <p class="as-of" id="freshness"></p>
 
   <p id="error"></p>
