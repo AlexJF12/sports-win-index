@@ -1444,3 +1444,4 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20260712,mlb,401816138,ARI,5,LAD,3,ARI,Final
 20260712,mlb,401816140,TOR,4,SD,5,SD,Final
 20260714,mlb,401817370,AL,4,NL,0,AL,Final
+20260716,mlb,401816143,NYM,4,PHI,1,NYM,Final
