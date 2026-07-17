@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>City Index</title>
+<title>City Index — Team Wins</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
 <style>
   :root {
     color-scheme: light;
@@ -20,6 +21,9 @@
     --series-1:       #2a78d6;
     --series-2:       #008300;
     --series-3:       #e87ba4;
+    --series-4:       #eda100;
+    --series-5:       #1baf7a;
+    --series-6:       #eb6834;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -37,6 +41,9 @@
       --series-1:       #3987e5;
       --series-2:       #008300;
       --series-3:       #d55181;
+      --series-4:       #c98500;
+      --series-5:       #199e70;
+      --series-6:       #d95926;
     }
   }
   * { box-sizing: border-box; }
@@ -52,6 +59,10 @@
   h1 { font-size: 20px; font-weight: 650; margin: 0; }
   nav a { color: var(--text-secondary); font-size: 13px; text-decoration: none; }
   nav a:hover { text-decoration: underline; }
+  nav [aria-current="page"] { color: var(--text-primary); font-size: 13px; font-weight: 650; }
+  .metric-note { color: var(--text-muted); font-size: 12px; margin: -18px 0 24px; }
+  a.glink { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--text-muted); }
+  a.glink:hover { border-bottom-style: solid; }
 
   .scope {
     display: inline-flex; border: 1px solid var(--border); border-radius: 8px;
@@ -80,6 +91,7 @@
   .champ .score { font-size: 24px; font-weight: 650; margin-left: auto; }
   .champ .score.pos { color: var(--win); }
   .champ .score.neg { color: var(--loss); }
+  .champ .detail-record { color: var(--text-muted); font-size: 15px; }
   .champ .detail { color: var(--text-muted); font-size: 13px; flex-basis: 100%; }
 
   .race {
@@ -115,6 +127,7 @@
     <h1>City Index</h1>
     <nav style="display:flex;gap:16px">
       <a href="index.html">my teams</a>
+      <span aria-current="page">city index</span>
       <a href="groups.html">city groups</a>
     </nav>
     <div class="scope" role="group" aria-label="Metric">
@@ -125,6 +138,7 @@
     </div>
   </header>
   <p class="as-of" id="as-of"></p>
+  <p class="metric-note" id="metric-note" hidden>weighted: each game = 365 ÷ season length — MLB ±2.25 · NBA/NHL ±4.45 · NFL ±21.47</p>
   <p id="error"></p>
   <div id="sections"></div>
 </main>
@@ -173,8 +187,10 @@ function roster(g) {
 
 // --- race chart -------------------------------------------------------------
 
-const SERIES_COLORS = ["var(--series-1)", "var(--series-2)", "var(--series-3)"];
-const charts = {};  // period -> {days, series} for hover lookup
+const SLOT_COLORS = ["var(--series-1)", "var(--series-2)", "var(--series-3)",
+                     "var(--series-4)", "var(--series-5)", "var(--series-6)"];
+let cityColors = {};  // city -> color; stable across every chart on the page
+const charts = {};    // period -> {days, series} for hover lookup
 const VB_W = 640, VB_H = 230, PLOT = { l: 38, r: 556, t: 12, b: 200 };
 
 function* dayRange(startKey, endKey) {
@@ -210,7 +226,8 @@ function raceChart(period, ranked) {
   const top = ranked.slice(0, 3);
   const series = top.map(g => {
     let cum = 0;
-    return { name: g.name, values: days.map(d => (cum += dayMetric(g.daily[d]))) };
+    return { name: g.name, color: cityColors[g.city] || SLOT_COLORS[0],
+             values: days.map(d => (cum += dayMetric(g.daily[d]))) };
   });
   const all = series.flatMap(s => s.values);
   const min = Math.min(0, ...all), max = Math.max(0, ...all);
@@ -223,34 +240,34 @@ function raceChart(period, ranked) {
   const grid = ticks.map(v => `
     <line x1="${PLOT.l}" y1="${y(v)}" x2="${PLOT.r}" y2="${y(v)}"
       stroke="${v === 0 ? "var(--baseline)" : "var(--hairline)"}" stroke-width="1"/>
-    <text x="${PLOT.l - 6}" y="${y(v) + 3.5}" text-anchor="end" font-size="10"
+    <text x="${PLOT.l - 6}" y="${y(v) + 4}" text-anchor="end" font-size="12"
       fill="var(--text-muted)">${metric === "wins" ? v : fmtSigned(v, 0)}</text>`).join("");
 
   const midIdx = Math.floor((days.length - 1) / 2);
   const xLabels = [[0, "start"], [midIdx, "middle"], [days.length - 1, "end"]]
-    .map(([i, anchor]) => `<text x="${x(i)}" y="${VB_H - 10}" font-size="10" fill="var(--text-muted)"
+    .map(([i, anchor]) => `<text x="${x(i)}" y="${VB_H - 8}" font-size="12" fill="var(--text-muted)"
       text-anchor="${anchor}">${fmtDate(days[i])}</text>`).join("");
 
-  const lines = series.map((s, i) => `<polyline fill="none" stroke="${SERIES_COLORS[i]}"
+  const lines = series.map(s => `<polyline fill="none" stroke="${s.color}"
     stroke-width="2" stroke-linejoin="round" stroke-linecap="round"
     points="${s.values.map((v, j) => `${x(j).toFixed(1)},${y(v).toFixed(1)}`).join(" ")}"/>`).join("");
 
   // end dots (surface ring) + direct end labels, nudged apart vertically
-  const ends = series.map((s, i) => ({ i, v: s.values[s.values.length - 1], name: s.name }))
+  const ends = series.map(s => ({ color: s.color, v: s.values[s.values.length - 1], name: s.name }))
     .sort((a, b) => y(a.v) - y(b.v));
   for (let k = 1; k < ends.length; k++) {
-    ends[k].ly = Math.max((ends[k].ly = y(ends[k].v)), (ends[k - 1].ly ?? y(ends[k - 1].v)) + 14);
+    ends[k].ly = Math.max((ends[k].ly = y(ends[k].v)), (ends[k - 1].ly ?? y(ends[k - 1].v)) + 15);
   }
   ends.forEach(e => { if (e.ly === undefined) e.ly = y(e.v); });
   const dots = ends.map(e => `
-    <circle cx="${x(days.length - 1)}" cy="${y(e.v)}" r="4" fill="${SERIES_COLORS[e.i]}"
+    <circle cx="${x(days.length - 1)}" cy="${y(e.v)}" r="4" fill="${e.color}"
       stroke="var(--surface)" stroke-width="2"/>
-    <text x="${PLOT.r + 8}" y="${e.ly + 3.5}" font-size="11" fill="var(--text-secondary)">
+    <text x="${PLOT.r + 8}" y="${e.ly + 4}" font-size="12" fill="var(--text-secondary)">
       ${e.name} ${metric === "wins" ? e.v : fmtSigned(e.v, dec)}</text>`).join("");
 
   charts[period] = { days, series };
-  const legend = series.map((s, i) => `<span class="key"><span class="swatch"
-    style="background:${SERIES_COLORS[i]}"></span>${s.name}</span>`).join("");
+  const legend = series.map(s => `<span class="key"><span class="swatch"
+    style="background:${s.color}"></span>${s.name}</span>`).join("");
 
   return `<div class="race" data-period="${period}">
     <div class="legend">${legend}</div>
@@ -271,30 +288,35 @@ function wireRaceHover() {
     const svg = wrap.querySelector("svg");
     const cross = wrap.querySelector(".crosshair");
     const tip = wrap.querySelector(".tooltip");
-    svg.addEventListener("mousemove", e => {
+    const showAt = clientX => {
       const { days, series } = charts[period];
       const rect = svg.getBoundingClientRect();
-      const vx = (e.clientX - rect.left) * VB_W / rect.width;
+      const vx = (clientX - rect.left) * VB_W / rect.width;
       const frac = Math.min(1, Math.max(0, (vx - PLOT.l) / (PLOT.r - PLOT.l)));
       const idx = Math.round(frac * (days.length - 1));
       const cx = PLOT.l + (idx / (days.length - 1)) * (PLOT.r - PLOT.l);
       cross.setAttribute("x1", cx); cross.setAttribute("x2", cx);
       cross.setAttribute("visibility", "visible");
       const dec = metric === "weighted" ? 1 : 0;
-      tip.innerHTML = `<div class="tt-date">${fmtDate(days[idx])}</div>` + series.map((s, i) => {
+      tip.innerHTML = `<div class="tt-date">${fmtDate(days[idx])}</div>` + series.map(s => {
         const v = s.values[idx];
-        return `<div class="tt-row"><span class="swatch" style="background:${SERIES_COLORS[i]};width:8px;height:8px;border-radius:2px;display:inline-block"></span>
+        return `<div class="tt-row"><span class="swatch" style="background:${s.color};width:8px;height:8px;border-radius:2px;display:inline-block"></span>
           ${s.name}: ${metric === "wins" ? v : fmtSigned(v, dec)}</div>`;
       }).join("");
       tip.style.display = "block";
       const px = cx * rect.width / VB_W;
       tip.style.left = `${Math.min(px + 12, rect.width - tip.offsetWidth - 4)}px`;
       tip.style.top = "40px";
-    });
-    svg.addEventListener("mouseleave", () => {
+    };
+    const hide = () => {
       cross.setAttribute("visibility", "hidden");
       tip.style.display = "none";
-    });
+    };
+    svg.addEventListener("mousemove", e => showAt(e.clientX));
+    svg.addEventListener("mouseleave", hide);
+    svg.addEventListener("touchstart", e => showAt(e.touches[0].clientX), { passive: true });
+    svg.addEventListener("touchmove", e => showAt(e.touches[0].clientX), { passive: true });
+    svg.addEventListener("touchend", hide);
   });
 }
 
@@ -314,11 +336,38 @@ function bestPerCity(period) {
     score(b, period) - score(a, period) || b[period].w - a[period].w || a.city.localeCompare(b.city));
 }
 
+function slug(city) { return "g-" + city.toLowerCase().replace(/[^a-z0-9]+/g, "-"); }
+
+function cityLink(g) {
+  return `<a class="glink" href="groups.html#${slug(g.city)}" title="See this group's combination">${g.name}</a>`;
+}
+
+function assignCityColors(rankedByPeriod) {
+  // one stable color per city across every chart on the page, ordered by
+  // year standing so the season leader is always slot 1
+  const inCharts = new Set();
+  for (const key of ["week", "month", "year"]) {
+    for (const g of rankedByPeriod[key].slice(0, 3)) inCharts.add(g.city);
+  }
+  cityColors = {};
+  let slot = 0;
+  for (const g of rankedByPeriod.year) {
+    if (inCharts.has(g.city) && !(g.city in cityColors)) {
+      cityColors[g.city] = SLOT_COLORS[slot % SLOT_COLORS.length];
+      slot++;
+    }
+  }
+}
+
 function render() {
-  document.getElementById("as-of").textContent =
-    `As of ${fmtDate(data.reference_date)}, ${data.reference_date.slice(0, 4)} — updated each morning after the previous day's games.`;
+  document.getElementById("as-of").innerHTML =
+    `As of ${fmtDate(data.reference_date)}, ${data.reference_date.slice(0, 4)} — updated each morning after the previous day's games. ` +
+    `Cities with multiple same-league teams compete as <a class="glink" href="groups.html">combinations</a>; each city is shown by its best combination for the period.`;
+  document.getElementById("metric-note").hidden = metric !== "weighted";
+  const rankedByPeriod = Object.fromEntries(PERIODS.map(({ key }) => [key, bestPerCity(key)]));
+  assignCityColors(rankedByPeriod);
   const sections = PERIODS.map(({ key, title, note }) => {
-    const ranked = bestPerCity(key);
+    const ranked = rankedByPeriod[key];
     const range = rangeLabel(key) + (note ? ` (${note})` : "");
     if (!ranked.length) {
       return `<section class="period"><h2>${title}</h2><div class="range">${range}</div>
@@ -329,9 +378,12 @@ function render() {
     const champCls = metric === "wins" ? "" : cv > 0 ? " pos" : cv < 0 ? " neg" : "";
     const rows = ranked.slice(0, 10).map((g, i) => {
       const t = g[key];
+      // competition ranking: tied scores share a rank (1, 1, 3, ...)
+      let rank = i + 1;
+      while (rank > 1 && Math.abs(score(ranked[rank - 2], key) - score(g, key)) < 1e-9) rank--;
       return `<tr>
-        <td class="num">${i + 1}</td>
-        <td>${g.name}</td>
+        <td class="num">${rank}</td>
+        <td>${cityLink(g)}</td>
         <td class="teams">${roster(g)}</td>
         <td class="num">${t.w}–${t.l}${t.t ? "–" + t.t : ""}</td>
         <td class="num">${fmtScore(score(g, key))}</td>
@@ -341,7 +393,7 @@ function render() {
       <h2>${title}</h2>
       <div class="range">${range}</div>
       <div class="champ">
-        <span class="city">${champ.name}</span>
+        <span class="city">${cityLink(champ)}</span>
         <span class="detail-record">${champ[key].w}–${champ[key].l}${champ[key].t ? "–" + champ[key].t : ""}</span>
         <span class="score${champCls}">${fmtScore(cv)}</span>
         <span class="detail">${roster(champ)}</span>
