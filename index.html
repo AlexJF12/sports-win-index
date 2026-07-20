@@ -64,7 +64,6 @@
   nav a { color: var(--text-secondary); font-size: 13px; text-decoration: none; }
   nav a:hover { text-decoration: underline; }
   nav [aria-current="page"] { color: var(--text-primary); font-size: 13px; font-weight: 650; }
-  .metric-note { color: var(--text-muted); font-size: 12px; margin: -18px 0 24px; }
   a.glink { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--text-muted); }
   a.glink:hover { border-bottom-style: solid; }
 
@@ -81,8 +80,7 @@
     background: var(--text-primary); color: var(--page); font-weight: 600;
   }
 
-  .as-of { color: var(--text-muted); font-size: 13px; margin: 6px 0 24px; }
-
+  #sections { margin-top: 24px; }
   section.period { margin-bottom: 36px; }
   h2 { font-size: 15px; font-weight: 650; margin: 0 0 2px; }
   .range { color: var(--text-muted); font-size: 13px; margin-bottom: 10px; }
@@ -183,8 +181,6 @@
         title="Each game is worth 365 ÷ season length: MLB ±2.25, NBA/NHL ±4.45, NFL ±21.47">Weighted</button>
     </div>
   </div>
-  <p class="as-of" id="as-of"></p>
-  <p class="metric-note" id="metric-note" hidden>weighted: each game = 365 ÷ season length — MLB ±2.25 · NBA/NHL ±4.45 · NFL ±21.47</p>
   <p id="error"></p>
   <div id="sections"></div>
 </main>
@@ -508,10 +504,6 @@ function hlOptions() {
 }
 
 function render() {
-  document.getElementById("as-of").innerHTML =
-    `As of ${fmtDate(data.reference_date)}, ${data.reference_date.slice(0, 4)} — updated each morning after the previous day's games. ` +
-    `Cities with multiple same-league teams compete as <a class="glink" href="groups.html">combinations</a>; each city is shown by its best combination for the period.`;
-  document.getElementById("metric-note").hidden = metric !== "weighted";
   const rankedByPeriod = Object.fromEntries(PERIODS.map(({ key }) => [key, bestPerCity(key)]));
   assignCityColors(rankedByPeriod);
   const sections = PERIODS.map(({ key, title, note }) => {
