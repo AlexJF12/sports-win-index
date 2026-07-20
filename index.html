@@ -207,7 +207,7 @@ let data = null;
 let teams = null;      // teams.json: league -> {ABBR: display name}
 const scores = {};     // league -> raw score rows (for the best-fandom section)
 let metric = "weighted";
-let highlightCity = "";  // best-year comparison pick
+let highlightGroup = "";  // best-year comparison pick (a group name, e.g. "New York 2")
 const expanded = new Set();  // periods currently showing all cities
 
 function parseCsv(text) {
@@ -316,9 +316,10 @@ function raceChart(period, ranked) {
   const series = top.map(g => ({
     name: g.name, color: cityColors[g.city] || SLOT_COLORS[0], values: cumulative(g),
   }));
-  // best-year comparison: the picked city joins the chart as a highlighted line
-  const hl = period === "year" && highlightCity && !top.some(g => g.city === highlightCity)
-    ? ranked.find(g => g.city === highlightCity) : null;
+  // best-year comparison: the picked group joins the chart as a highlighted
+  // line; picked from all combinations, not just each city's best one
+  const hl = period === "year" && highlightGroup && !top.some(g => g.name === highlightGroup)
+    ? data.groups.find(g => g.name === highlightGroup) : null;
   if (hl) series.push({ name: hl.name, color: "var(--highlight)", values: cumulative(hl), wide: true });
   // context lines: every other city, thin and de-emphasized — shown when the
   // table is expanded, or when a comparison city is picked (best year)
@@ -488,6 +489,24 @@ function assignCityColors(rankedByPeriod) {
   }
 }
 
+// options for the best-year comparison picker: every group combination with
+// games this year, alphabetical ("2" before "10"); multi-combination cities
+// get their roster in the label so the numbered names are tellable apart
+function hlOptions() {
+  const gs = [...data.groups].filter(g => g.year.w + g.year.l + g.year.t > 0)
+    .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+  const seen = new Set(), multi = new Set();
+  for (const g of gs) {
+    if (seen.has(g.city)) multi.add(g.city);
+    seen.add(g.city);
+  }
+  return gs.map(g => {
+    const label = multi.has(g.city)
+      ? `${g.name} — ${g.teams.map(t => t.nickname).join(" · ")}` : g.name;
+    return `<option value="${g.name}"${g.name === highlightGroup ? " selected" : ""}>${label}</option>`;
+  }).join("");
+}
+
 function render() {
   document.getElementById("as-of").innerHTML =
     `As of ${fmtDate(data.reference_date)}, ${data.reference_date.slice(0, 4)} — updated each morning after the previous day's games. ` +
@@ -511,7 +530,7 @@ function render() {
       // competition ranking: tied scores share a rank (1, 1, 3, ...)
       let rank = i + 1;
       while (rank > 1 && Math.abs(score(ranked[rank - 2], key) - score(g, key)) < 1e-9) rank--;
-      const isHl = key === "year" && highlightCity && g.city === highlightCity;
+      const isHl = key === "year" && highlightGroup && g.name === highlightGroup;
       return `<tr${isHl ? ' class="hl"' : ""}>
         <td class="num">${cityLink(g, rank)}</td>
         <td>${cityLink(g)}</td>
@@ -521,16 +540,22 @@ function render() {
       </tr>`;
     };
     let rows = (isExpanded ? ranked : ranked.slice(0, 3)).map(rowHtml).join("");
-    // a compared city outside the top 3 still gets its row, at its true rank
-    if (key === "year" && highlightCity && !isExpanded) {
-      const idx = ranked.findIndex(g => g.city === highlightCity);
-      if (idx >= 3) rows += rowHtml(ranked[idx], idx);
+    // a compared group outside the visible rows still gets one, at its true rank
+    if (key === "year" && highlightGroup) {
+      const idx = ranked.findIndex(g => g.name === highlightGroup);
+      if (idx === -1) {
+        // not a city's best combination, so it has no rank of its own —
+        // slot it in at the rank its score would earn
+        const g = data.groups.find(x => x.name === highlightGroup);
+        if (g) rows += rowHtml(g, ranked.filter(r => score(r, key) - score(g, key) > 1e-9).length);
+      } else if (idx >= 3 && !isExpanded) {
+        rows += rowHtml(ranked[idx], idx);
+      }
     }
     const hlControl = key === "year" ? `<div class="hl-row">
       <label for="highlight-city">Compare a city:</label>
-      <select id="highlight-city"><option value="">None</option>
-        ${ranked.map(g => `<option value="${g.city}"${g.city === highlightCity ? " selected" : ""}>${g.city}</option>`).join("")}
-      </select></div>` : "";
+      <select id="highlight-city"><option value="">None</option>${hlOptions()}</select>
+    </div>` : "";
     return `<section class="period">
       <h2>${title}</h2>
       <div class="range">${range}</div>
@@ -561,7 +586,7 @@ function render() {
   });
   const hlSel = document.getElementById("highlight-city");
   if (hlSel) hlSel.addEventListener("change", () => {
-    highlightCity = hlSel.value;
+    highlightGroup = hlSel.value;
     render();
   });
 }
