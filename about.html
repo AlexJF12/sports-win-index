@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Team Wins</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
+<style>
+  :root {
+    color-scheme: light;
+    --page:           #f9f9f7;
+    --surface:        #fcfcfb;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --hairline:       #e1e0d9;
+    --border:         rgba(11, 11, 11, 0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --page:           #0d0d0d;
+      --surface:        #1a1a19;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --hairline:       #2c2c2a;
+      --border:         rgba(255, 255, 255, 0.10);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text-primary);
+    font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 680px; margin: 0 auto; padding: 24px 20px 64px; }
+  header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  h1 { font-size: 20px; font-weight: 650; margin: 0; }
+  nav { display: flex; gap: 16px; }
+  nav a { color: var(--text-secondary); font-size: 13px; text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+  nav [aria-current="page"] { color: var(--text-primary); font-size: 13px; font-weight: 650; }
+  .as-of { color: var(--text-muted); font-size: 13px; margin: 6px 0 0; }
+  h2 { font-size: 15px; font-weight: 650; margin: 32px 0 8px; }
+  p { color: var(--text-secondary); margin: 0 0 12px; }
+  p strong { color: var(--text-primary); }
+  a { color: var(--text-primary); }
+  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 12px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 14px; white-space: nowrap; }
+  th { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid var(--hairline); }
+  tr + tr td { border-top: 1px solid var(--hairline); }
+  @media (max-width: 560px) {
+    main { padding: 18px 12px 48px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>About</h1>
+    <nav>
+      <a href="index.html">city index</a>
+      <a href="my-teams.html">my teams</a>
+      <a href="groups.html">city groups</a>
+      <span aria-current="page">about</span>
+    </nav>
+  </header>
+  <p class="as-of" id="as-of"></p>
+
+  <h2>What is this?</h2>
+  <p><strong>Team Wins</strong> answers a simple question: how good has it been to be a sports fan of
+    your teams — or your city — lately? It tracks every regular-season game in the four major US
+    leagues (MLB ⚾, NBA 🏀, NHL 🏒, NFL 🏈) and turns wins and losses into one running score.</p>
+  <p>Every morning a scheduled job pulls the previous day's final scores from ESPN's public
+    scoreboard API and commits them to this site's repository. There are no servers and no
+    database — the pages you're reading are static files that read those score files directly.</p>
+
+  <h2>The views</h2>
+  <p><strong><a href="index.html">City index</a></strong> — the home page. Every city competes with
+    one team per league, and the page crowns the best day, week, month, and year. Clicking a city
+    opens that city's teams in the My Teams view. In the best-year section you can also pick any
+    city and see it highlighted against the rest of the field, and the "best fandom" section shows
+    the best possible team in each league regardless of city.</p>
+  <p><strong><a href="my-teams.html">My teams</a></strong> — pick your own team in each league
+    (or "None") and see your combined score, per-team tiles with sparklines, and a game-by-game
+    log. Your picks are stored in the page URL, so you can share your exact view with a friend
+    using the Share button.</p>
+  <p><strong><a href="groups.html">City groups</a></strong> — how cities are defined. A city with
+    two teams in one league (say, both the Mets and the Yankees) competes as one group per
+    combination, so no group ever has two teams from the same league; the city is represented by
+    whichever of its combinations scores best.</p>
+
+  <h2>The three scoring methods</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Method</th><th>Win</th><th>Loss</th><th>Tie</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Wins</strong></td><td>+1</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Net W−L</strong></td><td>+1</td><td>−1</td><td>0</td></tr>
+        <tr><td><strong>Weighted</strong></td><td>+365 ÷ season length</td><td>−365 ÷ season length</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Wins</strong> is the simple count. <strong>Net W−L</strong> subtracts losses, so a
+    losing month actually looks like one. <strong>Weighted</strong> makes every game worth its
+    share of the year — 365 divided by the league's regular-season length — so leagues with few
+    games count more per game:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>League</th><th>Season games</th><th>Points per game</th></tr></thead>
+      <tbody>
+        <tr><td>MLB</td><td>162</td><td>±2.25</td></tr>
+        <tr><td>NBA</td><td>82</td><td>±4.45</td></tr>
+        <tr><td>NHL</td><td>82</td><td>±4.45</td></tr>
+        <tr><td>NFL</td><td>17</td><td>±21.47</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The idea: one NFL Sunday carries about as much of a season's weight as three weeks of
+    baseball. A Commanders win (+21.5) can cancel out a rough Nationals homestand — and a bad
+    Wizards season can sink your whole year.</p>
+
+  <h2>Details</h2>
+  <p>Exhibition games (spring training, preseason) and postponed games are excluded. NFL ties are
+    recorded with no winner and score zero in every method. Scores update each morning around
+    10:00 UTC, covering games completed the previous day (US/Eastern).</p>
+  <p>Source code and data: <a href="https://github.com/AlexJF12/sports-win-index">github.com/AlexJF12/sports-win-index</a>.</p>
+</main>
+<script>
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+fetch("data/city_rankings.json")
+  .then(r => r.ok ? r.json() : null)
+  .then(data => {
+    if (!data) return;
+    const d = data.reference_date;
+    document.getElementById("as-of").textContent =
+      `Scores through ${MONTHS[+d.slice(4, 6) - 1].slice(0, 3)} ${+d.slice(6, 8)}, ${d.slice(0, 4)} — updated each morning after the previous day's games.`;
+  })
+  .catch(() => { /* the page works without the freshness line */ });
+</script>
+</body>
+</html>
