@@ -42,6 +42,7 @@
   nav a { color: var(--text-secondary); font-size: 13px; text-decoration: none; }
   nav a:hover { text-decoration: underline; }
   nav [aria-current="page"] { color: var(--text-primary); font-size: 13px; font-weight: 650; }
+  .as-of { color: var(--text-muted); font-size: 13px; margin: 6px 0 0; }
   h2 { font-size: 15px; font-weight: 650; margin: 32px 0 8px; }
   p { color: var(--text-secondary); margin: 0 0 12px; }
   p strong { color: var(--text-primary); }
@@ -67,6 +68,7 @@
       <span aria-current="page">about</span>
     </nav>
   </header>
+  <p class="as-of" id="as-of"></p>
 
   <h2>What is this?</h2>
   <p><strong>Team Wins</strong> answers a simple question: how good has it been to be a sports fan of
@@ -127,5 +129,17 @@
     10:00 UTC, covering games completed the previous day (US/Eastern).</p>
   <p>Source code and data: <a href="https://github.com/AlexJF12/sports-win-index">github.com/AlexJF12/sports-win-index</a>.</p>
 </main>
+<script>
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+fetch("data/city_rankings.json")
+  .then(r => r.ok ? r.json() : null)
+  .then(data => {
+    if (!data) return;
+    const d = data.reference_date;
+    document.getElementById("as-of").textContent =
+      `Scores through ${MONTHS[+d.slice(4, 6) - 1].slice(0, 3)} ${+d.slice(6, 8)}, ${d.slice(0, 4)} — updated each morning after the previous day's games.`;
+  })
+  .catch(() => { /* the page works without the freshness line */ });
+</script>
 </body>
 </html>
