@@ -40,6 +40,27 @@ LEAGUES = {
 
 BASE_URL = "https://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/scoreboard"
 DATA_DIR = "data"  # CSVs land here, relative to repo root
+
+# All-Star Games / Pro Bowl use competition type "ALLSTAR" and field
+# placeholder "teams" (Team Stars, AFC, ...) with isActive == False;
+# best-on-best tournaments like the NHL's 4 Nations Face-Off use "QRR" and
+# field real national teams (isActive == True) that still aren't franchise
+# games. Neither should count as a win for any tracked team.
+EXHIBITION_COMPETITION_TYPES = {"ALLSTAR", "QRR"}
+
+# A handful of defunct franchises share an abbreviation with an unrelated
+# current team, confirmed via ESPN's stable team id (which persists across a
+# franchise's own relocations, but differs for a coincidental letter reuse):
+# HOU also belonged to the Houston Oilers (a different, defunct franchise —
+# the Oilers/Titans lineage is id 10, today's Texans are id 34); WPG also
+# belonged to the original Winnipeg Jets (id 24, now the Utah franchise,
+# different from today's Jets, id 28, ex-Atlanta Thrashers). Rather than risk
+# merging that history into the wrong current team, these are excluded
+# outright. league -> {abbreviation: id of the team that legitimately owns it}
+COLLISION_ABBREVIATIONS = {
+    "nfl": {"HOU": "34"},
+    "nhl": {"WPG": "28"},
+}
 CSV_FIELDS = [
     "date",
     "league",
@@ -101,8 +122,11 @@ def fetch_scoreboard(sport: str, league: str, date: str) -> dict:
 
 
 def flatten_completed_games(payload: dict, league: str, date: str) -> list[dict]:
-    """Extract only finished games as flat score rows. Skips
-    in-progress/scheduled/postponed games since their scores aren't final."""
+    """Extract only finished, real franchise games as flat score rows. Skips
+    in-progress/scheduled/postponed games since their scores aren't final,
+    exhibitions (spring training, preseason, All-Star Games/Pro Bowl,
+    tournaments like the 4 Nations Face-Off), and games involving a defunct
+    franchise whose abbreviation collides with an unrelated current team."""
     rows = []
     for event in payload.get("events", []):
         try:
@@ -119,15 +143,34 @@ def flatten_completed_games(payload: dict, league: str, date: str) -> list[dict]
             if status.get("completed") is not True:
                 continue
 
+            if comp.get("type", {}).get("abbreviation") in EXHIBITION_COMPETITION_TYPES:
+                continue
+
             competitors = comp["competitors"]
             home = next(c for c in competitors if c["homeAway"] == "home")
             away = next(c for c in competitors if c["homeAway"] == "away")
 
+            if any(c["team"].get("isActive") is False for c in (home, away)):
+                continue
+
+            away_abbr = away["team"]["abbreviation"].strip()
+            home_abbr = home["team"]["abbreviation"].strip()
+
+            collisions = COLLISION_ABBREVIATIONS.get(league, {})
+            if any(
+                abbr in collisions and team_id != collisions[abbr]
+                for abbr, team_id in (
+                    (away_abbr, away["team"].get("id")),
+                    (home_abbr, home["team"].get("id")),
+                )
+            ):
+                continue
+
             # Neither side has winner=true on a tie (NFL) — leave winner empty
             if home.get("winner") is True:
-                winner = home["team"]["abbreviation"]
+                winner = home_abbr
             elif away.get("winner") is True:
-                winner = away["team"]["abbreviation"]
+                winner = away_abbr
             else:
                 winner = ""
 
@@ -135,9 +178,9 @@ def flatten_completed_games(payload: dict, league: str, date: str) -> list[dict]
                 "date": date,
                 "league": league,
                 "game_id": event["id"],
-                "away_team": away["team"]["abbreviation"],
+                "away_team": away_abbr,
                 "away_score": int(away["score"]),
-                "home_team": home["team"]["abbreviation"],
+                "home_team": home_abbr,
                 "home_score": int(home["score"]),
                 "winner": winner,
                 # "detail" carries OT/SO markers ("Final/OT"); "description"

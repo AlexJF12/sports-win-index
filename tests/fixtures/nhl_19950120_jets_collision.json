@@ -1,0 +1,102 @@
+{
+  "events": [
+    {
+      "id": "199501201",
+      "date": "1995-01-20T19:00Z",
+      "name": "Winnipeg Jets at Calgary Flames",
+      "shortName": "WPG @ CGY",
+      "season": { "year": 1994, "type": 2, "slug": "regular-season" },
+      "competitions": [
+        {
+          "id": "199501201",
+          "date": "1995-01-20T19:00Z",
+          "type": { "id": "1", "abbreviation": "STD" },
+          "status": {
+            "type": {
+              "id": "3",
+              "state": "post",
+              "completed": true,
+              "description": "Final",
+              "detail": "Final"
+            }
+          },
+          "competitors": [
+            {
+              "id": "4",
+              "homeAway": "home",
+              "winner": true,
+              "score": "5",
+              "team": {
+                "id": "4",
+                "abbreviation": "CGY",
+                "displayName": "Calgary Flames",
+                "isActive": true
+              }
+            },
+            {
+              "id": "24",
+              "homeAway": "away",
+              "winner": false,
+              "score": "2",
+              "team": {
+                "id": "24",
+                "abbreviation": "WPG",
+                "displayName": "Winnipeg        Jets",
+                "isActive": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "199501202",
+      "date": "1995-01-20T19:00Z",
+      "name": "Chicago Blackhawks at Detroit Red Wings",
+      "shortName": "CHI @ DET",
+      "season": { "year": 1994, "type": 2, "slug": "regular-season" },
+      "competitions": [
+        {
+          "id": "199501202",
+          "date": "1995-01-20T19:00Z",
+          "type": { "id": "1", "abbreviation": "STD" },
+          "status": {
+            "type": {
+              "id": "3",
+              "state": "post",
+              "completed": true,
+              "description": "Final",
+              "detail": "Final"
+            }
+          },
+          "competitors": [
+            {
+              "id": "5",
+              "homeAway": "home",
+              "winner": true,
+              "score": "4",
+              "team": {
+                "id": "5",
+                "abbreviation": "DET",
+                "displayName": "Detroit Red Wings",
+                "isActive": true
+              }
+            },
+            {
+              "id": "6",
+              "homeAway": "away",
+              "winner": false,
+              "score": "2",
+              "team": {
+                "id": "6",
+                "abbreviation": "CHI",
+                "displayName": "Chicago Blackhawks",
+                "isActive": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

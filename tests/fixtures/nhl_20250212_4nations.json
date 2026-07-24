@@ -1,0 +1,53 @@
+{
+  "events": [
+    {
+      "id": "401751000",
+      "date": "2025-02-12T23:00Z",
+      "name": "Canada at Sweden",
+      "shortName": "CAN @ SWE",
+      "season": { "year": 2025, "type": 2, "slug": "regular-season" },
+      "competitions": [
+        {
+          "id": "401751000",
+          "date": "2025-02-12T23:00Z",
+          "type": { "id": "9", "abbreviation": "QRR" },
+          "status": {
+            "type": {
+              "id": "3",
+              "state": "post",
+              "completed": true,
+              "description": "Final/OT",
+              "detail": "Final/OT"
+            }
+          },
+          "competitors": [
+            {
+              "id": "9999",
+              "homeAway": "home",
+              "winner": false,
+              "score": "3",
+              "team": {
+                "id": "9999",
+                "abbreviation": "SWE",
+                "displayName": "Sweden",
+                "isActive": true
+              }
+            },
+            {
+              "id": "9998",
+              "homeAway": "away",
+              "winner": true,
+              "score": "4",
+              "team": {
+                "id": "9998",
+                "abbreviation": "CAN",
+                "displayName": "Canada",
+                "isActive": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

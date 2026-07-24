@@ -1,10 +1,12 @@
 """Validation for teams.json and my_teams.json (plan 9.3)."""
 
 import json
+import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 FIXTURES = Path(__file__).parent / "fixtures"
+sys.path.insert(0, str(REPO_ROOT))
 
 LEAGUE_SIZES = {"nfl": 32, "nba": 30, "mlb": 30, "nhl": 32}
 
@@ -39,16 +41,22 @@ def test_my_teams_resolve_against_teams_json():
 
 
 def test_fixture_abbreviations_resolve_against_teams_json():
-    """Every team the scoreboard fixtures mention must exist in teams.json,
-    so the backend can always map a scores row to a display name."""
+    """Every team that actually survives flatten_completed_games (i.e. would
+    land in a CSV row) must exist in teams.json, so the backend can always
+    map a scores row to a display name. Fixtures may also contain events that
+    flatten_completed_games is expected to filter out entirely (exhibitions,
+    defunct-franchise abbreviation collisions) — those aren't held to this,
+    since they never produce a row."""
+    from scrape_scores import flatten_completed_games
+
     teams = load("teams.json")
     for path in FIXTURES.glob("*.json"):
         league = path.name.split("_")[0]
         with open(path) as f:
             payload = json.load(f)
-        for event in payload.get("events", []):
-            for competitor in event["competitions"][0]["competitors"]:
-                abbr = competitor["team"]["abbreviation"]
+        rows = flatten_completed_games(payload, league, "19700101")
+        for row in rows:
+            for abbr in (row["away_team"], row["home_team"]):
                 assert abbr in teams[league], (
                     f"{abbr!r} from {path.name} missing in teams.json[{league!r}]"
                 )
