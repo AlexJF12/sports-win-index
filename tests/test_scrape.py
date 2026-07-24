@@ -12,6 +12,18 @@ Fixture inventory (real payloads, edge case each was chosen for):
     mlb_20260425.json  COL@NYM postponed
     mlb_20260426.json  COL@NYM doubleheader (the makeup)
     mlb_20260226.json  spring training day (season.type == 1, all skipped)
+    nba_20260215_allstar.json       NBA All-Star Game (comp type ALLSTAR,
+                                     isActive == False placeholder teams)
+    nhl_20250212_4nations.json      4 Nations Face-Off (comp type QRR, real
+                                     national teams but not franchise games)
+    nfl_19951209_oilers_collision.json   Houston Oilers (HOU, id 10) game,
+                                          which must be excluded, alongside an
+                                          unrelated game that must survive
+    nhl_19950120_jets_collision.json     original Winnipeg Jets (WPG, id 24)
+                                          game, excluded, alongside an
+                                          unrelated game that must survive
+    nhl_19950115_padded_abbr.json   abbreviation field itself has trailing
+                                     whitespace ("LA  ", "TB  ")
 """
 
 import csv
@@ -132,6 +144,59 @@ def test_malformed_events_are_skipped_not_fatal():
 
 def test_no_events_key():
     assert flatten_completed_games({}, "mlb", "20260710") == []
+
+
+# --- exhibitions and abbreviation collisions --------------------------------
+
+def test_allstar_game_is_skipped():
+    # NBA All-Star Game: competition type "ALLSTAR", placeholder teams
+    # (Team Stars, Team World) with isActive == False
+    rows = flatten_completed_games(
+        load_fixture("nba_20260215_allstar.json"), "nba", "20260215"
+    )
+    assert rows == []
+
+
+def test_best_on_best_tournament_is_skipped():
+    # 4 Nations Face-Off: competition type "QRR", real national teams
+    # (isActive == True) that still aren't franchise games
+    rows = flatten_completed_games(
+        load_fixture("nhl_20250212_4nations.json"), "nhl", "20250212"
+    )
+    assert rows == []
+
+
+def test_defunct_franchise_collision_is_skipped_others_kept():
+    # Houston Oilers (id 10) used "HOU", which today belongs to the
+    # unrelated Texans (id 34) — must be excluded, but the same day's
+    # unrelated Raiders/Steelers game should still come through
+    rows = flatten_completed_games(
+        load_fixture("nfl_19951209_oilers_collision.json"), "nfl", "19951209"
+    )
+    assert len(rows) == 1
+    assert {rows[0]["away_team"], rows[0]["home_team"]} == {"PIT", "CIN"}
+
+
+def test_original_jets_collision_is_skipped_others_kept():
+    # Original Winnipeg Jets (id 24) used "WPG", which today belongs to the
+    # unrelated current Jets (id 28) — must be excluded, but the same day's
+    # unrelated Blackhawks/Red Wings game should still come through
+    rows = flatten_completed_games(
+        load_fixture("nhl_19950120_jets_collision.json"), "nhl", "19950120"
+    )
+    assert len(rows) == 1
+    assert {rows[0]["away_team"], rows[0]["home_team"]} == {"CHI", "DET"}
+
+
+def test_padded_abbreviations_are_stripped():
+    # Some older ESPN records carry trailing whitespace in the abbreviation
+    # field itself (not just displayName) — must not leak into the CSV
+    rows = flatten_completed_games(
+        load_fixture("nhl_19950115_padded_abbr.json"), "nhl", "19950115"
+    )
+    assert len(rows) == 1
+    assert rows[0]["away_team"] == "TB"
+    assert rows[0]["home_team"] == "LA"
 
 
 # --- append_rows / dedupe ----------------------------------------------------

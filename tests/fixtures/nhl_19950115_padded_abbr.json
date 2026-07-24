@@ -1,0 +1,53 @@
+{
+  "events": [
+    {
+      "id": "199501150",
+      "date": "1995-01-15T19:00Z",
+      "name": "Tampa Bay Lightning at Los Angeles Kings",
+      "shortName": "TB @ LA",
+      "season": { "year": 1994, "type": 2, "slug": "regular-season" },
+      "competitions": [
+        {
+          "id": "199501150",
+          "date": "1995-01-15T19:00Z",
+          "type": { "id": "1", "abbreviation": "STD" },
+          "status": {
+            "type": {
+              "id": "3",
+              "state": "post",
+              "completed": true,
+              "description": "Final",
+              "detail": "Final"
+            }
+          },
+          "competitors": [
+            {
+              "id": "8",
+              "homeAway": "home",
+              "winner": true,
+              "score": "6",
+              "team": {
+                "id": "8",
+                "abbreviation": "LA  ",
+                "displayName": "Los Angeles     Kings",
+                "isActive": true
+              }
+            },
+            {
+              "id": "20",
+              "homeAway": "away",
+              "winner": false,
+              "score": "3",
+              "team": {
+                "id": "20",
+                "abbreviation": "TB  ",
+                "displayName": "Tampa Bay       Lightning",
+                "isActive": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

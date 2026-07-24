@@ -1,0 +1,102 @@
+{
+  "events": [
+    {
+      "id": "195120901",
+      "date": "1995-12-09T18:00Z",
+      "name": "Detroit Lions at Houston Oilers",
+      "shortName": "DET @ HOU",
+      "season": { "year": 1995, "type": 2, "slug": "regular-season" },
+      "competitions": [
+        {
+          "id": "195120901",
+          "date": "1995-12-09T18:00Z",
+          "type": { "id": "1", "abbreviation": "STD" },
+          "status": {
+            "type": {
+              "id": "3",
+              "state": "post",
+              "completed": true,
+              "description": "Final",
+              "detail": "Final"
+            }
+          },
+          "competitors": [
+            {
+              "id": "10",
+              "homeAway": "home",
+              "winner": true,
+              "score": "17",
+              "team": {
+                "id": "10",
+                "abbreviation": "HOU",
+                "displayName": "Houston Oilers",
+                "isActive": true
+              }
+            },
+            {
+              "id": "8",
+              "homeAway": "away",
+              "winner": false,
+              "score": "10",
+              "team": {
+                "id": "8",
+                "abbreviation": "DET",
+                "displayName": "Detroit Lions",
+                "isActive": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "195120902",
+      "date": "1995-12-09T18:00Z",
+      "name": "Pittsburgh Steelers at Cincinnati Bengals",
+      "shortName": "PIT @ CIN",
+      "season": { "year": 1995, "type": 2, "slug": "regular-season" },
+      "competitions": [
+        {
+          "id": "195120902",
+          "date": "1995-12-09T18:00Z",
+          "type": { "id": "1", "abbreviation": "STD" },
+          "status": {
+            "type": {
+              "id": "3",
+              "state": "post",
+              "completed": true,
+              "description": "Final",
+              "detail": "Final"
+            }
+          },
+          "competitors": [
+            {
+              "id": "4",
+              "homeAway": "home",
+              "winner": true,
+              "score": "20",
+              "team": {
+                "id": "4",
+                "abbreviation": "CIN",
+                "displayName": "Cincinnati Bengals",
+                "isActive": true
+              }
+            },
+            {
+              "id": "23",
+              "homeAway": "away",
+              "winner": false,
+              "score": "17",
+              "team": {
+                "id": "23",
+                "abbreviation": "PIT",
+                "displayName": "Pittsburgh Steelers",
+                "isActive": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "events": [
+    {
+      "id": "401838140",
+      "date": "2026-02-15T22:00Z",
+      "name": "World World at Team Stars Team Stars",
+      "shortName": "WORLD @ STARS",
+      "season": { "year": 2026, "type": 2, "slug": "regular-season" },
+      "competitions": [
+        {
+          "id": "401838140",
+          "date": "2026-02-15T22:00Z",
+          "type": { "id": "4", "abbreviation": "ALLSTAR" },
+          "status": {
+            "type": {
+              "id": "3",
+              "state": "post",
+              "completed": true,
+              "description": "Final",
+              "detail": "Final"
+            }
+          },
+          "competitors": [
+            {
+              "id": "132374",
+              "homeAway": "home",
+              "winner": true,
+              "score": "37",
+              "team": {
+                "id": "132374",
+                "abbreviation": "STARS",
+                "displayName": "Team Stars",
+                "isActive": false
+              }
+            },
+            {
+              "id": "132375",
+              "homeAway": "away",
+              "winner": false,
+              "score": "35",
+              "team": {
+                "id": "132375",
+                "abbreviation": "WORLD",
+                "displayName": "Team World",
+                "isActive": false
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
