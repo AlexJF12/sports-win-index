@@ -193,11 +193,11 @@ const LEAGUE_EMOJI = { mlb: "⚾", nba: "🏀", nhl: "🏒", nfl: "🏈" };
 const LEAGUE_WEIGHT = { mlb: 365 / 162, nba: 365 / 82, nhl: 365 / 82, nfl: 365 / 17 };
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const PERIODS = [
-  { key: "day", title: "Best day" },
   { key: "week", title: "Best week", note: "Tuesday–Monday" },
   { key: "month", title: "Best month" },
   { key: "year", title: "Best year" },
 ];
+const TOP_N = 5;  // default number of cities shown per period before "show all"
 
 let data = null;
 let teams = null;      // teams.json: league -> {ABBR: display name}
@@ -247,14 +247,48 @@ function fmtScore(v) {
 
 function rangeLabel(period) {
   const p = data.periods[period];
-  if (period === "day") return fmtDate(p.start);
   if (period === "week") return `${fmtDate(p.start)} – ${fmtDate(p.end)}`;
   if (period === "month") return `${MONTHS[+p.start.slice(4, 6) - 1]} ${p.start.slice(0, 4)}`;
   return p.start.slice(0, 4);
 }
 
-function roster(g) {
-  return g.teams.map(t => `${LEAGUE_EMOJI[t.league]} ${t.nickname}`).join("  ·  ");
+// (league, abbr) -> that team's rows, built once scores are loaded, so every
+// group's per-team record for a period is a cheap date-range filter instead
+// of a fresh scan of the whole season
+let gamesByTeam = {};
+function buildGamesIndex() {
+  gamesByTeam = {};
+  for (const league of LEAGUES) {
+    for (const r of scores[league] || []) {
+      for (const abbr of [r.away_team, r.home_team]) {
+        const key = `${league}|${abbr}`;
+        (gamesByTeam[key] || (gamesByTeam[key] = [])).push(r);
+      }
+    }
+  }
+}
+
+function teamRecord(league, abbr, period) {
+  const p = data.periods[period];
+  const rows = gamesByTeam[`${league}|${abbr}`] || [];
+  let w = 0, l = 0, t = 0;
+  for (const r of rows) {
+    if (r.date < p.start || r.date > p.end) continue;
+    if (r.winner === abbr) w++; else if (r.winner === "") t++; else l++;
+  }
+  return { w, l, t };
+}
+
+// period: when given, each team's own win-loss record for that period is
+// appended (used in the ranking table); omitted for the plain roster shown
+// in the champion callout
+function roster(g, period) {
+  return g.teams.map(t => {
+    const label = `${LEAGUE_EMOJI[t.league]} ${t.nickname}`;
+    if (!period) return label;
+    const rec = teamRecord(t.league, t.abbr, period);
+    return `${label} ${rec.w}–${rec.l}${rec.t ? "–" + rec.t : ""}`;
+  }).join("  ·  ");
 }
 
 // --- race chart -------------------------------------------------------------
@@ -304,7 +338,7 @@ function raceChart(period, ranked) {
   const end = data.reference_date < p.end ? data.reference_date : p.end;
   const days = [...dayRange(p.start, end)];
   if (days.length < 2 || !ranked.length) return "";
-  const top = ranked.slice(0, 3);
+  const top = ranked.slice(0, TOP_N);
   const cumulative = g => {
     let cum = 0;
     return days.map(d => (cum += dayMetric(g.daily[d])));
@@ -389,7 +423,7 @@ function raceChart(period, ranked) {
 
   return `<div class="race" data-period="${period}">
     <div class="legend">${legend}</div>
-    <svg viewBox="0 0 ${VB_W} ${VB_H}" aria-label="Cumulative ${metric} race, top 3 cities${others.length ? " plus " + others.length + " others" : ""}">
+    <svg viewBox="0 0 ${VB_W} ${VB_H}" aria-label="Cumulative ${metric} race, top ${TOP_N} cities${others.length ? " plus " + others.length + " others" : ""}">
       ${grid}${xLabels}${ghostLines}${lines}${dots}
       <line class="crosshair" x1="0" y1="${PLOT.t}" x2="0" y2="${PLOT.b}"
         stroke="var(--baseline)" stroke-width="1" visibility="hidden"/>
@@ -473,7 +507,7 @@ function assignCityColors(rankedByPeriod) {
   // year standing so the season leader is always slot 1
   const inCharts = new Set();
   for (const key of ["week", "month", "year"]) {
-    for (const g of rankedByPeriod[key].slice(0, 3)) inCharts.add(g.city);
+    for (const g of rankedByPeriod[key].slice(0, TOP_N)) inCharts.add(g.city);
   }
   cityColors = {};
   let slot = 0;
@@ -526,12 +560,12 @@ function render() {
       return `<tr${isHl ? ' class="hl"' : ""}>
         <td class="num">${cityLink(g, rank)}</td>
         <td>${cityLink(g)}</td>
-        <td class="teams">${roster(g)}</td>
+        <td class="teams">${roster(g, key)}</td>
         <td class="num">${t.w}–${t.l}${t.t ? "–" + t.t : ""}</td>
         <td class="num">${fmtScore(score(g, key))}</td>
       </tr>`;
     };
-    let rows = (isExpanded ? ranked : ranked.slice(0, 3)).map(rowHtml).join("");
+    let rows = (isExpanded ? ranked : ranked.slice(0, TOP_N)).map(rowHtml).join("");
     // a compared group outside the visible rows still gets one, at its true rank
     if (key === "year" && highlightGroup) {
       const idx = ranked.findIndex(g => g.name === highlightGroup);
@@ -540,7 +574,7 @@ function render() {
         // slot it in at the rank its score would earn
         const g = data.groups.find(x => x.name === highlightGroup);
         if (g) rows += rowHtml(g, ranked.filter(r => score(r, key) - score(g, key) > 1e-9).length);
-      } else if (idx >= 3 && !isExpanded) {
+      } else if (idx >= TOP_N && !isExpanded) {
         rows += rowHtml(ranked[idx], idx);
       }
     }
@@ -558,12 +592,12 @@ function render() {
         <span class="detail">${roster(champ)}</span>
       </div>
       ${hlControl}
-      ${key === "day" ? "" : raceChart(key, ranked)}
+      ${raceChart(key, ranked)}
       <div class="table-wrap"><table>
         <thead><tr><th>#</th><th>City</th><th>Teams</th><th>Record</th><th>Score</th></tr></thead>
         <tbody>${rows}</tbody>
-      </table>${ranked.length > 3 ? `<div class="show-more">
-        <button data-period="${key}">${isExpanded ? "Show top 3" : `Show all ${ranked.length} cities`}</button>
+      </table>${ranked.length > TOP_N ? `<div class="show-more">
+        <button data-period="${key}">${isExpanded ? `Show top ${TOP_N}` : `Show all ${ranked.length} cities`}</button>
       </div>` : ""}</div>
     </section>`;
   });
@@ -683,6 +717,7 @@ async function init() {
     data = rankings;
     teams = teamsJson;
     LEAGUES.forEach((l, i) => { scores[l] = csvs[i]; });
+    buildGamesIndex();
     render();
   } catch (err) {
     const e = document.getElementById("error");
