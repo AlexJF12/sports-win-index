@@ -2,10 +2,12 @@
 
 from datetime import date
 
-from fandom_analysis import (analyze_group, group_games, mtd_window,
-                             month_range, recency_share, select_findings,
+from fandom_analysis import (detect_climb, detect_month, detect_streak,
+                             detect_turnaround, group_context, group_games,
+                             longest_prior_run, mtd_window, month_range,
+                             novelty_factor, recency_share, select_findings,
                              shrunk_percentile, slugify, tally,
-                             trailing_streak)
+                             trailing_streak, ytd_rank_series)
 
 MLB_W = 365 / 162
 
@@ -26,6 +28,12 @@ def by_team_index(rows):
 
 GROUP = {"name": "Testville 1", "city": "Testville",
          "teams": [{"league": "mlb", "abbr": "STL", "nickname": "Cards"}]}
+
+
+def analyze_group(by_team, group, ref, lanes=("all", "calendar")):
+    """The month detector, with its shared context built — the shape the tests
+    were written against."""
+    return detect_month(group_context(by_team, group, ref), lanes)
 
 
 # --- windows -----------------------------------------------------------------
@@ -91,20 +99,20 @@ def test_slugify_collapses_punctuation():
 
 # --- selection ---------------------------------------------------------------
 
-def cand(city, name, score, weighted=0.0):
-    return {"city": city, "name": name, "score": score,
+def cand(city, name, score, weighted=0.0, kind="month"):
+    return {"city": city, "name": name, "score": score, "kind": kind,
             "month_totals": {"weighted": weighted}}
 
 
 def test_select_findings_dedupes_city_and_ranks_by_score():
     cands = [
         cand("A", "A 1", 0.9),
-        cand("A", "A 2", 0.8),   # same city, dropped
+        cand("A", "A 2", 0.85),  # same city, dropped
         cand("B", "B 1", 0.7),
-        cand("C", "C 1", 0.6),
-        cand("D", "D 1", 0.5),   # beyond top 3
+        cand("C", "C 1", 0.5),
+        cand("D", "D 1", 0.3),   # beyond top 3
     ]
-    picked = select_findings(cands, 3)
+    picked = select_findings(cands, 3, seed=None)
     assert [c["name"] for c in picked] == ["A 1", "B 1", "C 1"]
 
 
@@ -113,7 +121,39 @@ def test_select_findings_breaks_score_ties_by_swing_size():
         cand("A", "A 1", 0.8, weighted=+4.0),
         cand("B", "B 1", 0.8, weighted=-20.0),   # same score, bigger swing
     ]
-    assert [c["name"] for c in select_findings(cands, 1)] == ["B 1"]
+    assert select_findings(cands, 1, seed=None)[0]["name"] == "B 1"
+
+
+def test_select_findings_jitter_only_shuffles_near_ties():
+    close = [cand("A", "A 1", 0.80), cand("B", "B 1", 0.79)]
+    far = [cand("A", "A 1", 0.90), cand("B", "B 1", 0.50)]
+    close_winners = {select_findings(close, 1, seed=str(d))[0]["name"]
+                     for d in range(40)}
+    far_winners = {select_findings(far, 1, seed=str(d))[0]["name"]
+                   for d in range(40)}
+    assert close_winners == {"A 1", "B 1"}, "near-ties should vary by day"
+    assert far_winners == {"A 1"}, "a clear winner must not be jittered away"
+
+
+def test_select_findings_caps_repeats_of_one_kind():
+    cands = [cand("A", "A 1", 0.9), cand("B", "B 1", 0.8), cand("C", "C 1", 0.7),
+             cand("D", "D 1", 0.2, kind="streak")]
+    picked = select_findings(cands, 3, seed=None)
+    assert [c["kind"] for c in picked] == ["month", "month", "streak"], (
+        "a third month card should give way to the only other kind available")
+
+
+def test_select_findings_cools_down_recently_featured_cities():
+    cands = [cand("A", "A 1", 0.9), cand("B", "B 1", 0.7)]
+    # A featured yesterday: 0.9 * 0.30 = 0.27, below B's 0.7
+    assert select_findings(cands, 1, recent={"A": 1}, seed=None)[0]["name"] == "B 1"
+    # A featured over a week ago: no penalty, A wins again
+    assert select_findings(cands, 1, recent={"A": 8}, seed=None)[0]["name"] == "A 1"
+
+
+def test_novelty_factor_decays_then_clears():
+    assert novelty_factor(1) < novelty_factor(3) < novelty_factor(6) == 0.95
+    assert novelty_factor(7) == novelty_factor(None) == 1.0
 
 
 # --- end to end on synthetic data --------------------------------------------
@@ -190,6 +230,99 @@ def test_analyze_group_drops_hollow_calendar_claims():
     assert "calendar" not in cand["comparisons"]
     assert cand["basis"] == "all"
     assert cand["direction"] == "cold"
+
+
+# --- detectors: streak, turnaround, climb ------------------------------------
+
+def test_longest_prior_run_ignores_the_live_tail():
+    games = [{"result": r} for r in "WWWLWWWWW"]   # prior best 3, live run 5
+    assert longest_prior_run(games, "W", tail=5) == 3
+
+
+def test_detect_streak_needs_a_live_long_run_and_flags_records():
+    # 4 wins then 6 losses, most recent game the day before the reference date
+    rows = make_history([(4, 6)], [(2026, 7)])
+    by_team = by_team_index(rows)
+    ctx = group_context(by_team, GROUP, date(2026, 7, 10))
+    f = detect_streak(by_team, ctx)
+    assert f["kind"] == "streak" and f["direction"] == "cold"
+    assert f["streak"]["length"] == 6
+    assert f["streak"]["record"] is True      # no prior 6-game skid
+    assert f["timeline"][-1]["phase"] == "streak"
+
+    # same games, but the reference date is two weeks later: the run is stale
+    stale = group_context(by_team, GROUP, date(2026, 7, 24))
+    assert detect_streak(by_team, stale) is None
+
+
+def test_detect_streak_ignores_short_runs():
+    rows = make_history([(6, 3)], [(2026, 7)])    # trailing run of 3
+    by_team = by_team_index(rows)
+    assert detect_streak(by_team, group_context(by_team, GROUP, date(2026, 7, 10))) is None
+
+
+def test_detect_turnaround_requires_a_sign_flip():
+    # ref Jul 14, so "last 7 days" is Jul 8-14: 0-7 before it, 7-0 since
+    rows = [row(f"202607{d:02d}", "STL", 0, "CHC", 1, "CHC", gid=f"a{d}")
+            for d in range(1, 8)]
+    rows += [row(f"202607{d:02d}", "STL", 1, "CHC", 0, "STL", gid=f"b{d}")
+             for d in range(8, 15)]
+    ctx = group_context(by_team_index(rows), GROUP, date(2026, 7, 14))
+    f = detect_turnaround(ctx)
+    assert f["direction"] == "hot"
+    assert (f["turnaround"]["early"]["w"], f["turnaround"]["early"]["l"]) == (0, 7)
+    assert (f["turnaround"]["late"]["w"], f["turnaround"]["late"]["l"]) == (7, 0)
+    assert f["turnaround"]["pace_early"] < 0 < f["turnaround"]["pace_late"]
+
+    # a month that is bad throughout has no turnaround to report
+    flat = [row(f"202607{d:02d}", "STL", 0, "CHC", 1, "CHC", gid=f"c{d}")
+            for d in range(1, 15)]
+    assert detect_turnaround(group_context(by_team_index(flat), GROUP,
+                                           date(2026, 7, 14))) is None
+
+
+def climb_fixture():
+    """Nine one-team groups. T0 goes 0-7 in the first week (dead last), then
+    sweeps a doubleheader every day of the second week; T1..T8 have staggered
+    first-week records and don't play again."""
+    groups = [{"name": f"City{i} 1", "city": f"City{i}",
+               "teams": [{"league": "mlb", "abbr": f"T{i}", "nickname": f"N{i}"}]}
+              for i in range(9)]
+    rows = []
+    for d in range(1, 8):                       # week 1
+        rows.append(row(f"202607{d:02d}", "T0", 0, "OPP", 1, "OPP", gid=f"a0{d}"))
+        for i in range(1, 9):
+            won = d <= (i % 8)                  # T_i wins i of 7 (T8 wins none)
+            rows.append(row(f"202607{d:02d}", f"T{i}", int(won), "OPP",
+                            int(not won), f"T{i}" if won else "OPP", gid=f"a{i}{d}"))
+    for d in range(8, 15):                      # week 2: T0 only, twice a day
+        for g in (1, 2):
+            rows.append(row(f"202607{d:02d}", "T0", 1, "OPP", 0, "T0",
+                            gid=f"b{d}{g}"))
+    return groups, by_team_index(rows)
+
+
+def test_detect_climb_reports_a_real_move_up_the_standings():
+    groups, by_team = climb_fixture()
+    ref = date(2026, 7, 14)
+    ranks = ytd_rank_series(by_team, groups, ref)
+    f = detect_climb(group_context(by_team, groups[0], ref), ranks)
+    assert f["kind"] == "climb" and f["direction"] == "hot"
+    assert f["climb"]["field"] == 9
+    assert f["climb"]["from"] >= 8          # bottom of the table a week ago
+    assert f["climb"]["delta"] >= 4         # and well up the table now
+    assert f["climb"]["to"] == f["climb"]["from"] - f["climb"]["delta"]
+    assert f["rank_series"][-1]["rank"] == f["climb"]["to"]
+
+
+def test_detect_climb_ignores_small_moves_and_idle_groups():
+    groups, by_team = climb_fixture()
+    ref = date(2026, 7, 14)
+    ranks = ytd_rank_series(by_team, groups, ref)
+    # T1..T8 haven't played since July 7: any rank change is someone else's
+    # doing, so none of them is a story
+    for group in groups[1:]:
+        assert detect_climb(group_context(by_team, group, ref), ranks) is None
 
 
 def test_analyze_group_requires_history_and_games():

@@ -3,15 +3,21 @@
 Render the daily fandom-spotlight findings as social-ready PNGs.
 
 Reads content/YYYY-MM-DD/findings.json (written by fandom_analysis.py) and
-produces three charts per finding, next to the JSON:
+produces three charts per finding, next to the JSON. Every finding gets the
+race and teams charts; the middle one depends on what the detector found:
 
     <slug>_race.png     cumulative weighted index this month, all 88 groups as
                         a gray field with the featured group highlighted
-    <slug>_history.png  the group's month-to-date weighted index for every
-                        month since 2022, current month highlighted — the
-                        "best month since X" receipt
     <slug>_teams.png    per-team weighted contribution, full month vs the last
                         7 days — the image that explains what happened this week
+
+    <slug>_history.png  (month) the group's month-to-date weighted index for
+                        every month since 2022 — or every July since 2022 when
+                        the calendar lane won — current month highlighted
+    <slug>_timeline.png (streak, turnaround) game by game, result-colored, with
+                        the streak or the last-7-day flip picked out
+    <slug>_bump.png     (climb) place in the year-to-date standings over the
+                        last 30 days, featured group against the field
 
 Charts are plotnine (grammar of graphics), 1600x900 at 2x, light surface.
 
@@ -24,14 +30,16 @@ import argparse
 import json
 import logging
 import os
+import textwrap
 
 import pandas as pd
 from plotnine import (aes, annotate, coord_flip, element_blank, element_line,
                       element_rect, element_text, expand_limits, geom_col,
                       geom_hline, geom_line, geom_point, geom_segment,
-                      geom_text, ggplot, guides, labs, position_dodge,
-                      scale_color_manual, scale_fill_manual,
-                      scale_x_continuous, scale_x_date, theme, theme_minimal)
+                      geom_step, geom_text, ggplot, labs, position_dodge,
+                      scale_color_manual, scale_fill_manual, scale_size_manual,
+                      scale_x_continuous, scale_x_date, scale_y_reverse, theme,
+                      theme_minimal)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
@@ -49,7 +57,10 @@ HOT = "#2a78d6"     # blue pole — historically good
 COLD = "#e34948"    # red pole — historically bad
 FIELD = "#c3c2b7"   # de-emphasized context lines
 
-CAPTION = "weighted index: every game = 365 ÷ season length (MLB ±2.25, NBA/NHL ±4.45, NFL ±21.5)"
+CAPTION = ("weighted index: every game = 365 ÷ season length "
+           "(MLB ±2.25, NBA/NHL ±4.45, NFL ±21.5) · records begin January 2022")
+TITLE_WRAP = 58      # characters before the title wraps to a second line
+SUBTITLE_WRAP = 84
 MONTHS = ["", "January", "February", "March", "April", "May", "June", "July",
           "August", "September", "October", "November", "December"]
 
@@ -84,6 +95,12 @@ def accent(finding):
     return HOT if finding["direction"] == "hot" else COLD
 
 
+def titles(finding, subtitle):
+    """Wrap the headline and subtitle so neither runs off the canvas."""
+    return {"title": textwrap.fill(finding["headline"], TITLE_WRAP),
+            "subtitle": textwrap.fill(subtitle, SUBTITLE_WRAP)}
+
+
 def month_name(data):
     y, m = data["month"].split("-")
     return f"{MONTHS[int(m)]} {y}"
@@ -115,9 +132,8 @@ def render_race(data, finding, path):
                    color=INK, size=10, fontweight="bold")
         + scale_x_continuous(breaks=[d for d in days if d % 7 == 1],
                              expand=(0.01, 0, 0.06, 1.2))
-        + labs(title=finding["headline"],
-               subtitle=f"{finding['label']} vs every other city group — "
-                        f"cumulative weighted index, {month_name(data)}",
+        + labs(**titles(finding, f"{finding['label']} vs every other city group — "
+                                 f"cumulative weighted index, {month_name(data)}"),
                x=f"day of {month_name(data).split(' ')[0]}",
                caption=CAPTION)
         + spotlight_theme()
@@ -188,7 +204,7 @@ def render_history(data, finding, path):
         + scale_color_manual(values={"up": HOT, "down": COLD}, guide=None)
         + x_scale
         + expand_limits(y=[v * 1.15 for v in (df["weighted"].min(), df["weighted"].max())])
-        + labs(title=finding["headline"], subtitle=subtitle, caption=CAPTION)
+        + labs(**titles(finding, subtitle), caption=CAPTION)
         + spotlight_theme()
         + theme(axis_title_x=element_blank(), axis_title_y=element_blank())
     )
@@ -235,14 +251,96 @@ def render_teams(data, finding, path):
         + expand_limits(y=[v * 1.18 for v in (min(df["weighted"].min(), 0),
                                               max(df["weighted"].max(), 0))])
         + coord_flip()
-        + labs(title=title,
-               subtitle=f"{finding['label']} — weighted contribution, {month_name(data)}",
+        + labs(title=textwrap.fill(title, TITLE_WRAP),
+               subtitle=textwrap.fill(f"{finding['label']} — weighted contribution, "
+                                      f"{month_name(data)}", SUBTITLE_WRAP),
                caption=CAPTION)
         + spotlight_theme()
         + theme(panel_grid_major_y=element_blank(),
                 axis_title_x=element_blank(), axis_title_y=element_blank())
     )
     p.save(path, verbose=False)
+
+
+def render_timeline(data, finding, path):
+    """Game by game: cumulative weighted index with result-colored points, the
+    story's phase (the streak, or this week's flip) picked out from the rest."""
+    games = finding["timeline"]
+    lead = "streak" if finding["kind"] == "streak" else "late"
+    df = pd.DataFrame([{**g, "n": i + 1} for i, g in enumerate(games)])
+    df["cum"] = df["weighted"].cumsum().round(3)
+    df["lead"] = df["phase"] == lead
+    df["outcome"] = df["result"].map({"W": "Win", "L": "Loss", "T": "Tie"})
+    ac = accent(finding)
+    lead_df, rest_df = df[df["lead"]], df[~df["lead"]]
+    # the phase line must connect to the preceding game, or it floats
+    if not rest_df.empty and not lead_df.empty:
+        lead_df = pd.concat([rest_df.tail(1), lead_df])
+    end = df.iloc[-1]
+
+    if finding["kind"] == "streak":
+        s = finding["streak"]
+        word = "wins" if s["type"] == "W" else "losses"
+        subtitle = (f"{finding['label']} — last {len(df)} games; the "
+                    f"{s['length']} straight {word} in color")
+    else:
+        t = finding["turnaround"]
+        subtitle = (f"{finding['label']} — every game this month; the last 7 "
+                    f"days ({t['late']['w']}-{t['late']['l']}) in color")
+
+    p = (
+        ggplot()
+        + geom_hline(yintercept=0, color=BASELINE, size=0.4)
+        + geom_step(rest_df, aes("n", "cum"), color=FIELD, size=1.0)
+        + geom_step(lead_df, aes("n", "cum"), color=ac, size=1.6)
+        + geom_point(df, aes("n", "cum", color="outcome", size="lead"), stroke=0)
+        + geom_text(df.tail(1), aes("n", "cum", label="cum.map(lambda v: f'{v:+.1f}')"),
+                    nudge_x=0.5, ha="left", va="center", color=INK, size=10,
+                    fontweight="bold")
+        + scale_color_manual(values={"Win": HOT, "Loss": COLD, "Tie": MUTED},
+                             breaks=["Win", "Loss"])
+        + scale_size_manual(values={True: 3.2, False: 1.8}, guide=None)
+        + scale_x_continuous(expand=(0.02, 0, 0.08, 0.8))
+        + labs(**titles(finding, subtitle), x="game", caption=CAPTION)
+        + spotlight_theme()
+        + theme(axis_title_y=element_blank())
+    )
+    p.save(path, verbose=False)
+
+
+def render_bump(data, finding, path):
+    """Place in the year-to-date standings over the last 30 days."""
+    rows = [{"date": pd.to_datetime(r["date"]), "rank": r["rank"]}
+            for r in finding["rank_series"]]
+    df = pd.DataFrame(rows)
+    ac = accent(finding)
+    c = finding["climb"]
+    week_ago = df.iloc[-1]["date"] - pd.Timedelta(days=7)
+
+    p = (
+        ggplot(df, aes("date", "rank"))
+        + geom_line(color=ac, size=1.4, lineend="round")
+        + geom_point(df[df["date"] >= week_ago], color=ac, size=2.2, stroke=0)
+        + geom_point(df.tail(1), color=ac, size=4)
+        + annotate("text", x=df.iloc[-1]["date"] + pd.Timedelta(days=1),
+                   y=df.iloc[-1]["rank"], label=f"#{c['to']}", ha="left",
+                   va="center", color=INK, size=10, fontweight="bold")
+        + scale_y_reverse(expand=(0.10, 0))
+        + scale_x_date(date_breaks="1 week", date_labels="%b %-d",
+                       expand=(0.02, 0, 0.02, 2.5))
+        + labs(**titles(finding, f"{finding['label']} — place among all {c['field']} "
+                                 f"city groups on the {data['month'][:4]} weighted "
+                                 f"index, last {len(df)} days"),
+               caption=CAPTION)
+        + spotlight_theme()
+        + theme(axis_title_x=element_blank(), axis_title_y=element_blank())
+    )
+    p.save(path, verbose=False)
+
+
+RENDERERS = {"race": render_race, "history": render_history,
+             "teams": render_teams, "timeline": render_timeline,
+             "bump": render_bump}
 
 
 def main():
@@ -271,11 +369,10 @@ def main():
         return
 
     for finding in data["findings"]:
-        slug = finding["slug"]
-        render_race(data, finding, os.path.join(folder, f"{slug}_race.png"))
-        render_history(data, finding, os.path.join(folder, f"{slug}_history.png"))
-        render_teams(data, finding, os.path.join(folder, f"{slug}_teams.png"))
-        log.info("Rendered %s (%s)", slug, finding["headline"])
+        for image in finding["images"]:
+            kind = image.rsplit("_", 1)[-1].removesuffix(".png")
+            RENDERERS[kind](data, finding, os.path.join(folder, image))
+        log.info("Rendered %s (%s)", finding["slug"], finding["headline"])
     log.info("Done: %s", folder)
 
 
