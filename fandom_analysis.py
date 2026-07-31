@@ -8,11 +8,22 @@ day-of-month cutoff) in every historical month since the data begins (Jan 2022).
 Comparing July 1-14 against 54 full months would make every mid-month look bad;
 same-cutoff MTD vs MTD is apples-to-apples.
 
-Each qualifying group gets an interestingness score in [0, 1]:
+Each group is compared along two lanes, and the stronger story wins (recorded
+as the finding's "basis"):
 
-    extremity  how far the current month sits in the tails of the group's own
-               history (2 * |percentile - 0.5|) — both tails count, a
-               historically awful month is as postable as a historically great one
+    all       vs every month in the group's history
+    calendar  vs the same calendar month in previous years only — July against
+              past Julys, so a baseball-only month is never judged against the
+              four-league months where the weighted index swings much harder
+
+Each qualifying lane gets an interestingness score in [0, 1]:
+
+    extremity  how far the current month sits in the tails of the comparison
+               set (2 * |percentile - 0.5|) — both tails count, a historically
+               awful month is as postable as a historically great one. The
+               percentile is shrunk toward the middle by half a pseudo-count,
+               so "best of 5 Julys" claims proportionally less than "best of
+               55 months"
     recency    the share of the month's weighted total earned in the last 7 days,
                so a group that just caught fire outranks one coasting on an
                early-month streak
@@ -48,7 +59,8 @@ CONTENT_DIR = "content"
 HISTORY_START = (2022, 1)   # first month of score data
 MIN_GAMES = 3               # months where the group played fewer games don't count
 MIN_DAY = 4                 # too early in a month to call anything notable
-MIN_HISTORY = 12            # need at least this many comparable months
+MIN_HISTORY = 12            # the all-months lane needs at least this many months
+MIN_CAL_HISTORY = 3         # the same-calendar-month lane needs this many prior years
 TOP_N = 3
 
 
@@ -99,11 +111,13 @@ def mtd_window(year: int, month: int, cutoff_day: int) -> tuple:
     return f"{year:04d}{month:02d}01", f"{year:04d}{month:02d}{day:02d}"
 
 
-def percentile(hist_values: list, current: float) -> float:
-    """Midrank percentile of current among hist_values, in [0, 1]."""
+def shrunk_percentile(hist_values: list, current: float) -> float:
+    """Midrank percentile of current among hist_values, shrunk toward 0.5 by
+    half a pseudo-count so small comparison sets make weaker claims ("best of
+    5 Julys" scores below "best of 55 months")."""
     below = sum(1 for v in hist_values if v < current)
     ties = sum(1 for v in hist_values if v == current)
-    return (below + 0.5 * ties) / len(hist_values)
+    return (below + 0.5 * ties + 0.5) / (len(hist_values) + 1)
 
 
 def recency_share(month_weighted: float, last7_weighted: float) -> float:
@@ -133,7 +147,10 @@ def select_findings(candidates: list, top_n: int) -> list:
     """Highest scores first, at most one group per city."""
     seen_cities = set()
     picked = []
-    for cand in sorted(candidates, key=lambda c: c["score"], reverse=True):
+    # equal scores (common in the small calendar lane) break on swing size
+    for cand in sorted(candidates,
+                       key=lambda c: (c["score"], abs(c["month_totals"]["weighted"])),
+                       reverse=True):
         if cand["city"] in seen_cities:
             continue
         seen_cities.add(cand["city"])
@@ -153,9 +170,35 @@ def display_label(group: dict) -> str:
     return f"{group['city']}: " + "/".join(t["nickname"] for t in group["teams"])
 
 
-def analyze_group(by_team: dict, group: dict, ref: date) -> dict | None:
-    """Score one group's current month against its own history. None if it
-    doesn't qualify (too few games, too little history)."""
+def lane_stats(hist: list, current: float, last7_weighted: float) -> dict:
+    """Score the current month against one comparison set (a "lane").
+
+    "since" is the most recent comparison month at least as extreme as this
+    one; None means this is the most extreme month in the set.
+    """
+    values = [h["weighted"] for h in hist]
+    pctl = shrunk_percentile(values, current)
+    direction = "hot" if pctl >= 0.5 else "cold"
+    sign = 1 if direction == "hot" else -1
+    share = recency_share(sign * current, sign * last7_weighted)
+    extremity = 2 * abs(pctl - 0.5)
+    score = extremity * (0.6 + 0.4 * share)
+    if direction == "hot":
+        rank = 1 + sum(1 for v in values if v > current)
+        since = max((h["month"] for h in hist if h["weighted"] >= current), default=None)
+    else:
+        rank = 1 + sum(1 for v in values if v < current)
+        since = max((h["month"] for h in hist if h["weighted"] <= current), default=None)
+    return {"direction": direction, "score": round(score, 4),
+            "percentile": round(pctl, 4), "rank": rank,
+            "n_months": len(values), "since": since}
+
+
+def analyze_group(by_team: dict, group: dict, ref: date,
+                  lanes: tuple = ("all", "calendar")) -> dict | None:
+    """Score one group's current month against its own history along the
+    requested comparison lanes. None if no lane qualifies (too few games,
+    too little history)."""
     cutoff = ref.day
     lo, hi = mtd_window(ref.year, ref.month, cutoff)
     month_games = group_games(by_team, group, lo, hi)
@@ -169,37 +212,30 @@ def analyze_group(by_team: dict, group: dict, ref: date) -> dict | None:
         totals = tally(group_games(by_team, group, h_lo, h_hi))
         if totals["games"] >= MIN_GAMES:
             hist.append({"month": f"{y:04d}-{m:02d}", "calendar_month": m, **totals})
-    if len(hist) < MIN_HISTORY:
-        return None
 
-    hist_values = [h["weighted"] for h in hist]
     cur = month_totals["weighted"]
-    pctl = percentile(hist_values, cur)
-    direction = "hot" if pctl >= 0.5 else "cold"
-
     last7_lo = max(ref - timedelta(days=6), ref.replace(day=1))
     last7_games = [g for g in month_games if g["date"] >= last7_lo.strftime("%Y%m%d")]
     last7 = tally(last7_games)
-    share = recency_share(cur if direction == "hot" else -cur,
-                          last7["weighted"] if direction == "hot" else -last7["weighted"])
 
-    extremity = 2 * abs(pctl - 0.5)
-    score = extremity * (0.6 + 0.4 * share)
+    def sign_ok(lane):
+        # a "best July on record" that's still a losing month (or a "worst"
+        # that's a winning one) is a hollow claim — the lane doesn't count
+        return cur > 0 if lane["direction"] == "hot" else cur < 0
 
-    # "best/worst month since X": the most recent historical month at least as
-    # extreme as this one; None means this is the most extreme month on record.
-    if direction == "hot":
-        rank = 1 + sum(1 for v in hist_values if v > cur)
-        since = max((h["month"] for h in hist if h["weighted"] >= cur), default=None)
-    else:
-        rank = 1 + sum(1 for v in hist_values if v < cur)
-        since = max((h["month"] for h in hist if h["weighted"] <= cur), default=None)
-
-    same_cal = [h["weighted"] for h in hist if h["calendar_month"] == ref.month]
-    if direction == "hot":
-        cal_rank = 1 + sum(1 for v in same_cal if v > cur)
-    else:
-        cal_rank = 1 + sum(1 for v in same_cal if v < cur)
+    comparisons = {}
+    if "all" in lanes and len(hist) >= MIN_HISTORY:
+        lane = lane_stats(hist, cur, last7["weighted"])
+        if sign_ok(lane):
+            comparisons["all"] = lane
+    cal_hist = [h for h in hist if h["calendar_month"] == ref.month]
+    if "calendar" in lanes and len(cal_hist) >= MIN_CAL_HISTORY:
+        lane = lane_stats(cal_hist, cur, last7["weighted"])
+        if sign_ok(lane):
+            comparisons["calendar"] = lane
+    if not comparisons:
+        return None
+    basis = max(comparisons, key=lambda k: comparisons[k]["score"])
 
     per_team = []
     for team in group["teams"]:
@@ -211,10 +247,9 @@ def analyze_group(by_team: dict, group: dict, ref: date) -> dict | None:
     return {
         "name": group["name"], "city": group["city"], "label": display_label(group),
         "teams": group["teams"],
-        "direction": direction, "score": round(score, 4),
-        "percentile": round(pctl, 4), "rank": rank, "n_months": len(hist),
-        "calendar_rank": cal_rank, "calendar_n": len(same_cal) + 1,
-        "since": since,
+        # top-level stats mirror the winning lane; both lanes stay in comparisons
+        "basis": basis, **comparisons[basis],
+        "comparisons": comparisons,
         "month_totals": month_totals, "last7": last7,
         "per_team": per_team,
         "history": hist,
@@ -251,11 +286,22 @@ def pretty_month(iso: str) -> str:
 def headline(f: dict, ref: date) -> str:
     month_name = MONTH_NAMES[ref.month]
     adj = "best" if f["direction"] == "hot" else "worst"
+    if f["basis"] == "calendar":
+        if f["rank"] == 1:
+            return f"{f['city']} is having its {adj} {month_name} on record"
+        return f"{f['city']} is having its {adj} {month_name} since {f['since'][:4]}"
     if f["rank"] == 1:
         return f"{f['city']} is having its {adj} month on record"
-    if f["calendar_rank"] == 1:
-        return f"{f['city']} is having its {adj} {month_name} on record"
     return f"{f['city']} is having its {adj} month since {pretty_month(f['since'])}"
+
+
+def lane_claim(lane: dict, basis: str, ref: date) -> str:
+    adj = "best" if lane["direction"] == "hot" else "worst"
+    if basis == "calendar":
+        return (f"{ordinal(lane['rank'])}-{adj} {MONTH_NAMES[ref.month]} "
+                f"of the {lane['n_months'] + 1} since 2022")
+    return (f"{ordinal(lane['rank'])}-{adj} of {lane['n_months'] + 1} months "
+            f"since 2022 ({ordinal(round(lane['percentile'] * 100))} percentile)")
 
 
 def summary_lines(f: dict, ref: date) -> list:
@@ -264,11 +310,13 @@ def summary_lines(f: dict, ref: date) -> list:
     lines = [
         f"- **This month (through {MONTH_NAMES[ref.month]} {ref.day}):** "
         f"{m['w']}-{m['l']}{tie}, {m['weighted']:+.1f} weighted — "
-        f"{ordinal(f['rank'])}-{'best' if f['direction'] == 'hot' else 'worst'} "
-        f"of {f['n_months'] + 1} months since 2022 "
-        f"({ordinal(round(f['percentile'] * 100))} percentile)",
-        f"- **Last 7 days:** {l7['w']}-{l7['l']}, {l7['weighted']:+.1f} weighted",
+        + lane_claim(f, f["basis"], ref),
     ]
+    other = "all" if f["basis"] == "calendar" else "calendar"
+    if other in f["comparisons"]:
+        label = "vs all months" if other == "all" else f"vs past {MONTH_NAMES[ref.month]}s"
+        lines.append(f"- **{label}:** " + lane_claim(f["comparisons"][other], other, ref))
+    lines.append(f"- **Last 7 days:** {l7['w']}-{l7['l']}, {l7['weighted']:+.1f} weighted")
     drivers = sorted((t for t in f["per_team"] if t["last7"]["games"]),
                      key=lambda t: abs(t["last7"]["weighted"]), reverse=True)
     if drivers:
@@ -312,6 +360,9 @@ def main():
     parser.add_argument("--data-dir", default=DATA_DIR)
     parser.add_argument("--out-dir", default=CONTENT_DIR)
     parser.add_argument("--top", type=int, default=TOP_N)
+    parser.add_argument("--compare", choices=["both", "all", "calendar"], default="both",
+                        help="Comparison lanes: every month since 2022, only the same "
+                             "calendar month in previous years, or both (best story wins).")
     args = parser.parse_args()
 
     if args.date:
@@ -333,9 +384,10 @@ def main():
         groups = json.load(f)
     by_team = index_by_team(load_scores(args.data_dir))
 
+    lanes = ("all", "calendar") if args.compare == "both" else (args.compare,)
     candidates = []
     for group in groups:
-        cand = analyze_group(by_team, group, ref)
+        cand = analyze_group(by_team, group, ref, lanes)
         if cand:
             candidates.append(cand)
     log.info("Scored %d of %d groups.", len(candidates), len(groups))
@@ -344,8 +396,8 @@ def main():
     for f in findings:
         f["headline"] = headline(f, ref)
         f["slug"] = slugify(f["name"])
-        log.info("%s: %s (score %.3f, %s, %d-%d, %+.1f weighted)",
-                 f["slug"], f["headline"], f["score"], f["direction"],
+        log.info("%s: %s (score %.3f, basis %s, %s, %d-%d, %+.1f weighted)",
+                 f["slug"], f["headline"], f["score"], f["basis"], f["direction"],
                  f["month_totals"]["w"], f["month_totals"]["l"],
                  f["month_totals"]["weighted"])
 

@@ -127,8 +127,13 @@ def render_race(data, finding, path):
 
 
 def render_history(data, finding, path):
-    """Every month since 2022 at the same day-of-month cutoff, current highlighted."""
+    """The comparison set behind the headline, current month highlighted: every
+    month since 2022, or — when the calendar lane won — only this calendar
+    month across years (July vs past Julys)."""
     hist = pd.DataFrame(finding["history"])
+    calendar_only = finding.get("basis") == "calendar"
+    if calendar_only:
+        hist = hist[hist["calendar_month"] == int(data["month"].split("-")[1])]
     hist["when"] = pd.to_datetime(hist["month"] + "-01")
     hist["current"] = False
     cur = pd.DataFrame([{
@@ -140,30 +145,50 @@ def render_history(data, finding, path):
     df = pd.concat([hist[["month", "when", "weighted", "current"]], cur])
     df["sign"] = df["weighted"].map(lambda v: "up" if v >= 0 else "down")
     ac = accent(finding)
+    past, current = df[~df["current"]], df[df["current"]]
+    if calendar_only:
+        # a handful of same-month years: lollipops (stem + dot), year ticks
+        month_word = month_name(data).split(" ")[0]
+        subtitle = (f"{finding['label']} — weighted index through day "
+                    f"{data['cutoff_day']} of every {month_word} since 2022")
+        x_scale = scale_x_date(breaks=sorted(df["when"]), date_labels="%Y",
+                               expand=(0.08, 0, 0.02, 110))
+        layers = [
+            geom_segment(past, aes(x="when", xend="when", y=0, yend="weighted",
+                                   color="sign"), size=2.0, alpha=0.35),
+            geom_point(past, aes("when", "weighted", color="sign"),
+                       size=3.5, alpha=0.35),
+            geom_segment(current, aes(x="when", xend="when", y=0, yend="weighted"),
+                         color=ac, size=2.4),
+            geom_point(current, aes("when", "weighted"), color=ac, size=5),
+        ]
+    else:
+        subtitle = (f"{finding['label']} — weighted index through day "
+                    f"{data['cutoff_day']} of every month since 2022")
+        x_scale = scale_x_date(date_breaks="6 months", date_labels="%b %Y",
+                               expand=(0.02, 0, 0.02, 130))
+        layers = [
+            geom_segment(past, aes(x="when", xend="when", y=0, yend="weighted",
+                                   color="sign"), size=1.6, alpha=0.35,
+                         lineend="round"),
+            geom_segment(current, aes(x="when", xend="when", y=0, yend="weighted"),
+                         color=ac, size=2.2, lineend="round"),
+            geom_point(current, aes("when", "weighted"), color=ac, size=3),
+        ]
 
+    p = ggplot(df, aes("when", "weighted")) + geom_hline(yintercept=0, color=BASELINE, size=0.4)
+    for layer in layers:
+        p = p + layer
     p = (
-        ggplot(df, aes("when", "weighted"))
-        + geom_hline(yintercept=0, color=BASELINE, size=0.4)
-        + geom_segment(df[~df["current"]],
-                       aes(x="when", xend="when", y=0, yend="weighted", color="sign"),
-                       size=1.6, alpha=0.35, lineend="round")
-        + geom_segment(df[df["current"]],
-                       aes(x="when", xend="when", y=0, yend="weighted"),
-                       color=ac, size=2.2, lineend="round")
-        + geom_point(df[df["current"]], aes("when", "weighted"),
-                     color=ac, size=3)
+        p
         + annotate("text", x=cur["when"].iloc[0], y=cur["weighted"].iloc[0],
                    label=f"  {cur['weighted'].iloc[0]:+.1f}", ha="left",
                    va="bottom" if cur["weighted"].iloc[0] >= 0 else "top",
                    color=INK, size=10, fontweight="bold")
         + scale_color_manual(values={"up": HOT, "down": COLD}, guide=None)
-        + scale_x_date(date_breaks="6 months", date_labels="%b %Y",
-                       expand=(0.02, 0, 0.02, 130))
+        + x_scale
         + expand_limits(y=[v * 1.15 for v in (df["weighted"].min(), df["weighted"].max())])
-        + labs(title=finding["headline"],
-               subtitle=f"{finding['label']} — weighted index through day "
-                        f"{data['cutoff_day']} of every month since 2022",
-               caption=CAPTION)
+        + labs(title=finding["headline"], subtitle=subtitle, caption=CAPTION)
         + spotlight_theme()
         + theme(axis_title_x=element_blank(), axis_title_y=element_blank())
     )

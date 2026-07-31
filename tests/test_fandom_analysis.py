@@ -3,8 +3,9 @@
 from datetime import date
 
 from fandom_analysis import (analyze_group, group_games, mtd_window,
-                             month_range, percentile, recency_share,
-                             select_findings, slugify, tally, trailing_streak)
+                             month_range, recency_share, select_findings,
+                             shrunk_percentile, slugify, tally,
+                             trailing_streak)
 
 MLB_W = 365 / 162
 
@@ -57,10 +58,15 @@ def test_group_games_and_tally():
 
 # --- scoring pieces ----------------------------------------------------------
 
-def test_percentile_midrank():
-    assert percentile([1, 2, 3, 4], 5) == 1.0
-    assert percentile([1, 2, 3, 4], 0) == 0.0
-    assert percentile([1, 2, 3, 4], 3) == (2 + 0.5) / 4  # tie takes half rank
+def test_shrunk_percentile_midrank_with_pseudo_count():
+    assert shrunk_percentile([1, 2, 3, 4], 5) == 4.5 / 5   # never fully 1.0
+    assert shrunk_percentile([1, 2, 3, 4], 0) == 0.5 / 5   # never fully 0.0
+    assert shrunk_percentile([1, 2, 3, 4], 3) == (2 + 0.5 + 0.5) / 5  # tie: half rank
+
+
+def test_shrunk_percentile_small_samples_claim_less():
+    # "best of 4" must be a weaker claim than "best of 50"
+    assert shrunk_percentile([1] * 4, 2) < shrunk_percentile([1] * 50, 2)
 
 
 def test_recency_share_clips_and_zeroes_opposite_sign():
@@ -85,16 +91,29 @@ def test_slugify_collapses_punctuation():
 
 # --- selection ---------------------------------------------------------------
 
+def cand(city, name, score, weighted=0.0):
+    return {"city": city, "name": name, "score": score,
+            "month_totals": {"weighted": weighted}}
+
+
 def test_select_findings_dedupes_city_and_ranks_by_score():
     cands = [
-        {"city": "A", "name": "A 1", "score": 0.9},
-        {"city": "A", "name": "A 2", "score": 0.8},   # same city, dropped
-        {"city": "B", "name": "B 1", "score": 0.7},
-        {"city": "C", "name": "C 1", "score": 0.6},
-        {"city": "D", "name": "D 1", "score": 0.5},   # beyond top 3
+        cand("A", "A 1", 0.9),
+        cand("A", "A 2", 0.8),   # same city, dropped
+        cand("B", "B 1", 0.7),
+        cand("C", "C 1", 0.6),
+        cand("D", "D 1", 0.5),   # beyond top 3
     ]
     picked = select_findings(cands, 3)
     assert [c["name"] for c in picked] == ["A 1", "B 1", "C 1"]
+
+
+def test_select_findings_breaks_score_ties_by_swing_size():
+    cands = [
+        cand("A", "A 1", 0.8, weighted=+4.0),
+        cand("B", "B 1", 0.8, weighted=-20.0),   # same score, bigger swing
+    ]
+    assert [c["name"] for c in select_findings(cands, 1)] == ["B 1"]
 
 
 # --- end to end on synthetic data --------------------------------------------
@@ -119,6 +138,7 @@ def test_analyze_group_flags_a_historically_hot_month():
     rows += make_history([(13, 1)], [(2023, 3)])
     cand = analyze_group(by_team_index(rows), GROUP, date(2023, 3, 14))
     assert cand is not None
+    assert cand["basis"] == "all"       # only one prior March: no calendar lane
     assert cand["direction"] == "hot"
     assert cand["rank"] == 1                      # best month on record
     assert cand["since"] is None
@@ -126,6 +146,50 @@ def test_analyze_group_flags_a_historically_hot_month():
     assert cand["month_totals"]["w"] == 13
     # every game in a 14-day month within the last-7 window counts
     assert cand["last7"]["games"] == 7
+
+
+def test_analyze_group_calendar_lane_wins_for_a_record_july():
+    # Non-July months alternate hot/cold so the current month is mid-pack
+    # overall, but past Julys were all terrible and this one is great:
+    # the same-calendar-month lane should carry the story.
+    months, records = [], []
+    for y in (2022, 2023, 2024):
+        for m in range(1, 13):
+            months.append((y, m))
+            records.append((2, 12) if m == 7 else
+                           (12, 2) if m % 2 else (2, 12))
+    rows = make_history(records, months)
+    # current July: 8-6 with all six losses first, so the last 7 days are 7-0
+    rows += [row(f"202507{d:02d}", "STL", 0, "CHC", 1, "CHC", gid=f"c{d}")
+             for d in range(1, 7)]
+    rows += [row(f"202507{d:02d}", "STL", 1, "CHC", 0, "STL", gid=f"c{d}")
+             for d in range(7, 15)]
+    cand = analyze_group(by_team_index(rows), GROUP, date(2025, 7, 14))
+    assert cand is not None
+    assert set(cand["comparisons"]) == {"all", "calendar"}
+    assert cand["basis"] == "calendar"
+    assert cand["direction"] == "hot"
+    assert cand["rank"] == 1            # best July on record
+    assert cand["since"] is None
+    assert cand["comparisons"]["calendar"]["n_months"] == 3
+
+
+def test_analyze_group_drops_hollow_calendar_claims():
+    # Past Julys were awful, and this July is *less* awful but still losing:
+    # "best July on record" on a losing month is hollow, so the calendar lane
+    # must be discarded and the all-months lane (mildly cold) carries it.
+    months, records = [], []
+    for y in (2022, 2023, 2024):
+        for m in range(1, 13):
+            months.append((y, m))
+            records.append((2, 12) if m == 7 else (7, 7))
+    rows = make_history(records, months)
+    rows += make_history([(6, 8)], [(2025, 7)])   # -4.5 weighted: still losing
+    cand = analyze_group(by_team_index(rows), GROUP, date(2025, 7, 14))
+    assert cand is not None
+    assert "calendar" not in cand["comparisons"]
+    assert cand["basis"] == "all"
+    assert cand["direction"] == "cold"
 
 
 def test_analyze_group_requires_history_and_games():
