@@ -12,6 +12,16 @@ This repo is the whole system: a daily scraper, the score data itself, and a sta
 
 Default teams live in [`my_teams.json`](my_teams.json); the full team list (ESPN abbreviations → names) is [`teams.json`](teams.json). Scraper details and design decisions are in [`PLAN.md`](PLAN.md).
 
+## Fandom spotlight (daily social content)
+
+After the scrape, the workflow runs [`fandom_analysis.py`](fandom_analysis.py): for every city group it compares the current month-to-date **weighted index** against the same month-to-date window (same day-of-month cutoff) of every month since 2022, and scores how far into the tails of its own history the group sits — boosted when the last 7 days drove it, so there's a "this week" hook. Both tails count: a historically great month and a historically awful one are equally postable. The top 3 groups (max one per city) land in `content/YYYY-MM-DD/` as:
+
+- `findings.json` — everything the renderer and the summary are built from
+- `summary.md` — headlines plus copy-pasteable stats (record, weighted points, percentile, streaks, who drove it)
+- three plotnine PNGs per finding: `*_race.png` (the group vs the whole field this month), `*_history.png` (every month since 2022, current highlighted), `*_teams.png` (per-team contribution, month vs last 7 days)
+
+Browse the day's folder, pick what's worth posting. Backfill or replay a day with `python fandom_analysis.py --date 20260716 && python render_content.py --date 20260716`.
+
 ## The three scoring methods
 
 The page can score your teams' games three ways:
