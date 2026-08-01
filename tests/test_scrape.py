@@ -316,6 +316,25 @@ def test_empty_rows_write_nothing(tmp_path):
     assert not path.exists()
 
 
+def test_duplicate_game_id_within_one_batch_keeps_first(tmp_path):
+    # ESPN's scoreboard endpoint occasionally lists the same completed game
+    # again under a later date's query (observed for extra-innings MLB games
+    # up to 22 days after the fact) — a caller that batches several days'
+    # rows before a single append_rows call (as backfill.py's chunked writes
+    # do) must not end up with two rows for the same game_id. Only
+    # load_existing_game_ids (checked against what's already on disk) can't
+    # catch this, since neither copy is on disk yet within the same call.
+    path = tmp_path / "mlb_scores.csv"
+    rows = [
+        {**SAMPLE_ROWS[0], "date": "20260710"},
+        {**SAMPLE_ROWS[0], "date": "20260711"},  # same game_id, later date
+    ]
+    assert append_rows(str(path), rows) == 1
+    kept = read_csv(path)
+    assert len(kept) == 1
+    assert kept[0]["date"] == "20260710"  # first occurrence wins
+
+
 # --- date handling -----------------------------------------------------------
 
 def test_validate_date_accepts_yyyymmdd():

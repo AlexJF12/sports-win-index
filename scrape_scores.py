@@ -251,12 +251,27 @@ def load_existing_game_ids(csv_path: str) -> set[str]:
 
 def append_rows(csv_path: str, rows: list[dict]) -> int:
     """Append new rows to the CSV, skipping any game_id already present.
-    Returns the number of rows actually written."""
+    Returns the number of rows actually written.
+
+    Also dedupes within `rows` itself, keeping the first occurrence of a
+    given game_id — the daily scraper only ever passes one day's rows, where
+    this can't come up, but a caller batching multiple days before a single
+    call (as backfill.py's chunked writes do) can otherwise write the same
+    game twice: ESPN's scoreboard endpoint occasionally lists an extra-innings
+    or otherwise late-running game again under a following day's query, and
+    load_existing_game_ids alone only catches a row already committed to
+    disk, not a duplicate still sitting in the same in-memory batch."""
     if not rows:
         return 0
 
     existing_ids = load_existing_game_ids(csv_path)
-    new_rows = [r for r in rows if r["game_id"] not in existing_ids]
+    new_rows = []
+    seen_in_batch = set()
+    for r in rows:
+        if r["game_id"] in existing_ids or r["game_id"] in seen_in_batch:
+            continue
+        seen_in_batch.add(r["game_id"])
+        new_rows.append(r)
 
     if not new_rows:
         return 0
