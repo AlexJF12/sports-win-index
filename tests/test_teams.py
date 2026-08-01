@@ -46,18 +46,14 @@ def test_fixture_abbreviations_resolve_against_teams_json():
     map a scores row to a display name. Fixtures may also contain events that
     flatten_completed_games is expected to filter out entirely (exhibitions,
     defunct-franchise abbreviation collisions) — those aren't held to this,
-    since they never produce a row. One fixture is explicitly exempted: it
-    proves relocated/renamed teams' own historical games survive under their
-    period-accurate (not current) abbreviation, e.g. the Rams' 2010 games
-    tagged STL rather than today's LAR."""
+    since they never produce a row. Renamed franchises are covered too rather
+    than exempted: their older games are re-tagged to the current
+    abbreviation on the way out (the Rams' 2010 STL games surface as LAR),
+    so they are expected to resolve here like any other row."""
     from scrape_scores import flatten_completed_games
-
-    KNOWN_HISTORICAL_ABBREVIATIONS = {"nfl_20101010_rebranded_teams.json"}
 
     teams = load("teams.json")
     for path in FIXTURES.glob("*.json"):
-        if path.name in KNOWN_HISTORICAL_ABBREVIATIONS:
-            continue
         league = path.name.split("_")[0]
         with open(path) as f:
             payload = json.load(f)

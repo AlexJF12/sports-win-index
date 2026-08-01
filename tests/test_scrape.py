@@ -221,20 +221,49 @@ def test_old_probowl_format_is_skipped():
     assert rows == []
 
 
+def test_renamed_franchises_are_retagged_to_current_abbreviation():
+    # Same 2010 slate, checked through the public entry point: the Rams (id
+    # 14), Chargers (id 24) and Raiders (id 13) must land under the
+    # abbreviations a fan can actually pick today, not STL/SD/OAK
+    rows = flatten_completed_games(
+        load_fixture("nfl_20101010_rebranded_teams.json"), "nfl", "20101010"
+    )
+    abbrs = {a for r in rows for a in (r["away_team"], r["home_team"])}
+    assert {"LAR", "LAC", "LV"} <= abbrs
+    assert not ({"STL", "SD", "OAK"} & abbrs)
+    # the winner column has to be rewritten too, or it stops matching a team
+    rams = next(r for r in rows if "LAR" in (r["away_team"], r["home_team"]))
+    assert rams["winner"] == "DET"  # Lions won 44-6; unrenamed side unaffected
+    raiders = next(r for r in rows if "LV" in (r["away_team"], r["home_team"]))
+    assert raiders["winner"] in ("LV", "LAC", "")
+
+
+def test_renamed_franchise_map_does_not_leak_across_leagues():
+    # NFL id 24 is the Chargers, NHL id 24 is the Coyotes — a flat id map
+    # would rewrite Coyotes games to "LAC"
+    rows = flatten_completed_games(
+        load_fixture("nhl_19950115_padded_abbr.json"), "nhl", "19950115"
+    )
+    abbrs = {a for r in rows for a in (r["away_team"], r["home_team"])}
+    assert not ({"LAC", "LAR", "LV", "BKN", "MIA", "ATH"} & abbrs)
+
+
 def test_rebranded_teams_own_history_is_kept():
     # team.isActive is False today for the Rams (STL), Redskins (WSH), and
     # Raiders/Chargers (OAK/SD) 2010 snapshots, since each franchise has
     # since relocated or renamed — but these are real completed games for
     # real teams (team.name is populated), not placeholders, and must not
-    # be silently dropped the way a naive isActive check would drop them
+    # be silently dropped the way a naive isActive check would drop them.
+    # (Renamed sides come back under today's abbreviation; see
+    # test_renamed_franchises_are_retagged_to_current_abbreviation.)
     rows = flatten_completed_games(
         load_fixture("nfl_20101010_rebranded_teams.json"), "nfl", "20101010"
     )
     matchups = {frozenset((r["away_team"], r["home_team"])) for r in rows}
     assert len(rows) == 4
-    assert frozenset({"DET", "STL"}) in matchups
-    assert frozenset({"WSH", "GB"}) in matchups
-    assert frozenset({"OAK", "SD"}) in matchups
+    assert frozenset({"DET", "LAR"}) in matchups
+    assert frozenset({"WSH", "GB"}) in matchups  # WSH kept its abbreviation
+    assert frozenset({"LV", "LAC"}) in matchups
     assert frozenset({"BUF", "JAX"}) in matchups
 
 

@@ -62,6 +62,35 @@ COLLISION_ABBREVIATIONS = {
     "nfl": {"HOU": "34"},
     "nhl": {"WPG": "28"},
 }
+
+# Franchises that kept their identity but changed the abbreviation ESPN
+# reports for them, so older games come back tagged with a dead abbreviation
+# that teams.json doesn't know (a Chargers fan's pick would otherwise show no
+# pre-2017 history). Keyed on ESPN's team id rather than the old abbreviation
+# because the id is stable across a franchise's own rebrands and, unlike the
+# letters, can't be confused with an unrelated team that later reused them —
+# note NFL id 24 is the Chargers while NHL id 24 is the Coyotes, hence the
+# per-league nesting. league -> {team id: the franchise's current abbreviation}
+#
+# Deliberately excluded: relocations where the nickname changed too, which are
+# treated as a different team rather than the same one under a new name, and
+# so keep their period-accurate dead tag (NHL Phoenix/Arizona Coyotes PHX+ARI
+# now Utah, NHL Atlanta Thrashers ATL now the Winnipeg Jets). Those sit
+# correctly tagged in the CSVs but aren't wired into teams.json/cities.json.
+RENAMED_FRANCHISES = {
+    "nfl": {
+        "24": "LAC",  # San Diego -> Los Angeles Chargers (2017)
+        "14": "LAR",  # St. Louis -> Los Angeles Rams (2016)
+        "13": "LV",   # Oakland -> Las Vegas Raiders (2020)
+    },
+    "nba": {
+        "17": "BKN",  # New Jersey -> Brooklyn Nets (2012)
+    },
+    "mlb": {
+        "28": "MIA",  # Florida -> Miami Marlins (2012)
+        "11": "ATH",  # Oakland Athletics -> Athletics (2025)
+    },
+}
 CSV_FIELDS = [
     "date",
     "league",
@@ -175,6 +204,14 @@ def flatten_completed_games(payload: dict, league: str, date: str) -> list[dict]
                 )
             ):
                 continue
+
+            # Re-tag a renamed franchise's older games under the abbreviation
+            # it goes by today, so they attach to the team a fan can pick.
+            # Done after the collision check, which is defined in terms of the
+            # raw abbreviation ESPN actually reported.
+            renames = RENAMED_FRANCHISES.get(league, {})
+            away_abbr = renames.get(away["team"].get("id"), away_abbr)
+            home_abbr = renames.get(home["team"].get("id"), home_abbr)
 
             # Neither side has winner=true on a tie (NFL) — leave winner empty
             if home.get("winner") is True:
