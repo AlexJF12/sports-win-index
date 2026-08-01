@@ -228,7 +228,10 @@ const LEAGUE_EMOJI = { mlb: "⚾", nba: "🏀", nhl: "🏒", nfl: "🏈" };
 // a game's share of the year: 365 / regular-season games
 const LEAGUE_WEIGHT = { mlb: 365 / 162, nba: 365 / 82, nhl: 365 / 82, nfl: 365 / 17 };
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-const DATA_START = { y: 2022, m: 1 };
+// Earliest month the back/prev nav can reach. Derived from data/manifest.json
+// at load (see init) rather than hardcoded, so backfilling further back opens
+// up the nav automatically instead of silently stranding the new data.
+let DATA_START = { y: new Date().getFullYear(), m: 1 };
 
 const state = {
   scope: "month",   // "month" | "year"
@@ -688,6 +691,9 @@ async function init() {
     const scores = await Promise.all(LEAGUES.map(l => fetchScores(l, manifest[l] || [])));
     state.teams = teams;
     LEAGUES.forEach((l, i) => { state.scores[l] = scores[i]; });
+    // the nav's floor is whatever the earliest scraped year actually is
+    const years = LEAGUES.flatMap(l => manifest[l] || []);
+    if (years.length) DATA_START = { y: Math.min(...years), m: 1 };
     const defaults = Object.fromEntries(myTeams.teams.map(t => [t.league, t.abbreviation]));
     state.defaults = defaults;
     state.picks = picksFromUrl(defaults) || loadPicks(defaults);
