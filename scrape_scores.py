@@ -151,7 +151,16 @@ def flatten_completed_games(payload: dict, league: str, date: str) -> list[dict]
             home = next(c for c in competitors if c["homeAway"] == "home")
             away = next(c for c in competitors if c["homeAway"] == "away")
 
-            if any(c["team"].get("isActive") is False for c in (home, away)):
+            # Placeholder teams (draft-style All-Star squads, conference
+            # teams in older Pro Bowl formats, national teams) never carry a
+            # real franchise "name" (e.g. "Rams", "Lions") — team.isActive
+            # looks like the same signal but isn't: ESPN reports it based on
+            # the team's CURRENT branding, so a real team's OWN historical
+            # games go isActive=False once that franchise later relocates or
+            # renames (confirmed for the Rams/Chargers/Raiders/Commanders/
+            # Nets/Hornets/Pelicans/Athletics/Marlins), which would silently
+            # drop that team's entire pre-rebrand history if used here.
+            if any(not c["team"].get("name") for c in (home, away)):
                 continue
 
             away_abbr = away["team"]["abbreviation"].strip()

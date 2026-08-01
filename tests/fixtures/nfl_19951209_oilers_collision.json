@@ -5,12 +5,19 @@
       "date": "1995-12-09T18:00Z",
       "name": "Detroit Lions at Houston Oilers",
       "shortName": "DET @ HOU",
-      "season": { "year": 1995, "type": 2, "slug": "regular-season" },
+      "season": {
+        "year": 1995,
+        "type": 2,
+        "slug": "regular-season"
+      },
       "competitions": [
         {
           "id": "195120901",
           "date": "1995-12-09T18:00Z",
-          "type": { "id": "1", "abbreviation": "STD" },
+          "type": {
+            "id": "1",
+            "abbreviation": "STD"
+          },
           "status": {
             "type": {
               "id": "3",
@@ -30,7 +37,8 @@
                 "id": "10",
                 "abbreviation": "HOU",
                 "displayName": "Houston Oilers",
-                "isActive": true
+                "isActive": true,
+                "name": "Oilers"
               }
             },
             {
@@ -42,7 +50,8 @@
                 "id": "8",
                 "abbreviation": "DET",
                 "displayName": "Detroit Lions",
-                "isActive": true
+                "isActive": true,
+                "name": "Lions"
               }
             }
           ]
@@ -54,12 +63,19 @@
       "date": "1995-12-09T18:00Z",
       "name": "Pittsburgh Steelers at Cincinnati Bengals",
       "shortName": "PIT @ CIN",
-      "season": { "year": 1995, "type": 2, "slug": "regular-season" },
+      "season": {
+        "year": 1995,
+        "type": 2,
+        "slug": "regular-season"
+      },
       "competitions": [
         {
           "id": "195120902",
           "date": "1995-12-09T18:00Z",
-          "type": { "id": "1", "abbreviation": "STD" },
+          "type": {
+            "id": "1",
+            "abbreviation": "STD"
+          },
           "status": {
             "type": {
               "id": "3",
@@ -79,7 +95,8 @@
                 "id": "4",
                 "abbreviation": "CIN",
                 "displayName": "Cincinnati Bengals",
-                "isActive": true
+                "isActive": true,
+                "name": "Bengals"
               }
             },
             {
@@ -91,7 +108,8 @@
                 "id": "23",
                 "abbreviation": "PIT",
                 "displayName": "Pittsburgh Steelers",
-                "isActive": true
+                "isActive": true,
+                "name": "Steelers"
               }
             }
           ]

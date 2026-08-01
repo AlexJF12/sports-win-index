@@ -24,6 +24,17 @@ Fixture inventory (real payloads, edge case each was chosen for):
                                           unrelated game that must survive
     nhl_19950115_padded_abbr.json   abbreviation field itself has trailing
                                      whitespace ("LA  ", "TB  ")
+    nfl_20120129_old_probowl_format.json   pre-2015 Pro Bowl: competition
+                                     type "STD" (not caught by the ALLSTAR/
+                                     QRR check), placeholder "AFC"/"NFC"
+                                     teams with team.name == None
+    nfl_20101010_rebranded_teams.json   real 2010 games for the Rams (STL),
+                                     Redskins (WSH), and Raiders/Chargers
+                                     (OAK/SD) — team.isActive is False for
+                                     all of them today since each has since
+                                     relocated or renamed, but team.name is
+                                     still populated ("Rams", "Redskins",
+                                     etc.); these must NOT be dropped
 """
 
 import csv
@@ -197,6 +208,34 @@ def test_padded_abbreviations_are_stripped():
     assert len(rows) == 1
     assert rows[0]["away_team"] == "TB"
     assert rows[0]["home_team"] == "LA"
+
+
+def test_old_probowl_format_is_skipped():
+    # Before ESPN labeled the Pro Bowl as competition type "ALLSTAR" (2015+),
+    # it used the ordinary "STD" type with placeholder "AFC"/"NFC" teams
+    # (team.name == None) — not caught by the ALLSTAR/QRR check, so this
+    # relies on the placeholder-team check alone
+    rows = flatten_completed_games(
+        load_fixture("nfl_20120129_old_probowl_format.json"), "nfl", "20120129"
+    )
+    assert rows == []
+
+
+def test_rebranded_teams_own_history_is_kept():
+    # team.isActive is False today for the Rams (STL), Redskins (WSH), and
+    # Raiders/Chargers (OAK/SD) 2010 snapshots, since each franchise has
+    # since relocated or renamed — but these are real completed games for
+    # real teams (team.name is populated), not placeholders, and must not
+    # be silently dropped the way a naive isActive check would drop them
+    rows = flatten_completed_games(
+        load_fixture("nfl_20101010_rebranded_teams.json"), "nfl", "20101010"
+    )
+    matchups = {frozenset((r["away_team"], r["home_team"])) for r in rows}
+    assert len(rows) == 4
+    assert frozenset({"DET", "STL"}) in matchups
+    assert frozenset({"WSH", "GB"}) in matchups
+    assert frozenset({"OAK", "SD"}) in matchups
+    assert frozenset({"BUF", "JAX"}) in matchups
 
 
 # --- append_rows / dedupe ----------------------------------------------------

@@ -5,12 +5,19 @@
       "date": "1995-01-15T19:00Z",
       "name": "Tampa Bay Lightning at Los Angeles Kings",
       "shortName": "TB @ LA",
-      "season": { "year": 1994, "type": 2, "slug": "regular-season" },
+      "season": {
+        "year": 1994,
+        "type": 2,
+        "slug": "regular-season"
+      },
       "competitions": [
         {
           "id": "199501150",
           "date": "1995-01-15T19:00Z",
-          "type": { "id": "1", "abbreviation": "STD" },
+          "type": {
+            "id": "1",
+            "abbreviation": "STD"
+          },
           "status": {
             "type": {
               "id": "3",
@@ -30,7 +37,8 @@
                 "id": "8",
                 "abbreviation": "LA  ",
                 "displayName": "Los Angeles     Kings",
-                "isActive": true
+                "isActive": true,
+                "name": "Kings"
               }
             },
             {
@@ -42,7 +50,8 @@
                 "id": "20",
                 "abbreviation": "TB  ",
                 "displayName": "Tampa Bay       Lightning",
-                "isActive": true
+                "isActive": true,
+                "name": "Lightning"
               }
             }
           ]
