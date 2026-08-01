@@ -62,6 +62,35 @@ COLLISION_ABBREVIATIONS = {
     "nfl": {"HOU": "34"},
     "nhl": {"WPG": "28"},
 }
+
+# Franchises that kept their identity but changed the abbreviation ESPN
+# reports for them, so older games come back tagged with a dead abbreviation
+# that teams.json doesn't know (a Chargers fan's pick would otherwise show no
+# pre-2017 history). Keyed on ESPN's team id rather than the old abbreviation
+# because the id is stable across a franchise's own rebrands and, unlike the
+# letters, can't be confused with an unrelated team that later reused them —
+# note NFL id 24 is the Chargers while NHL id 24 is the Coyotes, hence the
+# per-league nesting. league -> {team id: the franchise's current abbreviation}
+#
+# Deliberately excluded: relocations where the nickname changed too, which are
+# treated as a different team rather than the same one under a new name, and
+# so keep their period-accurate dead tag (NHL Phoenix/Arizona Coyotes PHX+ARI
+# now Utah, NHL Atlanta Thrashers ATL now the Winnipeg Jets). Those sit
+# correctly tagged in the CSVs but aren't wired into teams.json/cities.json.
+RENAMED_FRANCHISES = {
+    "nfl": {
+        "24": "LAC",  # San Diego -> Los Angeles Chargers (2017)
+        "14": "LAR",  # St. Louis -> Los Angeles Rams (2016)
+        "13": "LV",   # Oakland -> Las Vegas Raiders (2020)
+    },
+    "nba": {
+        "17": "BKN",  # New Jersey -> Brooklyn Nets (2012)
+    },
+    "mlb": {
+        "28": "MIA",  # Florida -> Miami Marlins (2012)
+        "11": "ATH",  # Oakland Athletics -> Athletics (2025)
+    },
+}
 CSV_FIELDS = [
     "date",
     "league",
@@ -151,7 +180,16 @@ def flatten_completed_games(payload: dict, league: str, date: str) -> list[dict]
             home = next(c for c in competitors if c["homeAway"] == "home")
             away = next(c for c in competitors if c["homeAway"] == "away")
 
-            if any(c["team"].get("isActive") is False for c in (home, away)):
+            # Placeholder teams (draft-style All-Star squads, conference
+            # teams in older Pro Bowl formats, national teams) never carry a
+            # real franchise "name" (e.g. "Rams", "Lions") — team.isActive
+            # looks like the same signal but isn't: ESPN reports it based on
+            # the team's CURRENT branding, so a real team's OWN historical
+            # games go isActive=False once that franchise later relocates or
+            # renames (confirmed for the Rams/Chargers/Raiders/Commanders/
+            # Nets/Hornets/Pelicans/Athletics/Marlins), which would silently
+            # drop that team's entire pre-rebrand history if used here.
+            if any(not c["team"].get("name") for c in (home, away)):
                 continue
 
             away_abbr = away["team"]["abbreviation"].strip()
@@ -166,6 +204,14 @@ def flatten_completed_games(payload: dict, league: str, date: str) -> list[dict]
                 )
             ):
                 continue
+
+            # Re-tag a renamed franchise's older games under the abbreviation
+            # it goes by today, so they attach to the team a fan can pick.
+            # Done after the collision check, which is defined in terms of the
+            # raw abbreviation ESPN actually reported.
+            renames = RENAMED_FRANCHISES.get(league, {})
+            away_abbr = renames.get(away["team"].get("id"), away_abbr)
+            home_abbr = renames.get(home["team"].get("id"), home_abbr)
 
             # Neither side has winner=true on a tie (NFL) — leave winner empty
             if home.get("winner") is True:
@@ -205,12 +251,27 @@ def load_existing_game_ids(csv_path: str) -> set[str]:
 
 def append_rows(csv_path: str, rows: list[dict]) -> int:
     """Append new rows to the CSV, skipping any game_id already present.
-    Returns the number of rows actually written."""
+    Returns the number of rows actually written.
+
+    Also dedupes within `rows` itself, keeping the first occurrence of a
+    given game_id — the daily scraper only ever passes one day's rows, where
+    this can't come up, but a caller batching multiple days before a single
+    call (as backfill.py's chunked writes do) can otherwise write the same
+    game twice: ESPN's scoreboard endpoint occasionally lists an extra-innings
+    or otherwise late-running game again under a following day's query, and
+    load_existing_game_ids alone only catches a row already committed to
+    disk, not a duplicate still sitting in the same in-memory batch."""
     if not rows:
         return 0
 
     existing_ids = load_existing_game_ids(csv_path)
-    new_rows = [r for r in rows if r["game_id"] not in existing_ids]
+    new_rows = []
+    seen_in_batch = set()
+    for r in rows:
+        if r["game_id"] in existing_ids or r["game_id"] in seen_in_batch:
+            continue
+        seen_in_batch.add(r["game_id"])
+        new_rows.append(r)
 
     if not new_rows:
         return 0

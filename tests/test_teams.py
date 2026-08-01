@@ -46,7 +46,10 @@ def test_fixture_abbreviations_resolve_against_teams_json():
     map a scores row to a display name. Fixtures may also contain events that
     flatten_completed_games is expected to filter out entirely (exhibitions,
     defunct-franchise abbreviation collisions) — those aren't held to this,
-    since they never produce a row."""
+    since they never produce a row. Renamed franchises are covered too rather
+    than exempted: their older games are re-tagged to the current
+    abbreviation on the way out (the Rams' 2010 STL games surface as LAR),
+    so they are expected to resolve here like any other row."""
     from scrape_scores import flatten_completed_games
 
     teams = load("teams.json")

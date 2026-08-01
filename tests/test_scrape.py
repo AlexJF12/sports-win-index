@@ -24,6 +24,17 @@ Fixture inventory (real payloads, edge case each was chosen for):
                                           unrelated game that must survive
     nhl_19950115_padded_abbr.json   abbreviation field itself has trailing
                                      whitespace ("LA  ", "TB  ")
+    nfl_20120129_old_probowl_format.json   pre-2015 Pro Bowl: competition
+                                     type "STD" (not caught by the ALLSTAR/
+                                     QRR check), placeholder "AFC"/"NFC"
+                                     teams with team.name == None
+    nfl_20101010_rebranded_teams.json   real 2010 games for the Rams (STL),
+                                     Redskins (WSH), and Raiders/Chargers
+                                     (OAK/SD) — team.isActive is False for
+                                     all of them today since each has since
+                                     relocated or renamed, but team.name is
+                                     still populated ("Rams", "Redskins",
+                                     etc.); these must NOT be dropped
 """
 
 import csv
@@ -199,6 +210,63 @@ def test_padded_abbreviations_are_stripped():
     assert rows[0]["home_team"] == "LA"
 
 
+def test_old_probowl_format_is_skipped():
+    # Before ESPN labeled the Pro Bowl as competition type "ALLSTAR" (2015+),
+    # it used the ordinary "STD" type with placeholder "AFC"/"NFC" teams
+    # (team.name == None) — not caught by the ALLSTAR/QRR check, so this
+    # relies on the placeholder-team check alone
+    rows = flatten_completed_games(
+        load_fixture("nfl_20120129_old_probowl_format.json"), "nfl", "20120129"
+    )
+    assert rows == []
+
+
+def test_renamed_franchises_are_retagged_to_current_abbreviation():
+    # Same 2010 slate, checked through the public entry point: the Rams (id
+    # 14), Chargers (id 24) and Raiders (id 13) must land under the
+    # abbreviations a fan can actually pick today, not STL/SD/OAK
+    rows = flatten_completed_games(
+        load_fixture("nfl_20101010_rebranded_teams.json"), "nfl", "20101010"
+    )
+    abbrs = {a for r in rows for a in (r["away_team"], r["home_team"])}
+    assert {"LAR", "LAC", "LV"} <= abbrs
+    assert not ({"STL", "SD", "OAK"} & abbrs)
+    # the winner column has to be rewritten too, or it stops matching a team
+    rams = next(r for r in rows if "LAR" in (r["away_team"], r["home_team"]))
+    assert rams["winner"] == "DET"  # Lions won 44-6; unrenamed side unaffected
+    raiders = next(r for r in rows if "LV" in (r["away_team"], r["home_team"]))
+    assert raiders["winner"] in ("LV", "LAC", "")
+
+
+def test_renamed_franchise_map_does_not_leak_across_leagues():
+    # NFL id 24 is the Chargers, NHL id 24 is the Coyotes — a flat id map
+    # would rewrite Coyotes games to "LAC"
+    rows = flatten_completed_games(
+        load_fixture("nhl_19950115_padded_abbr.json"), "nhl", "19950115"
+    )
+    abbrs = {a for r in rows for a in (r["away_team"], r["home_team"])}
+    assert not ({"LAC", "LAR", "LV", "BKN", "MIA", "ATH"} & abbrs)
+
+
+def test_rebranded_teams_own_history_is_kept():
+    # team.isActive is False today for the Rams (STL), Redskins (WSH), and
+    # Raiders/Chargers (OAK/SD) 2010 snapshots, since each franchise has
+    # since relocated or renamed — but these are real completed games for
+    # real teams (team.name is populated), not placeholders, and must not
+    # be silently dropped the way a naive isActive check would drop them.
+    # (Renamed sides come back under today's abbreviation; see
+    # test_renamed_franchises_are_retagged_to_current_abbreviation.)
+    rows = flatten_completed_games(
+        load_fixture("nfl_20101010_rebranded_teams.json"), "nfl", "20101010"
+    )
+    matchups = {frozenset((r["away_team"], r["home_team"])) for r in rows}
+    assert len(rows) == 4
+    assert frozenset({"DET", "LAR"}) in matchups
+    assert frozenset({"WSH", "GB"}) in matchups  # WSH kept its abbreviation
+    assert frozenset({"LV", "LAC"}) in matchups
+    assert frozenset({"BUF", "JAX"}) in matchups
+
+
 # --- append_rows / dedupe ----------------------------------------------------
 
 SAMPLE_ROWS = [
@@ -246,6 +314,25 @@ def test_empty_rows_write_nothing(tmp_path):
     path = tmp_path / "mlb_scores.csv"
     assert append_rows(str(path), []) == 0
     assert not path.exists()
+
+
+def test_duplicate_game_id_within_one_batch_keeps_first(tmp_path):
+    # ESPN's scoreboard endpoint occasionally lists the same completed game
+    # again under a later date's query (observed for extra-innings MLB games
+    # up to 22 days after the fact) — a caller that batches several days'
+    # rows before a single append_rows call (as backfill.py's chunked writes
+    # do) must not end up with two rows for the same game_id. Only
+    # load_existing_game_ids (checked against what's already on disk) can't
+    # catch this, since neither copy is on disk yet within the same call.
+    path = tmp_path / "mlb_scores.csv"
+    rows = [
+        {**SAMPLE_ROWS[0], "date": "20260710"},
+        {**SAMPLE_ROWS[0], "date": "20260711"},  # same game_id, later date
+    ]
+    assert append_rows(str(path), rows) == 1
+    kept = read_csv(path)
+    assert len(kept) == 1
+    assert kept[0]["date"] == "20260710"  # first occurrence wins
 
 
 # --- date handling -----------------------------------------------------------
