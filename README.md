@@ -12,6 +12,29 @@ This repo is the whole system: a daily scraper, the score data itself, and a sta
 
 Default teams live in [`my_teams.json`](my_teams.json); the full team list (ESPN abbreviations → names) is [`teams.json`](teams.json). Scraper details and design decisions are in [`PLAN.md`](PLAN.md).
 
+## Fandom spotlight (daily social content)
+
+After the scrape, the workflow runs [`fandom_analysis.py`](fandom_analysis.py), which hunts for a postable story about any city group. Four independent detectors run over all 88 groups, so a day's output isn't three variations on one sentence:
+
+| Detector | What it looks for |
+|---|---|
+| **month** | the month-to-date **weighted index** sits in the tails of the group's own history |
+| **streak** | the group's teams are on a long combined win/loss run |
+| **turnaround** | the month flipped sign in the last 7 days — bad team, good week, or the reverse |
+| **climb** | the group moved several places in the year-to-date standings this week |
+
+The **month** detector compares against the same month-to-date window (same day-of-month cutoff) along two lanes — **every month since 2022**, and **the same calendar month in previous years** (July vs past Julys, so a baseball-only month is never judged against four-league months where the index swings harder). Both tails count: a historically great month and a historically awful one are equally postable. Claims are kept honest three ways — percentiles are shrunk for small samples so "best of 5 Julys" claims less than "best of 55 months"; a lane is dropped when its claim contradicts the month's sign (no "best July on record" on a losing month); and a calendar claim is damped when the all-months lane says the month is thoroughly average.
+
+Because this runs *every day* and month-to-date totals barely move overnight, selection is tuned for variety: one group per city, at most two findings of the same kind, a cooldown on cities featured in the last few days (read back from previous `findings.json` files), and a date-seeded jitter that shuffles near-ties so two similar days don't produce identical picks. The top 3 land in `content/YYYY-MM-DD/`:
+
+- `findings.json` — everything the renderer and the summary are built from
+- `summary.md` — headlines plus copy-pasteable stats (record, weighted points, percentile, streaks, who drove it)
+- three plotnine PNGs per finding: `*_race.png` (the group vs the whole field this month) and `*_teams.png` (per-team contribution, month vs last 7 days), plus one that depends on the detector — `*_history.png`, `*_timeline.png`, or `*_bump.png`
+
+Browse the day's folder, pick what's worth posting. Backfill or replay a day with `python fandom_analysis.py --date 20260716 && python render_content.py --date 20260716`; `--kinds`, `--compare`, `--top`, and `--no-novelty` narrow what a run considers.
+
+> Each day costs roughly **1 MB** of images (~200 MB/year). If that gets heavy, prune old `content/` folders — nothing else reads them except the novelty cooldown, which only looks back 10 days.
+
 ## The three scoring methods
 
 The page can score your teams' games three ways:
