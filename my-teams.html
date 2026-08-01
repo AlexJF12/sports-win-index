@@ -263,10 +263,12 @@ async function fetchJson(path) {
   return r.json();
 }
 
-async function fetchScores(league) {
-  const r = await fetch(`data/${league}_scores.csv`);
-  if (!r.ok) return [];  // league file may not exist yet (off-season)
-  return parseCsv(await r.text());
+async function fetchScores(league, years) {
+  const texts = await Promise.all(years.map(async y => {
+    const r = await fetch(`data/${league}/${y}/${league}_scores_${y}.csv`);
+    return r.ok ? r.text() : "";  // year file may not exist yet (off-season)
+  }));
+  return texts.flatMap(t => t ? parseCsv(t) : []);
 }
 
 function loadPicks(defaults) {
@@ -678,11 +680,12 @@ async function init() {
     }
   });
   try {
-    const [teams, myTeams, ...scores] = await Promise.all([
+    const [teams, myTeams, manifest] = await Promise.all([
       fetchJson("teams.json"),
       fetchJson("my_teams.json"),
-      ...LEAGUES.map(fetchScores),
+      fetchJson("data/manifest.json"),
     ]);
+    const scores = await Promise.all(LEAGUES.map(l => fetchScores(l, manifest[l] || [])));
     state.teams = teams;
     LEAGUES.forEach((l, i) => { state.scores[l] = scores[i]; });
     const defaults = Object.fromEntries(myTeams.teams.map(t => [t.league, t.abbreviation]));

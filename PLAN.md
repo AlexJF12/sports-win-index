@@ -6,7 +6,7 @@ A scheduled pipeline that pulls final scores for NFL, NBA, MLB, and NHL games fr
 
 - **Cadence:** Daily at 10:00 UTC (~5–6am US/Eastern depending on DST) via GitHub Actions
 - **Source:** ESPN's unofficial scoreboard JSON endpoints
-- **Output:** One append-only CSV per league (`data/nfl_scores.csv`, etc.), deduped on `game_id`
+- **Output:** One append-only CSV per league per year (`data/nfl/2026/nfl_scores_2026.csv`, etc.), deduped on `game_id`
 - **Consumer:** Backend app aggregating wins-per-team-per-month
 
 A reference implementation of the scraper (`scrape_scores.py`) and workflow already exists; this plan describes that design plus the fixes required before it ships (Section 4.3).
@@ -25,7 +25,7 @@ scrape_scores.py ──► GET ESPN scoreboard JSON (4 leagues, dates=YYYYMMDD)
 flatten completed games ──► flat score rows
         │
         ▼
-append to data/{league}_scores.csv (dedupe on game_id)
+append to data/{league}/{year}/{league}_scores_{year}.csv (dedupe on game_id)
         │
         ▼
 git commit + push to main
@@ -70,7 +70,7 @@ League path segments:
 
 ## 3. Data Model
 
-### CSV schema — `data/{league}_scores.csv` (one file per league, append-only)
+### CSV schema — `data/{league}/{year}/{league}_scores_{year}.csv` (one file per league per year, append-only)
 
 | column | type | example | notes |
 |---|---|---|---|
@@ -90,7 +90,7 @@ Design notes:
 - **`winner` is precomputed** so the backend's monthly-wins query is a trivial filter + count.
 - **ESPN abbreviations are the canonical team identifiers.** No alias resolution needed — the source is already normalized. A small `teams.json` maps abbreviation → full display name per league, for the UI and for validating `my_teams.json` (see 9.3).
 - **Only completed games are written.** In-progress, scheduled, postponed, and canceled games are skipped; a postponed game's makeup appears later under its own final status.
-- **Append-only, one file per league** (not per day): the whole dataset is 4 files, each a few thousand rows per season. Month filtering is a prefix match on `date`.
+- **Append-only, one file per league per year** (not per day): each file holds a single season's worth of rows. `data/manifest.json` (league → sorted list of years on disk) is regenerated after every scrape and is what lets the static frontend, which can't list a directory, know which year files exist. Month filtering is a prefix match on `date`.
 - A zero-game day (off-season) simply appends nothing — no commit that day for that league.
 
 ---
@@ -135,13 +135,15 @@ sports-win-index/
 ├── README.md
 ├── my_teams.json
 ├── scrape_scores.py
+├── data_paths.py            # shared data/{league}/{year}/ path + manifest helpers
 ├── teams.json              # abbreviation → display name, per league
 ├── requirements.txt        # requests
 ├── data/
-│   ├── mlb_scores.csv
-│   ├── nba_scores.csv
-│   ├── nfl_scores.csv
-│   └── nhl_scores.csv
+│   ├── manifest.json        # league -> years on disk
+│   ├── mlb/2026/mlb_scores_2026.csv
+│   ├── nba/2026/nba_scores_2026.csv
+│   ├── nfl/2026/nfl_scores_2026.csv
+│   └── nhl/2026/nhl_scores_2026.csv
 └── tests/
     ├── fixtures/           # saved ESPN JSON payloads
     └── golden/

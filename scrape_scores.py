@@ -24,6 +24,8 @@ from zoneinfo import ZoneInfo
 
 import requests
 
+from data_paths import DATA_DIR, csv_path, write_manifest
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -39,7 +41,6 @@ LEAGUES = {
 }
 
 BASE_URL = "https://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/scoreboard"
-DATA_DIR = "data"  # CSVs land here, relative to repo root
 
 # All-Star Games / Pro Bowl use competition type "ALLSTAR" and field
 # placeholder "teams" (Team Stars, AFC, ...) with isActive == False;
@@ -257,15 +258,16 @@ def main():
             continue
 
         rows = flatten_completed_games(payload, league, date)
-        csv_path = os.path.join(args.data_dir, f"{league}_scores.csv")
-        written = append_rows(csv_path, rows)
+        path = csv_path(league, int(date[:4]), args.data_dir)
+        written = append_rows(path, rows)
         total_written += written
 
         log.info(
             "%s: %d completed game(s) found, %d new row(s) written to %s",
-            league.upper(), len(rows), written, csv_path,
+            league.upper(), len(rows), written, path,
         )
 
+    write_manifest(args.data_dir)
     log.info("Done. %d total new row(s) written across all leagues.", total_written)
 
     # Non-zero exit if any league failed outright, so the Actions run shows red
