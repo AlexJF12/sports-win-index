@@ -31,6 +31,8 @@ import os
 from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
 
+from data_paths import csv_path, list_years
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
 
@@ -41,15 +43,15 @@ DATA_DIR = "data"
 OUTPUT = os.path.join(DATA_DIR, "city_rankings.json")
 
 def load_scores(data_dir: str) -> dict:
-    """league -> list of game rows (completed games only, as scraped)."""
+    """league -> list of game rows (completed games only, as scraped),
+    concatenated across every year file found for that league."""
     scores = {}
     for league in LEAGUES:
-        path = os.path.join(data_dir, f"{league}_scores.csv")
-        if not os.path.exists(path):
-            scores[league] = []
-            continue
-        with open(path, newline="") as f:
-            scores[league] = list(csv.DictReader(f))
+        rows = []
+        for year in list_years(league, data_dir):
+            with open(csv_path(league, year, data_dir), newline="") as f:
+                rows.extend(csv.DictReader(f))
+        scores[league] = rows
     return scores
 
 
