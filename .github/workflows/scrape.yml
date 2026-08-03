@@ -40,16 +40,31 @@ jobs:
       - name: Aggregate city rankings
         run: python aggregate_cities.py
 
-      - name: Find fandom spotlight
-        run: python fandom_analysis.py --date "${{ inputs.date }}"
+      - name: City of the day
+        run: python city_of_the_day.py --date "${{ inputs.date }}"
 
-      - name: Render spotlight images
+      # Both weekly jobs overwrite the same files, and the numbers behind them
+      # move slowly, so a weekly refresh is plenty — daily would mean new image
+      # blobs in history every morning for pictures nobody would see change.
+      - name: Wednesday?
+        id: cal
         run: |
-          if [ -n "${{ inputs.date }}" ]; then
-            python render_content.py --date "${{ inputs.date }}"
-          else
-            python render_content.py
-          fi
+          if [ "$(date -u +%u)" = "3" ]; then echo "run=true" >> "$GITHUB_OUTPUT";
+          else echo "run=false" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Refresh streakiness charts
+        if: steps.cal.outputs.run == 'true' || github.event_name == 'workflow_dispatch'
+        run: python streakiness.py --date "${{ inputs.date }}"
+
+      # The out-of-the-norm analysis: month-to-date against every past month
+      # and against past same-months, year-to-date against the group's own
+      # past years and against the field. All of it moves slowly enough that
+      # a weekly read is the honest cadence.
+      - name: Weekly out-of-the-norm analysis
+        if: steps.cal.outputs.run == 'true' || github.event_name == 'workflow_dispatch'
+        run: |
+          python fandom_analysis.py --date "${{ inputs.date }}"
+          python render_content.py
 
       - name: Commit and push updated data
         run: |
@@ -66,9 +81,31 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            await github.rest.issues.create({
+            // One open issue per outage, not one per day: a source that stays
+            // down otherwise files a fresh issue every morning until noticed.
+            const title = "Daily scrape is failing";
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = `Failed run: ${run}`;
+            const { data: open } = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `Scrape failed: ${new Date().toISOString().slice(0, 10)}`,
-              body: `Run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              state: "open",
+              labels: "scrape-failure",
             });
+            const existing = open.find((i) => i.title === title);
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ["scrape-failure"],
+              });
+            }

@@ -1,9 +1,10 @@
 """Tests for fandom_analysis.py (the daily spotlight scorer)."""
 
-from datetime import date
+from datetime import date, timedelta
 
 from fandom_analysis import (detect_climb, detect_month, detect_streak,
-                             detect_turnaround, group_context, group_games,
+                             detect_turnaround, detect_year, group_context,
+                             group_games, ytd_totals, ytd_window,
                              longest_prior_run, mtd_window, month_range,
                              novelty_factor, recency_share, select_findings,
                              shrunk_percentile, slugify, tally,
@@ -147,13 +148,15 @@ def test_select_findings_cools_down_recently_featured_cities():
     cands = [cand("A", "A 1", 0.9), cand("B", "B 1", 0.7)]
     # A featured yesterday: 0.9 * 0.30 = 0.27, below B's 0.7
     assert select_findings(cands, 1, recent={"A": 1}, seed=None)[0]["name"] == "B 1"
-    # A featured over a week ago: no penalty, A wins again
-    assert select_findings(cands, 1, recent={"A": 8}, seed=None)[0]["name"] == "A 1"
+    # A featured a week ago — the gap between two weekly runs: still damped
+    assert select_findings(cands, 1, recent={"A": 7}, seed=None)[0]["name"] == "B 1"
+    # A featured three weeks ago: no penalty, A wins again
+    assert select_findings(cands, 1, recent={"A": 21}, seed=None)[0]["name"] == "A 1"
 
 
-def test_novelty_factor_decays_then_clears():
-    assert novelty_factor(1) < novelty_factor(3) < novelty_factor(6) == 0.95
-    assert novelty_factor(7) == novelty_factor(None) == 1.0
+def test_novelty_factor_ramps_back_over_three_weeks():
+    assert novelty_factor(1) < novelty_factor(7) < novelty_factor(20) < 1.0
+    assert novelty_factor(21) == novelty_factor(99) == novelty_factor(None) == 1.0
 
 
 # --- end to end on synthetic data --------------------------------------------
@@ -330,3 +333,89 @@ def test_analyze_group_requires_history_and_games():
     months = [(2022, m) for m in (1, 2, 3)]
     rows = make_history([(7, 7)] * 3, months) + make_history([(10, 0)], [(2022, 4)])
     assert analyze_group(by_team_index(rows), GROUP, date(2022, 4, 14)) is None
+
+
+# --- the year detector -------------------------------------------------------
+
+def year_rows(records, team="STL", opp="CHC"):
+    """{year: (wins, losses)} -> one game a day from January 1 of each year."""
+    rows, gid = [], 0
+    for year, (w, l) in records.items():
+        for i in range(w + l):
+            gid += 1
+            d = date(year, 1, 1) + timedelta(days=i)
+            winner = team if i < w else opp
+            rows.append(row(d.strftime("%Y%m%d"), team, 1, opp, 0, winner,
+                            gid=str(gid)))
+    return rows
+
+
+def year_context(rows, ref, group=GROUP):
+    return group_context(by_team_index(rows), group, ref)
+
+
+def test_detect_year_flags_a_season_far_from_the_group_s_own_past():
+    rows = year_rows({2022: (30, 30), 2023: (28, 32), 2024: (31, 29),
+                      2025: (30, 30), 2026: (55, 5)})
+    by_team = by_team_index(rows)
+    ref = date(2026, 3, 2)                       # after all 60 games of each year
+    field = ytd_totals(by_team, [GROUP], ref)
+    f = detect_year(year_context(rows, ref), by_team, field)
+
+    assert f["kind"] == "year" and f["direction"] == "hot"
+    assert f["year"]["rank"] == 1                # best of the five
+    assert f["year"]["n_years"] == 5
+    assert f["year"]["since"] is None            # nothing this good before
+    assert f["score"] > 0.5
+
+
+def test_detect_year_measures_every_year_at_the_same_day_of_year():
+    """A big current year still loses to a past year that was bigger *by March*."""
+    rows = year_rows({2022: (60, 0), 2023: (30, 30), 2024: (30, 30),
+                      2026: (40, 20)})
+    by_team = by_team_index(rows)
+    ref = date(2026, 3, 2)
+    f = detect_year(year_context(rows, ref), by_team,
+                    ytd_totals(by_team, [GROUP], ref))
+    assert f["year"]["rank"] == 2 and f["year"]["since"] == 2022
+
+
+def test_detect_year_needs_a_full_enough_season_and_prior_years():
+    thin = year_rows({2025: (30, 30), 2026: (6, 4)})       # 10 games this year
+    by_team = by_team_index(thin)
+    ref = date(2026, 3, 2)
+    assert detect_year(year_context(thin, ref), by_team,
+                       ytd_totals(by_team, [GROUP], ref)) is None
+
+    lonely = year_rows({2025: (30, 30), 2026: (40, 20)})   # only one prior year
+    by_team = by_team_index(lonely)
+    assert detect_year(year_context(lonely, ref), by_team,
+                       ytd_totals(by_team, [GROUP], ref)) is None
+
+
+def test_detect_year_drops_hollow_claims():
+    """'Best year on record' on a losing year is not a story."""
+    rows = year_rows({2022: (10, 50), 2023: (12, 48), 2024: (11, 49),
+                      2026: (25, 35)})
+    by_team = by_team_index(rows)
+    ref = date(2026, 3, 2)
+    assert detect_year(year_context(rows, ref), by_team,
+                       ytd_totals(by_team, [GROUP], ref)) is None
+
+
+def test_detect_year_records_its_place_in_the_field():
+    rows = year_rows({2022: (30, 30), 2023: (30, 30), 2026: (50, 10)})
+    rows += year_rows({2026: (58, 2)}, team="MIL", opp="DET")
+    groups = [GROUP, {"name": "Otherville 1", "city": "Otherville",
+                      "teams": [{"league": "mlb", "abbr": "MIL",
+                                 "nickname": "Brew"}]}]
+    by_team = by_team_index(rows)
+    ref = date(2026, 3, 2)
+    f = detect_year(year_context(rows, ref), by_team,
+                    ytd_totals(by_team, groups, ref))
+    assert (f["year"]["place"], f["year"]["field"]) == (2, 2)
+
+
+def test_ytd_window_stops_at_the_same_day_of_year():
+    assert ytd_window(2024, date(2026, 3, 1)) == ("20240101", "20240229")
+    assert ytd_window(2026, date(2026, 3, 1)) == ("20260101", "20260301")

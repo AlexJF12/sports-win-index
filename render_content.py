@@ -31,20 +31,21 @@ import json
 import logging
 import os
 import textwrap
+from datetime import datetime
 
 import pandas as pd
 from plotnine import (aes, annotate, coord_flip, element_blank, element_line,
                       element_rect, element_text, expand_limits, geom_col,
                       geom_hline, geom_line, geom_point, geom_segment,
-                      geom_step, geom_text, ggplot, labs, position_dodge,
-                      scale_color_manual, scale_fill_manual, scale_size_manual,
-                      scale_x_continuous, scale_x_date, scale_y_reverse, theme,
-                      theme_minimal)
+                      geom_step, geom_text, geom_vline, ggplot, labs,
+                      position_dodge, scale_color_manual, scale_fill_manual,
+                      scale_size_manual, scale_x_continuous, scale_x_date,
+                      scale_y_reverse, theme, theme_minimal)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
 
-CONTENT_DIR = "content"
+CONTENT_DIR = os.path.join("content", "weekly")
 
 # Palette (validated light-mode set: blue/red diverging pair, ink/grid tokens)
 SURFACE = "#fcfcfb"
@@ -56,6 +57,11 @@ BASELINE = "#c3c2b7"
 HOT = "#2a78d6"     # blue pole — historically good
 COLD = "#e34948"    # red pole — historically bad
 FIELD = "#c3c2b7"   # de-emphasized context lines
+
+# day of year each month starts on, in a non-leap year, for the year charts
+MONTH_STARTS = [1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335]
+MONTH_TICKS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+               "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 CAPTION = ("weighted index: every game = 365 ÷ season length "
            "(MLB ±2.25, NBA/NHL ±4.45, NFL ±21.5) · records begin January 2022")
@@ -222,6 +228,10 @@ def render_teams(data, finding, path):
                      "weighted": t["month"]["weighted"]})
         rows.append({"team": team_label, "period": "Last 7 days",
                      "weighted": t["last7"]["weighted"]})
+    if not rows:        # every team is between seasons: nothing to draw
+        log.warning("%s: no games this month, skipping the teams chart",
+                    finding["slug"])
+        return
     df = pd.DataFrame(rows)
     # keep group order: biggest absolute month contribution at the top after flip
     order = (df[df["period"] == "Full month"]
@@ -338,9 +348,84 @@ def render_bump(data, finding, path):
     p.save(path, verbose=False)
 
 
+def render_year(data, finding, path):
+    """This year against the group's own past years, day of year for day of
+    year, with the same point in each year marked."""
+    current = int(data["month"][:4])
+    cutoff = (datetime.strptime(data["reference_date"], "%Y%m%d")
+              .date().timetuple().tm_yday)
+    rows = [{"year": str(entry["year"]), "day": point["day"], "cum": point["cum"],
+             "current": entry["year"] == current}
+            for entry in finding["year_series"] for point in entry["series"]]
+    df = pd.DataFrame(rows)
+    past, now = df[~df["current"]], df[df["current"]]
+    ends = past.sort_values("day").groupby("year", observed=True).tail(1)
+    # where each past year stood on this same date — the comparison the
+    # headline is actually making
+    marks = (past[past["day"] <= cutoff].sort_values("day")
+                 .groupby("year", observed=True).tail(1))
+    end = now.iloc[-1]
+    ac = accent(finding)
+
+    p = (
+        ggplot()
+        + geom_hline(yintercept=0, color=BASELINE, size=0.4)
+        + geom_vline(xintercept=cutoff, color=BASELINE, size=0.4, linetype="dashed")
+        + geom_line(past, aes("day", "cum", group="year"), color=FIELD, size=0.7)
+        + geom_point(marks, aes("day", "cum"), color=MUTED, size=2.2, stroke=0)
+        + geom_text(ends, aes("day", "cum", label="year"), ha="left", va="center",
+                    nudge_x=4, color=MUTED, size=7.5)
+        + geom_line(now, aes("day", "cum"), color=ac, size=1.5, lineend="round")
+        + geom_point(now.tail(1), aes("day", "cum"), color=ac, size=3, stroke=0)
+        + annotate("text", x=end["day"] + 4, y=end["cum"],
+                   label=f"{current}: {end['cum']:+.1f}", ha="left", va="center",
+                   color=INK, size=9, fontweight="bold")
+        + scale_x_continuous(breaks=MONTH_STARTS, labels=MONTH_TICKS,
+                             expand=(0.01, 0, 0.09, 0))
+        + labs(**titles(finding, f"{finding['label']} — every game since January 1 "
+                                 f"added up. The dots mark where each year stood on "
+                                 f"this date."),
+               caption=CAPTION)
+        + spotlight_theme()
+        + theme(axis_title=element_blank())
+    )
+    p.save(path, verbose=False)
+
+
+def render_field(data, finding, path):
+    """Where this year's index sits among all the city groups."""
+    values = finding["field_values"]
+    df = pd.DataFrame({"place": range(1, len(values) + 1), "weighted": values})
+    place = finding["year"]["place"]
+    mine = pd.DataFrame([{"place": place,
+                          "weighted": finding["year"]["totals"]["weighted"]}])
+    ac = accent(finding)
+
+    p = (
+        ggplot()
+        + geom_hline(yintercept=0, color=BASELINE, size=0.4)
+        + geom_point(df, aes("place", "weighted"), color=FIELD, size=2, stroke=0)
+        + geom_point(mine, aes("place", "weighted"), color=ac, size=4.5, stroke=0)
+        + annotate("text", x=place + len(values) * 0.02,
+                   y=mine["weighted"].iloc[0],
+                   label=f"#{place} of {finding['year']['field']}", ha="left",
+                   va="center", color=INK, size=9, fontweight="bold")
+        + scale_x_continuous(breaks=[1, 25, 50, 75, len(values)],
+                             expand=(0.02, 0, 0.10, 0))
+        + labs(**titles(finding, f"{finding['label']} — every city group's "
+                                 f"{data['month'][:4]} weighted index, best to "
+                                 f"worst. Metros with several teams appear once "
+                                 f"per combination."),
+               x="place on the year", caption=CAPTION)
+        + spotlight_theme()
+        + theme(axis_title_y=element_blank())
+    )
+    p.save(path, verbose=False)
+
+
 RENDERERS = {"race": render_race, "history": render_history,
              "teams": render_teams, "timeline": render_timeline,
-             "bump": render_bump}
+             "bump": render_bump, "year": render_year, "field": render_field}
 
 
 def main():
@@ -350,7 +435,9 @@ def main():
     parser.add_argument("--content-dir", default=CONTENT_DIR)
     args = parser.parse_args()
 
-    if args.date:
+    if os.path.exists(os.path.join(args.content_dir, "findings.json")):
+        folder = args.content_dir              # a run folder, written in place
+    elif args.date:
         d = args.date
         if len(d) == 8 and d.isdigit():        # accept YYYYMMDD too
             d = f"{d[:4]}-{d[4:6]}-{d[6:]}"
@@ -364,15 +451,22 @@ def main():
 
     with open(os.path.join(folder, "findings.json")) as f:
         data = json.load(f)
-    if not data["findings"]:
-        log.info("No findings in %s — nothing to render.", folder)
-        return
 
     for finding in data["findings"]:
         for image in finding["images"]:
             kind = image.rsplit("_", 1)[-1].removesuffix(".png")
             RENDERERS[kind](data, finding, os.path.join(folder, image))
         log.info("Rendered %s (%s)", finding["slug"], finding["headline"])
+
+    # the folder is written in place, so last run's cards would otherwise
+    # pile up next to this one's
+    wanted = {image for f in data["findings"] for image in f["images"]}
+    for name in sorted(os.listdir(folder)):
+        if name.endswith(".png") and name not in wanted:
+            os.remove(os.path.join(folder, name))
+            log.info("Removed stale %s", name)
+    if not data["findings"]:
+        log.info("No findings in %s — nothing to render.", folder)
     log.info("Done: %s", folder)
 
 

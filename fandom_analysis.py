@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 """
-Daily fandom spotlight: find city groups with a story worth posting today.
+Fandom spotlight: find city groups whose season is running outside their norm.
 
-Four independent detectors run over every group in city_groups.json, so a
-day's output isn't three variations on the same sentence:
+Five independent detectors run over every group in city_groups.json, so a
+run's output isn't three variations on the same sentence:
 
     month       the month-to-date weighted index sits in the tails of the
                 group's own history, along two comparison lanes — every month
                 since 2022, and the same calendar month in previous years
                 (July vs past Julys, so a baseball-only month is never judged
                 against four-league months where the index swings harder)
+    year        the year to date, measured at the same day of year, sits in
+                the tails of the group's own past years — with the group's
+                place among all 88 on this year's index saying whether that
+                is a good place to be
     streak      the group's teams are on a long combined win/loss run,
                 weighted by how rare a run that long is for them
     turnaround  the month flipped sign in the last 7 days — bad team, good
@@ -18,22 +22,23 @@ day's output isn't three variations on the same sentence:
                 over the past week
 
 Every detector emits a 0-1 score. Selection then enforces variety, because
-this runs daily and month-to-date totals barely move overnight:
+month- and year-to-date totals move slowly between runs:
 
-    - at most one group per city (the 12 New York permutations co-move)
-    - a kind already picked today is penalized, so the three cards differ
-    - cities featured in the last few days are penalized (see NOVELTY), read
-      back from previous days' findings.json
-    - a small date-seeded jitter shuffles near-ties, so two days with
+    - at most one group per city (the 24 New York permutations co-move)
+    - a kind already picked this run is penalized, so the three cards differ
+    - cities featured in recent runs are damped, ramping back to full over
+      three weeks (see novelty_factor), read from the run log
+    - a small date-seeded jitter shuffles near-ties, so two runs with
       identical data don't produce identical picks
 
-Results land in content/YYYY-MM-DD/findings.json plus a human-readable
-summary.md. Runs in the daily GitHub Actions workflow after aggregate_cities.
+Results overwrite content/weekly/: findings.json, a human-readable summary.md,
+and history.json (the run log the cooldown reads). The GitHub Actions workflow
+runs this weekly, on Wednesdays, after aggregate_cities.
 
 Usage:
     python fandom_analysis.py                 # reference date = yesterday (ET)
     python fandom_analysis.py --date 20260716
-    python fandom_analysis.py --kinds month,streak
+    python fandom_analysis.py --kinds month,year
 """
 
 import argparse
@@ -52,7 +57,9 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 log = logging.getLogger(__name__)
 
 DATA_DIR = "data"
-CONTENT_DIR = "content"
+CONTENT_DIR = os.path.join("content", "weekly")
+HISTORY_FILE = "history.json"
+HISTORY_KEEP = 60           # runs retained in the cooldown log
 HISTORY_START = (2022, 1)   # first month of score data
 MIN_GAMES = 3               # months where the group played fewer games don't count
 MIN_DAY = 4                 # too early in a month to call anything notable
@@ -60,13 +67,17 @@ MIN_HISTORY = 12            # the all-months lane needs at least this many month
 MIN_CAL_HISTORY = 3         # the same-calendar-month lane needs this many prior years
 MIN_STREAK = 5              # shorter runs aren't worth a graphic
 MIN_CLIMB = 4               # places gained/lost in the year standings to qualify
+MIN_YTD_GAMES = 20          # a year-to-date claim needs a season under it
+MIN_YEARS = 2               # prior years needed for the year-vs-itself lane
 TOP_N = 3
-KINDS = ("month", "streak", "turnaround", "climb")
+KINDS = ("month", "year", "streak", "turnaround", "climb")
 
-# score multiplier by days since the city was last featured; a city off the
-# list for a week is fully eligible again
-NOVELTY = {1: 0.30, 2: 0.50, 3: 0.65, 4: 0.78, 5: 0.88, 6: 0.95}
-NOVELTY_LOOKBACK = 10
+# score multiplier by days since the city was last featured, ramping from a
+# hard damp the next day to fully eligible three weeks later. The span covers
+# a few runs at either cadence this is used at — weekly, or daily by hand.
+NOVELTY_SPAN = 21
+NOVELTY_FLOOR = 0.30
+NOVELTY_LOOKBACK = 60
 KIND_REPEAT_PENALTY = 0.55  # applied to a kind already chosen today
 MAX_PER_KIND = 2            # never three cards with the same sentence shape
 
@@ -412,6 +423,93 @@ def detect_turnaround(ctx: dict) -> dict | None:
     )
 
 
+# --- detector: year to date, against itself and the field --------------------
+
+def season_series(by_team: dict, group: dict, year: int, through: date | None = None) -> list:
+    """[{day of year, cumulative weighted index}] for each day the group played."""
+    end = through or date(year, 12, 31)
+    games = group_games(by_team, group, f"{year}0101", end.strftime("%Y%m%d"))
+    series, cum = [], 0.0
+    for game in games:
+        cum += game["weighted"]
+        day = datetime.strptime(game["date"], "%Y%m%d").date().timetuple().tm_yday
+        series.append({"day": day, "cum": round(cum, 3)})
+    # one point per day played: the last game of a day carries that day's total
+    return list({point["day"]: point for point in series}.values())
+
+
+def ytd_window(year: int, ref: date) -> tuple:
+    """(lo, hi) for January 1 through the same day of year as ref, capped at
+    the year's length so a leap-day reference doesn't run past December 31."""
+    day = min(ref.timetuple().tm_yday, date(year, 12, 31).timetuple().tm_yday)
+    return f"{year:04d}0101", (date(year, 1, 1) + timedelta(days=day - 1)).strftime("%Y%m%d")
+
+
+def ytd_totals(by_team: dict, groups: list, ref: date) -> dict:
+    """group name -> weighted index for this year through ref."""
+    lo, hi = ytd_window(ref.year, ref)
+    return {g["name"]: tally(group_games(by_team, g, lo, hi))["weighted"]
+            for g in groups}
+
+
+def detect_year(ctx: dict, by_team: dict, field: dict) -> dict | None:
+    """The year to date sits in the tails of the group's own past years — and
+    the field says whether that is a good place to be."""
+    group, ref = ctx["group"], ctx["ref"]
+    lo, hi = ytd_window(ref.year, ref)
+    current = tally(group_games(by_team, group, lo, hi))
+    if current["games"] < MIN_YTD_GAMES:
+        return None
+
+    history = []
+    for year in range(HISTORY_START[0], ref.year):
+        y_lo, y_hi = ytd_window(year, ref)
+        totals = tally(group_games(by_team, group, y_lo, y_hi))
+        if totals["games"] >= MIN_YTD_GAMES:
+            history.append({"year": year, **totals})
+    if len(history) < MIN_YEARS:
+        return None
+
+    values = [h["weighted"] for h in history]
+    cur = current["weighted"]
+    pctl = shrunk_percentile(values, cur)
+    direction = "hot" if pctl >= 0.5 else "cold"
+    # the same hollow-claim guard the month detector uses: a "best year on
+    # record" that is still a losing year isn't a story
+    if (cur > 0) != (direction == "hot"):
+        return None
+
+    others = sorted(v for name, v in field.items() if name != group["name"])
+    place = 1 + sum(1 for v in others if v > cur)
+    field_pctl = sum(1 for v in others if v < cur) / len(others) if others else 0.5
+    # being far from your own norm is the story; the league standing says
+    # whether anyone else should care
+    extremity = 2 * abs(pctl - 0.5)
+    standing = 2 * abs(field_pctl - 0.5)
+    score = extremity * (0.5 + 0.3 * magnitude(values, cur) + 0.2 * standing)
+
+    if direction == "hot":
+        rank = 1 + sum(1 for v in values if v > cur)
+        since = max((h["year"] for h in history if h["weighted"] >= cur), default=None)
+    else:
+        rank = 1 + sum(1 for v in values if v < cur)
+        since = max((h["year"] for h in history if h["weighted"] <= cur), default=None)
+
+    return base_finding(
+        ctx, "year", score, direction=direction,
+        year={"totals": current, "rank": rank, "n_years": len(values) + 1,
+              "percentile": round(pctl, 4), "since": since,
+              "place": place, "field": len(others) + 1,
+              "field_percentile": round(field_pctl, 4)},
+        year_history=history,
+        year_series=[{"year": year,
+                      "series": season_series(by_team, group, year,
+                                              ref if year == ref.year else None)}
+                     for year in [h["year"] for h in history] + [ref.year]],
+        field_values=sorted(field.values(), reverse=True),
+    )
+
+
 # --- detector: year-standings climb -----------------------------------------
 
 def ytd_rank_series(by_team: dict, groups: list, ref: date, days: int = 30) -> dict:
@@ -473,27 +571,41 @@ def detect_climb(ctx: dict, ranks: dict) -> dict | None:
 
 # --- selection ---------------------------------------------------------------
 
-def recent_features(out_dir: str, ref: date, lookback: int = NOVELTY_LOOKBACK) -> dict:
-    """city -> days since it was last featured, from previous days' findings."""
+def load_run_history(path: str) -> list:
+    """The record of past runs: [{date, cities: [...]}], oldest first."""
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError) as e:
+        log.warning("Ignoring unreadable %s (%s)", path, e)
+        return []
+
+
+def recent_features(history: list, ref: date,
+                    lookback: int = NOVELTY_LOOKBACK) -> dict:
+    """city -> days since it was last featured. Runs of this date are skipped:
+    a replay must not push away the cities its own first run picked."""
     seen = {}
-    for i in range(1, lookback + 1):
-        path = os.path.join(out_dir, (ref - timedelta(days=i)).isoformat(),
-                            "findings.json")
-        if not os.path.exists(path):
-            continue
+    for entry in history:
         try:
-            with open(path) as f:
-                data = json.load(f)
-        except (json.JSONDecodeError, OSError) as e:
-            log.warning("Ignoring unreadable %s (%s)", path, e)
+            when = date.fromisoformat(entry["date"])
+        except (KeyError, ValueError):
             continue
-        for finding in data.get("findings", []):
-            seen.setdefault(finding.get("city"), i)
+        days = (ref - when).days
+        if not 0 < days <= lookback:
+            continue
+        for city in entry.get("cities", []):
+            seen[city] = min(seen.get(city, days), days)
     return seen
 
 
 def novelty_factor(days_ago: int | None) -> float:
-    return 1.0 if days_ago is None else NOVELTY.get(days_ago, 1.0)
+    if days_ago is None or days_ago >= NOVELTY_SPAN:
+        return 1.0
+    ramp = (days_ago - 1) / (NOVELTY_SPAN - 1)
+    return round(NOVELTY_FLOOR + (1.0 - NOVELTY_FLOOR) * ramp, 4)
 
 
 def select_findings(candidates: list, top_n: int, recent: dict | None = None,
@@ -548,6 +660,15 @@ def headline(f: dict, ref: date) -> str:
             return f"{city} is having its {adj} month on record"
         return f"{city} is having its {adj} month since {pretty_month(f['since'])}"
 
+    if f["kind"] == "year":
+        y = f["year"]
+        adj = "best" if f["direction"] == "hot" else "worst"
+        if y["rank"] == 1:
+            run = f"{city} is having its {adj} year on record"
+        else:
+            run = f"{city} is having its {adj} year since {y['since']}"
+        return f"{run} — {ordinal(y['place'])} of {y['field']} this year"
+
     if f["kind"] == "streak":
         s = f["streak"]
         verb = "won" if s["type"] == "W" else "lost"
@@ -597,6 +718,18 @@ def summary_lines(f: dict, ref: date) -> list:
             label = ("vs all months" if other == "all"
                      else f"vs past {MONTH_NAMES[ref.month]}s")
             lines.append(f"- **{label}:** " + lane_claim(f["comparisons"][other], other, ref))
+    elif f["kind"] == "year":
+        y, t = f["year"], f["year"]["totals"]
+        adj = "best" if f["direction"] == "hot" else "worst"
+        lines.append(f"- **{ref.year} so far (through {MONTH_NAMES[ref.month]} "
+                     f"{ref.day}):** {t['w']}-{t['l']}, {t['weighted']:+.1f} weighted "
+                     f"— {ordinal(y['rank'])}-{adj} of the {y['n_years']} years "
+                     f"since 2022, at the same point")
+        lines.append(f"- **Against the field:** {ordinal(y['place'])} of "
+                     f"{y['field']} city groups on the year "
+                     f"({ordinal(round(y['field_percentile'] * 100))} percentile)")
+        if m["games"]:      # a year finding can land between the group's seasons
+            lines.append(month_line)
     elif f["kind"] == "streak":
         s = f["streak"]
         word = "wins" if s["type"] == "W" else "losses"
@@ -621,7 +754,9 @@ def summary_lines(f: dict, ref: date) -> list:
                      f"({c['ytd_week_ago']:+.1f} → {c['ytd']:+.1f} weighted)")
         lines.append(month_line)
 
-    lines.append(f"- **Last 7 days:** {l7['w']}-{l7['l']}, {l7['weighted']:+.1f} weighted")
+    if l7["games"]:
+        lines.append(f"- **Last 7 days:** {l7['w']}-{l7['l']}, "
+                     f"{l7['weighted']:+.1f} weighted")
     drivers = sorted((t for t in f["per_team"] if t["last7"]["games"]),
                      key=lambda t: abs(t["last7"]["weighted"]), reverse=True)
     if drivers:
@@ -636,6 +771,7 @@ def summary_lines(f: dict, ref: date) -> list:
 
 
 KIND_ICON = {"month": {"hot": "🔥", "cold": "🥶"},
+             "year": {"hot": "🏆", "cold": "🧊"},
              "streak": {"hot": "📈", "cold": "📉"},
              "turnaround": {"hot": "🔄", "cold": "🔄"},
              "climb": {"hot": "⬆️", "cold": "⬇️"}}
@@ -677,6 +813,9 @@ def race_series(by_team: dict, groups: list, ref: date) -> dict:
 
 
 IMAGES = {"month": ("race", "history", "teams"),
+          # no per-team card here: that chart is month-scoped, and a year
+          # finding can land on a group whose season is already over
+          "year": ("year", "field"),
           "streak": ("race", "timeline", "teams"),
           "turnaround": ("race", "timeline", "teams"),
           "climb": ("race", "bump", "teams")}
@@ -695,7 +834,7 @@ def main():
                         help="Month-detector lanes: every month since 2022, only the same "
                              "calendar month in previous years, or both (best story wins).")
     parser.add_argument("--no-novelty", action="store_true",
-                        help="Ignore which cities were featured on previous days.")
+                        help="Ignore which cities were featured on recent runs.")
     args = parser.parse_args()
 
     if args.date:
@@ -708,8 +847,10 @@ def main():
     if unknown:
         parser.error(f"unknown detector(s): {', '.join(sorted(unknown))}")
 
-    out_dir = os.path.join(args.out_dir, ref.isoformat())
+    out_dir = args.out_dir
     os.makedirs(out_dir, exist_ok=True)
+    history_path = os.path.join(out_dir, HISTORY_FILE)
+    history = load_run_history(history_path)
 
     def write(findings, race=None):
         out = {"reference_date": ref.strftime("%Y%m%d"),
@@ -720,27 +861,41 @@ def main():
         with open(os.path.join(out_dir, "findings.json"), "w") as fh:
             json.dump(out, fh)
         write_summary(os.path.join(out_dir, "summary.md"), findings, ref)
+        # the run log replaces reading back dated folders: the output folder is
+        # overwritten every run, so the cooldown needs its own memory
+        kept = [h for h in history if h.get("date") != ref.isoformat()]
+        kept.append({"date": ref.isoformat(),
+                     "cities": [f["city"] for f in findings]})
+        with open(history_path, "w") as fh:
+            json.dump(sorted(kept, key=lambda h: h["date"])[-HISTORY_KEEP:], fh, indent=1)
+            fh.write("\n")
 
-    if ref.day < MIN_DAY:
-        log.info("Day %d of the month — too early to compare (min day %d).", ref.day, MIN_DAY)
-        write([])
-        return
+    # The month-based detectors need a few days of games before a
+    # month-to-date total means anything; the year and streak lanes don't
+    # care what day of the month it is, so the run no longer stops here.
+    early = ref.day < MIN_DAY
+    if early:
+        log.info("Day %d of the month — skipping the month and turnaround "
+                 "detectors (min day %d).", ref.day, MIN_DAY)
 
     with open("city_groups.json") as f:
         groups = json.load(f)
     by_team = index_by_team(load_scores(args.data_dir))
     lanes = ("all", "calendar") if args.compare == "both" else (args.compare,)
     ranks = ytd_rank_series(by_team, groups, ref) if "climb" in kinds else {}
+    field = ytd_totals(by_team, groups, ref) if "year" in kinds else {}
 
     candidates = []
     for group in groups:
         ctx = group_context(by_team, group, ref)
         found = []
-        if "month" in kinds:
+        if "month" in kinds and not early:
             found.append(detect_month(ctx, lanes))
+        if "year" in kinds:
+            found.append(detect_year(ctx, by_team, field))
         if "streak" in kinds:
             found.append(detect_streak(by_team, ctx))
-        if "turnaround" in kinds:
+        if "turnaround" in kinds and not early:
             found.append(detect_turnaround(ctx))
         if "climb" in kinds:
             found.append(detect_climb(ctx, ranks))
@@ -750,7 +905,7 @@ def main():
     log.info("Scored %d candidates across %d groups (%s).", len(candidates), len(groups),
              ", ".join(f"{k}: {n}" for k, n in by_kind.items()))
 
-    recent = {} if args.no_novelty else recent_features(args.out_dir, ref)
+    recent = {} if args.no_novelty else recent_features(history, ref)
     if recent:
         log.info("Cooling down recently featured: %s",
                  ", ".join(f"{c} ({d}d)" for c, d in sorted(recent.items(),
