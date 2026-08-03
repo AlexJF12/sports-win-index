@@ -19,14 +19,10 @@ from plotnine import (aes, element_blank, element_text, geom_hline, geom_line,
                       theme)
 
 from render_content import (BASELINE, CAPTION, COLD, FIELD, HOT, INK, INK_2,
-                            MUTED, spotlight_theme)
+                            MONTH_STARTS, MONTH_TICKS, MUTED, spotlight_theme)
 
 TITLE_WRAP = 40
 SUBTITLE_WRAP = 68
-# day of year each month starts on, in a non-leap year
-MONTH_STARTS = [1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335]
-MONTH_TICKS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-               "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 
 def accent(value: float) -> str:

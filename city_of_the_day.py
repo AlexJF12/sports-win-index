@@ -40,7 +40,8 @@ from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from aggregate_cities import index_by_team, load_scores
-from fandom_analysis import display_label, group_games, pretty_date, tally
+from fandom_analysis import (display_label, group_games, pretty_date,
+                             season_series, tally)
 from streakiness import longest_run, streak_index
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -55,22 +56,6 @@ MIN_RECENT_GAMES = 6        # fewer than this and the tile chart has nothing to 
 MIN_SEASONS = 2             # earlier seasons needed for the comparison chart
 COOLDOWN_DAYS = 21          # don't draw the same city again this soon
 HISTORY_KEEP = 120          # entries retained in history.json
-
-
-def season_series(by_team: dict, group: dict, year: int, through: date | None = None) -> list:
-    """[{day of year, cumulative weighted index}] for each day the group played."""
-    end = through or date(year, 12, 31)
-    games = group_games(by_team, group, f"{year}0101", end.strftime("%Y%m%d"))
-    series, cum = [], 0.0
-    for game in games:
-        cum += game["weighted"]
-        day = datetime.strptime(game["date"], "%Y%m%d").date().timetuple().tm_yday
-        series.append({"day": day, "cum": round(cum, 3)})
-    # one point per day played: the last game of a day carries that day's total
-    deduped = {}
-    for point in series:
-        deduped[point["day"]] = point
-    return list(deduped.values())
 
 
 def recent_by_team(by_team: dict, group: dict, ref: date) -> list:

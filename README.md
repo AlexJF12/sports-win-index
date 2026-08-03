@@ -50,28 +50,32 @@ The season chart draws a gray band at ±2: with 88 groups measured, a couple of 
 
 One honest caveat: the sequence is the interleaved one a fan lives through — every team in the group, in order — so it carries schedule structure (three straight games against one opponent) as well as form. That is the experience being measured, not a claim about any single team.
 
-## Fandom spotlight (on demand)
+## Out of the norm (the weekly spotlight)
 
-[`fandom_analysis.py`](fandom_analysis.py) hunts for a postable story about any city group. Four independent detectors run over all 88 groups, so a day's output isn't three variations on one sentence:
+Also on Mondays, [`fandom_analysis.py`](fandom_analysis.py) hunts for city groups whose season is running outside their own norm. Five independent detectors run over all 88 groups, so a run's output isn't three variations on one sentence:
 
-| Detector | What it looks for |
-|---|---|
-| **month** | the month-to-date **weighted index** sits in the tails of the group's own history |
-| **streak** | the group's teams are on a long combined win/loss run |
-| **turnaround** | the month flipped sign in the last 7 days — bad team, good week, or the reverse |
-| **climb** | the group moved several places in the year-to-date standings this week |
+| Detector | What it looks for | Compared against |
+|---|---|---|
+| **month** | the month-to-date **weighted index** sits in the tails | every month since 2022, and the same calendar month in past years |
+| **year** | the year to date sits in the tails | the group's own past years at the same day of year, and all 88 groups this year |
+| **streak** | the teams are on a long combined win/loss run | the longest run that group has had since 2022 |
+| **turnaround** | the month flipped sign in the last 7 days | the same month's first three weeks |
+| **climb** | the group moved several places in the year standings | where it stood a week ago |
+
+The **year** detector answers the two questions separately: *is this unusual for them* (the year to date measured at the same day of year in every season since 2022 — a February comparison never runs against a full year) and *should anyone else care* (their place among all 88 groups on this year's index). A season can be a group's best ever and still sit mid-table, or middling for them and near the top; the headline states the first and the field chart shows the second. Its images are `*_year.png` — every season's cumulative index by day of year, with a dot on each past year at today's date — and `*_field.png`, the whole league sorted best to worst with the group picked out.
 
 The **month** detector compares against the same month-to-date window (same day-of-month cutoff) along two lanes — **every month since 2022**, and **the same calendar month in previous years** (July vs past Julys, so a baseball-only month is never judged against four-league months where the index swings harder). Both tails count: a historically great month and a historically awful one are equally postable. Claims are kept honest three ways — percentiles are shrunk for small samples so "best of 5 Julys" claims less than "best of 55 months"; a lane is dropped when its claim contradicts the month's sign (no "best July on record" on a losing month); and a calendar claim is damped when the all-months lane says the month is thoroughly average.
 
-Because month-to-date totals barely move overnight — it was built to run daily — selection is tuned for variety: one group per city, at most two findings of the same kind, a cooldown on cities featured in the last few days (read back from previous `findings.json` files), and a date-seeded jitter that shuffles near-ties so two similar days don't produce identical picks. The top 3 land in `content/YYYY-MM-DD/`:
+Because these totals move slowly between runs, selection is tuned for variety: one group per city, at most two findings of the same kind, a cooldown on cities featured in recent runs (ramping back to full eligibility over three weeks, read from a run log rather than by scanning folders), and a date-seeded jitter that shuffles near-ties so two similar runs don't produce identical picks. The top 3 overwrite `content/weekly/`:
 
 - `findings.json` — everything the renderer and the summary are built from
 - `summary.md` — headlines plus copy-pasteable stats (record, weighted points, percentile, streaks, who drove it)
-- three plotnine PNGs per finding: `*_race.png` (the group vs the whole field this month) and `*_teams.png` (per-team contribution, month vs last 7 days), plus one that depends on the detector — `*_history.png`, `*_timeline.png`, or `*_bump.png`
+- `history.json` — the run log the cooldown reads
+- two or three plotnine PNGs per finding, depending on the detector: `year` gets `*_year.png` + `*_field.png`; the month-scoped kinds get `*_race.png` (the group vs the whole field this month) and `*_teams.png` (per-team contribution, month vs last 7 days) plus `*_history.png`, `*_timeline.png`, or `*_bump.png`
 
-Run it when you want something to post: `python fandom_analysis.py --date 20260716 && python render_content.py --date 20260716`, or tick **spotlight** on a manual workflow run. `--kinds`, `--compare`, `--top`, and `--no-novelty` narrow what a run considers.
+Replay a run with `python fandom_analysis.py --date 20260716 && python render_content.py`; `--kinds`, `--compare`, `--top`, and `--no-novelty` narrow what a run considers. Only the **month** and **turnaround** detectors need a few days of games on the clock, so a run on the 1st of a month now returns year, streak and climb findings instead of the blank page it used to.
 
-> It is opt-in because each run costs roughly **1 MB** of images that git keeps forever — on the nightly schedule that was ~200 MB/year of charts nobody had asked for. The novelty cooldown reads back the last 10 days of `content/<date>/findings.json`, so it only does its job across a run of consecutive days.
+> Weekly, this costs roughly **1 MB** of images — ~50 MB/year — against ~200 MB/year when the same thing ran nightly. `--top 2` trims it if that matters.
 
 ## The three scoring methods
 
@@ -113,5 +117,6 @@ python3 scrape_scores.py --date 20260601 # backfill a specific date
 python3 aggregate_cities.py              # rebuild data/city_rankings.json
 python3 city_of_the_day.py               # rebuild content/daily/
 python3 streakiness.py                   # rebuild content/streakiness/
+python3 fandom_analysis.py && python3 render_content.py   # rebuild content/weekly/
 python3 -m pytest tests/                 # test suite (offline, fixture-based)
 ```

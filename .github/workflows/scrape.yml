@@ -10,10 +10,6 @@ on:
       date:
         description: "Override date (YYYYMMDD), defaults to yesterday"
         required: false
-      spotlight:
-        description: "Also run the fandom spotlight (writes ~1 MB of images to content/<date>/)"
-        type: boolean
-        default: false
 
 permissions:
   contents: write
@@ -47,10 +43,9 @@ jobs:
       - name: City of the day
         run: python city_of_the_day.py --date "${{ inputs.date }}"
 
-      # The streakiness charts always overwrite the same two files, and the
-      # numbers behind them move slowly, so a weekly refresh is plenty — daily
-      # would mean a new ~300 KB of image blobs in history every morning for a
-      # picture nobody would notice changing.
+      # Both weekly jobs overwrite the same files, and the numbers behind them
+      # move slowly, so a weekly refresh is plenty — daily would mean new image
+      # blobs in history every morning for pictures nobody would see change.
       - name: Weekly?
         id: cal
         run: |
@@ -61,13 +56,15 @@ jobs:
         if: steps.cal.outputs.run == 'true' || github.event_name == 'workflow_dispatch'
         run: python streakiness.py --date "${{ inputs.date }}"
 
-      # Opt-in: the spotlight writes three PNGs per finding into a new dated
-      # folder, so it is a manual choice rather than a standing cost.
-      - name: Find fandom spotlight
-        if: inputs.spotlight
+      # The out-of-the-norm analysis: month-to-date against every past month
+      # and against past same-months, year-to-date against the group's own
+      # past years and against the field. All of it moves slowly enough that
+      # a weekly read is the honest cadence.
+      - name: Weekly out-of-the-norm analysis
+        if: steps.cal.outputs.run == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           python fandom_analysis.py --date "${{ inputs.date }}"
-          python render_content.py ${{ inputs.date && format('--date {0}', inputs.date) || '' }}
+          python render_content.py
 
       - name: Commit and push updated data
         run: |
