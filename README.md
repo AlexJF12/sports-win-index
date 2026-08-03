@@ -12,7 +12,26 @@ This repo is the whole system: a daily scraper, the score data itself, and a sta
 
 Default teams live in [`my_teams.json`](my_teams.json); the full team list (ESPN abbreviations → names) is [`teams.json`](teams.json). Scraper details and design decisions are in [`PLAN.md`](PLAN.md).
 
-## Streakiness (the standing charts)
+## City of the day (the daily analysis)
+
+Every morning after the scrape, **[`city_of_the_day.py`](city_of_the_day.py)** draws one fandom at random and renders its season into [`content/daily/`](content/daily):
+
+- **`season.png`** — the group's cumulative weighted index this year against their own earlier seasons, day of year for day of year, so a bad start or a long climb shows up against the years that came before it
+- **`games.png`** — every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run; the subtitle reads the order of results against chance (see streakiness below)
+- **`summary.md`** — the numbers behind both, ready to paste
+
+The draw is deliberately random rather than ranked. A detector-driven feed keeps circling back to whoever is having an extreme week; a random draw gets around the whole league, and an ordinary season is interesting once someone actually looks at it. Some care goes into the draw:
+
+- a **city** is picked first, then a group inside it, so the 24 New York permutations take one city's worth of days instead of a quarter of the year
+- the draw is **seeded by the date**, so replaying a day reproduces it exactly
+- cities drawn in the last **21 days** are passed over, tracked in `content/daily/history.json` — a small file, not a folder scan
+- a city only qualifies with at least 6 games in the last 30 days and 2 earlier seasons, so neither chart is ever empty (in midsummer that usually means the group's MLB team is the only row on `games.png`)
+
+Force a pick with `--city Detroit`, replay a day with `--date 20260716`, or skip the plotnine import with `--no-images`.
+
+> The files are overwritten in place, so the working tree holds one day's images and git history holds the archive — about 260 KB of new blobs a day, ~95 MB a year. Cutting to one image, or to weekdays only, halves that if it ever gets heavy.
+
+## Streakiness (the weekly standing charts)
 
 Winning percentage says how *often* a fandom wins. **[`streakiness.py`](streakiness.py)** asks how those wins *arrive* — in runs, or shuffled — and whether that is normal for the group. The measure is the Wald–Wolfowitz runs test over the sequence of games the group's teams actually played, sign-flipped so bigger means clumpier:
 
@@ -27,7 +46,7 @@ Because the expected number of runs is conditioned on the group's actual win and
 - **`season_vs_history.png`** — this year's index for the ten city groups furthest from their own 2022–2025 norm, one group per city, their past seasons plotted behind them in gray
 - **`past_month.png`** — the last 30 days game by game as win/loss tiles, for the three streakiest and three steadiest fandoms of the month
 
-The season chart draws a gray band at ±2: with 88 groups measured, a couple of readings past it is what chance alone produces, so the band is where a claim starts being interesting. `streakiness.json` holds the numbers for all 88 groups. The workflow refreshes both charts on Mondays (`python streakiness.py`, or `--date YYYYMMDD` to replay a day; `--no-images` skips plotnine).
+The season chart draws a gray band at ±2: with 88 groups measured, a couple of readings past it is what chance alone produces, so the band is where a claim starts being interesting. `streakiness.json` holds the numbers for all 88 groups. Where the daily draw looks at one fandom, this is the whole field at once, so the workflow refreshes it on Mondays (`python streakiness.py`, or `--date YYYYMMDD` to replay a day; `--no-images` skips plotnine).
 
 One honest caveat: the sequence is the interleaved one a fan lives through — every team in the group, in order — so it carries schedule structure (three straight games against one opponent) as well as form. That is the experience being measured, not a claim about any single team.
 
@@ -44,7 +63,7 @@ One honest caveat: the sequence is the interleaved one a fan lives through — e
 
 The **month** detector compares against the same month-to-date window (same day-of-month cutoff) along two lanes — **every month since 2022**, and **the same calendar month in previous years** (July vs past Julys, so a baseball-only month is never judged against four-league months where the index swings harder). Both tails count: a historically great month and a historically awful one are equally postable. Claims are kept honest three ways — percentiles are shrunk for small samples so "best of 5 Julys" claims less than "best of 55 months"; a lane is dropped when its claim contradicts the month's sign (no "best July on record" on a losing month); and a calendar claim is damped when the all-months lane says the month is thoroughly average.
 
-Because this runs *every day* and month-to-date totals barely move overnight, selection is tuned for variety: one group per city, at most two findings of the same kind, a cooldown on cities featured in the last few days (read back from previous `findings.json` files), and a date-seeded jitter that shuffles near-ties so two similar days don't produce identical picks. The top 3 land in `content/YYYY-MM-DD/`:
+Because month-to-date totals barely move overnight — it was built to run daily — selection is tuned for variety: one group per city, at most two findings of the same kind, a cooldown on cities featured in the last few days (read back from previous `findings.json` files), and a date-seeded jitter that shuffles near-ties so two similar days don't produce identical picks. The top 3 land in `content/YYYY-MM-DD/`:
 
 - `findings.json` — everything the renderer and the summary are built from
 - `summary.md` — headlines plus copy-pasteable stats (record, weighted points, percentile, streaks, who drove it)
@@ -92,6 +111,7 @@ pip install -r requirements.txt          # requests
 python3 scrape_scores.py                 # scrape yesterday (US/Eastern)
 python3 scrape_scores.py --date 20260601 # backfill a specific date
 python3 aggregate_cities.py              # rebuild data/city_rankings.json
+python3 city_of_the_day.py               # rebuild content/daily/
 python3 streakiness.py                   # rebuild content/streakiness/
 python3 -m pytest tests/                 # test suite (offline, fixture-based)
 ```

@@ -44,6 +44,9 @@ jobs:
       - name: Aggregate city rankings
         run: python aggregate_cities.py
 
+      - name: City of the day
+        run: python city_of_the_day.py --date "${{ inputs.date }}"
+
       # The streakiness charts always overwrite the same two files, and the
       # numbers behind them move slowly, so a weekly refresh is plenty — daily
       # would mean a new ~300 KB of image blobs in history every morning for a
