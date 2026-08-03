@@ -12,9 +12,28 @@ This repo is the whole system: a daily scraper, the score data itself, and a sta
 
 Default teams live in [`my_teams.json`](my_teams.json); the full team list (ESPN abbreviations → names) is [`teams.json`](teams.json). Scraper details and design decisions are in [`PLAN.md`](PLAN.md).
 
-## Fandom spotlight (daily social content)
+## Streakiness (the standing charts)
 
-After the scrape, the workflow runs [`fandom_analysis.py`](fandom_analysis.py), which hunts for a postable story about any city group. Four independent detectors run over all 88 groups, so a day's output isn't three variations on one sentence:
+Winning percentage says how *often* a fandom wins. **[`streakiness.py`](streakiness.py)** asks how those wins *arrive* — in runs, or shuffled — and whether that is normal for the group. The measure is the Wald–Wolfowitz runs test over the sequence of games the group's teams actually played, sign-flipped so bigger means clumpier:
+
+| Streak index | Reading |
+|---|---|
+| **+2 or more** | clumpier than chance — long heaters and long skids |
+| **0** | exactly as clumped as coin flips at that win rate |
+| **−2 or less** | more alternating than chance — wins and losses take turns |
+
+Because the expected number of runs is conditioned on the group's actual win and loss counts, the index is close to independent of *how good* they are: a .500 season of five-game swings and a .500 season of win-loss-win-loss score at opposite ends. Two images live in [`content/streakiness/`](content/streakiness), always at the same two paths, so the repo carries two files rather than a growing pile:
+
+- **`season_vs_history.png`** — this year's index for the ten city groups furthest from their own 2022–2025 norm, one group per city, their past seasons plotted behind them in gray
+- **`past_month.png`** — the last 30 days game by game as win/loss tiles, for the three streakiest and three steadiest fandoms of the month
+
+The season chart draws a gray band at ±2: with 88 groups measured, a couple of readings past it is what chance alone produces, so the band is where a claim starts being interesting. `streakiness.json` holds the numbers for all 88 groups. The workflow refreshes both charts on Mondays (`python streakiness.py`, or `--date YYYYMMDD` to replay a day; `--no-images` skips plotnine).
+
+One honest caveat: the sequence is the interleaved one a fan lives through — every team in the group, in order — so it carries schedule structure (three straight games against one opponent) as well as form. That is the experience being measured, not a claim about any single team.
+
+## Fandom spotlight (on demand)
+
+[`fandom_analysis.py`](fandom_analysis.py) hunts for a postable story about any city group. Four independent detectors run over all 88 groups, so a day's output isn't three variations on one sentence:
 
 | Detector | What it looks for |
 |---|---|
@@ -31,9 +50,9 @@ Because this runs *every day* and month-to-date totals barely move overnight, se
 - `summary.md` — headlines plus copy-pasteable stats (record, weighted points, percentile, streaks, who drove it)
 - three plotnine PNGs per finding: `*_race.png` (the group vs the whole field this month) and `*_teams.png` (per-team contribution, month vs last 7 days), plus one that depends on the detector — `*_history.png`, `*_timeline.png`, or `*_bump.png`
 
-Browse the day's folder, pick what's worth posting. Backfill or replay a day with `python fandom_analysis.py --date 20260716 && python render_content.py --date 20260716`; `--kinds`, `--compare`, `--top`, and `--no-novelty` narrow what a run considers.
+Run it when you want something to post: `python fandom_analysis.py --date 20260716 && python render_content.py --date 20260716`, or tick **spotlight** on a manual workflow run. `--kinds`, `--compare`, `--top`, and `--no-novelty` narrow what a run considers.
 
-> Each day costs roughly **1 MB** of images (~200 MB/year). If that gets heavy, prune old `content/` folders — nothing else reads them except the novelty cooldown, which only looks back 10 days.
+> It is opt-in because each run costs roughly **1 MB** of images that git keeps forever — on the nightly schedule that was ~200 MB/year of charts nobody had asked for. The novelty cooldown reads back the last 10 days of `content/<date>/findings.json`, so it only does its job across a run of consecutive days.
 
 ## The three scoring methods
 
@@ -72,5 +91,7 @@ from the repo root, then open http://localhost:8000. (Or enable GitHub Pages —
 pip install -r requirements.txt          # requests
 python3 scrape_scores.py                 # scrape yesterday (US/Eastern)
 python3 scrape_scores.py --date 20260601 # backfill a specific date
+python3 aggregate_cities.py              # rebuild data/city_rankings.json
+python3 streakiness.py                   # rebuild content/streakiness/
 python3 -m pytest tests/                 # test suite (offline, fixture-based)
 ```
