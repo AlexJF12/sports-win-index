@@ -33,7 +33,7 @@ month- and year-to-date totals move slowly between runs:
 
 Results overwrite content/weekly/: findings.json, a human-readable summary.md,
 and history.json (the run log the cooldown reads). The GitHub Actions workflow
-runs this weekly, on Mondays, after aggregate_cities.
+runs this weekly, on Wednesdays, after aggregate_cities.
 
 Usage:
     python fandom_analysis.py                 # reference date = yesterday (ET)

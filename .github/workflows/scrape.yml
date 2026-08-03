@@ -46,10 +46,10 @@ jobs:
       # Both weekly jobs overwrite the same files, and the numbers behind them
       # move slowly, so a weekly refresh is plenty — daily would mean new image
       # blobs in history every morning for pictures nobody would see change.
-      - name: Weekly?
+      - name: Wednesday?
         id: cal
         run: |
-          if [ "$(date -u +%u)" = "1" ]; then echo "run=true" >> "$GITHUB_OUTPUT";
+          if [ "$(date -u +%u)" = "3" ]; then echo "run=true" >> "$GITHUB_OUTPUT";
           else echo "run=false" >> "$GITHUB_OUTPUT"; fi
 
       - name: Refresh streakiness charts

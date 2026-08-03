@@ -46,13 +46,13 @@ Because the expected number of runs is conditioned on the group's actual win and
 - **`season_vs_history.png`** — this year's index for the ten city groups furthest from their own 2022–2025 norm, one group per city, their past seasons plotted behind them in gray
 - **`past_month.png`** — the last 30 days game by game as win/loss tiles, for the three streakiest and three steadiest fandoms of the month
 
-The season chart draws a gray band at ±2: with 88 groups measured, a couple of readings past it is what chance alone produces, so the band is where a claim starts being interesting. `streakiness.json` holds the numbers for all 88 groups. Where the daily draw looks at one fandom, this is the whole field at once, so the workflow refreshes it on Mondays (`python streakiness.py`, or `--date YYYYMMDD` to replay a day; `--no-images` skips plotnine).
+The season chart draws a gray band at ±2: with 88 groups measured, a couple of readings past it is what chance alone produces, so the band is where a claim starts being interesting. `streakiness.json` holds the numbers for all 88 groups. Where the daily draw looks at one fandom, this is the whole field at once, so the workflow refreshes it on Wednesdays (`python streakiness.py`, or `--date YYYYMMDD` to replay a day; `--no-images` skips plotnine).
 
 One honest caveat: the sequence is the interleaved one a fan lives through — every team in the group, in order — so it carries schedule structure (three straight games against one opponent) as well as form. That is the experience being measured, not a claim about any single team.
 
 ## Out of the norm (the weekly spotlight)
 
-Also on Mondays, [`fandom_analysis.py`](fandom_analysis.py) hunts for city groups whose season is running outside their own norm. Five independent detectors run over all 88 groups, so a run's output isn't three variations on one sentence:
+Also on Wednesdays, [`fandom_analysis.py`](fandom_analysis.py) hunts for city groups whose season is running outside their own norm. Five independent detectors run over all 88 groups, so a run's output isn't three variations on one sentence:
 
 | Detector | What it looks for | Compared against |
 |---|---|---|
