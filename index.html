@@ -85,6 +85,19 @@
   h2 { font-size: 15px; font-weight: 650; margin: 0 0 2px; }
   .range { color: var(--text-muted); font-size: 13px; margin-bottom: 10px; }
 
+  .week-strip { display: flex; gap: 6px; margin-bottom: 10px; }
+  .day-box {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px; padding: 8px 4px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text-secondary);
+  }
+  .day-box .dow { text-transform: uppercase; letter-spacing: 0.04em; font-size: 10px; }
+  .day-box .dom { font-size: 15px; font-weight: 650; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .day-box.future { opacity: 0.45; border-style: dashed; }
+  .day-box.future .dom { color: var(--text-secondary); }
+  .day-box.today { background: var(--text-primary); border-color: var(--text-primary); }
+  .day-box.today .dow, .day-box.today .dom { color: var(--page); }
+
   .champ {
     background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
     padding: 14px 16px; margin-bottom: 10px;
@@ -158,6 +171,9 @@
     main { padding: 18px 12px 48px; }
     th, td { padding: 7px 10px; }
     .champ .city, .champ .score { font-size: 20px; }
+    .week-strip { gap: 4px; }
+    .day-box { padding: 6px 2px; }
+    .day-box .dom { font-size: 13px; }
   }
 </style>
 </head>
@@ -231,6 +247,22 @@ async function fetchScores(league, years) {
 }
 
 function fmtDate(d) { return `${MONTHS[+d.slice(4, 6) - 1].slice(0, 3)} ${+d.slice(6, 8)}`; }
+
+const DAY_ABBR = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+// Tue-through-Mon strip of day boxes for the "Best week" section, marking
+// how far the underlying data (data.reference_date) has been updated
+function weekStrip(p) {
+  const boxes = [...dayRange(p.start, p.end)].map(d => {
+    const dt = new Date(+d.slice(0, 4), +d.slice(4, 6) - 1, +d.slice(6, 8));
+    const cls = d === data.reference_date ? "today" : d > data.reference_date ? "future" : "";
+    return `<div class="day-box ${cls}">
+      <span class="dow">${DAY_ABBR[dt.getDay()]}</span>
+      <span class="dom">${dt.getDate()}</span>
+    </div>`;
+  }).join("");
+  return `<div class="week-strip">${boxes}</div>`;
+}
 
 function fmtSigned(n, decimals) {
   if (Math.abs(n) < 1e-9) n = 0;
@@ -547,6 +579,7 @@ function render() {
     const range = rangeLabel(key) + (note ? ` (${note})` : "");
     if (!ranked.length) {
       return `<section class="period"><h2>${title}</h2><div class="range">${range}</div>
+        ${key === "week" ? weekStrip(data.periods.week) : ""}
         <div class="table-wrap"><div class="empty">No games in this period.</div></div></section>`;
     }
     const champ = ranked[0];
@@ -587,6 +620,7 @@ function render() {
     return `<section class="period">
       <h2>${title}</h2>
       <div class="range">${range}</div>
+      ${key === "week" ? weekStrip(data.periods.week) : ""}
       <div class="champ">
         <span class="city">${cityLink(champ)}</span>
         <span class="detail-record">${champ[key].w}–${champ[key].l}${champ[key].t ? "–" + champ[key].t : ""}</span>
