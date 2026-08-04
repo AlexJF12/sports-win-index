@@ -21,18 +21,25 @@ Wednesday's weekly folder under Wednesday and changes nothing.
 The headline and the numbers behind each post are parsed out of the summary.md
 the analysis already writes, so there is one source of truth for the prose.
 
-Posts older than RETAIN_DAYS are deleted from the working tree — at roughly
-260 KB a morning and 1 MB a Wednesday, an unbounded archive is ~150 MB a year.
-Git history still has them; the blog just stops listing them.
+Every post also gets its own page — content/posts/<date>/<kind>.html — with the
+headline in the title and the lead chart as its social card, because the feed
+renders from JSON and a link into it unfurls as nothing and crawls as nothing.
+
+Retention takes the pixels, not the post. After RETAIN_DAYS a post's images are
+deleted (they are ~99% of the bytes, roughly 150 MB a year unchecked) while its
+headline, its numbers and its page stay forever, at about 2 MB a year. A link
+shared today still resolves in five years; it just stops showing charts.
 
 Usage:
     python publish_blog.py                    # publish whatever is on disk
     python publish_blog.py --retain-days 30
-    python publish_blog.py --no-prune
+    python publish_blog.py --no-prune         # keep images past the window
+    python publish_blog.py --base-url https://example.com
 """
 
 import argparse
 import hashlib
+import html
 import json
 import logging
 import os
@@ -48,8 +55,14 @@ DAILY_DIR = os.path.join("content", "daily")
 STREAK_DIR = os.path.join("content", "streakiness")
 WEEKLY_DIR = os.path.join("content", "weekly")
 POSTS_DIR = os.path.join("content", "posts")
-MANIFEST = "index.json"
-RETAIN_DAYS = 90            # how far back the blog lists; older folders are deleted
+MANIFEST = "index.json"     # posts still inside the image window
+ARCHIVE = "archive.json"    # everything older, text only
+RETAIN_DAYS = 90            # how long a post keeps its images
+
+# Absolute URLs for the per-post pages' canonical link and social card. GitHub
+# Pages serves this repo from the owner's subdomain; --base-url overrides it if
+# the site ever moves to its own domain.
+BASE_URL = "https://alexjf12.github.io/sports-win-index"
 
 # One row per kind: the badge the page shows, and the sort rank inside a date
 # (a Wednesday carries all three, and the weekly reads lead).
@@ -373,10 +386,12 @@ def drop_stale(post: dict, posts_dir: str, published: list) -> dict:
 
 
 def load_manifest(posts_dir: str) -> dict:
-    data = read_json(os.path.join(posts_dir, MANIFEST))
-    if not data:
-        return {"posts": []}
-    return data
+    """Every post the blog knows about, recent and archived, newest first."""
+    recent = read_json(os.path.join(posts_dir, MANIFEST)) or {}
+    old = read_json(os.path.join(posts_dir, ARCHIVE)) or {}
+    posts = (recent.get("posts") or []) + (old.get("posts") or [])
+    posts.sort(key=sort_key, reverse=True)
+    return {"posts": posts}
 
 
 def sort_key(post: dict) -> tuple:
@@ -405,9 +420,174 @@ def file_post(post: dict, posts_dir: str) -> dict:
     return post
 
 
+# --- the permanent page for one post -----------------------------------------
+
+def page_path(post: dict) -> str:
+    """Where a post's own page lives, relative to the site root."""
+    return f"content/posts/{post['date']}/{post['kind']}.html"
+
+
+def summarize(post: dict) -> str:
+    """A meta description: the dek, then as many numbers as fit in ~200 chars."""
+    parts = [post.get("dek") or ""]
+    for section in post["sections"]:
+        for stat in section.get("stats") or []:
+            parts.append(f"{stat['label']}: {stat['value']}")
+    text = " · ".join(p for p in parts if p)
+    return text if len(text) <= 200 else text[:197].rstrip(" ·") + "…"
+
+
+def tag(name: str, content: str, attr: str = "name") -> str:
+    return f'<meta {attr}="{name}" content="{esc(content)}">'
+
+
+def esc(text: str) -> str:
+    return html.escape(str(text), quote=True)
+
+
+def stats_html(section: dict, indent: str = "    ") -> list:
+    """The numbers, open on a post's own page — it is the destination, not a
+    card in a feed, so there is nothing to scan past."""
+    out = []
+    if section.get("stats"):
+        out.append(f"{indent}<dl>")
+        for stat in section["stats"]:
+            out.append(f"{indent}  <div><dt>{esc(stat['label'])}</dt>"
+                       f"<dd>{esc(stat['value'])}</dd></div>")
+        out.append(f"{indent}</dl>")
+    table = section.get("table")
+    if table:
+        head = "".join(f"<th>{esc(c)}</th>" for c in table["columns"])
+        rows = "".join("<tr>" + "".join(f"<td>{esc(c)}</td>" for c in row) + "</tr>"
+                       for row in table["rows"])
+        out.append(f'{indent}<div class="table-wrap"><table><thead><tr>{head}</tr>'
+                   f"</thead><tbody>{rows}</tbody></table></div>")
+    return out
+
+
+def render_page(post: dict, base_url: str) -> str:
+    """A post as a standalone HTML page.
+
+    The feed renders from JSON in the browser, which means a link to a post
+    unfurls as nothing and crawls as nothing. This is the same post as a real
+    page: the headline in the title, the lead chart as the social card, the
+    charts and the numbers in the markup rather than assembled at runtime. It
+    outlives its images — once they age out the page keeps the record and says
+    so, so a link shared today still resolves in two years.
+    """
+    kind = KINDS[post["kind"]]["label"]
+    images = [img for section in post["sections"] for img in section["images"]]
+    url = f"{base_url}/{page_path(post)}"
+    title = f"{post['title']} — Team Wins"
+    root = "../../../"        # content/posts/<date>/ back to the site root
+
+    head = [
+        "<!DOCTYPE html>", '<html lang="en">', "<head>", '<meta charset="utf-8">',
+        '<meta name="viewport" content="width=device-width, initial-scale=1">',
+        f"<title>{esc(title)}</title>",
+        tag("description", summarize(post)),
+        f'<link rel="canonical" href="{esc(url)}">',
+        tag("og:type", "article", "property"),
+        tag("og:site_name", "Team Wins", "property"),
+        tag("og:title", post["title"], "property"),
+        tag("og:description", summarize(post), "property"),
+        tag("og:url", url, "property"),
+        tag("article:published_time", post["date"], "property"),
+    ]
+    if images:
+        card = f"{base_url}/content/posts/{post['date']}/{images[0]['file']}"
+        head += [tag("og:image", card, "property"),
+                 tag("og:image:alt", images[0]["alt"], "property"),
+                 tag("twitter:card", "summary_large_image"),
+                 tag("twitter:image", card)]
+    else:
+        head.append(tag("twitter:card", "summary"))
+    head += [
+        '<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/'
+        '2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>'
+        "🏆</text></svg>\">",
+        f'<link rel="stylesheet" href="{root}blog.css">',
+        "</head>", "<body>", "<main>",
+        "  <header>", "    <h1>Team Wins</h1>", "    <nav>",
+        f'      <a href="{root}index.html">city index</a>',
+        f'      <a href="{root}my-teams.html">my teams</a>',
+        f'      <a href="{root}groups.html">city groups</a>',
+        f'      <a href="{root}blog.html">blog</a>',
+        f'      <a href="{root}about.html">about</a>',
+        "    </nav>", "  </header>",
+        f'  <p class="as-of"><a href="{root}blog.html">← every post</a></p>',
+        '  <article class="post post-page">',
+        f'    <span class="badge" data-kind="{post["kind"]}">{esc(kind)}</span>',
+        f'    <p class="dateline"><time datetime="{post["date"]}">'
+        f"{esc(pretty(as_date(post['date'])))}</time></p>",
+        f'    <h2>{esc(post["title"])}</h2>',
+    ]
+    if post.get("dek"):
+        head.append(f'    <p class="dek">{esc(post["dek"])}</p>')
+
+    body = []
+    for section in post["sections"]:
+        body.append('    <section class="finding">')
+        if section.get("heading"):
+            body.append(f'      <h3>{esc(section["heading"])}</h3>')
+        if section.get("subhead"):
+            body.append(f'      <p class="subhead">{esc(section["subhead"])}</p>')
+        body += stats_html(section, "      ")
+        for img in section["images"]:
+            body += [
+                "      <figure>",
+                f'        <a href="{esc(img["file"])}" title="Open the full-size chart">'
+                f'<img src="{esc(img["file"])}" alt="{esc(img["alt"])}" '
+                'loading="lazy" decoding="async"></a>',
+                f'        <figcaption>{esc(img["caption"])}</figcaption>',
+                "      </figure>",
+            ]
+        body.append("    </section>")
+
+    if post.get("archived"):
+        body.append('    <p class="note archived-note">The charts from this post have '
+                    "aged out of the image window and were deleted from the "
+                    "repository. The numbers above are the whole record; the images "
+                    "are still in git history.</p>")
+
+    return "\n".join(head + body + ["  </article>", "</main>", "</body>", "</html>", ""])
+
+
+def write_page(post: dict, posts_dir: str, base_url: str) -> None:
+    folder = os.path.join(posts_dir, post["date"])
+    os.makedirs(folder, exist_ok=True)
+    with open(os.path.join(folder, f"{post['kind']}.html"), "w") as f:
+        f.write(render_page(post, base_url))
+    post["page"] = page_path(post)
+
+
+def archive_post(post: dict, posts_dir: str) -> dict:
+    """Age a post out of the image window without losing the post.
+
+    Deleting the folder would break every link ever shared to it, so only the
+    pixels go: the images are ~99% of the bytes and the headline, the numbers
+    and the page itself cost a couple of KB a post — a permanent record for
+    about 2 MB a year.
+    """
+    folder = os.path.join(posts_dir, post["date"])
+    gone = 0
+    for section in post["sections"]:
+        for img in section["images"]:
+            path = os.path.join(folder, img["file"])
+            if os.path.exists(path):
+                os.remove(path)
+                gone += 1
+        section["images"] = []
+    post["archived"] = True
+    if gone:
+        log.info("Archived %s %s — %d image%s removed, the record stays",
+                 post["date"], post["kind"], gone, "" if gone == 1 else "s")
+    return post
+
+
 def publish(posts: list, posts_dir: str = POSTS_DIR, retain_days: int = RETAIN_DAYS,
-            prune: bool = True) -> dict:
-    """File every post, rewrite the manifest, and drop what has aged out."""
+            prune: bool = True, base_url: str = BASE_URL) -> dict:
+    """File every post, write its page, and age the old ones out of their images."""
     os.makedirs(posts_dir, exist_ok=True)
     kept = load_manifest(posts_dir)["posts"]
 
@@ -431,31 +611,36 @@ def publish(posts: list, posts_dir: str = POSTS_DIR, retain_days: int = RETAIN_D
                        for new in filed)] + filed
     kept.sort(key=sort_key, reverse=True)
 
-    if prune and kept:
-        newest = as_date(kept[0]["date"])
-        alive, dropped = [], set()
-        for post in kept:
-            if (newest - as_date(post["date"])).days <= retain_days:
-                alive.append(post)
-            else:
-                dropped.add(post["date"])
-        for day in sorted(dropped):
-            folder = os.path.join(posts_dir, day)
-            if os.path.isdir(folder):
-                shutil.rmtree(folder)
-            log.info("Pruned %s (older than %d days)", day, retain_days)
-        kept = alive
-
     # rebuild alt text for every post, not just today's: a post filed by an
     # older version of this script keeps whatever alt text that version wrote,
     # and re-deriving it here means the whole archive picks up an improvement
     # on the next morning's run instead of only new posts getting it
+    kept = [name_images(p) for p in kept]
+
+    recent, archived = kept, []
+    if prune and kept:
+        newest = as_date(kept[0]["date"])
+        recent = [p for p in kept
+                  if (newest - as_date(p["date"])).days <= retain_days]
+        archived = [archive_post(p, posts_dir) for p in kept[len(recent):]]
+
+    # every page is rewritten every run, so a change to the template reaches
+    # posts that were filed before it existed. Identical output is a no-op to git.
+    for post in recent + archived:
+        write_page(post, posts_dir, base_url)
+
     out = {"generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-           "retain_days": retain_days, "posts": [name_images(p) for p in kept]}
+           "retain_days": retain_days, "base_url": base_url,
+           "archive": ARCHIVE if archived else None,
+           "archived_count": len(archived), "posts": recent}
     with open(os.path.join(posts_dir, MANIFEST), "w") as f:
         json.dump(out, f, indent=1)
         f.write("\n")
-    return out
+    if archived or os.path.exists(os.path.join(posts_dir, ARCHIVE)):
+        with open(os.path.join(posts_dir, ARCHIVE), "w") as f:
+            json.dump({"posts": archived}, f, indent=1)
+            f.write("\n")
+    return {**out, "posts": recent + archived}
 
 
 def collect(daily_dir=DAILY_DIR, streak_dir=STREAK_DIR, weekly_dir=WEEKLY_DIR) -> list:
@@ -485,12 +670,17 @@ def main():
     parser.add_argument("--retain-days", type=int, default=RETAIN_DAYS,
                         help=f"How far back the blog lists (default {RETAIN_DAYS}).")
     parser.add_argument("--no-prune", action="store_true",
-                        help="Keep posts that have aged out of the retention window.")
+                        help="Keep images on posts that have aged out of the window.")
+    parser.add_argument("--base-url", default=BASE_URL,
+                        help="Site root, for each post page's canonical URL and "
+                             f"social card (default {BASE_URL}).")
     args = parser.parse_args()
 
     posts = collect(args.daily_dir, args.streak_dir, args.weekly_dir)
-    manifest = publish(posts, args.posts_dir, args.retain_days, not args.no_prune)
-    log.info("Manifest: %d posts, newest %s", len(manifest["posts"]),
+    manifest = publish(posts, args.posts_dir, args.retain_days, not args.no_prune,
+                       args.base_url)
+    log.info("Manifest: %d posts (%d archived), newest %s", len(manifest["posts"]),
+             manifest["archived_count"],
              manifest["posts"][0]["date"] if manifest["posts"] else "—")
 
 

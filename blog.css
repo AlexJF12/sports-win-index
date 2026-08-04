@@ -1,0 +1,200 @@
+/* Shared by blog.html (the feed) and the standalone post pages
+   publish_blog.py writes under content/posts/<date>/. */
+:root {
+  color-scheme: light;
+  --page:           #f9f9f7;
+  --surface:        #fcfcfb;
+  --text-primary:   #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted:     #898781;
+  --hairline:       #e1e0d9;
+  --border:         rgba(11, 11, 11, 0.10);
+  --hot:            #2a78d6;
+  --cold:           #e34948;
+  --chip:           rgba(11, 11, 11, 0.04);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --page:           #0d0d0d;
+    --surface:        #1a1a19;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --hairline:       #2c2c2a;
+    --border:         rgba(255, 255, 255, 0.10);
+    --hot:            #6ba6e8;
+    --cold:           #f07b7a;
+    --chip:           rgba(255, 255, 255, 0.06);
+  }
+}
+* { box-sizing: border-box; }
+/* a class that sets display beats the UA rule for [hidden], and both the
+   filter row and the load-more button set one — so make hidden win */
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text-primary);
+  font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+main { max-width: 760px; margin: 0 auto; padding: 24px 20px 64px; }
+header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+h1 { font-size: 20px; font-weight: 650; margin: 0; }
+nav { display: flex; gap: 16px; }
+nav a { color: var(--text-secondary); font-size: 13px; text-decoration: none; }
+nav a:hover { text-decoration: underline; }
+nav [aria-current="page"] { color: var(--text-primary); font-size: 13px; font-weight: 650; }
+.as-of { color: var(--text-muted); font-size: 13px; margin: 6px 0 0; }
+a { color: var(--text-primary); }
+
+/* filter chips */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 4px; }
+.filters button {
+  font: inherit; font-size: 13px; color: var(--text-secondary);
+  background: var(--chip); border: 1px solid transparent; border-radius: 999px;
+  padding: 5px 12px; cursor: pointer;
+}
+.filters button:hover { color: var(--text-primary); }
+.filters button[aria-pressed="true"] {
+  color: var(--text-primary); font-weight: 600;
+  background: var(--surface); border-color: var(--border);
+}
+
+/* one heading per day, however many runs it carries */
+.day { margin-top: 30px; }
+.day-head { font-size: 13px; font-weight: 650; letter-spacing: 0.02em; margin: 0 0 8px; }
+.day-head a { color: var(--text-muted); text-decoration: none; }
+.day-head a:hover { color: var(--text-primary); }
+.day:target > .day-head a, .post:target .badge { color: var(--text-primary); }
+
+.post {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  padding: 20px; margin: 10px 0;
+  scroll-margin-top: 16px;
+}
+.post:target { border-color: var(--text-muted); }
+.badge {
+  display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+  font-size: 11px; font-weight: 650; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--text-secondary); background: var(--chip);
+  border-radius: 999px; padding: 3px 10px; margin-bottom: 10px;
+}
+.badge:hover { color: var(--text-primary); }
+.badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted); }
+.badge[data-kind="daily"]::before { background: var(--hot); }
+.badge[data-kind="spotlight"]::before { background: var(--cold); }
+.badge[data-kind="streakiness"]::before { background: var(--text-secondary); }
+.post h3 { font-size: 19px; font-weight: 650; line-height: 1.3; margin: 0 0 4px; }
+.dek { color: var(--text-secondary); font-size: 14px; margin: 0; }
+
+.finding { margin-top: 24px; }
+.finding + .finding { border-top: 1px solid var(--hairline); padding-top: 22px; }
+.finding h4 { font-size: 16px; font-weight: 650; line-height: 1.35; margin: 0 0 4px; }
+.subhead { color: var(--text-muted); font-size: 13px; margin: 0 0 4px; }
+
+figure { margin: 14px 0 0; }
+figure button {
+  display: block; position: relative; width: 100%; padding: 0; border: 0;
+  background: none; cursor: zoom-in; border-radius: 10px; overflow: hidden;
+}
+figure img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--hairline); border-radius: 10px; background: #fcfcfb;
+}
+/* charts are dense; on a phone the tap-to-enlarge is the whole story */
+figure button::after {
+  content: "⤢"; position: absolute; top: 8px; right: 8px;
+  width: 24px; height: 24px; line-height: 24px; border-radius: 6px;
+  font-size: 13px; color: #52514e; background: rgba(252, 252, 251, 0.86);
+  box-shadow: 0 0 0 1px #e1e0d9;
+}
+figcaption { color: var(--text-muted); font-size: 12.5px; margin-top: 6px; }
+
+details { margin-top: 12px; }
+details summary {
+  cursor: pointer; color: var(--text-secondary); font-size: 13px; font-weight: 600;
+  list-style: none; display: inline-flex; align-items: center; gap: 6px;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::before { content: "▸"; font-size: 11px; color: var(--text-muted); }
+details[open] summary::before { content: "▾"; }
+details summary:hover { color: var(--text-primary); }
+.more-charts { margin-top: 4px; }
+dl { margin: 10px 0 0; font-size: 14px; }
+dl div { display: flex; gap: 10px; padding: 5px 0; border-top: 1px solid var(--hairline); }
+dl div:first-child { border-top: 0; }
+dt { color: var(--text-muted); flex: 0 0 34%; }
+dd { color: var(--text-secondary); margin: 0; flex: 1; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; margin: 12px 0 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 8px 14px; white-space: nowrap; }
+th { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid var(--hairline); }
+tr + tr td { border-top: 1px solid var(--hairline); }
+
+.more {
+  display: block; width: 100%; margin: 24px 0 0; padding: 11px;
+  font: inherit; font-size: 14px; font-weight: 600; color: var(--text-primary);
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; cursor: pointer;
+}
+.more:hover { border-color: var(--text-muted); }
+.note { color: var(--text-muted); font-size: 13.5px; margin: 24px 0; }
+
+/* full-size viewer: fits to the screen first, click again for actual size */
+.lightbox {
+  position: fixed; inset: 0; z-index: 10; display: none;
+  background: rgba(0, 0, 0, 0.82);
+}
+.lightbox[open-state="on"] { display: block; }
+.lightbox .scroller {
+  position: absolute; inset: 0; overflow: auto; padding: 24px;
+  display: flex; align-items: center; justify-content: center; cursor: zoom-out;
+}
+.lightbox img {
+  max-width: 100%; max-height: 100%; border-radius: 8px; background: #fcfcfb;
+  cursor: zoom-in; flex: none;
+}
+.lightbox img.actual { max-width: none; max-height: none; cursor: zoom-out; }
+.lightbox .close {
+  position: absolute; top: 12px; right: 12px; z-index: 1;
+  width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+  font: inherit; font-size: 20px; line-height: 1; color: #0b0b0b;
+  background: rgba(252, 252, 251, 0.92); border: 0;
+}
+/* the hint sits over the chart, which is light, so it carries its own pill */
+.lightbox .hint {
+  position: absolute; left: 50%; transform: translateX(-50%); bottom: 14px;
+  margin: 0; padding: 5px 12px; border-radius: 999px; white-space: nowrap;
+  color: rgba(255, 255, 255, 0.86); background: rgba(11, 11, 11, 0.72);
+  font-size: 12.5px; pointer-events: none;
+}
+
+@media (max-width: 560px) {
+  main { padding: 18px 12px 48px; }
+  .post { padding: 16px 14px; border-radius: 12px; }
+  dl div { flex-direction: column; gap: 2px; }
+  dt { flex: none; }
+  .lightbox .scroller { padding: 12px; }
+}
+
+/* --- a post on its own page ------------------------------------------------
+   Same furniture as a card in the feed, but it is the destination: the title
+   carries the page, the numbers are open, and every chart is shown. */
+.post-page { margin-top: 18px; padding: 24px; }
+.post-page .dateline { color: var(--text-muted); font-size: 13px; margin: 0 0 6px; }
+.post-page h2 { font-size: 23px; font-weight: 650; line-height: 1.25; margin: 0 0 6px; }
+.post-page .finding h3 { font-size: 17px; font-weight: 650; line-height: 1.35; margin: 0 0 4px; }
+.post-page .finding:first-of-type { margin-top: 18px; }
+.post-page figure a { display: block; border-radius: 10px; }
+.as-of a { color: var(--text-secondary); text-decoration: none; }
+.as-of a:hover { color: var(--text-primary); text-decoration: underline; }
+
+/* a post whose images have aged out keeps its headline and its numbers */
+.archived-note { font-size: 13px; margin: 18px 0 0; }
+.post.archived .dek { margin-bottom: 10px; }
+.post.archived .finding { margin-top: 14px; }
+
+@media (max-width: 560px) {
+  .post-page { padding: 18px 14px; }
+  .post-page h2 { font-size: 20px; }
+}

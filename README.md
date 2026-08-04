@@ -29,7 +29,7 @@ The draw is deliberately random rather than ranked. A detector-driven feed keeps
 
 Force a pick with `--city Detroit`, replay a day with `--date 20260716`, or skip the plotnine import with `--no-images`.
 
-> The files are overwritten in place — the working tree holds one day's images. The archive is [`content/posts/`](content/posts), filed by [the blog](#the-blog-bloghtml), and git history holds everything either has ever shown: about 260 KB of new blobs a day, ~95 MB a year. Cutting to one image, or to weekdays only, halves that if it ever gets heavy.
+> The files are overwritten in place — the working tree holds one day's images. The archive is [`content/posts/`](content/posts), filed by [the blog](#the-blog-bloghtml), which keeps the charts for 90 days and the numbers for good. Git history holds every version of both: about 260 KB of new blobs a day, ~95 MB a year. Cutting to one image, or to weekdays only, halves that if it ever gets heavy.
 
 ## Streakiness (the weekly standing charts)
 
@@ -93,13 +93,27 @@ Each post is a headline, a collapsed **the numbers** panel — the same records,
 
 A spotlight carries three findings at two or three charts each, and showing all of them makes a post four screens tall. So a **multi-section post shows each finding's lead chart** and folds the rest behind "2 more charts"; a single-section post — a morning, the streakiness pair — is short enough to show whole. Charts are dense, so clicking one opens it fitted to the screen, and clicking again goes to actual size with pan, which is the only way to read a 1600px chart on a phone.
 
-Every day and every post is addressable: `blog.html#day-2026-08-02`, `blog.html#post-2026-08-02-spotlight`. The kind filter lives in the query string (`?kind=spotlight`), so a filtered view survives a reload and the back button does what it should — the same URL-is-the-state rule the [my teams](my-teams.html) view follows. A deep link renders as many batches as it takes to reach its post before scrolling to it.
+### Every post is a page
+
+The feed renders from JSON in the browser, which means a link into it unfurls as nothing in a chat and crawls as nothing. So each post also gets a real page — `content/posts/2026-08-02/spotlight.html` — with the headline in `<title>`, the numbers and every chart in the markup rather than assembled at runtime, a canonical URL, and the lead chart as its `og:image` card. No script, one shared stylesheet ([`blog.css`](blog.css), the same one the feed uses, so the two can't drift). The badge on each card in the feed is the permalink; `#day-2026-08-02` and `#post-2026-08-02-spotlight` still work for scrolling within the feed.
+
+Absolute URLs need to know where the site lives — `--base-url`, defaulting to the GitHub Pages address. Change it if the site ever moves to its own domain.
+
+The kind filter lives in the query string (`?kind=spotlight`), so a filtered view survives a reload and the back button does what it should — the same URL-is-the-state rule the [my teams](my-teams.html) view follows. A deep link renders as many batches as it takes to reach its post, pulling in the archive if that's where the post lives.
 
 Each source is keyed on the reference date in its own output, so running the publisher on a Thursday re-files Wednesday's weekly folder under Wednesday and changes nothing. Re-running a day replaces that day's post rather than adding one, and a replayed run that no longer draws an image deletes the stale copy.
 
 One failure mode is worth naming: `city_of_the_day.py` writes `summary.md` before it renders, so a run that dies in plotnine leaves today's prose beside yesterday's PNGs. The publisher compares each image against the one the previous post of that kind published and drops anything byte-identical — every chart carries its own date, so an unchanged image means it was never redrawn. A post left with no images isn't published at all, and the day the render is fixed the post appears normally.
 
-> **Retention.** Posts older than **90 days** are deleted from the working tree (`--retain-days` to change it, `--no-prune` to keep them). At ~260 KB a morning and ~1 MB a Wednesday, an unbounded archive is ~150 MB/year; the window holds it near 35 MB. Pruning only bounds the *checkout* — the blobs stay in git history, so clone size still grows at the full rate.
+### Retention takes the pixels, not the post
+
+After **90 days** a post's images are deleted (`--retain-days` to change the window, `--no-prune` to keep them). Everything else stays **forever**: the headline, the numbers, and the post's own page, which now reads "the charts aged out" and keeps the record. A link shared today still resolves in five years — it just stops showing charts.
+
+The arithmetic is why. At ~260 KB a morning and ~1 MB a Wednesday, images run ~147 MB/year and the window holds them near 35 MB; the record they leave behind is ~4.7 KB of page and ~1.6 KB of JSON per post, about **3 MB/year**. Deleting a folder outright would have bought nothing and broken every link into it.
+
+So the manifest is two files: `index.json` holds the posts still inside the window, and `archive.json` holds the rest. The feed loads only the index and fetches the archive when you ask for older posts — the first paint stays the same size in year five as in week one. Archived posts render as text cards: headline, subhead, the numbers, and a line saying where the charts went.
+
+> Pruning bounds the *checkout*, not history — the image blobs stay in git, so clone size still grows at the full rate.
 
 [`backfill_blog.py`](backfill_blog.py) seeds the blog from git history: it walks the commit log, exports each run's folder to a scratch directory, and hands it to the same builders, so a backfilled post and a fresh one are identical. It reads all three layouts the log contains, including the original `content/<date>/` spotlight folders. `--dry-run` lists what it would publish.
 
@@ -145,6 +159,7 @@ python3 city_of_the_day.py               # rebuild content/daily/
 python3 streakiness.py                   # rebuild content/streakiness/
 python3 fandom_analysis.py && python3 render_content.py   # rebuild content/weekly/
 python3 publish_blog.py                  # file the newest runs into content/posts/
+python3 publish_blog.py --retain-days 1  # see what an archived post looks like
 python3 backfill_blog.py --dry-run       # what the git log would add to the blog
 python3 -m pytest tests/                 # test suite (offline, fixture-based)
 ```

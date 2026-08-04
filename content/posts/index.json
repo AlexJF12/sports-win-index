@@ -1,6 +1,9 @@
 {
  "generated": "2026-08-04",
  "retain_days": 90,
+ "base_url": "https://alexjf12.github.io/sports-win-index",
+ "archive": null,
+ "archived_count": 0,
  "posts": [
   {
    "date": "2026-08-03",
@@ -62,7 +65,8 @@
       }
      ]
     }
-   ]
+   ],
+   "page": "content/posts/2026-08-03/daily.html"
   },
   {
    "date": "2026-08-02",
@@ -176,7 +180,8 @@
       }
      ]
     }
-   ]
+   ],
+   "page": "content/posts/2026-08-02/spotlight.html"
   },
   {
    "date": "2026-08-02",
@@ -223,7 +228,8 @@
       }
      ]
     }
-   ]
+   ],
+   "page": "content/posts/2026-08-02/streakiness.html"
   },
   {
    "date": "2026-08-02",
@@ -285,7 +291,8 @@
       }
      ]
     }
-   ]
+   ],
+   "page": "content/posts/2026-08-02/daily.html"
   },
   {
    "date": "2026-07-31",
@@ -409,7 +416,8 @@
       }
      ]
     }
-   ]
+   ],
+   "page": "content/posts/2026-07-31/spotlight.html"
   },
   {
    "date": "2026-07-30",
@@ -541,7 +549,8 @@
       }
      ]
     }
-   ]
+   ],
+   "page": "content/posts/2026-07-30/spotlight.html"
   }
  ]
 }

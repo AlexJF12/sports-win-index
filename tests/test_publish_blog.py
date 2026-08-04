@@ -248,23 +248,55 @@ def aged_out(tmp_path, days=100):
     return old, daily_post(folder)
 
 
-def test_posts_outside_the_window_are_pruned(tmp_path):
+def test_a_post_past_the_window_loses_its_images_but_not_itself(tmp_path):
     posts_dir = str(tmp_path / "posts")
     old, post = aged_out(tmp_path)
     publish([post], posts_dir)
-    assert os.path.isdir(os.path.join(posts_dir, old))
+    assert os.path.exists(os.path.join(posts_dir, old, "daily-season.png"))
 
     manifest = publish([daily_post(daily_dir(tmp_path))], posts_dir, retain_days=90)
-    assert [p["date"] for p in manifest["posts"]] == ["2026-08-03"]
-    assert not os.path.isdir(os.path.join(posts_dir, old))
+    archived = next(p for p in manifest["posts"] if p["date"] == old)
+    assert archived["archived"] is True
+    assert archived["title"] == "City of the day — Philadelphia"   # the record stays
+    assert archived["sections"][0]["stats"], "the numbers outlive the charts"
+    assert not archived["sections"][0]["images"]
+    # the pixels are gone; the page a link points at is not
+    assert not os.path.exists(os.path.join(posts_dir, old, "daily-season.png"))
+    assert os.path.exists(os.path.join(posts_dir, old, "daily.html"))
 
 
-def test_no_prune_keeps_everything(tmp_path):
+def test_archived_posts_move_to_a_second_file_so_the_index_stays_small(tmp_path):
     posts_dir = str(tmp_path / "posts")
-    _, post = aged_out(tmp_path)
+    old, post = aged_out(tmp_path)
+    publish([post], posts_dir)
+    publish([daily_post(daily_dir(tmp_path))], posts_dir, retain_days=90)
+
+    with open(os.path.join(posts_dir, "index.json")) as f:
+        index = json.load(f)
+    with open(os.path.join(posts_dir, "archive.json")) as f:
+        archive = json.load(f)
+    assert [p["date"] for p in index["posts"]] == ["2026-08-03"]
+    assert [p["date"] for p in archive["posts"]] == [old]
+    assert index["archive"] == "archive.json"
+    assert index["archived_count"] == 1
+
+
+def test_an_archived_post_is_still_there_on_the_next_run(tmp_path):
+    posts_dir = str(tmp_path / "posts")
+    old, post = aged_out(tmp_path)
+    publish([post], posts_dir)
+    publish([daily_post(daily_dir(tmp_path))], posts_dir, retain_days=90)
+    manifest = publish([streakiness_post(streak_dir(tmp_path))], posts_dir, retain_days=90)
+    assert old in [p["date"] for p in manifest["posts"]]
+
+
+def test_no_prune_keeps_the_images_too(tmp_path):
+    posts_dir = str(tmp_path / "posts")
+    old, post = aged_out(tmp_path)
     publish([post], posts_dir, prune=False)
     manifest = publish([daily_post(daily_dir(tmp_path))], posts_dir, prune=False)
     assert len(manifest["posts"]) == 2
+    assert os.path.exists(os.path.join(posts_dir, old, "daily-season.png"))
 
 
 @pytest.mark.parametrize("spelling", ["20260802", "2026-08-02"])
@@ -351,3 +383,65 @@ def test_the_manifest_reheals_alt_text_on_posts_filed_by_an_older_version(tmp_pa
     old = next(p for p in manifest["posts"] if p["kind"] == "daily")
     for img in old["sections"][0]["images"]:
         assert img["alt"] != img["caption"]
+
+
+# --- the page each post gets ---------------------------------------------------
+
+def test_every_post_gets_a_page_with_a_social_card(tmp_path):
+    posts_dir = str(tmp_path / "posts")
+    manifest = publish([spotlight_post(weekly_dir(tmp_path))], posts_dir,
+                       base_url="https://example.com/site")
+    post = manifest["posts"][0]
+    assert post["page"] == "content/posts/2026-08-02/spotlight.html"
+
+    with open(os.path.join(posts_dir, "2026-08-02", "spotlight.html")) as f:
+        page = f.read()
+    assert "<title>Out of the norm — two fandoms off their own script — Team Wins" in page
+    assert ('<link rel="canonical" href="https://example.com/site/content/posts/'
+            '2026-08-02/spotlight.html">') in page
+    # the lead chart is the card, and the card is an absolute URL
+    assert ('<meta property="og:image" content="https://example.com/site/content/posts/'
+            '2026-08-02/spotlight-new-york-4_year.png">') in page
+    assert '<meta name="twitter:card" content="summary_large_image">' in page
+    # every image the post shows is in the markup, not assembled by script
+    assert page.count("<figure>") == 3
+    assert "<script" not in page
+
+
+def test_a_page_escapes_the_text_it_is_given(tmp_path):
+    posts_dir = str(tmp_path / "posts")
+    folder = daily_dir(tmp_path)
+    write(folder, "summary.md",
+          DAILY_SUMMARY.replace("Philadelphia", 'Phi<script>"lly'))
+    manifest = publish([daily_post(folder)], posts_dir)
+    with open(os.path.join(posts_dir, manifest["posts"][0]["date"], "daily.html")) as f:
+        page = f.read()
+    assert "<script>" not in page
+    assert "Phi&lt;script&gt;&quot;lly" in page
+
+
+def test_an_archived_page_says_so_and_drops_its_card(tmp_path):
+    posts_dir = str(tmp_path / "posts")
+    old, post = aged_out(tmp_path)
+    publish([post], posts_dir)
+    publish([daily_post(daily_dir(tmp_path))], posts_dir, retain_days=90)
+
+    with open(os.path.join(posts_dir, old, "daily.html")) as f:
+        page = f.read()
+    assert "og:image" not in page
+    assert "<figure>" not in page
+    assert "aged out of the image window" in page
+    assert "120-111, -9.4 weighted" in page          # the numbers are still there
+
+
+def test_pages_are_rewritten_for_older_posts_when_the_template_changes(tmp_path):
+    """A page filed by an earlier version shouldn't stay frozen at it."""
+    posts_dir = str(tmp_path / "posts")
+    publish([daily_post(daily_dir(tmp_path))], posts_dir)
+    page_path = os.path.join(posts_dir, "2026-08-03", "daily.html")
+    with open(page_path, "w") as f:
+        f.write("stale")
+
+    publish([streakiness_post(streak_dir(tmp_path))], posts_dir)
+    with open(page_path) as f:
+        assert "City of the day" in f.read()
