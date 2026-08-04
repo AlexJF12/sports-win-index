@@ -66,6 +66,14 @@ jobs:
           python fandom_analysis.py --date "${{ inputs.date }}"
           python render_content.py
 
+      # Every analysis above overwrites its own output, so this files each run's
+      # images into content/posts/<date>/ and rewrites the manifest blog.html
+      # reads. It runs daily even though the weekly folders only change on
+      # Wednesdays: re-filing an unchanged folder under its own reference date
+      # is a no-op, and it is what prunes posts out of the retention window.
+      - name: Publish the blog
+        run: python publish_blog.py
+
       - name: Commit and push updated data
         run: |
           git config user.name "github-actions[bot]"

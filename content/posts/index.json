@@ -1,0 +1,547 @@
+{
+ "generated": "2026-08-04",
+ "retain_days": 90,
+ "posts": [
+  {
+   "date": "2026-08-03",
+   "kind": "daily",
+   "title": "City of the day \u2014 Philadelphia",
+   "dek": "Philadelphia: Phillies/76ers/Flyers/Eagles",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "120-111, -9.4 weighted over 231 games; longest run 7 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.6)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2022 +190.7, 2023 +317.8, 2024 +154.7, 2025 +130.1"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "10-14, -9.0 weighted; longest run 4 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "July 5, 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Phillies",
+        "10-14",
+        "-9.0",
+        "4 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year."
+      },
+      {
+       "file": "daily-games.png",
+       "caption": "Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run.",
+       "alt": "Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "date": "2026-08-02",
+   "kind": "spotlight",
+   "title": "Out of the norm \u2014 three fandoms off their own script",
+   "dek": "The weekly hunt across all 88 city groups, through August 2, 2026",
+   "sections": [
+    {
+     "heading": "New York is having its worst year on record \u2014 85th of 88 this year",
+     "subhead": "New York: Mets/Nets/Islanders/Jets",
+     "stats": [
+      {
+       "label": "2026 so far (through August 2)",
+       "value": "78-130, -206.7 weighted \u2014 1st-worst of the 5 years since 2022, at the same point"
+      },
+      {
+       "label": "Against the field",
+       "value": "85th of 88 city groups on the year (2nd percentile)"
+      },
+      {
+       "label": "This month (through August 2)",
+       "value": "0-2, -4.5 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "0-2, -4.5 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Mets (0-2, -4.5)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-new-york-4_year.png",
+       "caption": "Every season's cumulative index by day of year, this one in color.",
+       "alt": "Every season's cumulative index by day of year, this one in color."
+      },
+      {
+       "file": "spotlight-new-york-4_field.png",
+       "caption": "All 88 city groups on this year's index, the group picked out.",
+       "alt": "All 88 city groups on this year's index, the group picked out."
+      }
+     ]
+    },
+    {
+     "heading": "San Antonio is having its best year on record \u2014 6th of 88 this year",
+     "subhead": "San Antonio: Spurs",
+     "stats": [
+      {
+       "label": "2026 so far (through August 2)",
+       "value": "51-21, +133.5 weighted \u2014 1st-best of the 5 years since 2022, at the same point"
+      },
+      {
+       "label": "Against the field",
+       "value": "6th of 88 city groups on the year (94th percentile)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-san-antonio_year.png",
+       "caption": "Every season's cumulative index by day of year, this one in color.",
+       "alt": "Every season's cumulative index by day of year, this one in color."
+      },
+      {
+       "file": "spotlight-san-antonio_field.png",
+       "caption": "All 88 city groups on this year's index, the group picked out.",
+       "alt": "All 88 city groups on this year's index, the group picked out."
+      }
+     ]
+    },
+    {
+     "heading": "Los Angeles has fallen 4 places in the 2026 standings this week (9th \u2192 13th of 88)",
+     "subhead": "Los Angeles: Dodgers/Lakers/Kings/Rams",
+     "stats": [
+      {
+       "label": "Year standings",
+       "value": "9th \u2192 13th of 88 (+119.4 \u2192 +114.9 weighted)"
+      },
+      {
+       "label": "This month (through August 2)",
+       "value": "0-2, -4.5 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "0-2, -4.5 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Dodgers (0-2, -4.5)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-los-angeles-16_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "The group against the whole field this month, cumulative weighted index."
+      },
+      {
+       "file": "spotlight-los-angeles-16_bump.png",
+       "caption": "Place in the year-to-date standings over the last 30 days.",
+       "alt": "Place in the year-to-date standings over the last 30 days."
+      },
+      {
+       "file": "spotlight-los-angeles-16_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Per-team contribution \u2014 the full month against the last 7 days."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "date": "2026-08-02",
+   "kind": "streakiness",
+   "title": "Streakiness \u2014 not how often they win, but how the wins arrive",
+   "dek": "All 88 city groups, through August 2, 2026",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "City groups measured",
+       "value": "88"
+      },
+      {
+       "label": "Furthest from its own norm this year",
+       "value": "Chicago: Cubs/Bulls/Blackhawks/Bears \u2014 streak index +2.5 over 207 games, against a usual -0.7"
+      },
+      {
+       "label": "Streakiest of the last 30 days",
+       "value": "Miami: Marlins/Heat/Panthers/Dolphins \u2014 +3.3, longest run 12 losses"
+      },
+      {
+       "label": "Steadiest of the last 30 days",
+       "value": "Cincinnati: Reds/Bengals \u2014 -2.1, wins and losses taking turns"
+      },
+      {
+       "label": "Reading the index",
+       "value": "+2 or more is clumpier than chance, \u22122 or less more alternating than chance, 0 exactly as clumped as coin flips"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "streak-season_vs_history.png",
+       "caption": "This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray.",
+       "alt": "This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray."
+      },
+      {
+       "file": "streak-past_month.png",
+       "caption": "The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest.",
+       "alt": "The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "date": "2026-08-02",
+   "kind": "daily",
+   "title": "City of the day \u2014 Milwaukee",
+   "dek": "Milwaukee: Brewers/Bucks",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "87-72, +7.4 weighted over 159 games; longest run 5 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+0.3)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2022 +120.5, 2023 +205.3, 2024 +60.7, 2025 +74.2"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "15-10, +11.3 weighted; longest run 4 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "July 4, 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Brewers",
+        "15-10",
+        "+11.3",
+        "4 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year."
+      },
+      {
+       "file": "daily-games.png",
+       "caption": "Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run.",
+       "alt": "Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "date": "2026-07-31",
+   "kind": "spotlight",
+   "title": "Out of the norm \u2014 three fandoms off their own script",
+   "dek": "The weekly hunt across all 88 city groups, through July 31, 2026",
+   "sections": [
+    {
+     "heading": "New York is having its worst July on record",
+     "subhead": "New York: Mets/Nets/Islanders/Jets",
+     "stats": [
+      {
+       "label": "This month (through July 31)",
+       "value": "11-14, -6.8 weighted \u2014 1st-worst July of the 5 since 2022"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "4-3, +2.2 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Mets (4-3, +2.2)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-new-york-4_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "The group against the whole field this month, cumulative weighted index."
+      },
+      {
+       "file": "spotlight-new-york-4_history.png",
+       "caption": "Every comparable month since 2022, this one picked out.",
+       "alt": "Every comparable month since 2022, this one picked out."
+      },
+      {
+       "file": "spotlight-new-york-4_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Per-team contribution \u2014 the full month against the last 7 days."
+      }
+     ]
+    },
+    {
+     "heading": "San Diego has flipped its July: 8-12 before this week, 5-1 since",
+     "subhead": "San Diego: Padres",
+     "stats": [
+      {
+       "label": "Before this week",
+       "value": "8-12, -9.0 weighted (-0.45 per game)"
+      },
+      {
+       "label": "Since",
+       "value": "5-1, +9.0 weighted (+1.50 per game)"
+      },
+      {
+       "label": "This month (through July 31)",
+       "value": "13-13, +0.0 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "5-1, +9.0 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Padres (5-1, +9.0)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-san-diego_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "The group against the whole field this month, cumulative weighted index."
+      },
+      {
+       "file": "spotlight-san-diego_timeline.png",
+       "caption": "Game by game, with the streak picked out.",
+       "alt": "Game by game, with the streak picked out."
+      },
+      {
+       "file": "spotlight-san-diego_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Per-team contribution \u2014 the full month against the last 7 days."
+      }
+     ]
+    },
+    {
+     "heading": "Tampa Bay is having its best July on record",
+     "subhead": "Tampa Bay: Rays/Lightning/Buccaneers",
+     "stats": [
+      {
+       "label": "This month (through July 31)",
+       "value": "15-12, +6.8 weighted \u2014 1st-best July of the 5 since 2022"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "4-2, +4.5 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Rays (4-2, +4.5)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-tampa-bay_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "The group against the whole field this month, cumulative weighted index."
+      },
+      {
+       "file": "spotlight-tampa-bay_history.png",
+       "caption": "Every comparable month since 2022, this one picked out.",
+       "alt": "Every comparable month since 2022, this one picked out."
+      },
+      {
+       "file": "spotlight-tampa-bay_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Per-team contribution \u2014 the full month against the last 7 days."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "date": "2026-07-30",
+   "kind": "spotlight",
+   "title": "Out of the norm \u2014 three fandoms off their own script",
+   "dek": "The weekly hunt across all 88 city groups, through July 30, 2026",
+   "sections": [
+    {
+     "heading": "Seattle is having its worst July on record",
+     "subhead": "Seattle: Mariners/Kraken/Seahawks",
+     "stats": [
+      {
+       "label": "This month (through July 30)",
+       "value": "9-14, -11.3 weighted \u2014 1st-worst July of the 5 since 2022"
+      },
+      {
+       "label": "vs all months",
+       "value": "13th-worst of 55 months since 2022 (23rd percentile)"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "2-5, -6.8 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Mariners (2-5, -6.8)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-seattle_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "The group against the whole field this month, cumulative weighted index."
+      },
+      {
+       "file": "spotlight-seattle_history.png",
+       "caption": "Every comparable month since 2022, this one picked out.",
+       "alt": "Every comparable month since 2022, this one picked out."
+      },
+      {
+       "file": "spotlight-seattle_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Per-team contribution \u2014 the full month against the last 7 days."
+      }
+     ]
+    },
+    {
+     "heading": "San Francisco has flipped its July: 7-10 before this week, 5-2 since",
+     "subhead": "San Francisco: Giants/Warriors/Sharks/49ers",
+     "stats": [
+      {
+       "label": "Before this week",
+       "value": "7-10, -6.8 weighted (-0.40 per game)"
+      },
+      {
+       "label": "Since",
+       "value": "5-2, +6.8 weighted (+0.97 per game)"
+      },
+      {
+       "label": "This month (through July 30)",
+       "value": "12-12, +0.0 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "5-2, +6.8 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Giants (5-2, +6.8)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-san-francisco_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "The group against the whole field this month, cumulative weighted index."
+      },
+      {
+       "file": "spotlight-san-francisco_timeline.png",
+       "caption": "Game by game, with the streak picked out.",
+       "alt": "Game by game, with the streak picked out."
+      },
+      {
+       "file": "spotlight-san-francisco_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Per-team contribution \u2014 the full month against the last 7 days."
+      }
+     ]
+    },
+    {
+     "heading": "Sacramento is having its worst July on record",
+     "subhead": "Sacramento: Athletics/Kings",
+     "stats": [
+      {
+       "label": "This month (through July 30)",
+       "value": "5-18, -29.3 weighted \u2014 1st-worst July of the 5 since 2022"
+      },
+      {
+       "label": "vs all months",
+       "value": "9th-worst of 55 months since 2022 (17th percentile)"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "2-5, -6.8 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Athletics (2-5, -6.8)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-sacramento_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "The group against the whole field this month, cumulative weighted index."
+      },
+      {
+       "file": "spotlight-sacramento_history.png",
+       "caption": "Every comparable month since 2022, this one picked out.",
+       "alt": "Every comparable month since 2022, this one picked out."
+      },
+      {
+       "file": "spotlight-sacramento_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Per-team contribution \u2014 the full month against the last 7 days."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
