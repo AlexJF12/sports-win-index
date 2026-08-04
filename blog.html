@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog — Team Wins</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
+<link rel="stylesheet" href="blog.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1>Blog</h1>
+    <nav>
+      <a href="index.html">city index</a>
+      <a href="my-teams.html">my teams</a>
+      <a href="groups.html">city groups</a>
+      <span aria-current="page">blog</span>
+      <a href="about.html">about</a>
+    </nav>
+  </header>
+  <p class="as-of" id="as-of">Every chart the analysis jobs have drawn, newest first.</p>
+
+  <div class="filters" id="filters" hidden></div>
+  <div id="feed"></div>
+  <p class="note" id="note">Loading posts…</p>
+  <button class="more" id="more" hidden>Show older posts</button>
+</main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Chart" tabindex="-1">
+  <button class="close" id="lightbox-close" type="button" aria-label="Close">✕</button>
+  <div class="scroller" id="lightbox-scroller"><img alt=""></div>
+  <p class="hint" id="lightbox-hint"></p>
+</div>
+
+<script>
+const MANIFEST = "content/posts/index.json";
+const PAGE = 8;                    // posts rendered per batch
+let RETAIN_LABEL = "90 days";      // how long a post keeps its charts
+const KINDS = {
+  daily:       { label: "City of the day" },
+  spotlight:   { label: "Out of the norm" },
+  streakiness: { label: "Streakiness" },
+};
+
+let posts = [];
+let filter = "all";
+let shown = 0;
+let lastDay = null;                // the date header currently open in the feed
+// posts past the image window live in a second file, fetched only if asked for:
+// the index stays small forever while the record stays complete
+let archive = { url: null, count: 0, loaded: false };
+
+const feed = document.getElementById("feed");
+const note = document.getElementById("note");
+const moreBtn = document.getElementById("more");
+const filters = document.getElementById("filters");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = lightbox.querySelector("img");
+const lightboxHint = document.getElementById("lightbox-hint");
+
+const el = (tag, props = {}, kids = []) => {
+  const node = Object.assign(document.createElement(tag), props);
+  for (const kid of kids) if (kid) node.append(kid);
+  return node;
+};
+
+// an id may not start with a digit and still be usable in a CSS selector, so
+// both anchors carry a prefix: #post-2026-08-02-spotlight, #day-2026-08-02
+const postId = post => `post-${post.date}-${post.kind}`;
+const dayId = date => `day-${date}`;
+
+function longDate(iso) {
+  // parse as local, not UTC, so a post never renders as the day before
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString(undefined,
+    { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+}
+
+function figureFor(image, date) {
+  const img = el("img", {
+    src: `content/posts/${date}/${image.file}`,
+    alt: image.alt || "",
+    loading: "lazy",
+    decoding: "async",
+  });
+  const fig = el("figure", {}, [
+    el("button", { type: "button", title: "Click to enlarge",
+                   onclick: event => openLightbox(img, event.currentTarget) }, [img]),
+    image.caption ? el("figcaption", { textContent: image.caption }) : null,
+  ]);
+  // a post whose folder has been pruned shouldn't leave a broken frame behind
+  img.addEventListener("error", () => fig.remove());
+  return fig;
+}
+
+function numbersFor(section) {
+  if (!section.stats?.length && !section.table) return null;
+  const body = [];
+  if (section.stats?.length) {
+    body.push(el("dl", {}, section.stats.map(stat => el("div", {}, [
+      el("dt", { textContent: stat.label }),
+      el("dd", { textContent: stat.value }),
+    ]))));
+  }
+  if (section.table) {
+    const head = el("tr", {}, section.table.columns.map(c => el("th", { textContent: c })));
+    const rows = section.table.rows.map(r =>
+      el("tr", {}, r.map(cell => el("td", { textContent: cell }))));
+    body.push(el("div", { className: "table-wrap" }, [
+      el("table", {}, [el("thead", {}, [head]), el("tbody", {}, rows)]),
+    ]));
+  }
+  return el("details", {}, [el("summary", { textContent: "The numbers" }), ...body]);
+}
+
+function sectionFor(section, date, lead) {
+  const images = section.images || [];
+  const rest = images.slice(lead);
+  return el("section", { className: "finding" }, [
+    section.heading ? el("h4", { textContent: section.heading }) : null,
+    section.subhead ? el("p", { className: "subhead", textContent: section.subhead }) : null,
+    // the numbers sit with the claim they support, not three charts below it
+    numbersFor(section),
+    ...images.slice(0, lead).map(image => figureFor(image, date)),
+    rest.length ? el("details", { className: "more-charts" }, [
+      el("summary", { textContent: `${rest.length} more chart${rest.length === 1 ? "" : "s"}` }),
+      ...rest.map(image => figureFor(image, date)),
+    ]) : null,
+  ]);
+}
+
+function postFor(post) {
+  const kind = KINDS[post.kind] || { label: post.kind };
+  // the badge is the permalink, and it points at the post's own page rather
+  // than a hash into the feed: that page unfurls in a chat and gets crawled
+  const badge = el("a", { className: "badge", textContent: kind.label,
+                          href: post.page || `#${postId(post)}`,
+                          title: "Permanent link to this post" });
+  badge.dataset.kind = post.kind;
+  // a spotlight carries three findings; showing every chart of each one makes a
+  // four-screen post, so only its lead chart stays open. A single-section post
+  // (a morning, the streakiness pair) is short enough to show whole.
+  const lead = post.sections.length > 1 ? 1 : 2;
+  return el("article", {
+    className: post.archived ? "post archived" : "post", id: postId(post),
+  }, [
+    badge,
+    el("h3", { textContent: post.title }),
+    post.dek ? el("p", { className: "dek", textContent: post.dek }) : null,
+    ...post.sections.map(section => sectionFor(section, post.date, lead)),
+    // past the image window the post keeps its headline and its numbers
+    post.archived ? el("p", { className: "note archived-note",
+                              textContent: "Charts from this post have aged out of "
+                                           + "the image window — the numbers are the "
+                                           + "record that stays." }) : null,
+  ]);
+}
+
+function dayFor(date) {
+  const head = el("h2", { className: "day-head" }, [
+    el("a", { href: `#${dayId(date)}`, textContent: longDate(date) }),
+  ]);
+  return el("section", { className: "day", id: dayId(date) }, [head]);
+}
+
+function visible() {
+  return filter === "all" ? posts : posts.filter(p => p.kind === filter);
+}
+
+function render({ reset = false } = {}) {
+  if (reset) { feed.textContent = ""; shown = 0; lastDay = null; }
+  const list = visible();
+  const batch = list.slice(shown, shown + PAGE);
+  for (const post of batch) {
+    if (post.date !== lastDay) {
+      feed.append(dayFor(post.date));
+      lastDay = post.date;
+    }
+    feed.lastElementChild.append(postFor(post));
+  }
+  shown += batch.length;
+  updateMore();
+  note.hidden = list.length > 0;
+  if (!list.length) note.textContent = "Nothing posted in this category yet.";
+}
+
+function updateMore() {
+  const left = visible().length - shown;
+  if (left > 0) {
+    moreBtn.hidden = false;
+    moreBtn.textContent = `Show older posts (${left} left)`;
+  } else if (archive.url && !archive.loaded) {
+    moreBtn.hidden = false;
+    moreBtn.textContent = `Older than ${RETAIN_LABEL} — load the text archive `
+      + `(${archive.count} post${archive.count === 1 ? "" : "s"})`;
+  } else {
+    moreBtn.hidden = true;
+  }
+}
+
+/** Pull in the archived posts. Their charts are gone; their numbers are not. */
+async function loadArchive() {
+  if (archive.loaded || !archive.url) return;
+  moreBtn.textContent = "Loading the archive…";
+  try {
+    const r = await fetch(`content/posts/${archive.url}`);
+    const data = r.ok ? await r.json() : { posts: [] };
+    posts = posts.concat(data.posts || []);
+    archive.loaded = true;
+    relabelFilters();
+    render();
+  } catch {
+    moreBtn.textContent = "Couldn't load the archive. Try again.";
+  }
+}
+
+/** Render batches until the anchored post exists, then scroll to it. */
+async function revealTarget() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  if (!id) return;
+  while (!document.getElementById(id) && shown < visible().length) render();
+  if (!document.getElementById(id) && !archive.loaded) {
+    await loadArchive();                      // the link may point into the archive
+    while (!document.getElementById(id) && shown < visible().length) render();
+  }
+  document.getElementById(id)?.scrollIntoView({ block: "start" });
+}
+
+function setFilter(kind, { push = true } = {}) {
+  filter = kind;
+  for (const b of filters.children) {
+    b.setAttribute("aria-pressed", String(b.dataset.kind === kind));
+  }
+  render({ reset: true });
+  if (push) {
+    const url = new URL(location);
+    url.hash = "";
+    if (kind === "all") url.searchParams.delete("kind");
+    else url.searchParams.set("kind", kind);
+    history.pushState({ kind }, "", url);
+  }
+}
+
+function countsByKind() {
+  return posts.reduce((acc, p) => ({ ...acc, [p.kind]: (acc[p.kind] || 0) + 1 }), {});
+}
+
+function relabelFilters() {
+  const counts = countsByKind();
+  for (const button of filters.children) {
+    const kind = button.dataset.kind;
+    button.textContent = kind === "all"
+      ? `All (${posts.length})`
+      : `${KINDS[kind].label} (${counts[kind] || 0})`;
+  }
+}
+
+function buildFilters() {
+  const counts = countsByKind();
+  const options = [["all", `All (${posts.length})`]]
+    .concat(Object.entries(KINDS)
+      .filter(([kind]) => counts[kind])
+      .map(([kind, meta]) => [kind, `${meta.label} (${counts[kind]})`]));
+  if (options.length < 3) return;                 // one kind so far: no chips needed
+  filters.hidden = false;
+  for (const [kind, label] of options) {
+    const button = el("button", { type: "button", textContent: label });
+    button.dataset.kind = kind;
+    button.setAttribute("aria-pressed", String(kind === filter));
+    button.onclick = () => {
+      setFilter(kind);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    filters.append(button);
+  }
+}
+
+// --- the full-size viewer ----------------------------------------------------
+
+let lastFocus = null;
+
+function openLightbox(img, opener) {
+  lastFocus = opener;
+  lightboxImg.src = img.src;
+  lightboxImg.alt = img.alt;
+  lightboxImg.classList.remove("actual");
+  lightbox.setAttribute("aria-label", img.alt || "Chart");
+  lightboxHint.textContent = "Click the chart for actual size · Esc to close";
+  lightbox.setAttribute("open-state", "on");
+  document.body.style.overflow = "hidden";
+  lightbox.focus();
+}
+
+function closeLightbox() {
+  if (!lightbox.hasAttribute("open-state")) return;
+  lightbox.removeAttribute("open-state");
+  document.body.style.overflow = "";
+  lastFocus?.focus();
+  lastFocus = null;
+}
+
+document.getElementById("lightbox-scroller").addEventListener("click", closeLightbox);
+document.getElementById("lightbox-close").addEventListener("click", closeLightbox);
+lightboxImg.addEventListener("click", event => {
+  event.stopPropagation();               // clicking the chart zooms, not closes
+  lightboxImg.classList.toggle("actual");
+  lightboxHint.textContent = lightboxImg.classList.contains("actual")
+    ? "Drag to pan · click the chart to fit · Esc to close"
+    : "Click the chart for actual size · Esc to close";
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeLightbox();
+  // only the close button is focusable inside the dialog, so keep Tab there
+  if (event.key === "Tab" && lightbox.hasAttribute("open-state")) {
+    event.preventDefault();
+    document.getElementById("lightbox-close").focus();
+  }
+});
+
+moreBtn.addEventListener("click", () => {
+  if (shown < visible().length) render();
+  else loadArchive();
+});
+window.addEventListener("hashchange", revealTarget);
+window.addEventListener("popstate", () => {
+  setFilter(new URL(location).searchParams.get("kind") || "all", { push: false });
+  revealTarget();
+});
+
+fetch(MANIFEST)
+  .then(r => r.ok ? r.json() : Promise.reject(new Error(r.status)))
+  .then(data => {
+    posts = data.posts || [];
+    archive = { url: data.archive, count: data.archived_count || 0, loaded: false };
+    const days = data.retain_days || 90;
+    RETAIN_LABEL = `${days} day${days === 1 ? "" : "s"}`;
+    if (!posts.length && !archive.count) {
+      note.textContent = "No posts yet — the first one lands after tomorrow morning's run.";
+      return;
+    }
+    const archived = archive.count ? `, plus ${archive.count} older in the archive` : "";
+    document.getElementById("as-of").textContent =
+      `${posts.length} illustrated post${posts.length === 1 ? "" : "s"}${archived}, newest `
+      + `first — a city of the day every morning, the league-wide reads on Wednesdays. `
+      + `Charts are kept for ${RETAIN_LABEL}; the numbers are kept for good.`;
+    filter = new URL(location).searchParams.get("kind") || "all";
+    if (!(filter in KINDS)) filter = "all";
+    buildFilters();
+    render({ reset: true });
+    revealTarget();
+  })
+  .catch(() => {
+    note.textContent = "Couldn't load the posts. Try again in a moment.";
+  });
+</script>
+</body>
+</html>

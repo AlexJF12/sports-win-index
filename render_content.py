@@ -101,9 +101,17 @@ def accent(finding):
     return HOT if finding["direction"] == "hot" else COLD
 
 
-def titles(finding, subtitle):
-    """Wrap the headline and subtitle so neither runs off the canvas."""
-    return {"title": textwrap.fill(finding["headline"], TITLE_WRAP),
+def titles(finding, subtitle, title=None):
+    """Wrap a chart's title and subtitle so neither runs off the canvas.
+
+    The headline is the default, but only the lead chart of a finding should
+    carry it: a finding renders two or three charts, and stacked on the blog
+    the same sentence three times reads like a machine wrote the page. The
+    supporting charts pass their own title saying what *they* add, the way the
+    per-team chart always has ("Who's sinking Los Angeles"). Every subtitle
+    names the group, so a chart lifted out on its own still stands up.
+    """
+    return {"title": textwrap.fill(title or finding["headline"], TITLE_WRAP),
             "subtitle": textwrap.fill(subtitle, SUBTITLE_WRAP)}
 
 
@@ -171,6 +179,7 @@ def render_history(data, finding, path):
     if calendar_only:
         # a handful of same-month years: lollipops (stem + dot), year ticks
         month_word = month_name(data).split(" ")[0]
+        title = f"Every {month_word} {finding['city']} has had since 2022"
         subtitle = (f"{finding['label']} — weighted index through day "
                     f"{data['cutoff_day']} of every {month_word} since 2022")
         x_scale = scale_x_date(breaks=sorted(df["when"]), date_labels="%Y",
@@ -185,6 +194,7 @@ def render_history(data, finding, path):
             geom_point(current, aes("when", "weighted"), color=ac, size=5),
         ]
     else:
+        title = f"Every month {finding['city']} has had since 2022"
         subtitle = (f"{finding['label']} — weighted index through day "
                     f"{data['cutoff_day']} of every month since 2022")
         x_scale = scale_x_date(date_breaks="6 months", date_labels="%b %Y",
@@ -210,7 +220,7 @@ def render_history(data, finding, path):
         + scale_color_manual(values={"up": HOT, "down": COLD}, guide=None)
         + x_scale
         + expand_limits(y=[v * 1.15 for v in (df["weighted"].min(), df["weighted"].max())])
-        + labs(**titles(finding, subtitle), caption=CAPTION)
+        + labs(**titles(finding, subtitle, title), caption=CAPTION)
         + spotlight_theme()
         + theme(axis_title_x=element_blank(), axis_title_y=element_blank())
     )
@@ -291,10 +301,12 @@ def render_timeline(data, finding, path):
     if finding["kind"] == "streak":
         s = finding["streak"]
         word = "wins" if s["type"] == "W" else "losses"
+        title = f"Where the run sits in {finding['city']}'s season"
         subtitle = (f"{finding['label']} — last {len(df)} games; the "
                     f"{s['length']} straight {word} in color")
     else:
         t = finding["turnaround"]
+        title = f"The week that turned {finding['city']}'s month"
         subtitle = (f"{finding['label']} — every game this month; the last 7 "
                     f"days ({t['late']['w']}-{t['late']['l']}) in color")
 
@@ -311,7 +323,7 @@ def render_timeline(data, finding, path):
                              breaks=["Win", "Loss"])
         + scale_size_manual(values={True: 3.2, False: 1.8}, guide=None)
         + scale_x_continuous(expand=(0.02, 0, 0.08, 0.8))
-        + labs(**titles(finding, subtitle), x="game", caption=CAPTION)
+        + labs(**titles(finding, subtitle, title), x="game", caption=CAPTION)
         + spotlight_theme()
         + theme(axis_title_y=element_blank())
     )
@@ -338,9 +350,13 @@ def render_bump(data, finding, path):
         + scale_y_reverse(expand=(0.10, 0))
         + scale_x_date(date_breaks="1 week", date_labels="%b %-d",
                        expand=(0.02, 0, 0.02, 2.5))
+        # a lower rank number is a better place, so to < from is a climb
         + labs(**titles(finding, f"{finding['label']} — place among all {c['field']} "
                                  f"city groups on the {data['month'][:4]} weighted "
-                                 f"index, last {len(df)} days"),
+                                 f"index, last {len(df)} days",
+                        f"{finding['city']} "
+                        f"{'climbing' if c['to'] < c['from'] else 'sliding'} "
+                        f"through the year standings"),
                caption=CAPTION)
         + spotlight_theme()
         + theme(axis_title_x=element_blank(), axis_title_y=element_blank())
@@ -415,7 +431,8 @@ def render_field(data, finding, path):
         + labs(**titles(finding, f"{finding['label']} — every city group's "
                                  f"{data['month'][:4]} weighted index, best to "
                                  f"worst. Metros with several teams appear once "
-                                 f"per combination."),
+                                 f"per combination.",
+                        f"Where {finding['city']} sits in the field"),
                x="place on the year", caption=CAPTION)
         + spotlight_theme()
         + theme(axis_title_y=element_blank())
