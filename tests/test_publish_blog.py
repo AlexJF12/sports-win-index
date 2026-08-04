@@ -322,3 +322,32 @@ def test_a_weekly_folder_republished_under_its_own_date_is_not_treated_as_stale(
     images = [i["file"] for s in manifest["posts"][0]["sections"] for i in s["images"]]
     assert len(images) == 3
     assert os.path.exists(os.path.join(posts_dir, "2026-08-02", images[0]))
+
+
+# --- what a screen reader hears ----------------------------------------------
+
+def test_alt_text_names_the_subject_instead_of_repeating_the_caption(tmp_path):
+    daily = daily_post(daily_dir(tmp_path))
+    image = daily["sections"][0]["images"][0]
+    assert image["alt"] != image["caption"]
+    assert image["alt"].startswith("Philadelphia: Phillies/76ers/Flyers/Eagles — ")
+
+    spotlight = spotlight_post(weekly_dir(tmp_path))
+    for section in spotlight["sections"]:
+        for img in section["images"]:
+            assert img["alt"].startswith(f"{section['subhead']} — ")
+            assert img["alt"] != img["caption"]
+
+
+def test_the_manifest_reheals_alt_text_on_posts_filed_by_an_older_version(tmp_path):
+    posts_dir = str(tmp_path / "posts")
+    post = daily_post(daily_dir(tmp_path))
+    for img in post["sections"][0]["images"]:      # what an older publisher wrote
+        img["alt"] = img["caption"]
+    publish([post], posts_dir)
+
+    # a later run that publishes something else still fixes the old entry
+    manifest = publish([streakiness_post(streak_dir(tmp_path))], posts_dir)
+    old = next(p for p in manifest["posts"] if p["kind"] == "daily")
+    for img in old["sections"][0]["images"]:
+        assert img["alt"] != img["caption"]

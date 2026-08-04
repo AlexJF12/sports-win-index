@@ -53,12 +53,12 @@
       {
        "file": "daily-season.png",
        "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
-       "alt": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year."
+       "alt": "Philadelphia: Phillies/76ers/Flyers/Eagles \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
       },
       {
        "file": "daily-games.png",
        "caption": "Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run.",
-       "alt": "Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run."
+       "alt": "Philadelphia: Phillies/76ers/Flyers/Eagles \u2014 Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run"
       }
      ]
     }
@@ -100,12 +100,12 @@
       {
        "file": "spotlight-new-york-4_year.png",
        "caption": "Every season's cumulative index by day of year, this one in color.",
-       "alt": "Every season's cumulative index by day of year, this one in color."
+       "alt": "New York: Mets/Nets/Islanders/Jets \u2014 Every season's cumulative index by day of year, this one in color"
       },
       {
        "file": "spotlight-new-york-4_field.png",
        "caption": "All 88 city groups on this year's index, the group picked out.",
-       "alt": "All 88 city groups on this year's index, the group picked out."
+       "alt": "New York: Mets/Nets/Islanders/Jets \u2014 All 88 city groups on this year's index, the group picked out"
       }
      ]
     },
@@ -127,12 +127,12 @@
       {
        "file": "spotlight-san-antonio_year.png",
        "caption": "Every season's cumulative index by day of year, this one in color.",
-       "alt": "Every season's cumulative index by day of year, this one in color."
+       "alt": "San Antonio: Spurs \u2014 Every season's cumulative index by day of year, this one in color"
       },
       {
        "file": "spotlight-san-antonio_field.png",
        "caption": "All 88 city groups on this year's index, the group picked out.",
-       "alt": "All 88 city groups on this year's index, the group picked out."
+       "alt": "San Antonio: Spurs \u2014 All 88 city groups on this year's index, the group picked out"
       }
      ]
     },
@@ -162,17 +162,17 @@
       {
        "file": "spotlight-los-angeles-16_race.png",
        "caption": "The group against the whole field this month, cumulative weighted index.",
-       "alt": "The group against the whole field this month, cumulative weighted index."
+       "alt": "Los Angeles: Dodgers/Lakers/Kings/Rams \u2014 The group against the whole field this month, cumulative weighted index"
       },
       {
        "file": "spotlight-los-angeles-16_bump.png",
        "caption": "Place in the year-to-date standings over the last 30 days.",
-       "alt": "Place in the year-to-date standings over the last 30 days."
+       "alt": "Los Angeles: Dodgers/Lakers/Kings/Rams \u2014 Place in the year-to-date standings over the last 30 days"
       },
       {
        "file": "spotlight-los-angeles-16_teams.png",
        "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
-       "alt": "Per-team contribution \u2014 the full month against the last 7 days."
+       "alt": "Los Angeles: Dodgers/Lakers/Kings/Rams \u2014 Per-team contribution \u2014 the full month against the last 7 days"
       }
      ]
     }
@@ -214,12 +214,12 @@
       {
        "file": "streak-season_vs_history.png",
        "caption": "This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray.",
-       "alt": "This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray."
+       "alt": "All 88 city groups, through August 2, 2026 \u2014 This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray"
       },
       {
        "file": "streak-past_month.png",
        "caption": "The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest.",
-       "alt": "The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest."
+       "alt": "All 88 city groups, through August 2, 2026 \u2014 The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest"
       }
      ]
     }
@@ -276,12 +276,12 @@
       {
        "file": "daily-season.png",
        "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
-       "alt": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year."
+       "alt": "Milwaukee: Brewers/Bucks \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
       },
       {
        "file": "daily-games.png",
        "caption": "Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run.",
-       "alt": "Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run."
+       "alt": "Milwaukee: Brewers/Bucks \u2014 Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run"
       }
      ]
     }
@@ -315,17 +315,17 @@
       {
        "file": "spotlight-new-york-4_race.png",
        "caption": "The group against the whole field this month, cumulative weighted index.",
-       "alt": "The group against the whole field this month, cumulative weighted index."
+       "alt": "New York: Mets/Nets/Islanders/Jets \u2014 The group against the whole field this month, cumulative weighted index"
       },
       {
        "file": "spotlight-new-york-4_history.png",
        "caption": "Every comparable month since 2022, this one picked out.",
-       "alt": "Every comparable month since 2022, this one picked out."
+       "alt": "New York: Mets/Nets/Islanders/Jets \u2014 Every comparable month since 2022, this one picked out"
       },
       {
        "file": "spotlight-new-york-4_teams.png",
        "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
-       "alt": "Per-team contribution \u2014 the full month against the last 7 days."
+       "alt": "New York: Mets/Nets/Islanders/Jets \u2014 Per-team contribution \u2014 the full month against the last 7 days"
       }
      ]
     },
@@ -359,17 +359,17 @@
       {
        "file": "spotlight-san-diego_race.png",
        "caption": "The group against the whole field this month, cumulative weighted index.",
-       "alt": "The group against the whole field this month, cumulative weighted index."
+       "alt": "San Diego: Padres \u2014 The group against the whole field this month, cumulative weighted index"
       },
       {
        "file": "spotlight-san-diego_timeline.png",
        "caption": "Game by game, with the streak picked out.",
-       "alt": "Game by game, with the streak picked out."
+       "alt": "San Diego: Padres \u2014 Game by game, with the streak picked out"
       },
       {
        "file": "spotlight-san-diego_teams.png",
        "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
-       "alt": "Per-team contribution \u2014 the full month against the last 7 days."
+       "alt": "San Diego: Padres \u2014 Per-team contribution \u2014 the full month against the last 7 days"
       }
      ]
     },
@@ -395,17 +395,17 @@
       {
        "file": "spotlight-tampa-bay_race.png",
        "caption": "The group against the whole field this month, cumulative weighted index.",
-       "alt": "The group against the whole field this month, cumulative weighted index."
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 The group against the whole field this month, cumulative weighted index"
       },
       {
        "file": "spotlight-tampa-bay_history.png",
        "caption": "Every comparable month since 2022, this one picked out.",
-       "alt": "Every comparable month since 2022, this one picked out."
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 Every comparable month since 2022, this one picked out"
       },
       {
        "file": "spotlight-tampa-bay_teams.png",
        "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
-       "alt": "Per-team contribution \u2014 the full month against the last 7 days."
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 Per-team contribution \u2014 the full month against the last 7 days"
       }
      ]
     }
@@ -443,17 +443,17 @@
       {
        "file": "spotlight-seattle_race.png",
        "caption": "The group against the whole field this month, cumulative weighted index.",
-       "alt": "The group against the whole field this month, cumulative weighted index."
+       "alt": "Seattle: Mariners/Kraken/Seahawks \u2014 The group against the whole field this month, cumulative weighted index"
       },
       {
        "file": "spotlight-seattle_history.png",
        "caption": "Every comparable month since 2022, this one picked out.",
-       "alt": "Every comparable month since 2022, this one picked out."
+       "alt": "Seattle: Mariners/Kraken/Seahawks \u2014 Every comparable month since 2022, this one picked out"
       },
       {
        "file": "spotlight-seattle_teams.png",
        "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
-       "alt": "Per-team contribution \u2014 the full month against the last 7 days."
+       "alt": "Seattle: Mariners/Kraken/Seahawks \u2014 Per-team contribution \u2014 the full month against the last 7 days"
       }
      ]
     },
@@ -487,17 +487,17 @@
       {
        "file": "spotlight-san-francisco_race.png",
        "caption": "The group against the whole field this month, cumulative weighted index.",
-       "alt": "The group against the whole field this month, cumulative weighted index."
+       "alt": "San Francisco: Giants/Warriors/Sharks/49ers \u2014 The group against the whole field this month, cumulative weighted index"
       },
       {
        "file": "spotlight-san-francisco_timeline.png",
        "caption": "Game by game, with the streak picked out.",
-       "alt": "Game by game, with the streak picked out."
+       "alt": "San Francisco: Giants/Warriors/Sharks/49ers \u2014 Game by game, with the streak picked out"
       },
       {
        "file": "spotlight-san-francisco_teams.png",
        "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
-       "alt": "Per-team contribution \u2014 the full month against the last 7 days."
+       "alt": "San Francisco: Giants/Warriors/Sharks/49ers \u2014 Per-team contribution \u2014 the full month against the last 7 days"
       }
      ]
     },
@@ -527,17 +527,17 @@
       {
        "file": "spotlight-sacramento_race.png",
        "caption": "The group against the whole field this month, cumulative weighted index.",
-       "alt": "The group against the whole field this month, cumulative weighted index."
+       "alt": "Sacramento: Athletics/Kings \u2014 The group against the whole field this month, cumulative weighted index"
       },
       {
        "file": "spotlight-sacramento_history.png",
        "caption": "Every comparable month since 2022, this one picked out.",
-       "alt": "Every comparable month since 2022, this one picked out."
+       "alt": "Sacramento: Athletics/Kings \u2014 Every comparable month since 2022, this one picked out"
       },
       {
        "file": "spotlight-sacramento_teams.png",
        "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
-       "alt": "Per-team contribution \u2014 the full month against the last 7 days."
+       "alt": "Sacramento: Athletics/Kings \u2014 Per-team contribution \u2014 the full month against the last 7 days"
       }
      ]
     }

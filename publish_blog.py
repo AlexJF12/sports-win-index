@@ -190,6 +190,21 @@ def image(src_dir: str, name: str, prefix: str, caption: str) -> dict:
             "caption": caption, "alt": caption}
 
 
+def name_images(post: dict) -> dict:
+    """Give every image an alt that isn't a copy of its visible caption.
+
+    The caption says what kind of chart it is; a screen reader that then hears
+    the identical sentence as the alt text has learned nothing twice. The alt
+    leads with whose chart it is — the group the section is about — so the
+    subject arrives before the shape.
+    """
+    for section in post["sections"]:
+        subject = section.get("subhead") or post.get("dek") or post["title"]
+        for img in section["images"]:
+            img["alt"] = f"{subject} — {img['caption'].rstrip('.')}"
+    return post
+
+
 def daily_post(src_dir: str = DAILY_DIR) -> dict | None:
     """The morning's city of the day: two charts and the numbers behind them."""
     text = read(os.path.join(src_dir, "summary.md"))
@@ -209,14 +224,14 @@ def daily_post(src_dir: str = DAILY_DIR) -> dict | None:
     images = [image(src_dir, name, "daily", DAILY_CAPTIONS.get(name, ""))
               for name in body["images"]
               if os.path.exists(os.path.join(src_dir, name))]
-    return {
+    return name_images({
         "date": day.isoformat(),
         "kind": "daily",
         "title": title or "City of the day",
         "dek": body["subhead"] or "",
         "sections": [{"heading": None, "subhead": None, "stats": body["stats"],
                       "table": body["table"], "images": images}],
-    }
+    })
 
 
 def streakiness_post(src_dir: str = STREAK_DIR) -> dict | None:
@@ -263,14 +278,14 @@ def streakiness_post(src_dir: str = STREAK_DIR) -> dict | None:
               if os.path.exists(os.path.join(src_dir, name))]
     if not images:
         return None
-    return {
+    return name_images({
         "date": day.isoformat(),
         "kind": "streakiness",
         "title": "Streakiness — not how often they win, but how the wins arrive",
         "dek": f"All {len(data['measured'])} city groups, through {pretty(day)}",
         "sections": [{"heading": None, "subhead": None, "stats": stats,
                       "table": None, "images": images}],
-    }
+    })
 
 
 def spotlight_post(src_dir: str = WEEKLY_DIR) -> dict | None:
@@ -307,13 +322,13 @@ def spotlight_post(src_dir: str = WEEKLY_DIR) -> dict | None:
 
     count = COUNT_WORDS.get(len(sections), str(len(sections)))
     noun = "fandom" if len(sections) == 1 else "fandoms"
-    return {
+    return name_images({
         "date": day.isoformat(),
         "kind": "spotlight",
         "title": f"Out of the norm — {count} {noun} off their own script",
         "dek": f"The weekly hunt across all 88 city groups, through {pretty(day)}",
         "sections": sections,
-    }
+    })
 
 
 # --- filing posts into content/posts -----------------------------------------
@@ -431,8 +446,12 @@ def publish(posts: list, posts_dir: str = POSTS_DIR, retain_days: int = RETAIN_D
             log.info("Pruned %s (older than %d days)", day, retain_days)
         kept = alive
 
+    # rebuild alt text for every post, not just today's: a post filed by an
+    # older version of this script keeps whatever alt text that version wrote,
+    # and re-deriving it here means the whole archive picks up an improvement
+    # on the next morning's run instead of only new posts getting it
     out = {"generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-           "retain_days": retain_days, "posts": kept}
+           "retain_days": retain_days, "posts": [name_images(p) for p in kept]}
     with open(os.path.join(posts_dir, MANIFEST), "w") as f:
         json.dump(out, f, indent=1)
         f.write("\n")
