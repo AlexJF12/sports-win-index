@@ -1,31 +1,37 @@
-# Fandom spotlight — 2026-08-02
+# Fandom spotlight — 2026-08-04
 
-## 1. 🧊 New York is having its worst year on record — 85th of 88 this year
-*New York: Mets/Nets/Islanders/Jets* · `year`
+## 1. 🧊 Sacramento is having its worst year on record — 80th of 88 this year
+*Sacramento: Athletics/Kings* · `year`
 
-- **2026 so far (through August 2):** 78-130, -206.7 weighted — 1st-worst of the 5 years since 2022, at the same point
-- **Against the field:** 85th of 88 city groups on the year (2nd percentile)
-- **This month (through August 2):** 0-2, -4.5 weighted
-- **Last 7 days:** 0-2, -4.5 weighted
-- **Driving it this week:** Mets (0-2, -4.5)
+- **2026 so far (through August 4):** 59-103, -145.3 weighted — 1st-worst of the 5 years since 2022, at the same point
+- **Against the field:** 80th of 88 city groups on the year (9th percentile)
+- **This month (through August 4):** 0-3, -6.8 weighted
+- **Last 7 days:** 0-3, -6.8 weighted
+- **Driving it this week:** Athletics (0-3, -6.8)
+- **Active streaks:** Athletics L3
 
-Images: `new-york-4_year.png` · `new-york-4_field.png`
+Images: `sacramento_year.png` · `sacramento_field.png`
 
-## 2. 🏆 San Antonio is having its best year on record — 6th of 88 this year
-*San Antonio: Spurs* · `year`
+## 2. 🥶 Minnesota is having its worst August on record
+*Minnesota: Twins/Timberwolves/Wild/Vikings* · `month`
 
-- **2026 so far (through August 2):** 51-21, +133.5 weighted — 1st-best of the 5 years since 2022, at the same point
-- **Against the field:** 6th of 88 city groups on the year (94th percentile)
+- **This month (through August 4):** 0-3, -6.8 weighted — 1st-worst August of the 5 since 2022
+- **vs all months:** 7th-worst of 51 months since 2022 (13th percentile)
+- **Last 7 days:** 0-3, -6.8 weighted
+- **Driving it this week:** Twins (0-3, -6.8)
+- **Active streaks:** Twins L3
 
-Images: `san-antonio_year.png` · `san-antonio_field.png`
+Images: `minnesota_race.png` · `minnesota_history.png` · `minnesota_teams.png`
 
-## 3. ⬇️ Los Angeles has fallen 4 places in the 2026 standings this week (9th → 13th of 88)
-*Los Angeles: Dodgers/Lakers/Kings/Rams* · `climb`
+## 3. 🏆 Atlanta is having its best year on record — 9th of 88 this year
+*Atlanta: Braves/Hawks/Falcons* · `year`
 
-- **Year standings:** 9th → 13th of 88 (+119.4 → +114.9 weighted)
-- **This month (through August 2):** 0-2, -4.5 weighted
-- **Last 7 days:** 0-2, -4.5 weighted
-- **Driving it this week:** Dodgers (0-2, -4.5)
+- **2026 so far (through August 4):** 101-66, +122.2 weighted — 1st-best of the 5 years since 2022, at the same point
+- **Against the field:** 9th of 88 city groups on the year (91st percentile)
+- **This month (through August 4):** 3-0, +6.8 weighted
+- **Last 7 days:** 3-0, +6.8 weighted
+- **Driving it this week:** Braves (3-0, +6.8)
+- **Active streaks:** Braves W3
 
-Images: `los-angeles-16_race.png` · `los-angeles-16_bump.png` · `los-angeles-16_teams.png`
+Images: `atlanta_year.png` · `atlanta_field.png`
 

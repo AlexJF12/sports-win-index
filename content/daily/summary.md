@@ -1,15 +1,15 @@
-# City of the day — Philadelphia
-*Philadelphia: Phillies/76ers/Flyers/Eagles* · 2026-08-03
+# City of the day — St. Louis
+*St. Louis: Cardinals/Blues* · 2026-08-04
 
-- **2026 so far:** 120-111, -9.4 weighted over 231 games; longest run 7 straight wins
-- **Order of results:** about as clumped as coin flips (-0.6)
-- **Earlier seasons (full-year weighted):** 2022 +190.7, 2023 +317.8, 2024 +154.7, 2025 +130.1
-- **Last 30 days:** 10-14, -9.0 weighted; longest run 4 straight losses
-- **Window opens:** July 5, 2026
+- **2026 so far:** 78-77, +8.8 weighted over 155 games; longest run 7 straight wins
+- **Order of results:** about as clumped as coin flips (+0.7)
+- **Earlier seasons (full-year weighted):** 2022 +89.6, 2023 -67.3, 2024 +13.5, 2025 -26.9
+- **Last 30 days:** 9-18, -20.3 weighted; longest run 4 straight losses
+- **Window opens:** July 6, 2026
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Phillies | 10-14 | -9.0 | 4 straight losses |
+| Cardinals | 9-18 | -20.3 | 4 straight losses |
 
 Images: `season.png` · `games.png`
 
