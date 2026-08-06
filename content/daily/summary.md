@@ -1,15 +1,15 @@
-# City of the day — St. Louis
-*St. Louis: Cardinals/Blues* · 2026-08-04
+# City of the day — Los Angeles
+*Los Angeles: Angels/Clippers/Ducks/Chargers* · 2026-08-05
 
-- **2026 so far:** 78-77, +8.8 weighted over 155 games; longest run 7 straight wins
-- **Order of results:** about as clumped as coin flips (+0.7)
-- **Earlier seasons (full-year weighted):** 2022 +89.6, 2023 -67.3, 2024 +13.5, 2025 -26.9
-- **Last 30 days:** 9-18, -20.3 weighted; longest run 4 straight losses
-- **Window opens:** July 6, 2026
+- **2026 so far:** 102-119, -48.2 weighted over 221 games; longest run 10 straight wins
+- **Order of results:** about as clumped as coin flips (+1.2)
+- **Earlier seasons (full-year weighted):** 2022 -118.5, 2023 -288.7, 2024 -52.3, 2025 +79.4
+- **Last 30 days:** 7-16, -20.3 weighted; longest run 5 straight losses
+- **Window opens:** July 7, 2026
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Cardinals | 9-18 | -20.3 | 4 straight losses |
+| Angels | 7-16 | -20.3 | 5 straight losses |
 
 Images: `season.png` · `games.png`
 

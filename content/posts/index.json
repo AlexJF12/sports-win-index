@@ -1,10 +1,73 @@
 {
- "generated": "2026-08-05",
+ "generated": "2026-08-06",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-08-05",
+   "kind": "daily",
+   "title": "City of the day \u2014 Los Angeles",
+   "dek": "Los Angeles: Angels/Clippers/Ducks/Chargers",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "102-119, -48.2 weighted over 221 games; longest run 10 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+1.2)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2022 -118.5, 2023 -288.7, 2024 -52.3, 2025 +79.4"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "7-16, -20.3 weighted; longest run 5 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "July 7, 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Angels",
+        "7-16",
+        "-20.3",
+        "5 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Los Angeles: Angels/Clippers/Ducks/Chargers \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-games.png",
+       "caption": "Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run.",
+       "alt": "Los Angeles: Angels/Clippers/Ducks/Chargers \u2014 Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-08-05/daily.html"
+  },
   {
    "date": "2026-08-04",
    "kind": "spotlight",
