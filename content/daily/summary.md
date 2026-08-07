@@ -1,15 +1,15 @@
-# City of the day — Los Angeles
-*Los Angeles: Angels/Clippers/Ducks/Chargers* · 2026-08-05
+# City of the day — Cincinnati
+*Cincinnati: Reds/Bengals* · 2026-08-06
 
-- **2026 so far:** 102-119, -48.2 weighted over 221 games; longest run 10 straight wins
-- **Order of results:** about as clumped as coin flips (+1.2)
-- **Earlier seasons (full-year weighted):** 2022 -118.5, 2023 -288.7, 2024 -52.3, 2025 +79.4
-- **Last 30 days:** 7-16, -20.3 weighted; longest run 5 straight losses
-- **Window opens:** July 7, 2026
+- **2026 so far:** 56-59, -26.0 weighted over 115 games; longest run 8 straight losses
+- **Order of results:** about as clumped as coin flips (+0.1)
+- **Earlier seasons (full-year weighted):** 2022 +107.6, 2023 +47.4, 2024 +3.4, 2025 -59.9
+- **Last 30 days:** 15-9, +13.5 weighted; longest run 4 straight wins
+- **Window opens:** July 8, 2026
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Angels | 7-16 | -20.3 | 5 straight losses |
+| Reds | 15-9 | +13.5 | 4 straight wins |
 
 Images: `season.png` · `games.png`
 

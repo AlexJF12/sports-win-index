@@ -18,5 +18,10 @@
   "date": "2026-08-05",
   "city": "Los Angeles",
   "group": "Los Angeles 1"
+ },
+ {
+  "date": "2026-08-06",
+  "city": "Cincinnati",
+  "group": "Cincinnati"
  }
 ]
