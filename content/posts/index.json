@@ -1,10 +1,73 @@
 {
- "generated": "2026-08-07",
+ "generated": "2026-08-08",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-08-07",
+   "kind": "daily",
+   "title": "City of the day \u2014 Denver",
+   "dek": "Denver: Rockies/Nuggets/Avalanche/Broncos",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "113-117, +56.4 weighted over 230 games; longest run 9 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.9)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2022 +10.8, 2023 +176.8, 2024 +131.7, 2025 +283.8"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "7-15, -18.0 weighted; longest run 4 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "July 9, 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Rockies",
+        "7-15",
+        "-18.0",
+        "4 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Denver: Rockies/Nuggets/Avalanche/Broncos \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-games.png",
+       "caption": "Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run.",
+       "alt": "Denver: Rockies/Nuggets/Avalanche/Broncos \u2014 Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-08-07/daily.html"
+  },
   {
    "date": "2026-08-06",
    "kind": "daily",
