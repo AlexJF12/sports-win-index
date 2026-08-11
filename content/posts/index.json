@@ -1,10 +1,73 @@
 {
- "generated": "2026-08-10",
+ "generated": "2026-08-11",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-08-10",
+   "kind": "daily",
+   "title": "City of the day \u2014 Dallas",
+   "dek": "Dallas: Rangers/Mavericks/Stars/Cowboys",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "101-115, -81.5 weighted over 216 games; longest run 9 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-1.8)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2022 +287.6, 2023 +203.8, 2024 +148.3, 2025 -47.4"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "12-12, +0.0 weighted; longest run 6 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "July 12, 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Rangers",
+        "12-12",
+        "+0.0",
+        "6 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Dallas: Rangers/Mavericks/Stars/Cowboys \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-games.png",
+       "caption": "Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run.",
+       "alt": "Dallas: Rangers/Mavericks/Stars/Cowboys \u2014 Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-08-10/daily.html"
+  },
   {
    "date": "2026-08-09",
    "kind": "daily",
