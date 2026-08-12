@@ -1,37 +1,32 @@
-# Fandom spotlight — 2026-08-04
+# Fandom spotlight — 2026-08-11
 
-## 1. 🧊 Sacramento is having its worst year on record — 80th of 88 this year
-*Sacramento: Athletics/Kings* · `year`
+## 1. 🧊 Memphis is having its worst year on record — 76th of 88 this year
+*Memphis: Grizzlies* · `year`
 
-- **2026 so far (through August 4):** 59-103, -145.3 weighted — 1st-worst of the 5 years since 2022, at the same point
-- **Against the field:** 80th of 88 city groups on the year (9th percentile)
-- **This month (through August 4):** 0-3, -6.8 weighted
-- **Last 7 days:** 0-3, -6.8 weighted
-- **Driving it this week:** Athletics (0-3, -6.8)
-- **Active streaks:** Athletics L3
+- **2026 so far (through August 11):** 10-39, -129.1 weighted — 1st-worst of the 5 years since 2022, at the same point
+- **Against the field:** 76th of 88 city groups on the year (14th percentile)
 
-Images: `sacramento_year.png` · `sacramento_field.png`
+Images: `memphis_year.png` · `memphis_field.png`
 
-## 2. 🥶 Minnesota is having its worst August on record
-*Minnesota: Twins/Timberwolves/Wild/Vikings* · `month`
+## 2. 🔥 San Diego is having its best month since April 2026
+*San Diego: Padres* · `month`
 
-- **This month (through August 4):** 0-3, -6.8 weighted — 1st-worst August of the 5 since 2022
-- **vs all months:** 7th-worst of 51 months since 2022 (13th percentile)
-- **Last 7 days:** 0-3, -6.8 weighted
-- **Driving it this week:** Twins (0-3, -6.8)
-- **Active streaks:** Twins L3
+- **This month (through August 11):** 8-3, +11.3 weighted — 2nd-best of 31 months since 2022 (94th percentile)
+- **vs past Augusts:** 1st-best August of the 5 since 2022
+- **Last 7 days:** 5-2, +6.8 weighted
+- **Driving it this week:** Padres (5-2, +6.8)
+- **Active streaks:** Padres W4
 
-Images: `minnesota_race.png` · `minnesota_history.png` · `minnesota_teams.png`
+Images: `san-diego_race.png` · `san-diego_history.png` · `san-diego_teams.png`
 
-## 3. 🏆 Atlanta is having its best year on record — 9th of 88 this year
-*Atlanta: Braves/Hawks/Falcons* · `year`
+## 3. 🔄 Washington has flipped its August: 0-4 before this week, 4-2 since
+*Washington: Nationals/Wizards/Capitals/Commanders* · `turnaround`
 
-- **2026 so far (through August 4):** 101-66, +122.2 weighted — 1st-best of the 5 years since 2022, at the same point
-- **Against the field:** 9th of 88 city groups on the year (91st percentile)
-- **This month (through August 4):** 3-0, +6.8 weighted
-- **Last 7 days:** 3-0, +6.8 weighted
-- **Driving it this week:** Braves (3-0, +6.8)
-- **Active streaks:** Braves W3
+- **Before this week:** 0-4, -9.0 weighted (-2.25 per game)
+- **Since:** 4-2, +4.5 weighted (+0.75 per game)
+- **This month (through August 11):** 4-6, -4.5 weighted
+- **Last 7 days:** 4-2, +4.5 weighted
+- **Driving it this week:** Nationals (4-2, +4.5)
 
-Images: `atlanta_year.png` · `atlanta_field.png`
+Images: `washington_race.png` · `washington_timeline.png` · `washington_teams.png`
 

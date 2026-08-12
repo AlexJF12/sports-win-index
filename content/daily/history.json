@@ -43,5 +43,10 @@
   "date": "2026-08-10",
   "city": "Dallas",
   "group": "Dallas"
+ },
+ {
+  "date": "2026-08-11",
+  "city": "Sacramento",
+  "group": "Sacramento"
  }
 ]
