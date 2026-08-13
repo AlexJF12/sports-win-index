@@ -1,15 +1,15 @@
-# City of the day — Sacramento
-*Sacramento: Athletics/Kings* · 2026-08-11
+# City of the day — Chicago
+*Chicago: Cubs/Bulls/Blackhawks/Bears* · 2026-08-12
 
-- **2026 so far:** 61-108, -152.1 weighted over 169 games; longest run 16 straight losses
-- **Order of results:** about as clumped as coin flips (+1.0)
-- **Earlier seasons (full-year weighted):** 2022 -143.6, 2023 -68.5, 2024 -63.0, 2025 -89.3
-- **Last 30 days:** 6-18, -27.0 weighted; longest run 9 straight losses
+- **2026 so far:** 102-114, -116.6 weighted over 216 games; longest run 13 straight losses
+- **Order of results:** clumpier than chance (+2.7)
+- **Earlier seasons (full-year weighted):** 2022 -434.0, 2023 -197.1, 2024 -357.8, 2025 +57.4
+- **Last 30 days:** 17-8, +20.3 weighted; longest run 5 straight wins
 - **Window opens:** July 17, 2026
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Athletics | 6-18 | -27.0 | 9 straight losses |
+| Cubs | 17-8 | +20.3 | 5 straight wins |
 
 Images: `season.png` · `games.png`
 
