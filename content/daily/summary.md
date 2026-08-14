@@ -1,15 +1,15 @@
-# City of the day — Chicago
-*Chicago: Cubs/Bulls/Blackhawks/Bears* · 2026-08-12
+# City of the day — Baltimore
+*Baltimore: Orioles/Ravens* · 2026-08-13
 
-- **2026 so far:** 102-114, -116.6 weighted over 216 games; longest run 13 straight losses
-- **Order of results:** clumpier than chance (+2.7)
-- **Earlier seasons (full-year weighted):** 2022 -434.0, 2023 -197.1, 2024 -357.8, 2025 +57.4
-- **Last 30 days:** 17-8, +20.3 weighted; longest run 5 straight wins
+- **2026 so far:** 58-64, -32.7 weighted over 122 games; longest run 7 straight wins
+- **Order of results:** about as clumped as coin flips (+0.2)
+- **Earlier seasons (full-year weighted):** 2022 +73.4, 2023 +233.7, 2024 +147.9, 2025 -5.6
+- **Last 30 days:** 12-12, +0.0 weighted; longest run 3 straight wins
 - **Window opens:** July 17, 2026
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Cubs | 17-8 | +20.3 | 5 straight wins |
+| Orioles | 12-12 | +0.0 | 3 straight wins |
 
 Images: `season.png` · `games.png`
 

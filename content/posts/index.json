@@ -1,10 +1,73 @@
 {
- "generated": "2026-08-13",
+ "generated": "2026-08-14",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-08-13",
+   "kind": "daily",
+   "title": "City of the day \u2014 Baltimore",
+   "dek": "Baltimore: Orioles/Ravens",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "58-64, -32.7 weighted over 122 games; longest run 7 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+0.2)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2022 +73.4, 2023 +233.7, 2024 +147.9, 2025 -5.6"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "12-12, +0.0 weighted; longest run 3 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "July 17, 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Orioles",
+        "12-12",
+        "+0.0",
+        "3 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Baltimore: Orioles/Ravens \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-games.png",
+       "caption": "Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run.",
+       "alt": "Baltimore: Orioles/Ravens \u2014 Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-08-13/daily.html"
+  },
   {
    "date": "2026-08-12",
    "kind": "daily",
