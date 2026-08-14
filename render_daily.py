@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """
-The two city-of-the-day charts. Called by city_of_the_day.py.
+The city-of-the-day charts. Called by city_of_the_day.py.
 
     season.png   cumulative weighted index this year against the same group's
                  earlier seasons, day of year for day of year
+    month.png    the same, one zoom in: this calendar month against the same
+                 month in every earlier year, day of month for day of month
     form.png     the last 30 days as each team's running games over .500
 
 Palette and theme come from render_content.py so every image in the repo looks
@@ -17,9 +19,11 @@ from datetime import timedelta
 import pandas as pd
 from plotnine import (aes, element_blank, element_rect, element_text,
                       facet_wrap, geom_hline, geom_line, geom_path, geom_point,
-                      geom_rect, geom_text, ggplot, labs, scale_fill_manual,
-                      scale_x_continuous, scale_y_continuous, theme)
+                      geom_rect, geom_text, geom_vline, ggplot, labs,
+                      scale_fill_manual, scale_x_continuous,
+                      scale_y_continuous, theme)
 
+from fandom_analysis import standing
 from render_content import (BASELINE, CAPTION, COLD, FIELD, HOT, INK, INK_2,
                             MONTH_STARTS, MONTH_TICKS, MUTED, SURFACE,
                             spotlight_theme)
@@ -67,6 +71,78 @@ def render_season(prof: dict, ref, path: str) -> None:
         + theme(figure_size=(8, 4.6), axis_title=element_blank())
     )
     p.save(path, verbose=False)
+
+
+def render_month(prof: dict, ref, path: str) -> None:
+    """This calendar month against the same month in every earlier year.
+
+    The same question season.png asks of the year, asked of the month: not
+    "how is March going" but "how does this March compare to the Marches this
+    city already knows". Past years run the full month in gray so the line
+    shows how each one finished; the dots mark where they stood on the same
+    day of the month, which is the only fair place to read this month against
+    them while it is still being played.
+    """
+    m = prof["month"]
+    past = pd.DataFrame([{"year": str(p["year"]), **point}
+                         for p in m["past"] for point in p["series"]])
+    now = pd.DataFrame(m["series"])
+    end = now.iloc[-1]
+    color = accent(end["cum"])
+    ends = past.sort_values("day").groupby("year", observed=True).tail(1)
+    # where each past year stood on this day of the month — the comparison the
+    # subtitle is actually making. The dots are pinned to the cutoff rather
+    # than to each year's last game before it: a year that idled on the 14th
+    # still stood at that number on the 15th, and pinning them lines the
+    # comparison up on one date instead of scattering it across three
+    marks = (past[past["day"] <= m["cutoff"]].sort_values("day")
+                 .groupby("year", observed=True).tail(1).assign(day=m["cutoff"]))
+
+    day_breaks = [d for d in (1, 8, 15, 22, 29) if d <= m["length"]]
+    layers = []
+    if m["in_progress"]:
+        layers = [
+            geom_vline(xintercept=m["cutoff"], color=BASELINE, size=0.4,
+                       linetype="dashed"),
+            geom_point(marks, aes("day", "cum"), color=MUTED, size=2.2, stroke=0),
+        ]
+
+    p = ggplot() + geom_hline(yintercept=0, color=BASELINE, size=0.4)
+    for layer in layers:
+        p = p + layer
+    p = (
+        p
+        + geom_line(past, aes("day", "cum", group="year"), color=FIELD, size=0.7)
+        + geom_text(ends, aes("day", "cum", label="year"), ha="left", va="center",
+                    nudge_x=0.4, color=MUTED, size=7.5)
+        + geom_line(now, aes("day", "cum"), color=color, size=1.5, lineend="round")
+        + geom_point(now.tail(1), aes("day", "cum"), color=color, size=3, stroke=0)
+        + geom_text(now.tail(1), aes("day", "cum",
+                                     label=f"'  {ref.year}: {end['cum']:+.1f}'"),
+                    ha="left", va="center", color=INK, size=9, fontweight="bold")
+        # no explicit limits: a hard upper limit clips the year labels sitting
+        # just past the last day of the month, which is where they have to sit
+        + scale_x_continuous(breaks=day_breaks, expand=(0.01, 0, 0.14, 0))
+        + labs(title=textwrap.fill(f"Every {m['name']} {prof['city']} has had "
+                                   f"since {m['past'][0]['year']}", TITLE_WRAP),
+               subtitle=textwrap.fill(month_subtitle(prof, ref), SUBTITLE_WRAP),
+               x=f"day of {m['name']}", caption=CAPTION)
+        + spotlight_theme()
+        + theme(figure_size=(8, 4.6), axis_title_y=element_blank())
+    )
+    p.save(path, verbose=False)
+
+
+def month_subtitle(prof: dict, ref) -> str:
+    m = prof["month"]
+    tie = f", {m['t']} tied" if m["t"] else ""
+    if m["in_progress"]:
+        stretch = (f"through {m['name']} {m['cutoff']}. The dots mark where each "
+                   f"earlier {m['name']} stood on the same day.")
+    else:
+        stretch = f"over the whole of {m['name']}."
+    return (f"{prof['label']} — {m['w']}-{m['l']}{tie}, {m['weighted']:+.1f} "
+            f"weighted, {standing(m['place'], m['field'])} on record {stretch}")
 
 
 def shape_reading(index: float | None) -> str:

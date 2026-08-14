@@ -34,6 +34,14 @@
       {
        "label": "Window opens",
        "value": "July 17, 2026"
+      },
+      {
+       "label": "August 2026 through day 13",
+       "value": "4-7, -6.8 weighted \u2014 the fourth-best of the 5 on record"
+      },
+      {
+       "label": "Same August in earlier years (same stretch)",
+       "value": "2022 +11.3, 2023 +9.0, 2024 -2.2, 2025 -6.8"
       }
      ],
      "table": {
@@ -57,6 +65,11 @@
        "file": "daily-season.png",
        "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
        "alt": "Baltimore: Orioles/Ravens \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Baltimore: Orioles/Ravens \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
       },
       {
        "file": "daily-form.png",

@@ -78,8 +78,16 @@ KINDS = {
 DAILY_CAPTIONS = {
     "season.png": "The group's cumulative weighted index this year, drawn against "
                   "its own earlier seasons, day of year for day of year.",
+    "month.png": "This calendar month against the same month in every earlier "
+                 "year, added up day by day, with the dots marking where each "
+                 "one stood on the same date.",
     "form.png": "Each team's running record against .500 over the last 30 days, "
                 "one panel per team, on a shared calendar.",
+    # form.png replaced games.png, but every folder in git history still holds
+    # the old image and backfill_blog.py replays them through this same table.
+    # Dropping the key would republish those posts with no caption and no alt.
+    "games.png": "Every game of the last 30 days as win/loss tiles, one row per "
+                 "team, with each team's record and longest run.",
 }
 STREAK_CAPTIONS = {
     "season_vs_history.png": "This season's streak index for the ten fandoms "

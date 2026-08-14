@@ -231,6 +231,21 @@ def pretty_month(iso: str) -> str:
     return f"{MONTH_NAMES[int(m)]} {y}"
 
 
+ORDINALS = {1: "best", 2: "second-best", 3: "third-best", 4: "fourth-best",
+            5: "fifth-best", 6: "sixth-best"}
+
+
+def standing(place: int, field: int) -> str:
+    """Where one month sits among the same months on record — the phrase the
+    daily summary and the month chart's subtitle both need, so it lives here
+    rather than in either of them."""
+    if field < 2:
+        return "the only one on record"
+    if place >= field:
+        return f"the worst of the {field}"
+    return f"the {ORDINALS.get(place, f'{place}th-best')} of the {field}"
+
+
 def pretty_date(yyyymmdd: str) -> str:
     d = datetime.strptime(yyyymmdd, "%Y%m%d").date()
     return f"{MONTH_NAMES[d.month]} {d.day}, {d.year}"
@@ -433,6 +448,24 @@ def season_series(by_team: dict, group: dict, year: int, through: date | None = 
     for game in games:
         cum += game["weighted"]
         day = datetime.strptime(game["date"], "%Y%m%d").date().timetuple().tm_yday
+        series.append({"day": day, "cum": round(cum, 3)})
+    # one point per day played: the last game of a day carries that day's total
+    return list({point["day"]: point for point in series}.values())
+
+
+def month_series(by_team: dict, group: dict, year: int, month: int,
+                 through: date | None = None) -> list:
+    """[{day of month, cumulative weighted index}] for each day the group
+    played that month. `through` cuts a month still in progress short; without
+    it the series runs to the end of the month, which is what a past year's
+    line wants."""
+    end = through or date(year, month, calendar.monthrange(year, month)[1])
+    games = group_games(by_team, group, f"{year:04d}{month:02d}01",
+                        end.strftime("%Y%m%d"))
+    series, cum = [], 0.0
+    for game in games:
+        cum += game["weighted"]
+        day = datetime.strptime(game["date"], "%Y%m%d").date().day
         series.append({"day": day, "cum": round(cum, 3)})
     # one point per day played: the last game of a day carries that day's total
     return list({point["day"]: point for point in series}.values())

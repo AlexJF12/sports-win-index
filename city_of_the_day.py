@@ -2,7 +2,7 @@
 """
 City of the day: pick one fandom at random and draw its season.
 
-Every morning this picks a single city group and renders two charts for it.
+Every morning this picks a single city group and draws its season three ways.
 The pick is random, not ranked — a detector-driven feed keeps returning to
 whoever is having an extreme week, while a fandom's ordinary season is
 perfectly interesting once you look at it.
@@ -20,9 +20,12 @@ carries one day's images and git history carries the archive:
 
     season.png     cumulative weighted index this year against the same
                    group's earlier seasons, day of year for day of year
+    month.png      this calendar month against the same month in every
+                   earlier year, cumulative within the month (skipped when
+                   too few earlier ones are on record)
     form.png       the last 30 days as each team's running games over .500,
                    one panel per team, with its record and longest run
-    summary.md     the numbers behind both, ready to paste
+    summary.md     the numbers behind all three, ready to paste
     history.json   the rolling record of who has been picked
 
 Usage:
@@ -32,6 +35,7 @@ Usage:
 """
 
 import argparse
+import calendar
 import json
 import logging
 import os
@@ -40,8 +44,9 @@ from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from aggregate_cities import index_by_team, load_scores
-from fandom_analysis import (display_label, group_games, pretty_date,
-                             season_series, tally)
+from fandom_analysis import (MONTH_NAMES, display_label, group_games,
+                             month_series, mtd_window, pretty_date,
+                             season_series, standing, tally)
 from streakiness import longest_run, streak_index
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -54,6 +59,8 @@ HISTORY_START = 2022        # first season with score data
 WINDOW_DAYS = 30            # the "recent games" window
 MIN_RECENT_GAMES = 6        # fewer than this and the tile chart has nothing to say
 MIN_SEASONS = 2             # earlier seasons needed for the comparison chart
+MIN_SAME_MONTHS = 2         # past Marches needed before the month chart is worth drawing
+MIN_MONTH_GAMES = 3         # a past month this thin isn't a comparison, it's noise
 COOLDOWN_DAYS = 21          # don't draw the same city again this soon
 HISTORY_KEEP = 120          # entries retained in history.json
 
@@ -74,6 +81,43 @@ def recent_by_team(by_team: dict, group: dict, ref: date) -> list:
                      **tally(played), "longest": longest_run(results),
                      "index": streak_index(results)})
     return rows
+
+
+def same_months(by_team: dict, group: dict, ref: date) -> dict:
+    """This calendar month against the same month in every earlier year.
+
+    Past years run the full month, so their lines show how the month actually
+    finished, but the ranking is made at the same day of the month: a August
+    half played is not a worse August than four finished ones. A past month
+    too thin to mean anything is left out rather than drawn as a near-flat
+    line pretending to be a comparison.
+    """
+    length = calendar.monthrange(ref.year, ref.month)[1]
+    lo, hi = mtd_window(ref.year, ref.month, ref.day)
+    totals = tally(group_games(by_team, group, lo, hi))
+
+    past = []
+    for year in range(HISTORY_START, ref.year):
+        p_lo, p_hi = mtd_window(year, ref.month, ref.day)
+        to_date = tally(group_games(by_team, group, p_lo, p_hi))
+        series = month_series(by_team, group, year, ref.month)
+        if to_date["games"] < MIN_MONTH_GAMES or not series:
+            continue
+        past.append({"year": year, "series": series, "to_date": to_date,
+                     "final": series[-1]["cum"]})
+
+    # 1 is the best of the same-months, counting only the stretch played so far
+    place = 1 + sum(1 for p in past if p["to_date"]["weighted"] > totals["weighted"])
+    return {"month": ref.month, "name": MONTH_NAMES[ref.month], "cutoff": ref.day,
+            "length": length, "in_progress": ref.day < length,
+            "series": month_series(by_team, group, ref.year, ref.month, ref),
+            **totals, "past": past, "place": place, "field": len(past) + 1}
+
+
+def month_drawable(prof: dict) -> bool:
+    """Enough of both sides to be a comparison rather than a lone line."""
+    m = prof["month"]
+    return len(m["past"]) >= MIN_SAME_MONTHS and m["games"] >= MIN_MONTH_GAMES
 
 
 def profile(by_team: dict, group: dict, ref: date) -> dict:
@@ -99,6 +143,7 @@ def profile(by_team: dict, group: dict, ref: date) -> dict:
                    **tally(season_games), "index": streak_index(season_results),
                    "longest": longest_run(season_results)},
         "past_seasons": past,
+        "month": same_months(by_team, group, ref),
         "recent": {"days": WINDOW_DAYS, **tally(recent_games),
                    "index": streak_index(recent_results),
                    "longest": longest_run(recent_results),
@@ -187,7 +232,7 @@ def run_phrase(run: dict) -> str:
 
 
 def write_summary(path: str, prof: dict, ref: date) -> None:
-    s, r = prof["season"], prof["recent"]
+    s, r, m = prof["season"], prof["recent"], prof["month"]
     finals = ", ".join(f"{p['year']} {p['final']:+.1f}" for p in prof["past_seasons"])
     out = [
         f"# City of the day — {prof['city']}",
@@ -202,13 +247,26 @@ def write_summary(path: str, prof: dict, ref: date) -> None:
     ]
     if r["first_date"]:
         out.append(f"- **Window opens:** {pretty_date(r['first_date'])}")
+    if month_drawable(prof):
+        same = ", ".join(f"{p['year']} {p['to_date']['weighted']:+.1f}"
+                         for p in m["past"])
+        # "through day 15" rather than "the 15th" (no ordinal suffixes to get
+        # wrong on the 1st) and no plural of the month name to get wrong either
+        through = f" through day {m['cutoff']}" if m["in_progress"] else ""
+        out.append(f"- **{m['name']} {ref.year}{through}:** {m['w']}-{m['l']}, "
+                   f"{m['weighted']:+.1f} weighted — "
+                   f"{standing(m['place'], m['field'])} on record")
+        out.append(f"- **Same {m['name']} in earlier years"
+                   f"{' (same stretch)' if m['in_progress'] else ''}:** {same}")
     out.append("")
     out.append("| Team | Last 30 days | Weighted | Longest run |")
     out.append("|---|---|---|---|")
     for team in r["teams"]:
         out.append(f"| {team['nickname']} | {team['w']}-{team['l']} | "
                    f"{team['weighted']:+.1f} | {run_phrase(team['longest'])} |")
-    out += ["", "Images: `season.png` · `form.png`", ""]
+    # month.png is skipped in a month with too little history behind it, and
+    # the publisher drops an image the run did not draw
+    out += ["", "Images: `season.png` · `month.png` · `form.png`", ""]
     with open(path, "w") as f:
         f.write("\n".join(out) + "\n")
 
@@ -271,6 +329,11 @@ def main():
 
     import render_daily
     render_daily.render_season(prof, ref, os.path.join(args.out_dir, "season.png"))
+    if month_drawable(prof):
+        render_daily.render_month(prof, ref, os.path.join(args.out_dir, "month.png"))
+    else:
+        log.info("Only %d comparable %ss on record — skipping the month chart",
+                 len(prof["month"]["past"]), prof["month"]["name"])
     render_daily.render_form(prof, ref, os.path.join(args.out_dir, "form.png"))
     log.info("Wrote %s", args.out_dir)
 
