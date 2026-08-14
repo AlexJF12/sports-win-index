@@ -9,8 +9,8 @@ from datetime import date, timedelta
 
 import pandas as pd
 
-from render_daily import (field_alpha, form_frames, named_clause, run_label,
-                          shape_reading, year_labels)
+from render_daily import (LABEL_GAP, field_alpha, form_frames, run_label,
+                          shape_reading, spread_labels)
 
 REF = date(2026, 8, 13)
 DAYS = 30
@@ -127,20 +127,36 @@ def ends_frame(finals):
                          for i, v in enumerate(finals)])
 
 
-def test_a_short_field_keeps_every_year_labelled():
-    ends = ends_frame([10.0, -4.0, 30.0])
-    assert list(year_labels(ends)["year"]) == ["2016", "2017", "2018"]
-    assert named_clause([0] * 3) == ""
-
-
-def test_a_deep_field_names_only_its_best_and_worst():
-    """Ten labels land on top of each other at the right edge, so the field
-    keeps its envelope named and drops the rest."""
+def test_every_year_keeps_a_label():
     ends = ends_frame([10.0, -4.0, 30.0, 5.0, -20.0, 1.0, 2.0, 3.0, 4.0, 6.0])
-    kept = year_labels(ends)
+    spread = spread_labels(ends, span=50.0)
 
-    assert list(kept["cum"]) == [30.0, -20.0]
-    assert named_clause([0] * 10) == "; the best and worst are named"
+    assert len(spread) == 10
+    assert set(spread["year"]) == set(ends["year"])
+
+
+def test_labels_that_would_overprint_are_pushed_just_clear():
+    """Three seasons finishing within a point of each other must not stack
+    into one illegible smudge."""
+    spread = spread_labels(ends_frame([10.0, 9.8, 9.6]), span=100.0)
+    gaps = -spread["label_y"].diff().dropna()
+
+    assert all(gaps >= 100.0 * LABEL_GAP - 1e-9)
+
+
+def test_labels_already_far_apart_are_left_where_they_are():
+    spread = spread_labels(ends_frame([100.0, 50.0, 0.0]), span=100.0)
+    assert list(spread["label_y"]) == [100.0, 50.0, 0.0]
+
+
+def test_nudging_never_reorders_the_labels():
+    """A reader matches a label to its line by rank, so the nudge is only
+    allowed to move labels, never to swap two of them."""
+    spread = spread_labels(
+        ends_frame([10.0, 9.9, -30.0, 9.95, 2.0]), span=40.0)
+
+    assert list(spread["cum"]) == sorted(spread["cum"], reverse=True)
+    assert list(spread["label_y"]) == sorted(spread["label_y"], reverse=True)
 
 
 def test_the_field_recedes_only_once_it_is_crowded():

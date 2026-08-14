@@ -32,37 +32,42 @@ log = logging.getLogger(__name__)
 
 TITLE_WRAP = 40
 SUBTITLE_WRAP = 68
-LABEL_ALL_UPTO = 4      # past-year lines past this get only their extremes named
+CROWDED_FIELD = 4       # more past-year lines than this and the field recedes
+LABEL_GAP = 0.035       # minimum space between year labels, as a share of the
+                        # y range — about one line of type at the label's size
 
 
 def accent(value: float) -> str:
     return HOT if value >= 0 else COLD
 
 
-def year_labels(ends):
-    """Which past-year lines get their year printed at the line's end.
+def spread_labels(ends, span: float, gap: float = LABEL_GAP):
+    """Every past year keeps its label; the ones that would print on top of
+    each other get nudged apart.
 
-    A handful of them, all — there is room. Ten of them land on top of each
-    other at the right edge and print as garbage, so only the best and worst
-    finishers are named. They bound the field, which is what the field is for;
-    the lines between them are context, and context does not need every member
-    told apart. The current year is labelled separately and always.
+    Seasons finish in clusters — four of Baltimore's ten land within a few
+    points of each other — and two labels at the same height do not read as a
+    crowded pair, they overprint into glyph soup. So walk them from the top
+    and push each one clear of the last by a minimum gap. A label is an
+    identifier, not a mark: the line's own end still shows the exact value,
+    and because the nudge only ever preserves the order it was sorted in, a
+    reader can still tell which label belongs to which line by rank.
     """
-    if len(ends) <= LABEL_ALL_UPTO:
-        return ends
-    return ends.loc[[ends["cum"].idxmax(), ends["cum"].idxmin()]]
-
-
-def named_clause(past) -> str:
-    """Tell the reader why most of the gray has no year on it — but only when
-    that is actually the case."""
-    return "; the best and worst are named" if len(past) > LABEL_ALL_UPTO else ""
+    ends = ends.sort_values("cum", ascending=False).copy()
+    min_gap = max(span, 1e-9) * gap
+    placed = []
+    for y in ends["cum"]:
+        if placed and placed[-1] - y < min_gap:
+            y = placed[-1] - min_gap
+        placed.append(y)
+    ends["label_y"] = placed
+    return ends
 
 
 def field_alpha(n: int) -> float:
     """Four context lines can be solid; ten have to recede or they compete
     with the one line the chart is actually about."""
-    return 1.0 if n <= LABEL_ALL_UPTO else 0.6
+    return 1.0 if n <= CROWDED_FIELD else 0.6
 
 
 def render_season(prof: dict, ref, path: str) -> None:
@@ -73,13 +78,15 @@ def render_season(prof: dict, ref, path: str) -> None:
     end = now.iloc[-1]
     color = accent(end["cum"])
     ends = (past.sort_values("day").groupby("year", observed=True).tail(1))
+    reach = pd.concat([past["cum"], now["cum"]])
+    ends = spread_labels(ends, reach.max() - reach.min())
 
     p = (
         ggplot()
         + geom_hline(yintercept=0, color=BASELINE, size=0.4)
         + geom_line(past, aes("day", "cum", group="year"), color=FIELD, size=0.7,
                     alpha=field_alpha(len(prof["past_seasons"])))
-        + geom_text(year_labels(ends), aes("day", "cum", label="year"), ha="left",
+        + geom_text(ends, aes("day", "label_y", label="year"), ha="left",
                     va="center", nudge_x=4, color=MUTED, size=7.5)
         + geom_line(now, aes("day", "cum"), color=color, size=1.5, lineend="round")
         + geom_point(now.tail(1), aes("day", "cum"), color=color, size=3, stroke=0)
@@ -94,8 +101,7 @@ def render_season(prof: dict, ref, path: str) -> None:
                    f"{prof['label']} — every game since January 1 added up, "
                    f"through {ref.strftime('%B %-d')}, against the group's "
                    f"{len(prof['past_seasons'])} earlier seasons. Those run to "
-                   f"the end of their year{named_clause(prof['past_seasons'])}.",
-                   SUBTITLE_WRAP),
+                   f"the end of their year.", SUBTITLE_WRAP),
                caption=CAPTION)
         + spotlight_theme()
         + theme(figure_size=(8, 4.6), axis_title=element_blank())
@@ -120,6 +126,8 @@ def render_month(prof: dict, ref, path: str) -> None:
     end = now.iloc[-1]
     color = accent(end["cum"])
     ends = past.sort_values("day").groupby("year", observed=True).tail(1)
+    reach = pd.concat([past["cum"], now["cum"]])
+    ends = spread_labels(ends, reach.max() - reach.min())
     # where each past year stood on this day of the month — the comparison the
     # subtitle is actually making. The dots are pinned to the cutoff rather
     # than to each year's last game before it: a year that idled on the 14th
@@ -144,7 +152,7 @@ def render_month(prof: dict, ref, path: str) -> None:
         p
         + geom_line(past, aes("day", "cum", group="year"), color=FIELD, size=0.7,
                     alpha=field_alpha(len(m["past"])))
-        + geom_text(year_labels(ends), aes("day", "cum", label="year"), ha="left",
+        + geom_text(ends, aes("day", "label_y", label="year"), ha="left",
                     va="center", nudge_x=0.4, color=MUTED, size=7.5)
         + geom_line(now, aes("day", "cum"), color=color, size=1.5, lineend="round")
         + geom_point(now.tail(1), aes("day", "cum"), color=color, size=3, stroke=0)
@@ -167,12 +175,11 @@ def render_month(prof: dict, ref, path: str) -> None:
 def month_subtitle(prof: dict, ref) -> str:
     m = prof["month"]
     tie = f", {m['t']} tied" if m["t"] else ""
-    named = named_clause(m["past"])
     if m["in_progress"]:
         stretch = (f"through {m['name']} {m['cutoff']}. The dots mark where each "
-                   f"earlier {m['name']} stood on the same day{named}.")
+                   f"earlier {m['name']} stood on the same day.")
     else:
-        stretch = f"over the whole of {m['name']}{named}."
+        stretch = f"over the whole of {m['name']}."
     return (f"{prof['label']} — {m['w']}-{m['l']}{tie}, {m['weighted']:+.1f} "
             f"weighted, {standing(m['place'], m['field'])} on record {stretch}")
 
