@@ -123,7 +123,11 @@ So the manifest is two files: `index.json` holds the posts still inside the wind
 
 ### Every post goes to Bluesky
 
-[`share_bluesky.py`](share_bluesky.py) runs in the same job as the publisher, right after it, so each morning's post reaches the timeline minutes after the page exists rather than on a schedule of its own that could fire first.
+[`share_bluesky.py`](share_bluesky.py) reads the manifest the publisher just wrote and announces what's in it, on its own schedule ([`bluesky.yml`](.github/workflows/bluesky.yml)) rather than inside the scrape.
+
+**Publishing and announcing want opposite clocks.** The scrape runs at 10:00 UTC because that's comfortably after every league's last game of the previous day — and 10:00 UTC is 5–6am Eastern, close to the worst hour of the day to post anything. So the site still updates at dawn and the timeline hears about it at **22:00 UTC**: 6pm Eastern in summer, 5pm in winter (3pm / 2pm Pacific). After work, before first pitch, inside the evening window where US social traffic peaks and a sports audience is already thinking about sports.
+
+> Cron is UTC and doesn't follow DST, so the Eastern hour drifts by one across the year. That's inside the window either way, and it's one line to change. Treat the hour as a starting hypothesis: after a few weeks of posts the account's own numbers beat any rule of thumb.
 
 **The chart goes out full size, not as a link card.** A card is the tidier shape — the URL never appears as text — and it's the wrong one. A card's thumbnail renders a few hundred pixels wide and cropped, and these charts are 1600×920 with 8pt axis labels, so the picture lands as a gray smudge and the work in it is invisible. An images embed renders full width in the timeline and opens to full size on a tap. The two embeds are mutually exclusive, so the link lives in the post text instead, as a rich-text facet — offsets counted in UTF-8 *bytes*, since these headlines carry em dashes and the odd emoji and a facet counted in characters would land on the wrong slice.
 
@@ -162,9 +166,9 @@ A run reaches back one day from the newest post (`--max-age-days`) and shares at
 1. Create the Bluesky account and note its handle (`something.bsky.social`).
 2. In Bluesky: **Settings → Privacy and security → App passwords → Add App Password**. Use that, never the account password — it can be revoked on its own and can't change the account's email or password.
 3. In this repo: **Settings → Secrets and variables → Actions → New repository secret**, twice — `BLUESKY_HANDLE` and `BLUESKY_APP_PASSWORD`.
-4. Run the **Share to Bluesky** workflow by hand with `dry_run` on to see what it would post, then off to post it. After that the daily scrape carries it.
+4. Run the **Share to Bluesky** workflow by hand with `dry_run` on to see what it would post, then off to post it. After that the nightly schedule carries it.
 
-The daily step is `continue-on-error`, so an outage costs a day's share and not the day's scores; the post simply stays pending and goes out on the next run. Nothing is ever posted from a local run unless you set both environment variables yourself — `--dry-run` needs no credentials at all.
+A hand-started run fails loudly when the secrets are missing; the nightly one exits quietly, so an account that doesn't exist yet isn't a red X every evening. Because the two workflows are separate, a Bluesky outage costs a share and never the day's scores — the post stays pending and goes out the next evening. Nothing is ever posted from a local run unless you set both environment variables yourself; `--dry-run` needs no credentials at all.
 
 ## The three scoring methods
 

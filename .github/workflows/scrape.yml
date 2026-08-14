@@ -74,22 +74,10 @@ jobs:
       - name: Publish the blog
         run: python publish_blog.py
 
-      # Runs inside the same job as the publisher, so the share lands minutes
-      # after the post exists rather than on a schedule of its own that could
-      # fire before it. continue-on-error because a Bluesky outage — or an
-      # account that doesn't exist yet — must not cost the day's scores: the
-      # post stays pending and goes out on the next run. Nothing shares until
-      # BLUESKY_HANDLE and BLUESKY_APP_PASSWORD exist as repository secrets;
-      # until then the script says so and exits cleanly.
-      - name: Share new posts to Bluesky
-        continue-on-error: true
-        env:
-          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
-          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
-        run: python share_bluesky.py
+      # The morning's post is announced on Bluesky by .github/workflows/bluesky.yml
+      # at 22:00 UTC, not from here. This job's hour is dictated by when the
+      # games finish; that one's is dictated by when anybody is awake to read it.
 
-      # content/posts/bluesky.json rides along in this commit, which is what
-      # keeps the next run from sharing the same post again.
       - name: Commit and push updated data
         run: |
           git config user.name "github-actions[bot]"
