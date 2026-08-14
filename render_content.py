@@ -64,7 +64,7 @@ MONTH_TICKS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 CAPTION = ("weighted index: every game = 365 ÷ season length "
-           "(MLB ±2.25, NBA/NHL ±4.45, NFL ±21.5) · records begin January 2022")
+           "(MLB ±2.25, NBA/NHL ±4.45, NFL ±21.5) · records begin January 2010")
 TITLE_WRAP = 58      # characters before the title wraps to a second line
 SUBTITLE_WRAP = 84
 MONTHS = ["", "January", "February", "March", "April", "May", "June", "July",

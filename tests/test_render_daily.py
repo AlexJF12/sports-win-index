@@ -7,7 +7,10 @@ most days have no game, some have two, and a tie has to leave the line alone.
 
 from datetime import date, timedelta
 
-from render_daily import form_frames, run_label, shape_reading
+import pandas as pd
+
+from render_daily import (field_alpha, form_frames, named_clause, run_label,
+                          shape_reading, year_labels)
 
 REF = date(2026, 8, 13)
 DAYS = 30
@@ -115,3 +118,31 @@ def test_the_shape_reading_only_claims_a_pattern_past_the_threshold():
     assert "alternated" in shape_reading(-2.4)
     assert "coin flips" in shape_reading(1.9)
     assert "too few" in shape_reading(None)
+
+
+# --- the past-year field on season.png and month.png -------------------------
+
+def ends_frame(finals):
+    return pd.DataFrame([{"year": str(2016 + i), "day": 300, "cum": v}
+                         for i, v in enumerate(finals)])
+
+
+def test_a_short_field_keeps_every_year_labelled():
+    ends = ends_frame([10.0, -4.0, 30.0])
+    assert list(year_labels(ends)["year"]) == ["2016", "2017", "2018"]
+    assert named_clause([0] * 3) == ""
+
+
+def test_a_deep_field_names_only_its_best_and_worst():
+    """Ten labels land on top of each other at the right edge, so the field
+    keeps its envelope named and drops the rest."""
+    ends = ends_frame([10.0, -4.0, 30.0, 5.0, -20.0, 1.0, 2.0, 3.0, 4.0, 6.0])
+    kept = year_labels(ends)
+
+    assert list(kept["cum"]) == [30.0, -20.0]
+    assert named_clause([0] * 10) == "; the best and worst are named"
+
+
+def test_the_field_recedes_only_once_it_is_crowded():
+    assert field_alpha(4) == 1.0
+    assert field_alpha(10) < 1.0

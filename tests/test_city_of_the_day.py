@@ -162,6 +162,26 @@ def test_a_month_with_no_games_of_its_own_is_not_drawable():
     assert not month_drawable(prof)
 
 
+def test_the_comparison_reaches_ten_years_back_not_to_a_fixed_year():
+    """Scores go back to 2010, so the window is a rolling ten years off the
+    reference date — not a constant that quietly shortens as years pass."""
+    rows = []
+    for year in range(2016, 2027):
+        rows += march("STL", year, list("WWWWW"))
+    m = same_months(by_team_index(rows), ONE_TEAM, date(2026, 3, 10))
+
+    assert [p["year"] for p in m["past"]] == list(range(2016, 2026))
+    assert m["field"] == 11
+
+
+def test_years_outside_the_ten_year_window_are_left_out():
+    rows = march("STL", 2026, list("WWWWW")) + march("STL", 2015, list("WWWWW"))
+    rows += march("STL", 2016, list("WWWWW"))
+    m = same_months(by_team_index(rows), ONE_TEAM, date(2026, 3, 10))
+
+    assert [p["year"] for p in m["past"]] == [2016]      # 2015 is eleven back
+
+
 def test_standing_reads_the_ends_of_the_field_by_name():
     assert standing(1, 5) == "the best of the 5"
     assert standing(5, 5) == "the worst of the 5"

@@ -55,7 +55,9 @@ log = logging.getLogger(__name__)
 DATA_DIR = "data"
 OUT_DIR = os.path.join("content", "daily")
 HISTORY_FILE = "history.json"
-HISTORY_START = 2022        # first season with score data
+HISTORY_YEARS = 10          # how far back the two comparison charts reach.
+                            # Scores go back to 2010, so this is a choice about
+                            # how much past is useful, not what exists on disk
 WINDOW_DAYS = 30            # the "recent games" window
 MIN_RECENT_GAMES = 6        # fewer than this and the tile chart has nothing to say
 MIN_SEASONS = 2             # earlier seasons needed for the comparison chart
@@ -97,7 +99,7 @@ def same_months(by_team: dict, group: dict, ref: date) -> dict:
     totals = tally(group_games(by_team, group, lo, hi))
 
     past = []
-    for year in range(HISTORY_START, ref.year):
+    for year in range(ref.year - HISTORY_YEARS, ref.year):
         p_lo, p_hi = mtd_window(year, ref.month, ref.day)
         to_date = tally(group_games(by_team, group, p_lo, p_hi))
         series = month_series(by_team, group, year, ref.month)
@@ -130,7 +132,7 @@ def profile(by_team: dict, group: dict, ref: date) -> dict:
     recent_results = [g["result"] for g in recent_games]
 
     past = []
-    for year in range(HISTORY_START, ref.year):
+    for year in range(ref.year - HISTORY_YEARS, ref.year):
         series = season_series(by_team, group, year)
         if series:
             past.append({"year": year, "series": series,

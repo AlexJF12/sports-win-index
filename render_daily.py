@@ -32,10 +32,37 @@ log = logging.getLogger(__name__)
 
 TITLE_WRAP = 40
 SUBTITLE_WRAP = 68
+LABEL_ALL_UPTO = 4      # past-year lines past this get only their extremes named
 
 
 def accent(value: float) -> str:
     return HOT if value >= 0 else COLD
+
+
+def year_labels(ends):
+    """Which past-year lines get their year printed at the line's end.
+
+    A handful of them, all — there is room. Ten of them land on top of each
+    other at the right edge and print as garbage, so only the best and worst
+    finishers are named. They bound the field, which is what the field is for;
+    the lines between them are context, and context does not need every member
+    told apart. The current year is labelled separately and always.
+    """
+    if len(ends) <= LABEL_ALL_UPTO:
+        return ends
+    return ends.loc[[ends["cum"].idxmax(), ends["cum"].idxmin()]]
+
+
+def named_clause(past) -> str:
+    """Tell the reader why most of the gray has no year on it — but only when
+    that is actually the case."""
+    return "; the best and worst are named" if len(past) > LABEL_ALL_UPTO else ""
+
+
+def field_alpha(n: int) -> float:
+    """Four context lines can be solid; ten have to recede or they compete
+    with the one line the chart is actually about."""
+    return 1.0 if n <= LABEL_ALL_UPTO else 0.6
 
 
 def render_season(prof: dict, ref, path: str) -> None:
@@ -50,9 +77,10 @@ def render_season(prof: dict, ref, path: str) -> None:
     p = (
         ggplot()
         + geom_hline(yintercept=0, color=BASELINE, size=0.4)
-        + geom_line(past, aes("day", "cum", group="year"), color=FIELD, size=0.7)
-        + geom_text(ends, aes("day", "cum", label="year"), ha="left", va="center",
-                    nudge_x=4, color=MUTED, size=7.5)
+        + geom_line(past, aes("day", "cum", group="year"), color=FIELD, size=0.7,
+                    alpha=field_alpha(len(prof["past_seasons"])))
+        + geom_text(year_labels(ends), aes("day", "cum", label="year"), ha="left",
+                    va="center", nudge_x=4, color=MUTED, size=7.5)
         + geom_line(now, aes("day", "cum"), color=color, size=1.5, lineend="round")
         + geom_point(now.tail(1), aes("day", "cum"), color=color, size=3, stroke=0)
         + geom_text(now.tail(1), aes("day", "cum",
@@ -64,8 +92,10 @@ def render_season(prof: dict, ref, path: str) -> None:
                                    f"{prof['city']}'s other years", TITLE_WRAP),
                subtitle=textwrap.fill(
                    f"{prof['label']} — every game since January 1 added up, "
-                   f"through {ref.strftime('%B %-d')}. Earlier seasons run to the "
-                   "end of their year.", SUBTITLE_WRAP),
+                   f"through {ref.strftime('%B %-d')}, against the group's "
+                   f"{len(prof['past_seasons'])} earlier seasons. Those run to "
+                   f"the end of their year{named_clause(prof['past_seasons'])}.",
+                   SUBTITLE_WRAP),
                caption=CAPTION)
         + spotlight_theme()
         + theme(figure_size=(8, 4.6), axis_title=element_blank())
@@ -112,9 +142,10 @@ def render_month(prof: dict, ref, path: str) -> None:
         p = p + layer
     p = (
         p
-        + geom_line(past, aes("day", "cum", group="year"), color=FIELD, size=0.7)
-        + geom_text(ends, aes("day", "cum", label="year"), ha="left", va="center",
-                    nudge_x=0.4, color=MUTED, size=7.5)
+        + geom_line(past, aes("day", "cum", group="year"), color=FIELD, size=0.7,
+                    alpha=field_alpha(len(m["past"])))
+        + geom_text(year_labels(ends), aes("day", "cum", label="year"), ha="left",
+                    va="center", nudge_x=0.4, color=MUTED, size=7.5)
         + geom_line(now, aes("day", "cum"), color=color, size=1.5, lineend="round")
         + geom_point(now.tail(1), aes("day", "cum"), color=color, size=3, stroke=0)
         + geom_text(now.tail(1), aes("day", "cum",
@@ -136,11 +167,12 @@ def render_month(prof: dict, ref, path: str) -> None:
 def month_subtitle(prof: dict, ref) -> str:
     m = prof["month"]
     tie = f", {m['t']} tied" if m["t"] else ""
+    named = named_clause(m["past"])
     if m["in_progress"]:
         stretch = (f"through {m['name']} {m['cutoff']}. The dots mark where each "
-                   f"earlier {m['name']} stood on the same day.")
+                   f"earlier {m['name']} stood on the same day{named}.")
     else:
-        stretch = f"over the whole of {m['name']}."
+        stretch = f"over the whole of {m['name']}{named}."
     return (f"{prof['label']} — {m['w']}-{m['l']}{tie}, {m['weighted']:+.1f} "
             f"weighted, {standing(m['place'], m['field'])} on record {stretch}")
 
