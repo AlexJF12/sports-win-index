@@ -2,8 +2,8 @@
 
 from datetime import date
 
-from streakiness import (longest_run, measure, month_panel, one_per_city,
-                         season_panel, streak_index, usual)
+from streakiness import (band_reading, longest_run, measure, month_panel,
+                         one_per_city, season_panel, streak_index, usual)
 
 
 def row(d, away, home, winner, gid, league="mlb"):
@@ -150,3 +150,16 @@ def test_month_panel_skips_groups_that_barely_played():
                      month_games=4),
             measured("Busy 1", "Busy", 0.0, [0, 0, 0], month_index=1)]
     assert [r["name"] for r in month_panel(rows, per_side=1)] == ["Busy 1"]
+
+
+# --- the chance band ---------------------------------------------------------
+
+BAND_CASES = [(-3.0, "alternating"), (-2.0, "alternating"), (-1.9, "chance"),
+              (0.0, "chance"), (1.9, "chance"), (2.0, "clumpy"), (3.0, "clumpy"),
+              (None, None)]
+
+
+def test_the_chance_band_has_one_definition():
+    """Everything that puts the index into words classifies here, so the band
+    is defined once and the boundaries are inclusive on the outside."""
+    assert [band_reading(i) for i, _ in BAND_CASES] == [b for _, b in BAND_CASES]

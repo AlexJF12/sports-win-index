@@ -2,7 +2,6 @@
 shared by scrape_scores.py (writer) and aggregate_cities.py (reader)."""
 
 import json
-import os
 
 from data_paths import csv_path, list_years, write_manifest
 

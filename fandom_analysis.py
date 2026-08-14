@@ -7,7 +7,7 @@ run's output isn't three variations on the same sentence:
 
     month       the month-to-date weighted index sits in the tails of the
                 group's own history, along two comparison lanes — every month
-                since 2022, and the same calendar month in previous years
+                on record, and the same calendar month in previous years
                 (July vs past Julys, so a baseball-only month is never judged
                 against four-league months where the index swings harder)
     year        the year to date, measured at the same day of year, sits in
@@ -60,7 +60,10 @@ DATA_DIR = "data"
 CONTENT_DIR = os.path.join("content", "weekly")
 HISTORY_FILE = "history.json"
 HISTORY_KEEP = 60           # runs retained in the cooldown log
-HISTORY_START = (2022, 1)   # first month of score data
+HISTORY_YEARS = 10          # scores go back to 2010-01; this is how far back
+                            # the detectors' comparison sets and their
+                            # percentile claims reach, rolling off the
+                            # reference date rather than anchored to a year
 MIN_GAMES = 3               # months where the group played fewer games don't count
 MIN_DAY = 4                 # too early in a month to call anything notable
 MIN_HISTORY = 12            # the all-months lane needs at least this many months
@@ -211,6 +214,12 @@ def ordinal(n: int) -> str:
     return f"{n}{ {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th') }"
 
 
+def run_word(kind: str) -> str:
+    """What a run of this result is called. Every chart and every summary in
+    the repo needs it, so none of them spell the ternary out."""
+    return "wins" if kind == "W" else "losses"
+
+
 def display_label(group: dict) -> str:
     return f"{group['city']}: " + "/".join(t["nickname"] for t in group["teams"])
 
@@ -229,6 +238,23 @@ MONTH_NAMES = ["", "January", "February", "March", "April", "May", "June", "July
 def pretty_month(iso: str) -> str:
     y, m = iso.split("-")
     return f"{MONTH_NAMES[int(m)]} {y}"
+
+
+ORDINALS = {1: "best", 2: "second-best", 3: "third-best", 4: "fourth-best",
+            5: "fifth-best", 6: "sixth-best"}
+
+
+def standing(place: int, field: int) -> str:
+    """Where one month sits among the same months on record — the phrase the
+    daily summary and the month chart's subtitle both need, so it lives here
+    rather than in either of them."""
+    if field < 2:
+        return "the only one on record"
+    if place >= field:
+        return f"the worst of the {field}"
+    # ordinal() rather than a bare "th": past 20 the suffix stops being "th",
+    # and this reads "21th-best" the day the history window gets any deeper
+    return f"the {ORDINALS.get(place, ordinal(place) + '-best')} of the {field}"
 
 
 def pretty_date(yyyymmdd: str) -> str:
@@ -250,7 +276,8 @@ def group_context(by_team: dict, group: dict, ref: date) -> dict:
     early_games = [g for g in month_games if g["date"] < last7_lo.strftime("%Y%m%d")]
 
     hist = []
-    for y, m in month_range(HISTORY_START, (ref.year, ref.month)):
+    for y, m in month_range((ref.year - HISTORY_YEARS, ref.month),
+                            (ref.year, ref.month)):
         h_lo, h_hi = mtd_window(y, m, cutoff)
         totals = tally(group_games(by_team, group, h_lo, h_hi))
         if totals["games"] >= MIN_GAMES:
@@ -423,7 +450,7 @@ def detect_turnaround(ctx: dict) -> dict | None:
     )
 
 
-# --- detector: year to date, against itself and the field --------------------
+# --- cumulative series (shared with the daily draw) --------------------------
 
 def season_series(by_team: dict, group: dict, year: int, through: date | None = None) -> list:
     """[{day of year, cumulative weighted index}] for each day the group played."""
@@ -437,6 +464,26 @@ def season_series(by_team: dict, group: dict, year: int, through: date | None = 
     # one point per day played: the last game of a day carries that day's total
     return list({point["day"]: point for point in series}.values())
 
+
+def month_series(by_team: dict, group: dict, year: int, month: int,
+                 through: date | None = None) -> list:
+    """[{day of month, cumulative weighted index}] for each day the group
+    played that month. `through` cuts a month still in progress short; without
+    it the series runs to the end of the month, which is what a past year's
+    line wants."""
+    end = through or date(year, month, calendar.monthrange(year, month)[1])
+    games = group_games(by_team, group, f"{year:04d}{month:02d}01",
+                        end.strftime("%Y%m%d"))
+    series, cum = [], 0.0
+    for game in games:
+        cum += game["weighted"]
+        day = datetime.strptime(game["date"], "%Y%m%d").date().day
+        series.append({"day": day, "cum": round(cum, 3)})
+    # one point per day played: the last game of a day carries that day's total
+    return list({point["day"]: point for point in series}.values())
+
+
+# --- detector: year to date, against itself and the field --------------------
 
 def ytd_window(year: int, ref: date) -> tuple:
     """(lo, hi) for January 1 through the same day of year as ref, capped at
@@ -462,7 +509,7 @@ def detect_year(ctx: dict, by_team: dict, field: dict) -> dict | None:
         return None
 
     history = []
-    for year in range(HISTORY_START[0], ref.year):
+    for year in range(ref.year - HISTORY_YEARS, ref.year):
         y_lo, y_hi = ytd_window(year, ref)
         totals = tally(group_games(by_team, group, y_lo, y_hi))
         if totals["games"] >= MIN_YTD_GAMES:
@@ -651,7 +698,8 @@ def headline(f: dict, ref: date) -> str:
     if f["kind"] == "month":
         adj = "best" if f["direction"] == "hot" else "worst"
         # "on record" is honest because every chart's caption states that the
-        # records begin in January 2022, and summary.md gives the sample size
+        # the window is a rolling ten years, and summary.md gives the
+        # sample size, so the headline says "on record" rather than a year
         if f["basis"] == "calendar":
             if f["rank"] == 1:
                 return f"{city} is having its {adj} {month_name} on record"
@@ -699,9 +747,9 @@ def lane_claim(lane: dict, basis: str, ref: date) -> str:
     adj = "best" if lane["direction"] == "hot" else "worst"
     if basis == "calendar":
         return (f"{ordinal(lane['rank'])}-{adj} {MONTH_NAMES[ref.month]} "
-                f"of the {lane['n_months'] + 1} since 2022")
+                f"of the {lane['n_months'] + 1} on record")
     return (f"{ordinal(lane['rank'])}-{adj} of {lane['n_months'] + 1} months "
-            f"since 2022 ({ordinal(round(lane['percentile'] * 100))} percentile)")
+            f"on record ({ordinal(round(lane['percentile'] * 100))} percentile)")
 
 
 def summary_lines(f: dict, ref: date) -> list:
@@ -724,7 +772,7 @@ def summary_lines(f: dict, ref: date) -> list:
         lines.append(f"- **{ref.year} so far (through {MONTH_NAMES[ref.month]} "
                      f"{ref.day}):** {t['w']}-{t['l']}, {t['weighted']:+.1f} weighted "
                      f"— {ordinal(y['rank'])}-{adj} of the {y['n_years']} years "
-                     f"since 2022, at the same point")
+                     f"on record, at the same point")
         lines.append(f"- **Against the field:** {ordinal(y['place'])} of "
                      f"{y['field']} city groups on the year "
                      f"({ordinal(round(y['field_percentile'] * 100))} percentile)")
@@ -732,8 +780,8 @@ def summary_lines(f: dict, ref: date) -> list:
             lines.append(month_line)
     elif f["kind"] == "streak":
         s = f["streak"]
-        word = "wins" if s["type"] == "W" else "losses"
-        prior = ("no run this long since 2022" if s["record"]
+        word = run_word(s["type"])
+        prior = ("no run this long on record" if s["record"]
                  else f"previous best {s['prior_best']}")
         lines.append(f"- **The run:** {s['length']} straight {word} since "
                      f"{pretty_date(s['start'])}, {s['weighted']:+.1f} weighted ({prior})")
@@ -831,7 +879,7 @@ def main():
     parser.add_argument("--kinds", default=",".join(KINDS),
                         help=f"Comma-separated detectors to run: {', '.join(KINDS)}.")
     parser.add_argument("--compare", choices=["both", "all", "calendar"], default="both",
-                        help="Month-detector lanes: every month since 2022, only the same "
+                        help="Month-detector lanes: every month on record, only the same "
                              "calendar month in previous years, or both (best story wins).")
     parser.add_argument("--no-novelty", action="store_true",
                         help="Ignore which cities were featured on recent runs.")

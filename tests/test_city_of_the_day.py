@@ -2,8 +2,9 @@
 
 from datetime import date, timedelta
 
-from city_of_the_day import (cooling_off, draw, profile, qualifies,
-                             recent_by_team, season_series)
+from city_of_the_day import (cooling_off, draw, month_drawable, profile,
+                             qualifies, recent_by_team, same_months,
+                             season_series, standing)
 
 MLB_W = 365 / 162
 
@@ -84,6 +85,108 @@ def test_qualifies_needs_recent_games_and_earlier_seasons():
     rows += season("STL", "mlb", 2025, list("WL"), gid_prefix="a")
     rows += season("STL", "mlb", 2024, list("WL"), gid_prefix="b")
     assert qualifies(profile(by_team_index(rows), TWO_TEAM, date(2026, 8, 2)))
+
+
+# --- this month against the same month in earlier years ----------------------
+
+def march(abbr, year, results, start_day=1, league="mlb"):
+    """Games on consecutive days of March, one per day."""
+    rows = []
+    for i, res in enumerate(results):
+        d = date(year, 3, start_day + i).strftime("%Y%m%d")
+        rows.append(row(d, abbr, "OPP", {"W": abbr, "L": "OPP"}[res],
+                        gid=f"m{year}-{i}", league=league))
+    return rows
+
+
+ONE_TEAM = group("Marchville 1", "Marchville", [("mlb", "STL", "Cards")])
+
+
+def test_same_months_compares_earlier_years_at_the_same_day_of_month():
+    """March 2026 is judged on its first 10 days, so 2025's flawless second
+    half must not count against it — only 2025's own first 10 days do."""
+    rows = march("STL", 2026, list("WWWWWWWWWW"))
+    rows += march("STL", 2025, list("LLLLL")) + march("STL", 2025, list("WWWWWWWWWW"), start_day=15)
+    rows += march("STL", 2024, list("WWWWW"))
+    m = same_months(by_team_index(rows), ONE_TEAM, date(2026, 3, 10))
+
+    assert [p["year"] for p in m["past"]] == [2024, 2025]
+    assert m["place"] == 1                       # best of the three, to date
+    assert m["field"] == 3
+    # the ranking uses the same 10 days, but the drawn line runs the full month
+    assert m["past"][1]["to_date"]["w"] == 0     # 2025 was 0-5 through March 10
+    assert m["past"][1]["series"][-1]["day"] == 24
+
+
+def test_a_finished_month_is_not_marked_in_progress():
+    rows = march("STL", 2026, list("WWWWW")) + march("STL", 2025, list("LLLLL"))
+    m = same_months(by_team_index(rows), ONE_TEAM, date(2026, 3, 31))
+
+    assert m["in_progress"] is False
+    assert m["length"] == 31
+
+
+def test_a_month_still_being_played_is_marked_in_progress():
+    rows = march("STL", 2026, list("WWWWW")) + march("STL", 2025, list("LLLLL"))
+    m = same_months(by_team_index(rows), ONE_TEAM, date(2026, 3, 10))
+
+    assert m["in_progress"] is True
+    assert m["cutoff"] == 10
+
+
+def test_earlier_months_too_thin_to_compare_are_left_out():
+    rows = march("STL", 2026, list("WWWWW"))
+    rows += march("STL", 2025, list("WW"))          # two games: not a comparison
+    rows += march("STL", 2024, list("WWWW"))
+    m = same_months(by_team_index(rows), ONE_TEAM, date(2026, 3, 10))
+
+    assert [p["year"] for p in m["past"]] == [2024]
+
+
+def test_the_month_chart_is_skipped_without_two_earlier_months():
+    rows = march("STL", 2026, list("WWWWW")) + march("STL", 2025, list("WWWW"))
+    prof = profile(by_team_index(rows), ONE_TEAM, date(2026, 3, 10))
+    assert not month_drawable(prof)
+
+    rows += march("STL", 2024, list("WWWW"))
+    assert month_drawable(profile(by_team_index(rows), ONE_TEAM, date(2026, 3, 10)))
+
+
+def test_a_month_with_no_games_of_its_own_is_not_drawable():
+    """A drawn city can be out of season this month even though it qualified
+    on its last 30 days, which straddle the month boundary."""
+    rows = march("STL", 2025, list("WWWW")) + march("STL", 2024, list("WWWW"))
+    prof = profile(by_team_index(rows), ONE_TEAM, date(2026, 3, 10))
+
+    assert prof["month"]["games"] == 0
+    assert not month_drawable(prof)
+
+
+def test_the_comparison_reaches_ten_years_back_not_to_a_fixed_year():
+    """Scores go back to 2010, so the window is a rolling ten years off the
+    reference date — not a constant that quietly shortens as years pass."""
+    rows = []
+    for year in range(2016, 2027):
+        rows += march("STL", year, list("WWWWW"))
+    m = same_months(by_team_index(rows), ONE_TEAM, date(2026, 3, 10))
+
+    assert [p["year"] for p in m["past"]] == list(range(2016, 2026))
+    assert m["field"] == 11
+
+
+def test_years_outside_the_ten_year_window_are_left_out():
+    rows = march("STL", 2026, list("WWWWW")) + march("STL", 2015, list("WWWWW"))
+    rows += march("STL", 2016, list("WWWWW"))
+    m = same_months(by_team_index(rows), ONE_TEAM, date(2026, 3, 10))
+
+    assert [p["year"] for p in m["past"]] == [2016]      # 2015 is eleven back
+
+
+def test_standing_reads_the_ends_of_the_field_by_name():
+    assert standing(1, 5) == "the best of the 5"
+    assert standing(5, 5) == "the worst of the 5"
+    assert standing(2, 5) == "the second-best of the 5"
+    assert standing(1, 1) == "the only one on record"
 
 
 # --- the draw ----------------------------------------------------------------

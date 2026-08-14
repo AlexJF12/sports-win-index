@@ -4,6 +4,36 @@
    "city": "New York",
    "history": [
     {
+     "games": 342,
+     "index": -0.504,
+     "year": 2016
+    },
+    {
+     "games": 350,
+     "index": -0.841,
+     "year": 2017
+    },
+    {
+     "games": 349,
+     "index": -1.352,
+     "year": 2018
+    },
+    {
+     "games": 342,
+     "index": 0.383,
+     "year": 2019
+    },
+    {
+     "games": 154,
+     "index": -0.049,
+     "year": 2020
+    },
+    {
+     "games": 378,
+     "index": -1.855,
+     "year": 2021
+    },
+    {
      "games": 358,
      "index": -0.624,
      "year": 2022
@@ -51,6 +81,36 @@
   {
    "city": "New York",
    "history": [
+    {
+     "games": 342,
+     "index": -0.251,
+     "year": 2016
+    },
+    {
+     "games": 349,
+     "index": -0.547,
+     "year": 2017
+    },
+    {
+     "games": 349,
+     "index": -0.728,
+     "year": 2018
+    },
+    {
+     "games": 342,
+     "index": 0.628,
+     "year": 2019
+    },
+    {
+     "games": 154,
+     "index": 0.467,
+     "year": 2020
+    },
+    {
+     "games": 378,
+     "index": -1.238,
+     "year": 2021
+    },
     {
      "games": 358,
      "index": -0.117,
@@ -100,6 +160,36 @@
    "city": "New York",
    "history": [
     {
+     "games": 352,
+     "index": 0.615,
+     "year": 2016
+    },
+    {
+     "games": 352,
+     "index": 0.573,
+     "year": 2017
+    },
+    {
+     "games": 343,
+     "index": -0.791,
+     "year": 2018
+    },
+    {
+     "games": 349,
+     "index": 1.02,
+     "year": 2019
+    },
+    {
+     "games": 176,
+     "index": -1.331,
+     "year": 2020
+    },
+    {
+     "games": 392,
+     "index": 0.319,
+     "year": 2021
+    },
+    {
      "games": 364,
      "index": -1.662,
      "year": 2022
@@ -147,6 +237,36 @@
   {
    "city": "New York",
    "history": [
+    {
+     "games": 352,
+     "index": 1.137,
+     "year": 2016
+    },
+    {
+     "games": 351,
+     "index": -0.053,
+     "year": 2017
+    },
+    {
+     "games": 343,
+     "index": -0.82,
+     "year": 2018
+    },
+    {
+     "games": 349,
+     "index": 1.183,
+     "year": 2019
+    },
+    {
+     "games": 176,
+     "index": -0.865,
+     "year": 2020
+    },
+    {
+     "games": 392,
+     "index": 0.332,
+     "year": 2021
+    },
     {
      "games": 364,
      "index": -1.562,
@@ -196,6 +316,36 @@
    "city": "New York",
    "history": [
     {
+     "games": 349,
+     "index": 0.357,
+     "year": 2016
+    },
+    {
+     "games": 360,
+     "index": -0.588,
+     "year": 2017
+    },
+    {
+     "games": 344,
+     "index": -0.469,
+     "year": 2018
+    },
+    {
+     "games": 342,
+     "index": 2.044,
+     "year": 2019
+    },
+    {
+     "games": 158,
+     "index": 0.192,
+     "year": 2020
+    },
+    {
+     "games": 378,
+     "index": 0.291,
+     "year": 2021
+    },
+    {
      "games": 379,
      "index": 0.195,
      "year": 2022
@@ -243,6 +393,36 @@
   {
    "city": "New York",
    "history": [
+    {
+     "games": 349,
+     "index": 0.295,
+     "year": 2016
+    },
+    {
+     "games": 359,
+     "index": -0.33,
+     "year": 2017
+    },
+    {
+     "games": 344,
+     "index": -0.728,
+     "year": 2018
+    },
+    {
+     "games": 342,
+     "index": 1.839,
+     "year": 2019
+    },
+    {
+     "games": 158,
+     "index": 0.727,
+     "year": 2020
+    },
+    {
+     "games": 378,
+     "index": 0.721,
+     "year": 2021
+    },
     {
      "games": 379,
      "index": 0.083,
@@ -292,6 +472,36 @@
    "city": "New York",
    "history": [
     {
+     "games": 342,
+     "index": -0.8,
+     "year": 2016
+    },
+    {
+     "games": 349,
+     "index": 0.053,
+     "year": 2017
+    },
+    {
+     "games": 348,
+     "index": -1.3,
+     "year": 2018
+    },
+    {
+     "games": 339,
+     "index": 2.289,
+     "year": 2019
+    },
+    {
+     "games": 143,
+     "index": 1.094,
+     "year": 2020
+    },
+    {
+     "games": 374,
+     "index": -0.579,
+     "year": 2021
+    },
+    {
      "games": 351,
      "index": 0.127,
      "year": 2022
@@ -339,6 +549,36 @@
   {
    "city": "New York",
    "history": [
+    {
+     "games": 342,
+     "index": -0.234,
+     "year": 2016
+    },
+    {
+     "games": 348,
+     "index": -0.462,
+     "year": 2017
+    },
+    {
+     "games": 348,
+     "index": -1.124,
+     "year": 2018
+    },
+    {
+     "games": 339,
+     "index": 2.173,
+     "year": 2019
+    },
+    {
+     "games": 143,
+     "index": 1.258,
+     "year": 2020
+    },
+    {
+     "games": 374,
+     "index": -0.39,
+     "year": 2021
+    },
     {
      "games": 351,
      "index": 0.201,
@@ -388,6 +628,36 @@
    "city": "New York",
    "history": [
     {
+     "games": 352,
+     "index": 0.425,
+     "year": 2016
+    },
+    {
+     "games": 351,
+     "index": -0.518,
+     "year": 2017
+    },
+    {
+     "games": 342,
+     "index": -0.717,
+     "year": 2018
+    },
+    {
+     "games": 346,
+     "index": 0.802,
+     "year": 2019
+    },
+    {
+     "games": 165,
+     "index": 0.476,
+     "year": 2020
+    },
+    {
+     "games": 388,
+     "index": 1.114,
+     "year": 2021
+    },
+    {
      "games": 357,
      "index": -0.887,
      "year": 2022
@@ -435,6 +705,36 @@
   {
    "city": "New York",
    "history": [
+    {
+     "games": 352,
+     "index": 1.031,
+     "year": 2016
+    },
+    {
+     "games": 350,
+     "index": -0.942,
+     "year": 2017
+    },
+    {
+     "games": 342,
+     "index": -1.214,
+     "year": 2018
+    },
+    {
+     "games": 346,
+     "index": 0.617,
+     "year": 2019
+    },
+    {
+     "games": 165,
+     "index": 0.62,
+     "year": 2020
+    },
+    {
+     "games": 388,
+     "index": 0.907,
+     "year": 2021
+    },
     {
      "games": 357,
      "index": -0.795,
@@ -484,6 +784,36 @@
    "city": "New York",
    "history": [
     {
+     "games": 349,
+     "index": -1.27,
+     "year": 2016
+    },
+    {
+     "games": 359,
+     "index": 0.192,
+     "year": 2017
+    },
+    {
+     "games": 343,
+     "index": -0.814,
+     "year": 2018
+    },
+    {
+     "games": 339,
+     "index": 1.871,
+     "year": 2019
+    },
+    {
+     "games": 147,
+     "index": -0.507,
+     "year": 2020
+    },
+    {
+     "games": 374,
+     "index": 0.207,
+     "year": 2021
+    },
+    {
      "games": 372,
      "index": 0.134,
      "year": 2022
@@ -531,6 +861,36 @@
   {
    "city": "New York",
    "history": [
+    {
+     "games": 349,
+     "index": -0.591,
+     "year": 2016
+    },
+    {
+     "games": 358,
+     "index": 0.528,
+     "year": 2017
+    },
+    {
+     "games": 343,
+     "index": -1.553,
+     "year": 2018
+    },
+    {
+     "games": 339,
+     "index": 1.521,
+     "year": 2019
+    },
+    {
+     "games": 147,
+     "index": -0.339,
+     "year": 2020
+    },
+    {
+     "games": 374,
+     "index": 0.205,
+     "year": 2021
+    },
     {
      "games": 372,
      "index": -0.405,
@@ -580,6 +940,36 @@
    "city": "New York",
    "history": [
     {
+     "games": 342,
+     "index": -0.562,
+     "year": 2016
+    },
+    {
+     "games": 362,
+     "index": -0.616,
+     "year": 2017
+    },
+    {
+     "games": 353,
+     "index": -1.013,
+     "year": 2018
+    },
+    {
+     "games": 349,
+     "index": -0.958,
+     "year": 2019
+    },
+    {
+     "games": 161,
+     "index": 0.7,
+     "year": 2020
+    },
+    {
+     "games": 379,
+     "index": -1.082,
+     "year": 2021
+    },
+    {
      "games": 364,
      "index": 0.596,
      "year": 2022
@@ -627,6 +1017,36 @@
   {
    "city": "New York",
    "history": [
+    {
+     "games": 342,
+     "index": -0.325,
+     "year": 2016
+    },
+    {
+     "games": 361,
+     "index": -0.194,
+     "year": 2017
+    },
+    {
+     "games": 353,
+     "index": -0.374,
+     "year": 2018
+    },
+    {
+     "games": 349,
+     "index": -0.351,
+     "year": 2019
+    },
+    {
+     "games": 161,
+     "index": 1.291,
+     "year": 2020
+    },
+    {
+     "games": 379,
+     "index": -0.447,
+     "year": 2021
+    },
     {
      "games": 364,
      "index": 0.878,
@@ -676,6 +1096,36 @@
    "city": "New York",
    "history": [
     {
+     "games": 352,
+     "index": -0.285,
+     "year": 2016
+    },
+    {
+     "games": 364,
+     "index": -0.783,
+     "year": 2017
+    },
+    {
+     "games": 347,
+     "index": -0.054,
+     "year": 2018
+    },
+    {
+     "games": 356,
+     "index": -1.029,
+     "year": 2019
+    },
+    {
+     "games": 183,
+     "index": 1.23,
+     "year": 2020
+    },
+    {
+     "games": 393,
+     "index": 0.685,
+     "year": 2021
+    },
+    {
      "games": 370,
      "index": 0.023,
      "year": 2022
@@ -723,6 +1173,36 @@
   {
    "city": "New York",
    "history": [
+    {
+     "games": 352,
+     "index": 0.217,
+     "year": 2016
+    },
+    {
+     "games": 363,
+     "index": -0.814,
+     "year": 2017
+    },
+    {
+     "games": 347,
+     "index": 0.376,
+     "year": 2018
+    },
+    {
+     "games": 356,
+     "index": -0.716,
+     "year": 2019
+    },
+    {
+     "games": 183,
+     "index": 1.475,
+     "year": 2020
+    },
+    {
+     "games": 393,
+     "index": 0.713,
+     "year": 2021
+    },
     {
      "games": 370,
      "index": -0.1,
@@ -772,6 +1252,36 @@
    "city": "New York",
    "history": [
     {
+     "games": 349,
+     "index": 0.341,
+     "year": 2016
+    },
+    {
+     "games": 372,
+     "index": -1.839,
+     "year": 2017
+    },
+    {
+     "games": 348,
+     "index": 0.414,
+     "year": 2018
+    },
+    {
+     "games": 349,
+     "index": 0.604,
+     "year": 2019
+    },
+    {
+     "games": 165,
+     "index": 0.546,
+     "year": 2020
+    },
+    {
+     "games": 379,
+     "index": -0.01,
+     "year": 2021
+    },
+    {
      "games": 385,
      "index": 1.221,
      "year": 2022
@@ -819,6 +1329,36 @@
   {
    "city": "New York",
    "history": [
+    {
+     "games": 349,
+     "index": 0.265,
+     "year": 2016
+    },
+    {
+     "games": 371,
+     "index": -1.239,
+     "year": 2017
+    },
+    {
+     "games": 348,
+     "index": 0.623,
+     "year": 2018
+    },
+    {
+     "games": 349,
+     "index": 0.554,
+     "year": 2019
+    },
+    {
+     "games": 165,
+     "index": 1.15,
+     "year": 2020
+    },
+    {
+     "games": 379,
+     "index": 0.444,
+     "year": 2021
+    },
     {
      "games": 385,
      "index": 0.894,
@@ -868,6 +1408,36 @@
    "city": "New York",
    "history": [
     {
+     "games": 342,
+     "index": -0.824,
+     "year": 2016
+    },
+    {
+     "games": 361,
+     "index": 0.211,
+     "year": 2017
+    },
+    {
+     "games": 352,
+     "index": 0.02,
+     "year": 2018
+    },
+    {
+     "games": 346,
+     "index": 1.812,
+     "year": 2019
+    },
+    {
+     "games": 150,
+     "index": 1.92,
+     "year": 2020
+    },
+    {
+     "games": 375,
+     "index": 1.496,
+     "year": 2021
+    },
+    {
      "games": 357,
      "index": 1.122,
      "year": 2022
@@ -915,6 +1485,36 @@
   {
    "city": "New York",
    "history": [
+    {
+     "games": 342,
+     "index": -0.273,
+     "year": 2016
+    },
+    {
+     "games": 360,
+     "index": -0.134,
+     "year": 2017
+    },
+    {
+     "games": 352,
+     "index": 0.219,
+     "year": 2018
+    },
+    {
+     "games": 346,
+     "index": 2.074,
+     "year": 2019
+    },
+    {
+     "games": 150,
+     "index": 2.179,
+     "year": 2020
+    },
+    {
+     "games": 375,
+     "index": 1.7,
+     "year": 2021
+    },
     {
      "games": 357,
      "index": 0.975,
@@ -964,6 +1564,36 @@
    "city": "New York",
    "history": [
     {
+     "games": 352,
+     "index": -0.437,
+     "year": 2016
+    },
+    {
+     "games": 363,
+     "index": -1.419,
+     "year": 2017
+    },
+    {
+     "games": 346,
+     "index": 0.789,
+     "year": 2018
+    },
+    {
+     "games": 353,
+     "index": -0.087,
+     "year": 2019
+    },
+    {
+     "games": 172,
+     "index": 2.53,
+     "year": 2020
+    },
+    {
+     "games": 389,
+     "index": 2.325,
+     "year": 2021
+    },
+    {
      "games": 363,
      "index": 0.786,
      "year": 2022
@@ -1011,6 +1641,36 @@
   {
    "city": "New York",
    "history": [
+    {
+     "games": 352,
+     "index": 0.153,
+     "year": 2016
+    },
+    {
+     "games": 362,
+     "index": -1.266,
+     "year": 2017
+    },
+    {
+     "games": 346,
+     "index": 0.776,
+     "year": 2018
+    },
+    {
+     "games": 353,
+     "index": -0.12,
+     "year": 2019
+    },
+    {
+     "games": 172,
+     "index": 2.456,
+     "year": 2020
+    },
+    {
+     "games": 389,
+     "index": 2.132,
+     "year": 2021
+    },
     {
      "games": 363,
      "index": 0.654,
@@ -1060,6 +1720,36 @@
    "city": "New York",
    "history": [
     {
+     "games": 349,
+     "index": -1.038,
+     "year": 2016
+    },
+    {
+     "games": 371,
+     "index": -1.095,
+     "year": 2017
+    },
+    {
+     "games": 347,
+     "index": 1.078,
+     "year": 2018
+    },
+    {
+     "games": 346,
+     "index": 1.546,
+     "year": 2019
+    },
+    {
+     "games": 154,
+     "index": -0.343,
+     "year": 2020
+    },
+    {
+     "games": 375,
+     "index": 1.406,
+     "year": 2021
+    },
+    {
      "games": 378,
      "index": 1.364,
      "year": 2022
@@ -1107,6 +1797,36 @@
   {
    "city": "New York",
    "history": [
+    {
+     "games": 349,
+     "index": -0.375,
+     "year": 2016
+    },
+    {
+     "games": 370,
+     "index": -0.416,
+     "year": 2017
+    },
+    {
+     "games": 347,
+     "index": 0.84,
+     "year": 2018
+    },
+    {
+     "games": 346,
+     "index": 1.363,
+     "year": 2019
+    },
+    {
+     "games": 154,
+     "index": -0.076,
+     "year": 2020
+    },
+    {
+     "games": 375,
+     "index": 1.42,
+     "year": 2021
+    },
     {
      "games": 378,
      "index": 0.613,
@@ -1156,6 +1876,36 @@
    "city": "Los Angeles",
    "history": [
     {
+     "games": 359,
+     "index": 1.82,
+     "year": 2016
+    },
+    {
+     "games": 369,
+     "index": -1.138,
+     "year": 2017
+    },
+    {
+     "games": 348,
+     "index": 0.261,
+     "year": 2018
+    },
+    {
+     "games": 347,
+     "index": 0.188,
+     "year": 2019
+    },
+    {
+     "games": 161,
+     "index": 1.818,
+     "year": 2020
+    },
+    {
+     "games": 390,
+     "index": -1.124,
+     "year": 2021
+    },
+    {
      "games": 350,
      "index": -0.111,
      "year": 2022
@@ -1203,6 +1953,36 @@
   {
    "city": "Los Angeles",
    "history": [
+    {
+     "games": 359,
+     "index": 1.616,
+     "year": 2016
+    },
+    {
+     "games": 369,
+     "index": -1.998,
+     "year": 2017
+    },
+    {
+     "games": 349,
+     "index": 0.093,
+     "year": 2018
+    },
+    {
+     "games": 348,
+     "index": -0.138,
+     "year": 2019
+    },
+    {
+     "games": 161,
+     "index": 1.164,
+     "year": 2020
+    },
+    {
+     "games": 392,
+     "index": -1.417,
+     "year": 2021
+    },
     {
      "games": 354,
      "index": 0.485,
@@ -1252,6 +2032,36 @@
    "city": "Los Angeles",
    "history": [
     {
+     "games": 355,
+     "index": 3.242,
+     "year": 2016
+    },
+    {
+     "games": 352,
+     "index": 0.305,
+     "year": 2017
+    },
+    {
+     "games": 348,
+     "index": 0.209,
+     "year": 2018
+    },
+    {
+     "games": 350,
+     "index": 0.757,
+     "year": 2019
+    },
+    {
+     "games": 158,
+     "index": 0.796,
+     "year": 2020
+    },
+    {
+     "games": 388,
+     "index": -0.814,
+     "year": 2021
+    },
+    {
      "games": 362,
      "index": -0.632,
      "year": 2022
@@ -1299,6 +2109,36 @@
   {
    "city": "Los Angeles",
    "history": [
+    {
+     "games": 355,
+     "index": 2.604,
+     "year": 2016
+    },
+    {
+     "games": 352,
+     "index": -0.351,
+     "year": 2017
+    },
+    {
+     "games": 349,
+     "index": 0.904,
+     "year": 2018
+    },
+    {
+     "games": 351,
+     "index": 1.51,
+     "year": 2019
+    },
+    {
+     "games": 158,
+     "index": 0.128,
+     "year": 2020
+    },
+    {
+     "games": 390,
+     "index": -1.32,
+     "year": 2021
+    },
     {
      "games": 366,
      "index": -0.212,
@@ -1348,6 +2188,36 @@
    "city": "Los Angeles",
    "history": [
     {
+     "games": 354,
+     "index": 0.434,
+     "year": 2016
+    },
+    {
+     "games": 362,
+     "index": -2.501,
+     "year": 2017
+    },
+    {
+     "games": 349,
+     "index": 1.308,
+     "year": 2018
+    },
+    {
+     "games": 338,
+     "index": 0.34,
+     "year": 2019
+    },
+    {
+     "games": 170,
+     "index": -0.817,
+     "year": 2020
+    },
+    {
+     "games": 379,
+     "index": 0.106,
+     "year": 2021
+    },
+    {
      "games": 345,
      "index": 1.711,
      "year": 2022
@@ -1395,6 +2265,36 @@
   {
    "city": "Los Angeles",
    "history": [
+    {
+     "games": 354,
+     "index": -0.028,
+     "year": 2016
+    },
+    {
+     "games": 362,
+     "index": -2.896,
+     "year": 2017
+    },
+    {
+     "games": 350,
+     "index": 0.497,
+     "year": 2018
+    },
+    {
+     "games": 339,
+     "index": 0.484,
+     "year": 2019
+    },
+    {
+     "games": 170,
+     "index": -1.204,
+     "year": 2020
+    },
+    {
+     "games": 381,
+     "index": -0.177,
+     "year": 2021
+    },
     {
      "games": 349,
      "index": 1.848,
@@ -1444,6 +2344,36 @@
    "city": "Los Angeles",
    "history": [
     {
+     "games": 350,
+     "index": 1.529,
+     "year": 2016
+    },
+    {
+     "games": 345,
+     "index": -0.512,
+     "year": 2017
+    },
+    {
+     "games": 349,
+     "index": -0.483,
+     "year": 2018
+    },
+    {
+     "games": 341,
+     "index": 1.019,
+     "year": 2019
+    },
+    {
+     "games": 167,
+     "index": -0.758,
+     "year": 2020
+    },
+    {
+     "games": 377,
+     "index": -1.211,
+     "year": 2021
+    },
+    {
      "games": 357,
      "index": 0.28,
      "year": 2022
@@ -1491,6 +2421,36 @@
   {
    "city": "Los Angeles",
    "history": [
+    {
+     "games": 350,
+     "index": 0.83,
+     "year": 2016
+    },
+    {
+     "games": 345,
+     "index": -0.478,
+     "year": 2017
+    },
+    {
+     "games": 350,
+     "index": -0.001,
+     "year": 2018
+    },
+    {
+     "games": 342,
+     "index": 1.821,
+     "year": 2019
+    },
+    {
+     "games": 167,
+     "index": -1.155,
+     "year": 2020
+    },
+    {
+     "games": 379,
+     "index": -1.499,
+     "year": 2021
+    },
     {
      "games": 361,
      "index": 0.036,
@@ -1540,6 +2500,36 @@
    "city": "Los Angeles",
    "history": [
     {
+     "games": 370,
+     "index": -0.012,
+     "year": 2016
+    },
+    {
+     "games": 383,
+     "index": 1.899,
+     "year": 2017
+    },
+    {
+     "games": 365,
+     "index": -0.11,
+     "year": 2018
+    },
+    {
+     "games": 352,
+     "index": -0.841,
+     "year": 2019
+    },
+    {
+     "games": 179,
+     "index": 1.486,
+     "year": 2020
+    },
+    {
+     "games": 402,
+     "index": 0.8,
+     "year": 2021
+    },
+    {
      "games": 354,
      "index": 1.167,
      "year": 2022
@@ -1587,6 +2577,36 @@
   {
    "city": "Los Angeles",
    "history": [
+    {
+     "games": 370,
+     "index": -0.197,
+     "year": 2016
+    },
+    {
+     "games": 383,
+     "index": 0.974,
+     "year": 2017
+    },
+    {
+     "games": 366,
+     "index": -0.493,
+     "year": 2018
+    },
+    {
+     "games": 353,
+     "index": -1.143,
+     "year": 2019
+    },
+    {
+     "games": 179,
+     "index": 0.939,
+     "year": 2020
+    },
+    {
+     "games": 404,
+     "index": 0.622,
+     "year": 2021
+    },
     {
      "games": 358,
      "index": 1.403,
@@ -1637,6 +2657,36 @@
    "history": [
     {
      "games": 366,
+     "index": 0.889,
+     "year": 2016
+    },
+    {
+     "games": 366,
+     "index": 3.068,
+     "year": 2017
+    },
+    {
+     "games": 365,
+     "index": -0.702,
+     "year": 2018
+    },
+    {
+     "games": 355,
+     "index": -0.201,
+     "year": 2019
+    },
+    {
+     "games": 176,
+     "index": 0.726,
+     "year": 2020
+    },
+    {
+     "games": 400,
+     "index": 0.008,
+     "year": 2021
+    },
+    {
+     "games": 366,
      "index": -0.38,
      "year": 2022
     },
@@ -1683,6 +2733,36 @@
   {
    "city": "Los Angeles",
    "history": [
+    {
+     "games": 366,
+     "index": -0.148,
+     "year": 2016
+    },
+    {
+     "games": 366,
+     "index": 2.351,
+     "year": 2017
+    },
+    {
+     "games": 366,
+     "index": -0.024,
+     "year": 2018
+    },
+    {
+     "games": 356,
+     "index": 0.378,
+     "year": 2019
+    },
+    {
+     "games": 176,
+     "index": 0.148,
+     "year": 2020
+    },
+    {
+     "games": 402,
+     "index": -0.182,
+     "year": 2021
+    },
     {
      "games": 370,
      "index": -0.283,
@@ -1732,6 +2812,36 @@
    "city": "Los Angeles",
    "history": [
     {
+     "games": 365,
+     "index": -0.182,
+     "year": 2016
+    },
+    {
+     "games": 376,
+     "index": 0.691,
+     "year": 2017
+    },
+    {
+     "games": 366,
+     "index": 1.167,
+     "year": 2018
+    },
+    {
+     "games": 343,
+     "index": 0.011,
+     "year": 2019
+    },
+    {
+     "games": 188,
+     "index": -0.506,
+     "year": 2020
+    },
+    {
+     "games": 391,
+     "index": 2.205,
+     "year": 2021
+    },
+    {
      "games": 349,
      "index": 3.698,
      "year": 2022
@@ -1779,6 +2889,36 @@
   {
    "city": "Los Angeles",
    "history": [
+    {
+     "games": 365,
+     "index": -0.61,
+     "year": 2016
+    },
+    {
+     "games": 376,
+     "index": 0.237,
+     "year": 2017
+    },
+    {
+     "games": 367,
+     "index": 0.362,
+     "year": 2018
+    },
+    {
+     "games": 344,
+     "index": 0.183,
+     "year": 2019
+    },
+    {
+     "games": 188,
+     "index": -1.447,
+     "year": 2020
+    },
+    {
+     "games": 393,
+     "index": 2.039,
+     "year": 2021
+    },
     {
      "games": 353,
      "index": 3.464,
@@ -1829,6 +2969,36 @@
    "history": [
     {
      "games": 361,
+     "index": 0.158,
+     "year": 2016
+    },
+    {
+     "games": 359,
+     "index": 2.404,
+     "year": 2017
+    },
+    {
+     "games": 366,
+     "index": -0.714,
+     "year": 2018
+    },
+    {
+     "games": 346,
+     "index": 0.961,
+     "year": 2019
+    },
+    {
+     "games": 185,
+     "index": -0.175,
+     "year": 2020
+    },
+    {
+     "games": 389,
+     "index": -0.628,
+     "year": 2021
+    },
+    {
+     "games": 361,
      "index": 1.307,
      "year": 2022
     },
@@ -1875,6 +3045,36 @@
   {
    "city": "Los Angeles",
    "history": [
+    {
+     "games": 361,
+     "index": -0.919,
+     "year": 2016
+    },
+    {
+     "games": 359,
+     "index": 2.376,
+     "year": 2017
+    },
+    {
+     "games": 367,
+     "index": -0.247,
+     "year": 2018
+    },
+    {
+     "games": 347,
+     "index": 1.58,
+     "year": 2019
+    },
+    {
+     "games": 185,
+     "index": -1.135,
+     "year": 2020
+    },
+    {
+     "games": 391,
+     "index": -0.6,
+     "year": 2021
+    },
     {
      "games": 365,
      "index": 0.716,
@@ -1924,6 +3124,36 @@
    "city": "Chicago",
    "history": [
     {
+     "games": 370,
+     "index": -1.006,
+     "year": 2016
+    },
+    {
+     "games": 364,
+     "index": -0.219,
+     "year": 2017
+    },
+    {
+     "games": 348,
+     "index": 0.327,
+     "year": 2018
+    },
+    {
+     "games": 340,
+     "index": 1.514,
+     "year": 2019
+    },
+    {
+     "games": 151,
+     "index": 0.366,
+     "year": 2020
+    },
+    {
+     "games": 365,
+     "index": 1.635,
+     "year": 2021
+    },
+    {
      "games": 356,
      "index": 1.669,
      "year": 2022
@@ -1971,6 +3201,36 @@
   {
    "city": "Chicago",
    "history": [
+    {
+     "games": 353,
+     "index": -0.706,
+     "year": 2016
+    },
+    {
+     "games": 355,
+     "index": 0.792,
+     "year": 2017
+    },
+    {
+     "games": 346,
+     "index": 0.381,
+     "year": 2018
+    },
+    {
+     "games": 339,
+     "index": 0.297,
+     "year": 2019
+    },
+    {
+     "games": 149,
+     "index": 1.221,
+     "year": 2020
+    },
+    {
+     "games": 369,
+     "index": -0.262,
+     "year": 2021
+    },
     {
      "games": 356,
      "index": -0.479,
@@ -2020,6 +3280,36 @@
    "city": "San Francisco",
    "history": [
     {
+     "games": 398,
+     "index": -1.606,
+     "year": 2016
+    },
+    {
+     "games": 368,
+     "index": -0.112,
+     "year": 2017
+    },
+    {
+     "games": 379,
+     "index": 0.724,
+     "year": 2018
+    },
+    {
+     "games": 381,
+     "index": 0.131,
+     "year": 2019
+    },
+    {
+     "games": 141,
+     "index": 1.389,
+     "year": 2020
+    },
+    {
+     "games": 375,
+     "index": -0.297,
+     "year": 2021
+    },
+    {
      "games": 377,
      "index": 0.758,
      "year": 2022
@@ -2067,6 +3357,36 @@
   {
    "city": "Sacramento",
    "history": [
+    {
+     "games": 245,
+     "index": 1.665,
+     "year": 2016
+    },
+    {
+     "games": 247,
+     "index": 0.747,
+     "year": 2017
+    },
+    {
+     "games": 244,
+     "index": -0.344,
+     "year": 2018
+    },
+    {
+     "games": 242,
+     "index": 0.061,
+     "year": 2019
+    },
+    {
+     "games": 103,
+     "index": -1.675,
+     "year": 2020
+    },
+    {
+     "games": 266,
+     "index": 1.584,
+     "year": 2021
+    },
     {
      "games": 241,
      "index": 0.634,
@@ -2116,6 +3436,36 @@
    "city": "Dallas",
    "history": [
     {
+     "games": 364,
+     "index": 0.826,
+     "year": 2016
+    },
+    {
+     "games": 350,
+     "index": 0.127,
+     "year": 2017
+    },
+    {
+     "games": 340,
+     "index": 0.036,
+     "year": 2018
+    },
+    {
+     "games": 352,
+     "index": 0.745,
+     "year": 2019
+    },
+    {
+     "games": 180,
+     "index": -1.463,
+     "year": 2020
+    },
+    {
+     "games": 373,
+     "index": -2.191,
+     "year": 2021
+    },
+    {
      "games": 381,
      "index": 0.07,
      "year": 2022
@@ -2163,6 +3513,36 @@
   {
    "city": "Boston",
    "history": [
+    {
+     "games": 358,
+     "index": 1.859,
+     "year": 2016
+    },
+    {
+     "games": 378,
+     "index": -1.718,
+     "year": 2017
+    },
+    {
+     "games": 388,
+     "index": -0.423,
+     "year": 2018
+    },
+    {
+     "games": 375,
+     "index": 0.337,
+     "year": 2019
+    },
+    {
+     "games": 178,
+     "index": 0.877,
+     "year": 2020
+    },
+    {
+     "games": 391,
+     "index": 0.299,
+     "year": 2021
+    },
     {
      "games": 385,
      "index": 2.637,
@@ -2212,6 +3592,36 @@
    "city": "Washington",
    "history": [
     {
+     "games": 359,
+     "index": 0.811,
+     "year": 2016
+    },
+    {
+     "games": 385,
+     "index": -0.917,
+     "year": 2017
+    },
+    {
+     "games": 370,
+     "index": -0.445,
+     "year": 2018
+    },
+    {
+     "games": 364,
+     "index": -0.563,
+     "year": 2019
+    },
+    {
+     "games": 153,
+     "index": -0.715,
+     "year": 2020
+    },
+    {
+     "games": 382,
+     "index": 1.505,
+     "year": 2021
+    },
+    {
      "games": 357,
      "index": 0.455,
      "year": 2022
@@ -2259,6 +3669,36 @@
   {
    "city": "Philadelphia",
    "history": [
+    {
+     "games": 348,
+     "index": -2.145,
+     "year": 2016
+    },
+    {
+     "games": 347,
+     "index": 0.31,
+     "year": 2017
+    },
+    {
+     "games": 362,
+     "index": 0.786,
+     "year": 2018
+    },
+    {
+     "games": 354,
+     "index": -0.672,
+     "year": 2019
+    },
+    {
+     "games": 164,
+     "index": 0.707,
+     "year": 2020
+    },
+    {
+     "games": 379,
+     "index": 0.724,
+     "year": 2021
+    },
     {
      "games": 379,
      "index": 0.646,
@@ -2308,6 +3748,36 @@
    "city": "Denver",
    "history": [
     {
+     "games": 343,
+     "index": -1.319,
+     "year": 2016
+    },
+    {
+     "games": 349,
+     "index": -0.196,
+     "year": 2017
+    },
+    {
+     "games": 353,
+     "index": 1.501,
+     "year": 2018
+    },
+    {
+     "games": 364,
+     "index": 1.135,
+     "year": 2019
+    },
+    {
+     "games": 175,
+     "index": 0.982,
+     "year": 2020
+    },
+    {
+     "games": 381,
+     "index": 0.156,
+     "year": 2021
+    },
+    {
      "games": 378,
      "index": -0.079,
      "year": 2022
@@ -2355,6 +3825,36 @@
   {
    "city": "Detroit",
    "history": [
+    {
+     "games": 350,
+     "index": 1.711,
+     "year": 2016
+    },
+    {
+     "games": 347,
+     "index": -0.651,
+     "year": 2017
+    },
+    {
+     "games": 344,
+     "index": 0.571,
+     "year": 2018
+    },
+    {
+     "games": 343,
+     "index": -0.853,
+     "year": 2019
+    },
+    {
+     "games": 139,
+     "index": 0.278,
+     "year": 2020
+    },
+    {
+     "games": 367,
+     "index": -0.119,
+     "year": 2021
+    },
     {
      "games": 352,
      "index": -0.401,
@@ -2404,6 +3904,36 @@
    "city": "Minnesota",
    "history": [
     {
+     "games": 349,
+     "index": 0.77,
+     "year": 2016
+    },
+    {
+     "games": 356,
+     "index": 0.567,
+     "year": 2017
+    },
+    {
+     "games": 353,
+     "index": -0.326,
+     "year": 2018
+    },
+    {
+     "games": 342,
+     "index": 0.285,
+     "year": 2019
+    },
+    {
+     "games": 147,
+     "index": 0.536,
+     "year": 2020
+    },
+    {
+     "games": 374,
+     "index": -1.848,
+     "year": 2021
+    },
+    {
      "games": 364,
      "index": -0.976,
      "year": 2022
@@ -2451,6 +3981,36 @@
   {
    "city": "Miami",
    "history": [
+    {
+     "games": 366,
+     "index": -1.154,
+     "year": 2016
+    },
+    {
+     "games": 346,
+     "index": 0.744,
+     "year": 2017
+    },
+    {
+     "games": 345,
+     "index": 0.012,
+     "year": 2018
+    },
+    {
+     "games": 341,
+     "index": 0.25,
+     "year": 2019
+    },
+    {
+     "games": 179,
+     "index": -1.029,
+     "year": 2020
+    },
+    {
+     "games": 379,
+     "index": 2.712,
+     "year": 2021
+    },
     {
      "games": 378,
      "index": 1.314,
@@ -2500,6 +4060,36 @@
    "city": "Phoenix",
    "history": [
     {
+     "games": 261,
+     "index": -0.582,
+     "year": 2016
+    },
+    {
+     "games": 269,
+     "index": 1.15,
+     "year": 2017
+    },
+    {
+     "games": 261,
+     "index": 1.155,
+     "year": 2018
+    },
+    {
+     "games": 254,
+     "index": 1.767,
+     "year": 2019
+    },
+    {
+     "games": 120,
+     "index": -0.196,
+     "year": 2020
+    },
+    {
+     "games": 302,
+     "index": 1.844,
+     "year": 2021
+    },
+    {
      "games": 277,
      "index": -0.078,
      "year": 2022
@@ -2547,6 +4137,36 @@
   {
    "city": "Tampa Bay",
    "history": [
+    {
+     "games": 277,
+     "index": 1.489,
+     "year": 2016
+    },
+    {
+     "games": 261,
+     "index": -1.47,
+     "year": 2017
+    },
+    {
+     "games": 279,
+     "index": 1.178,
+     "year": 2018
+    },
+    {
+     "games": 265,
+     "index": 0.551,
+     "year": 2019
+    },
+    {
+     "games": 149,
+     "index": 0.451,
+     "year": 2020
+    },
+    {
+     "games": 298,
+     "index": -0.161,
+     "year": 2021
+    },
     {
      "games": 290,
      "index": 0.808,
@@ -2596,6 +4216,36 @@
    "city": "Toronto",
    "history": [
     {
+     "games": 353,
+     "index": -1.94,
+     "year": 2016
+    },
+    {
+     "games": 349,
+     "index": -0.948,
+     "year": 2017
+    },
+    {
+     "games": 346,
+     "index": 0.486,
+     "year": 2018
+    },
+    {
+     "games": 354,
+     "index": -0.329,
+     "year": 2019
+    },
+    {
+     "games": 149,
+     "index": 1.133,
+     "year": 2020
+    },
+    {
+     "games": 355,
+     "index": 1.241,
+     "year": 2021
+    },
+    {
      "games": 352,
      "index": 0.64,
      "year": 2022
@@ -2643,6 +4293,36 @@
   {
    "city": "Atlanta",
    "history": [
+    {
+     "games": 268,
+     "index": 1.538,
+     "year": 2016
+    },
+    {
+     "games": 273,
+     "index": -1.327,
+     "year": 2017
+    },
+    {
+     "games": 266,
+     "index": 0.789,
+     "year": 2018
+    },
+    {
+     "games": 262,
+     "index": 0.247,
+     "year": 2019
+    },
+    {
+     "games": 124,
+     "index": -2.168,
+     "year": 2020
+    },
+    {
+     "games": 314,
+     "index": -1.375,
+     "year": 2021
+    },
     {
      "games": 273,
      "index": -0.955,
@@ -2692,6 +4372,36 @@
    "city": "Houston",
    "history": [
     {
+     "games": 267,
+     "index": -1.073,
+     "year": 2016
+    },
+    {
+     "games": 292,
+     "index": 0.245,
+     "year": 2017
+    },
+    {
+     "games": 286,
+     "index": 2.142,
+     "year": 2018
+    },
+    {
+     "games": 285,
+     "index": -0.184,
+     "year": 2019
+    },
+    {
+     "games": 139,
+     "index": 0.226,
+     "year": 2020
+    },
+    {
+     "games": 299,
+     "index": 2.915,
+     "year": 2021
+    },
+    {
      "games": 274,
      "index": 1.026,
      "year": 2022
@@ -2739,6 +4449,36 @@
   {
    "city": "Cleveland",
    "history": [
+    {
+     "games": 297,
+     "index": -1.6,
+     "year": 2016
+    },
+    {
+     "games": 288,
+     "index": 0.766,
+     "year": 2017
+    },
+    {
+     "games": 286,
+     "index": -0.299,
+     "year": 2018
+    },
+    {
+     "games": 255,
+     "index": -0.134,
+     "year": 2019
+    },
+    {
+     "games": 114,
+     "index": 2.07,
+     "year": 2020
+    },
+    {
+     "games": 283,
+     "index": -0.576,
+     "year": 2021
+    },
     {
      "games": 271,
      "index": 1.225,
@@ -2788,6 +4528,36 @@
    "city": "Pittsburgh",
    "history": [
     {
+     "games": 287,
+     "index": 1.051,
+     "year": 2016
+    },
+    {
+     "games": 291,
+     "index": 0.74,
+     "year": 2017
+    },
+    {
+     "games": 272,
+     "index": -0.181,
+     "year": 2018
+    },
+    {
+     "games": 262,
+     "index": 1.071,
+     "year": 2019
+    },
+    {
+     "games": 109,
+     "index": 0.532,
+     "year": 2020
+    },
+    {
+     "games": 271,
+     "index": 1.731,
+     "year": 2021
+    },
+    {
      "games": 275,
      "index": 1.071,
      "year": 2022
@@ -2835,6 +4605,36 @@
   {
    "city": "Seattle",
    "history": [
+    {
+     "games": 180,
+     "index": -0.019,
+     "year": 2016
+    },
+    {
+     "games": 181,
+     "index": 1.115,
+     "year": 2017
+    },
+    {
+     "games": 178,
+     "index": -1.237,
+     "year": 2018
+    },
+    {
+     "games": 179,
+     "index": 1.561,
+     "year": 2019
+    },
+    {
+     "games": 77,
+     "index": 1.031,
+     "year": 2020
+    },
+    {
+     "games": 211,
+     "index": 0.069,
+     "year": 2021
+    },
     {
      "games": 268,
      "index": 0.241,
@@ -2884,6 +4684,36 @@
    "city": "Milwaukee",
    "history": [
     {
+     "games": 242,
+     "index": -0.545,
+     "year": 2016
+    },
+    {
+     "games": 252,
+     "index": 0.457,
+     "year": 2017
+    },
+    {
+     "games": 263,
+     "index": -2.259,
+     "year": 2018
+    },
+    {
+     "games": 259,
+     "index": 1.918,
+     "year": 2019
+    },
+    {
+     "games": 115,
+     "index": -0.349,
+     "year": 2020
+    },
+    {
+     "games": 293,
+     "index": 1.586,
+     "year": 2021
+    },
+    {
      "games": 254,
      "index": -0.896,
      "year": 2022
@@ -2931,6 +4761,36 @@
   {
    "city": "St. Louis",
    "history": [
+    {
+     "games": 261,
+     "index": 0.207,
+     "year": 2016
+    },
+    {
+     "games": 259,
+     "index": 0.583,
+     "year": 2017
+    },
+    {
+     "games": 240,
+     "index": -0.398,
+     "year": 2018
+    },
+    {
+     "games": 282,
+     "index": 1.464,
+     "year": 2019
+    },
+    {
+     "games": 97,
+     "index": 0.509,
+     "year": 2020
+    },
+    {
+     "games": 255,
+     "index": 0.637,
+     "year": 2021
+    },
     {
      "games": 263,
      "index": 0.586,
@@ -2980,6 +4840,36 @@
    "city": "Kansas City",
    "history": [
     {
+     "games": 180,
+     "index": 1.172,
+     "year": 2016
+    },
+    {
+     "games": 180,
+     "index": -0.301,
+     "year": 2017
+    },
+    {
+     "games": 179,
+     "index": 0.354,
+     "year": 2018
+    },
+    {
+     "games": 180,
+     "index": -0.249,
+     "year": 2019
+    },
+    {
+     "games": 78,
+     "index": 1.057,
+     "year": 2020
+    },
+    {
+     "games": 181,
+     "index": 1.398,
+     "year": 2021
+    },
+    {
      "games": 182,
      "index": -0.502,
      "year": 2022
@@ -3027,6 +4917,36 @@
   {
    "city": "Cincinnati",
    "history": [
+    {
+     "games": 179,
+     "index": -0.082,
+     "year": 2016
+    },
+    {
+     "games": 179,
+     "index": 0.838,
+     "year": 2017
+    },
+    {
+     "games": 178,
+     "index": 0.33,
+     "year": 2018
+    },
+    {
+     "games": 178,
+     "index": -0.707,
+     "year": 2019
+    },
+    {
+     "games": 77,
+     "index": -0.52,
+     "year": 2020
+    },
+    {
+     "games": 178,
+     "index": -0.015,
+     "year": 2021
+    },
     {
      "games": 183,
      "index": 1.095,
@@ -3077,6 +4997,36 @@
    "history": [
     {
      "games": 179,
+     "index": 0.735,
+     "year": 2016
+    },
+    {
+     "games": 179,
+     "index": 0.777,
+     "year": 2017
+    },
+    {
+     "games": 178,
+     "index": 0.604,
+     "year": 2018
+    },
+    {
+     "games": 179,
+     "index": 0.849,
+     "year": 2019
+    },
+    {
+     "games": 76,
+     "index": 1.572,
+     "year": 2020
+    },
+    {
+     "games": 180,
+     "index": 1.373,
+     "year": 2021
+    },
+    {
+     "games": 179,
      "index": -0.546,
      "year": 2022
     },
@@ -3123,6 +5073,36 @@
   {
    "city": "San Diego",
    "history": [
+    {
+     "games": 162,
+     "index": -1.147,
+     "year": 2016
+    },
+    {
+     "games": 162,
+     "index": 0.283,
+     "year": 2017
+    },
+    {
+     "games": 162,
+     "index": -1.433,
+     "year": 2018
+    },
+    {
+     "games": 162,
+     "index": 0.724,
+     "year": 2019
+    },
+    {
+     "games": 66,
+     "index": 0.233,
+     "year": 2020
+    },
+    {
+     "games": 162,
+     "index": 1.254,
+     "year": 2021
+    },
     {
      "games": 174,
      "index": -0.573,
@@ -3172,6 +5152,31 @@
    "city": "Charlotte",
    "history": [
     {
+     "games": 111,
+     "index": 0.53,
+     "year": 2016
+    },
+    {
+     "games": 101,
+     "index": 0.148,
+     "year": 2017
+    },
+    {
+     "games": 99,
+     "index": 0.294,
+     "year": 2018
+    },
+    {
+     "games": 98,
+     "index": 1.899,
+     "year": 2019
+    },
+    {
+     "games": 121,
+     "index": 0.184,
+     "year": 2021
+    },
+    {
      "games": 101,
      "index": 0.485,
      "year": 2022
@@ -3219,6 +5224,31 @@
   {
    "city": "Raleigh",
    "history": [
+    {
+     "games": 80,
+     "index": -1.515,
+     "year": 2016
+    },
+    {
+     "games": 84,
+     "index": 0.359,
+     "year": 2017
+    },
+    {
+     "games": 82,
+     "index": -0.274,
+     "year": 2018
+    },
+    {
+     "games": 99,
+     "index": 0.506,
+     "year": 2019
+    },
+    {
+     "games": 97,
+     "index": 0.935,
+     "year": 2021
+    },
     {
      "games": 102,
      "index": 1.302,
@@ -3268,6 +5298,31 @@
    "city": "Nashville",
    "history": [
     {
+     "games": 110,
+     "index": -0.195,
+     "year": 2016
+    },
+    {
+     "games": 123,
+     "index": -0.428,
+     "year": 2017
+    },
+    {
+     "games": 115,
+     "index": 0.351,
+     "year": 2018
+    },
+    {
+     "games": 102,
+     "index": -0.614,
+     "year": 2019
+    },
+    {
+     "games": 111,
+     "index": -0.1,
+     "year": 2021
+    },
+    {
      "games": 108,
      "index": 1.692,
      "year": 2022
@@ -3315,6 +5370,31 @@
   {
    "city": "Buffalo",
    "history": [
+    {
+     "games": 96,
+     "index": -0.634,
+     "year": 2016
+    },
+    {
+     "games": 101,
+     "index": -1.503,
+     "year": 2017
+    },
+    {
+     "games": 101,
+     "index": 1.044,
+     "year": 2018
+    },
+    {
+     "games": 99,
+     "index": 0.481,
+     "year": 2019
+    },
+    {
+     "games": 107,
+     "index": 1.593,
+     "year": 2021
+    },
     {
      "games": 103,
      "index": 1.246,
@@ -3364,6 +5444,36 @@
    "city": "Indianapolis",
    "history": [
     {
+     "games": 107,
+     "index": -2.041,
+     "year": 2016
+    },
+    {
+     "games": 106,
+     "index": -0.033,
+     "year": 2017
+    },
+    {
+     "games": 105,
+     "index": -0.107,
+     "year": 2018
+    },
+    {
+     "games": 101,
+     "index": -0.727,
+     "year": 2019
+    },
+    {
+     "games": 63,
+     "index": -0.121,
+     "year": 2020
+    },
+    {
+     "games": 122,
+     "index": 0.075,
+     "year": 2021
+    },
+    {
      "games": 100,
      "index": -0.387,
      "year": 2022
@@ -3411,6 +5521,31 @@
   {
    "city": "New Orleans",
    "history": [
+    {
+     "games": 101,
+     "index": -0.192,
+     "year": 2016
+    },
+    {
+     "games": 100,
+     "index": -0.406,
+     "year": 2017
+    },
+    {
+     "games": 111,
+     "index": 0.695,
+     "year": 2018
+    },
+    {
+     "games": 96,
+     "index": 0.415,
+     "year": 2019
+    },
+    {
+     "games": 120,
+     "index": -0.692,
+     "year": 2021
+    },
     {
      "games": 108,
      "index": -1.224,
@@ -3460,6 +5595,26 @@
    "city": "Las Vegas",
    "history": [
     {
+     "games": 123,
+     "index": -1.217,
+     "year": 2018
+    },
+    {
+     "games": 106,
+     "index": 0.973,
+     "year": 2019
+    },
+    {
+     "games": 60,
+     "index": -0.342,
+     "year": 2020
+    },
+    {
+     "games": 125,
+     "index": -0.192,
+     "year": 2021
+    },
+    {
      "games": 105,
      "index": -0.695,
      "year": 2022
@@ -3507,6 +5662,31 @@
   {
    "city": "Salt Lake City",
    "history": [
+    {
+     "games": 85,
+     "index": 0.447,
+     "year": 2016
+    },
+    {
+     "games": 96,
+     "index": 0.805,
+     "year": 2017
+    },
+    {
+     "games": 93,
+     "index": -0.012,
+     "year": 2018
+    },
+    {
+     "games": 83,
+     "index": 0.179,
+     "year": 2019
+    },
+    {
+     "games": 114,
+     "index": 0.942,
+     "year": 2021
+    },
     {
      "games": 92,
      "index": 0.402,
@@ -3556,6 +5736,31 @@
    "city": "Columbus",
    "history": [
     {
+     "games": 78,
+     "index": 0.411,
+     "year": 2016
+    },
+    {
+     "games": 92,
+     "index": -1.053,
+     "year": 2017
+    },
+    {
+     "games": 87,
+     "index": -0.647,
+     "year": 2018
+    },
+    {
+     "games": 93,
+     "index": 0.721,
+     "year": 2019
+    },
+    {
+     "games": 85,
+     "index": -0.603,
+     "year": 2021
+    },
+    {
      "games": 88,
      "index": 0.057,
      "year": 2022
@@ -3603,6 +5808,31 @@
   {
    "city": "Winnipeg",
    "history": [
+    {
+     "games": 84,
+     "index": 0.414,
+     "year": 2016
+    },
+    {
+     "games": 83,
+     "index": 0.673,
+     "year": 2017
+    },
+    {
+     "games": 98,
+     "index": -1.328,
+     "year": 2018
+    },
+    {
+     "games": 89,
+     "index": -0.971,
+     "year": 2019
+    },
+    {
+     "games": 94,
+     "index": 0.203,
+     "year": 2021
+    },
     {
      "games": 89,
      "index": 0.048,
@@ -3652,6 +5882,31 @@
    "city": "Ottawa",
    "history": [
     {
+     "games": 80,
+     "index": -0.45,
+     "year": 2016
+    },
+    {
+     "games": 102,
+     "index": 0.538,
+     "year": 2017
+    },
+    {
+     "games": 85,
+     "index": -0.144,
+     "year": 2018
+    },
+    {
+     "games": 82,
+     "index": -0.947,
+     "year": 2019
+    },
+    {
+     "games": 84,
+     "index": 0.61,
+     "year": 2021
+    },
+    {
      "games": 90,
      "index": 0.525,
      "year": 2022
@@ -3699,6 +5954,31 @@
   {
    "city": "Montreal",
    "history": [
+    {
+     "games": 80,
+     "index": 0.67,
+     "year": 2016
+    },
+    {
+     "games": 90,
+     "index": 0.406,
+     "year": 2017
+    },
+    {
+     "games": 83,
+     "index": -1.109,
+     "year": 2018
+    },
+    {
+     "games": 82,
+     "index": -0.889,
+     "year": 2019
+    },
+    {
+     "games": 111,
+     "index": -0.575,
+     "year": 2021
+    },
     {
      "games": 86,
      "index": 0.734,
@@ -3748,6 +6028,31 @@
    "city": "Vancouver",
    "history": [
     {
+     "games": 82,
+     "index": -0.045,
+     "year": 2016
+    },
+    {
+     "games": 83,
+     "index": 0.179,
+     "year": 2017
+    },
+    {
+     "games": 85,
+     "index": -0.273,
+     "year": 2018
+    },
+    {
+     "games": 80,
+     "index": -0.051,
+     "year": 2019
+    },
+    {
+     "games": 89,
+     "index": 0.556,
+     "year": 2021
+    },
+    {
      "games": 85,
      "index": 0.316,
      "year": 2022
@@ -3795,6 +6100,31 @@
   {
    "city": "Calgary",
    "history": [
+    {
+     "games": 84,
+     "index": -0.528,
+     "year": 2016
+    },
+    {
+     "games": 86,
+     "index": -0.222,
+     "year": 2017
+    },
+    {
+     "games": 83,
+     "index": 0.772,
+     "year": 2018
+    },
+    {
+     "games": 89,
+     "index": 1.146,
+     "year": 2019
+    },
+    {
+     "games": 85,
+     "index": 0.326,
+     "year": 2021
+    },
     {
      "games": 103,
      "index": 0.584,
@@ -3844,6 +6174,31 @@
    "city": "Edmonton",
    "history": [
     {
+     "games": 81,
+     "index": 1.083,
+     "year": 2016
+    },
+    {
+     "games": 96,
+     "index": -0.482,
+     "year": 2017
+    },
+    {
+     "games": 82,
+     "index": 1.034,
+     "year": 2018
+    },
+    {
+     "games": 85,
+     "index": -0.878,
+     "year": 2019
+    },
+    {
+     "games": 91,
+     "index": 0.057,
+     "year": 2021
+    },
+    {
      "games": 105,
      "index": 0.338,
      "year": 2022
@@ -3891,6 +6246,31 @@
   {
    "city": "Memphis",
    "history": [
+    {
+     "games": 88,
+     "index": 0.625,
+     "year": 2016
+    },
+    {
+     "games": 89,
+     "index": 0.329,
+     "year": 2017
+    },
+    {
+     "games": 81,
+     "index": 1.644,
+     "year": 2018
+    },
+    {
+     "games": 80,
+     "index": -1.139,
+     "year": 2019
+    },
+    {
+     "games": 112,
+     "index": 0.217,
+     "year": 2021
+    },
     {
      "games": 92,
      "index": -0.679,
@@ -3940,6 +6320,31 @@
    "city": "Oklahoma City",
    "history": [
     {
+     "games": 101,
+     "index": -0.239,
+     "year": 2016
+    },
+    {
+     "games": 90,
+     "index": 0.618,
+     "year": 2017
+    },
+    {
+     "games": 87,
+     "index": 1.229,
+     "year": 2018
+    },
+    {
+     "games": 84,
+     "index": 0.394,
+     "year": 2019
+    },
+    {
+     "games": 103,
+     "index": 0.797,
+     "year": 2021
+    },
+    {
      "games": 83,
      "index": 1.469,
      "year": 2022
@@ -3987,6 +6392,31 @@
   {
    "city": "Orlando",
    "history": [
+    {
+     "games": 84,
+     "index": -1.152,
+     "year": 2016
+    },
+    {
+     "games": 85,
+     "index": -1.006,
+     "year": 2017
+    },
+    {
+     "games": 81,
+     "index": 0.788,
+     "year": 2018
+    },
+    {
+     "games": 84,
+     "index": 1.093,
+     "year": 2019
+    },
+    {
+     "games": 103,
+     "index": 0.227,
+     "year": 2021
+    },
     {
      "games": 83,
      "index": 0.769,
@@ -4036,6 +6466,31 @@
    "city": "Portland",
    "history": [
     {
+     "games": 93,
+     "index": -0.133,
+     "year": 2016
+    },
+    {
+     "games": 86,
+     "index": 0.415,
+     "year": 2017
+    },
+    {
+     "games": 88,
+     "index": 1.008,
+     "year": 2018
+    },
+    {
+     "games": 95,
+     "index": 0.759,
+     "year": 2019
+    },
+    {
+     "games": 109,
+     "index": 1.058,
+     "year": 2021
+    },
+    {
      "games": 82,
      "index": 0.94,
      "year": 2022
@@ -4083,6 +6538,31 @@
   {
    "city": "San Antonio",
    "history": [
+    {
+     "games": 91,
+     "index": 0.663,
+     "year": 2016
+    },
+    {
+     "games": 102,
+     "index": 0.438,
+     "year": 2017
+    },
+    {
+     "games": 88,
+     "index": -1.287,
+     "year": 2018
+    },
+    {
+     "games": 83,
+     "index": -0.144,
+     "year": 2019
+    },
+    {
+     "games": 103,
+     "index": -0.266,
+     "year": 2021
+    },
     {
      "games": 85,
      "index": -0.022,
@@ -4196,12 +6676,12 @@
   "Houston",
   "Los Angeles 14",
   "Dallas",
-  "Montreal",
+  "Raleigh",
   "Salt Lake City",
   "Denver",
+  "Pittsburgh",
   "Las Vegas",
-  "Kansas City",
-  "New York 17",
+  "New York 5",
   "Chicago 1"
  ],
  "window_days": 30
