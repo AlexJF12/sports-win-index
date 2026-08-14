@@ -3,7 +3,7 @@
 The two streakiness charts. Called by streakiness.py, which does the counting.
 
     season_vs_history.png   dot plot: this season's streak index against the
-                            same group's 2022-2025 seasons
+                            same group's earlier seasons
     past_month.png          win/loss tiles, one row per fandom, last 30 days
 
 Palette and theme come from render_content.py so every image in the repo looks
@@ -20,9 +20,9 @@ from plotnine import (aes, coord_flip, element_blank, element_text, geom_hline,
                       labs, scale_color_manual, scale_fill_manual,
                       scale_x_continuous, scale_y_discrete, theme)
 
+from chart_theme import (BASELINE, COLD, GRID, HOT, INK, INK_2, MUTED,
+                         spotlight_theme)
 from fandom_analysis import run_word
-from render_content import (BASELINE, COLD, GRID, HOT, INK, INK_2, MUTED,
-                            spotlight_theme)
 from streakiness import CHANCE_BAND
 
 TITLE_WRAP = 40      # characters before the headline wraps (bold 14pt)
@@ -30,7 +30,7 @@ SUBTITLE_WRAP = 68
 LABEL_WRAP = 34
 CAPTION = ("streak index: Wald-Wolfowitz runs test over the sequence of games the "
            "group's teams actually played, sign-flipped so bigger = clumpier · "
-           "records begin January 2022")
+           "records begin January 2010")
 
 
 def group_label(label: str) -> str:
@@ -74,7 +74,10 @@ def render_season(panel: list, ref, path: str) -> None:
         + geom_hline(yintercept=0, color=BASELINE, size=0.4)
         + geom_segment(span, aes(x="label", xend="label", y="min", yend="max"),
                        color=MUTED, size=0.5, alpha=0.45)
-        + geom_point(hist, aes("label", "index", color="series"), size=2.2, stroke=0)
+        # ten prior seasons per row rather than four: the history recedes so
+        # the current season and its value label read over the top of it
+        + geom_point(hist, aes("label", "index", color="series"), size=2.2,
+                     stroke=0, alpha=0.55)
         + geom_point(df, aes("label", "index", color="series"), size=4.0, stroke=0)
         + geom_text(df, aes("label", "index",
                             label="index.map(lambda v: f'{v:+.1f}')"),

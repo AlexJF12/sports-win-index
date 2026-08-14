@@ -12,7 +12,7 @@ race and teams charts; the middle one depends on what the detector found:
                         7 days — the image that explains what happened this week
 
     <slug>_history.png  (month) the group's month-to-date weighted index for
-                        every month since 2022 — or every July since 2022 when
+                        every month on record — or every July on record when
                         the calendar lane won — current month highlighted
     <slug>_timeline.png (streak, turnaround) game by game, result-colored, with
                         the streak or the last-7-day flip picked out
@@ -34,14 +34,16 @@ import textwrap
 from datetime import datetime
 
 import pandas as pd
-from plotnine import (aes, annotate, coord_flip, element_blank, element_line,
-                      element_rect, element_text, expand_limits, geom_col,
-                      geom_hline, geom_line, geom_point, geom_segment,
+from plotnine import (aes, annotate, coord_flip, element_blank, expand_limits,
+                      geom_col, geom_hline, geom_line, geom_point, geom_segment,
                       geom_step, geom_text, geom_vline, ggplot, labs,
                       position_dodge, scale_color_manual, scale_fill_manual,
                       scale_size_manual, scale_x_continuous, scale_x_date,
-                      scale_y_reverse, theme, theme_minimal)
+                      scale_y_reverse, theme)
 
+from chart_theme import (BASELINE, CAPTION, COLD, FIELD, HOT, INK, INK_2,
+                         MONTH_STARTS, MONTH_TICKS, MUTED, field_alpha,
+                         spotlight_theme, spread_labels)
 from fandom_analysis import pretty_month, run_word
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -49,52 +51,8 @@ log = logging.getLogger(__name__)
 
 CONTENT_DIR = os.path.join("content", "weekly")
 
-# Palette (validated light-mode set: blue/red diverging pair, ink/grid tokens)
-SURFACE = "#fcfcfb"
-INK = "#0b0b0b"
-INK_2 = "#52514e"
-MUTED = "#898781"
-GRID = "#e1e0d9"
-BASELINE = "#c3c2b7"
-HOT = "#2a78d6"     # blue pole — historically good
-COLD = "#e34948"    # red pole — historically bad
-FIELD = "#c3c2b7"   # de-emphasized context lines
-
-# day of year each month starts on, in a non-leap year, for the year charts
-MONTH_STARTS = [1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335]
-MONTH_TICKS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-               "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-
-CAPTION = ("weighted index: every game = 365 ÷ season length "
-           "(MLB ±2.25, NBA/NHL ±4.45, NFL ±21.5) · records begin January 2010")
 TITLE_WRAP = 58      # characters before the title wraps to a second line
 SUBTITLE_WRAP = 84
-
-
-def spotlight_theme():
-    return theme_minimal(base_size=11) + theme(
-        figure_size=(8, 4.5),
-        dpi=200,
-        plot_background=element_rect(fill=SURFACE, color=None),
-        panel_background=element_rect(fill=SURFACE, color=None),
-        panel_grid_major=element_line(color=GRID, size=0.4),
-        panel_grid_minor=element_blank(),
-        axis_ticks=element_blank(),
-        text=element_text(color=INK_2),
-        axis_text=element_text(color=MUTED, size=8),
-        axis_title=element_text(color=INK_2, size=9),
-        plot_title=element_text(color=INK, size=14, weight="bold", ha="left"),
-        plot_subtitle=element_text(color=INK_2, size=10, ha="left"),
-        plot_caption=element_text(color=MUTED, size=6.5, ha="right"),
-        plot_margin=0.03,
-        legend_position="top",
-        legend_direction="horizontal",
-        legend_title=element_blank(),
-        legend_text=element_text(color=INK_2, size=9),
-        legend_background=element_rect(fill=SURFACE, color=SURFACE),
-        legend_frame=element_blank(),
-        legend_key=element_rect(fill=SURFACE, color=SURFACE),
-    )
 
 
 def accent(finding):
@@ -157,7 +115,7 @@ def render_race(data, finding, path):
 
 def render_history(data, finding, path):
     """The comparison set behind the headline, current month highlighted: every
-    month since 2022, or — when the calendar lane won — only this calendar
+    month on record, or — when the calendar lane won — only this calendar
     month across years (July vs past Julys)."""
     hist = pd.DataFrame(finding["history"])
     calendar_only = finding.get("basis") == "calendar"
@@ -178,11 +136,15 @@ def render_history(data, finding, path):
     if calendar_only:
         # a handful of same-month years: lollipops (stem + dot), year ticks
         month_word = month_name(data).split(" ")[0]
-        title = f"Every {month_word} {finding['city']} has had since 2022"
+        first = min(hist["month"])[:4]
+        title = f"Every {month_word} {finding['city']} has had since {first}"
         subtitle = (f"{finding['label']} — weighted index through day "
-                    f"{data['cutoff_day']} of every {month_word} since 2022")
+                    f"{data['cutoff_day']} of every {month_word} since {first}")
+        # multiplicative room on the right: an additive pad measured in days
+        # is a rounding error once the window is a decade wide, and the
+        # current month's value label sits out there
         x_scale = scale_x_date(breaks=sorted(df["when"]), date_labels="%Y",
-                               expand=(0.08, 0, 0.02, 110))
+                               expand=(0.08, 0, 0.10, 0))
         layers = [
             geom_segment(past, aes(x="when", xend="when", y=0, yend="weighted",
                                    color="sign"), size=2.0, alpha=0.35),
@@ -193,11 +155,16 @@ def render_history(data, finding, path):
             geom_point(current, aes("when", "weighted"), color=ac, size=5),
         ]
     else:
-        title = f"Every month {finding['city']} has had since 2022"
+        first = min(hist["month"])[:4]
+        title = f"Every month {finding['city']} has had since {first}"
         subtitle = (f"{finding['label']} — weighted index through day "
-                    f"{data['cutoff_day']} of every month since 2022")
-        x_scale = scale_x_date(date_breaks="6 months", date_labels="%b %Y",
-                               expand=(0.02, 0, 0.02, 130))
+                    f"{data['cutoff_day']} of every month since {first}")
+        # "%b %Y" every six months collides into unreadable overprints once
+        # the window passes a few years; past that the year alone is enough
+        span_years = df["when"].dt.year.nunique()
+        ticks = ({"date_breaks": "1 year", "date_labels": "%Y"} if span_years > 4
+                 else {"date_breaks": "6 months", "date_labels": "%b %Y"})
+        x_scale = scale_x_date(expand=(0.02, 0, 0.10, 0), **ticks)
         layers = [
             geom_segment(past, aes(x="when", xend="when", y=0, yend="weighted",
                                    color="sign"), size=1.6, alpha=0.35,
@@ -374,10 +341,12 @@ def render_year(data, finding, path):
     df = pd.DataFrame(rows)
     past, now = df[~df["current"]], df[df["current"]]
     ends = past.sort_values("day").groupby("year", observed=True).tail(1)
+    ends = spread_labels(ends, df["cum"].max() - df["cum"].min())
     # where each past year stood on this same date — the comparison the
-    # headline is actually making
+    # headline is actually making. Pinned to the cutoff rather than to each
+    # year's last game before it, so they line up on one date
     marks = (past[past["day"] <= cutoff].sort_values("day")
-                 .groupby("year", observed=True).tail(1))
+                 .groupby("year", observed=True).tail(1).assign(day=cutoff))
     end = now.iloc[-1]
     ac = accent(finding)
 
@@ -385,10 +354,11 @@ def render_year(data, finding, path):
         ggplot()
         + geom_hline(yintercept=0, color=BASELINE, size=0.4)
         + geom_vline(xintercept=cutoff, color=BASELINE, size=0.4, linetype="dashed")
-        + geom_line(past, aes("day", "cum", group="year"), color=FIELD, size=0.7)
+        + geom_line(past, aes("day", "cum", group="year"), color=FIELD, size=0.7,
+                    alpha=field_alpha(past["year"].nunique()))
         + geom_point(marks, aes("day", "cum"), color=MUTED, size=2.2, stroke=0)
-        + geom_text(ends, aes("day", "cum", label="year"), ha="left", va="center",
-                    nudge_x=4, color=MUTED, size=7.5)
+        + geom_text(ends, aes("day", "label_y", label="year"), ha="left",
+                    va="center", nudge_x=4, color=MUTED, size=7.5)
         + geom_line(now, aes("day", "cum"), color=ac, size=1.5, lineend="round")
         + geom_point(now.tail(1), aes("day", "cum"), color=ac, size=3, stroke=0)
         + annotate("text", x=end["day"] + 4, y=end["cum"],

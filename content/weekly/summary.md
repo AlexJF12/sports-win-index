@@ -1,18 +1,18 @@
 # Fandom spotlight — 2026-08-11
 
-## 1. 🧊 Memphis is having its worst year on record — 76th of 88 this year
-*Memphis: Grizzlies* · `year`
+## 1. 🏆 Raleigh is having its best year on record — 9th of 88 this year
+*Raleigh: Hurricanes* · `year`
 
-- **2026 so far (through August 11):** 10-39, -129.1 weighted — 1st-worst of the 5 years since 2022, at the same point
-- **Against the field:** 76th of 88 city groups on the year (14th percentile)
+- **2026 so far (through August 11):** 45-17, +124.6 weighted — 1st-best of the 11 years on record, at the same point
+- **Against the field:** 9th of 88 city groups on the year (91st percentile)
 
-Images: `memphis_year.png` · `memphis_field.png`
+Images: `raleigh_year.png` · `raleigh_field.png`
 
 ## 2. 🔥 San Diego is having its best month since April 2026
 *San Diego: Padres* · `month`
 
-- **This month (through August 11):** 8-3, +11.3 weighted — 2nd-best of 31 months since 2022 (94th percentile)
-- **vs past Augusts:** 1st-best August of the 5 since 2022
+- **This month (through August 11):** 8-3, +11.3 weighted — 2nd-best of 61 months on record (96th percentile)
+- **vs past Augusts:** 1st-best August of the 11 on record
 - **Last 7 days:** 5-2, +6.8 weighted
 - **Driving it this week:** Padres (5-2, +6.8)
 - **Active streaks:** Padres W4

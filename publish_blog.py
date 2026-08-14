@@ -100,7 +100,7 @@ STREAK_CAPTIONS = {
 SPOTLIGHT_CAPTIONS = {
     "race": "The group against the whole field this month, cumulative weighted index.",
     "teams": "Per-team contribution — the full month against the last 7 days.",
-    "history": "Every comparable month since 2022, this one picked out.",
+    "history": "Every comparable month on record, this one picked out.",
     "timeline": "Game by game, with the streak picked out.",
     "bump": "Place in the year-to-date standings over the last 30 days.",
     "year": "Every season's cumulative index by day of year, this one in color.",

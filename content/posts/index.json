@@ -151,29 +151,29 @@
    "dek": "The weekly hunt across all 88 city groups, through August 11, 2026",
    "sections": [
     {
-     "heading": "Memphis is having its worst year on record \u2014 76th of 88 this year",
-     "subhead": "Memphis: Grizzlies",
+     "heading": "Raleigh is having its best year on record \u2014 9th of 88 this year",
+     "subhead": "Raleigh: Hurricanes",
      "stats": [
       {
        "label": "2026 so far (through August 11)",
-       "value": "10-39, -129.1 weighted \u2014 1st-worst of the 5 years since 2022, at the same point"
+       "value": "45-17, +124.6 weighted \u2014 1st-best of the 11 years on record, at the same point"
       },
       {
        "label": "Against the field",
-       "value": "76th of 88 city groups on the year (14th percentile)"
+       "value": "9th of 88 city groups on the year (91st percentile)"
       }
      ],
      "table": null,
      "images": [
       {
-       "file": "spotlight-memphis_year.png",
+       "file": "spotlight-raleigh_year.png",
        "caption": "Every season's cumulative index by day of year, this one in color.",
-       "alt": "Memphis: Grizzlies \u2014 Every season's cumulative index by day of year, this one in color"
+       "alt": "Raleigh: Hurricanes \u2014 Every season's cumulative index by day of year, this one in color"
       },
       {
-       "file": "spotlight-memphis_field.png",
+       "file": "spotlight-raleigh_field.png",
        "caption": "All 88 city groups on this year's index, the group picked out.",
-       "alt": "Memphis: Grizzlies \u2014 All 88 city groups on this year's index, the group picked out"
+       "alt": "Raleigh: Hurricanes \u2014 All 88 city groups on this year's index, the group picked out"
       }
      ]
     },
@@ -183,11 +183,11 @@
      "stats": [
       {
        "label": "This month (through August 11)",
-       "value": "8-3, +11.3 weighted \u2014 2nd-best of 31 months since 2022 (94th percentile)"
+       "value": "8-3, +11.3 weighted \u2014 2nd-best of 61 months on record (96th percentile)"
       },
       {
        "label": "vs past Augusts",
-       "value": "1st-best August of the 5 since 2022"
+       "value": "1st-best August of the 11 on record"
       },
       {
        "label": "Last 7 days",
@@ -211,8 +211,8 @@
       },
       {
        "file": "spotlight-san-diego_history.png",
-       "caption": "Every comparable month since 2022, this one picked out.",
-       "alt": "San Diego: Padres \u2014 Every comparable month since 2022, this one picked out"
+       "caption": "Every comparable month on record, this one picked out.",
+       "alt": "San Diego: Padres \u2014 Every comparable month on record, this one picked out"
       },
       {
        "file": "spotlight-san-diego_teams.png",
@@ -284,7 +284,7 @@
       },
       {
        "label": "Furthest from its own norm this year",
-       "value": "Chicago: Cubs/Bulls/Blackhawks/Bears \u2014 streak index +2.6 over 215 games, against a usual -0.7"
+       "value": "Houston: Astros/Rockets/Texans \u2014 streak index -2.1 over 182 games, against a usual +0.4"
       },
       {
        "label": "Streakiest of the last 30 days",

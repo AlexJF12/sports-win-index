@@ -10,8 +10,8 @@ from datetime import date, timedelta
 import pandas as pd
 
 from city_of_the_day import READINGS, reading
-from render_daily import (LABEL_GAP, SHAPES, field_alpha, form_frames,
-                          run_label, shape_reading, spread_labels)
+from chart_theme import LABEL_GAP, field_alpha, spread_labels
+from render_daily import SHAPES, form_frames, run_label, shape_reading
 from streakiness import CHANCE_BAND, band_reading
 
 REF = date(2026, 8, 13)

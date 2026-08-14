@@ -8,7 +8,7 @@ The city-of-the-day charts. Called by city_of_the_day.py.
                  month in every earlier year, day of month for day of month
     form.png     the last 30 days as each team's running games over .500
 
-Palette and theme come from render_content.py so every image in the repo looks
+Palette and theme come from chart_theme.py so every image in the repo looks
 like the same publication: earlier seasons in gray, this one in color.
 """
 
@@ -23,52 +23,16 @@ from plotnine import (aes, element_blank, element_rect, element_text,
                       scale_fill_manual, scale_x_continuous,
                       scale_y_continuous, theme)
 
+from chart_theme import (BASELINE, CAPTION, COLD, FIELD, HOT, INK, INK_2,
+                         MONTH_STARTS, MONTH_TICKS, MUTED, SURFACE, accent,
+                         field_alpha, spotlight_theme, spread_labels)
 from fandom_analysis import run_word, standing
-from render_content import (BASELINE, CAPTION, COLD, FIELD, HOT, INK, INK_2,
-                            MONTH_STARTS, MONTH_TICKS, MUTED, SURFACE,
-                            spotlight_theme)
 from streakiness import band_reading
 
 log = logging.getLogger(__name__)
 
 TITLE_WRAP = 40
 SUBTITLE_WRAP = 68
-CROWDED_FIELD = 4       # more past-year lines than this and the field recedes
-LABEL_GAP = 0.035       # minimum space between year labels, as a share of the
-                        # y range — about one line of type at the label's size
-
-
-def accent(value: float) -> str:
-    return HOT if value >= 0 else COLD
-
-
-def spread_labels(ends, span: float, gap: float = LABEL_GAP):
-    """Every past year keeps its label; the ones that would print on top of
-    each other get nudged apart.
-
-    Seasons finish in clusters — four of Baltimore's ten land within a few
-    points of each other — and two labels at the same height do not read as a
-    crowded pair, they overprint into glyph soup. So walk them from the top
-    and push each one clear of the last by a minimum gap. A label is an
-    identifier, not a mark: the line's own end still shows the exact value,
-    and because the nudge only ever preserves the order it was sorted in, a
-    reader can still tell which label belongs to which line by rank.
-    """
-    ends = ends.sort_values("cum", ascending=False).copy()
-    min_gap = max(span, 1e-9) * gap
-    placed = []
-    for y in ends["cum"]:
-        if placed and placed[-1] - y < min_gap:
-            y = placed[-1] - min_gap
-        placed.append(y)
-    ends["label_y"] = placed
-    return ends
-
-
-def field_alpha(n: int) -> float:
-    """Four context lines can be solid; ten have to recede or they compete
-    with the one line the chart is actually about."""
-    return 1.0 if n <= CROWDED_FIELD else 0.6
 
 
 def render_season(prof: dict, ref, path: str) -> None:
