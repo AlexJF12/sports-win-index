@@ -20,8 +20,8 @@ carries one day's images and git history carries the archive:
 
     season.png     cumulative weighted index this year against the same
                    group's earlier seasons, day of year for day of year
-    games.png      every game of the last 30 days as win/loss tiles, one
-                   row per team, with each team's longest run
+    form.png       the last 30 days as each team's running games over .500,
+                   one panel per team, with its record and longest run
     summary.md     the numbers behind both, ready to paste
     history.json   the rolling record of who has been picked
 
@@ -208,7 +208,7 @@ def write_summary(path: str, prof: dict, ref: date) -> None:
     for team in r["teams"]:
         out.append(f"| {team['nickname']} | {team['w']}-{team['l']} | "
                    f"{team['weighted']:+.1f} | {run_phrase(team['longest'])} |")
-    out += ["", "Images: `season.png` · `games.png`", ""]
+    out += ["", "Images: `season.png` · `form.png`", ""]
     with open(path, "w") as f:
         f.write("\n".join(out) + "\n")
 
@@ -271,7 +271,7 @@ def main():
 
     import render_daily
     render_daily.render_season(prof, ref, os.path.join(args.out_dir, "season.png"))
-    render_daily.render_games(prof, ref, os.path.join(args.out_dir, "games.png"))
+    render_daily.render_form(prof, ref, os.path.join(args.out_dir, "form.png"))
     log.info("Wrote %s", args.out_dir)
 
 

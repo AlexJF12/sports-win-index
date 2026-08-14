@@ -4,22 +4,27 @@ The two city-of-the-day charts. Called by city_of_the_day.py.
 
     season.png   cumulative weighted index this year against the same group's
                  earlier seasons, day of year for day of year
-    games.png    the last 30 days as win/loss tiles, one row per team
+    form.png     the last 30 days as each team's running games over .500
 
 Palette and theme come from render_content.py so every image in the repo looks
 like the same publication: earlier seasons in gray, this one in color.
 """
 
+import logging
 import textwrap
+from datetime import timedelta
 
 import pandas as pd
-from plotnine import (aes, element_blank, element_text, geom_hline, geom_line,
-                      geom_point, geom_text, geom_tile, ggplot, labs,
-                      scale_fill_manual, scale_x_continuous, scale_y_discrete,
-                      theme)
+from plotnine import (aes, element_blank, element_rect, element_text,
+                      facet_wrap, geom_hline, geom_line, geom_path, geom_point,
+                      geom_rect, geom_text, ggplot, labs, scale_fill_manual,
+                      scale_x_continuous, scale_y_continuous, theme)
 
 from render_content import (BASELINE, CAPTION, COLD, FIELD, HOT, INK, INK_2,
-                            MONTH_STARTS, MONTH_TICKS, MUTED, spotlight_theme)
+                            MONTH_STARTS, MONTH_TICKS, MUTED, SURFACE,
+                            spotlight_theme)
+
+log = logging.getLogger(__name__)
 
 TITLE_WRAP = 40
 SUBTITLE_WRAP = 68
@@ -64,59 +69,135 @@ def render_season(prof: dict, ref, path: str) -> None:
     p.save(path, verbose=False)
 
 
-def render_games(prof: dict, ref, path: str) -> None:
-    """The last 30 days, game by game, one row per team that played."""
-    teams = prof["recent"]["teams"]
-    rows, ends, order = [], [], []
-    for team in teams:
-        label = f"{team['nickname']}\n{team['league'].upper()}"
-        order.append(label)
-        for n, result in enumerate(team["results"], 1):
-            rows.append({"label": label, "n": n,
-                         "outcome": {"W": "Win", "L": "Loss"}.get(result, "Tie")})
-        run = team["longest"]
-        word = "wins" if run["type"] == "W" else "losses"
-        ends.append({"label": label, "n": len(team["results"]) + 1.6,
-                     "text": f"{team['w']}-{team['l']}   longest run: "
-                             f"{run['length']} {word}"})
-    df, end_df = pd.DataFrame(rows), pd.DataFrame(ends)
-    for frame in (df, end_df):
-        frame["label"] = pd.Categorical(frame["label"], categories=order[::-1])
-
-    r = prof["recent"]
-    tie = f", {r['t']} tied" if r["t"] else ""
-    index = r["index"]
+def shape_reading(index: float | None) -> str:
+    """How the order of the results sits against chance, in a phrase."""
     if index is None:
-        shape = "too few of both results to read the order"
-    elif index >= 2:
-        shape = f"the results arrived clumpier than chance ({index:+.1f})"
-    elif index <= -2:
-        shape = f"the results alternated more than chance ({index:+.1f})"
-    else:
-        shape = f"the order is about what coin flips produce ({index:+.1f})"
+        return "too few of both results to read the order"
+    if index >= 2:
+        return f"the results arrived clumpier than chance ({index:+.1f})"
+    if index <= -2:
+        return f"the results alternated more than chance ({index:+.1f})"
+    return f"the order is about what coin flips produce ({index:+.1f})"
+
+
+def run_label(run: dict) -> str:
+    if not run["length"]:
+        return "no games"
+    word = "wins" if run["type"] == "W" else "losses"
+    return f"longest run {run['length']} {word}"
+
+
+def form_frames(prof: dict, ref) -> tuple:
+    """The staircase behind the chart: for each team, its running games over
+    .500 on every day of the window.
+
+    The series runs day by day rather than game by game so the x axis is real
+    time — an off day holds the line flat, a doubleheader steps twice, and the
+    rows of a four-team city line up on the same calendar. A day's value is
+    where the team stood once that day's games were in.
+    """
+    days = prof["recent"]["days"]
+    start = ref - timedelta(days=days - 1)
+    step_for = {"W": 1, "L": -1, "T": 0}
+    fills, lines, ends, order = [], [], [], []
+
+    for team in prof["recent"]["teams"]:
+        label = (f"{team['nickname']} · {team['league'].upper()} · "
+                 f"{team['w']}-{team['l']} · {run_label(team['longest'])}")
+        order.append(label)
+        by_day = {}
+        for game in team["log"]:
+            offset = (pd.Timestamp(game["date"]).date() - start).days
+            by_day.setdefault(offset, []).append(game["result"])
+
+        net = 0
+        lines.append({"label": label, "x": 0, "net": 0})   # start the line at .500
+        for offset in range(days):
+            for result in by_day.get(offset, []):
+                net += step_for[result]
+            if net:                        # one filled step per day off .500
+                fills.append({"label": label, "x0": offset, "x1": offset + 1,
+                              "net": net, "sign": "up" if net > 0 else "down"})
+            # two points per day trace the tread and the riser of the stair
+            lines.append({"label": label, "x": offset, "net": net})
+            lines.append({"label": label, "x": offset + 1, "net": net})
+        ends.append({"label": label, "x": days, "net": net})
+
+    frames = [pd.DataFrame(rows) for rows in (fills, lines, ends)]
+    for frame in frames:
+        if not frame.empty:
+            frame["label"] = pd.Categorical(frame["label"], categories=order)
+    return (*frames, len(order))
+
+
+def render_form(prof: dict, ref, path: str) -> None:
+    """The last 30 days as form: each team's running games over .500.
+
+    The reader's question — how did the month actually go — is a shape over
+    time with a natural baseline, so this is a line against .500 rather than a
+    strip of colored tiles. The staircase carries the same sequence the tiles
+    did (every step up is a win, every step down a loss) and adds the dates,
+    the size of the swings, and where the runs fell; one panel per team keeps
+    the two colors meaning above and below .500 and nothing else, so the fill
+    never has to stand in for identity.
+    """
+    fill_df, line_df, end_df, n_teams = form_frames(prof, ref)
+    if not n_teams:     # a forced --city whose teams are all between seasons
+        log.warning("%s has played nobody in the window, skipping the form chart",
+                    prof["city"])
+        return
+    r = prof["recent"]
+    days = r["days"]
+    tie = f", {r['t']} tied" if r["t"] else ""
+
+    # one scale for every panel, in games, so a four-team city's rows are read
+    # against each other and not each against its own private ruler. The range
+    # is the data's, padded to at least a game either side of .500 — a team
+    # that never strayed far gets a flat line, not a dramatic-looking panel
+    lo = min(-1, int(line_df["net"].min()))
+    hi = max(1, int(line_df["net"].max()))
+    span = hi - lo
+    step = 1 if span <= 6 else 2 if span <= 12 else 3 if span <= 18 else 5
+    y_breaks = [v for v in range(lo, hi + 1) if v % step == 0]
+    x_breaks = [b for b in (0, 7, 14, 21, days - 1) if b < days]
+    x_labels = [(ref - timedelta(days=days - 1 - b)).strftime("%b %-d")
+                for b in x_breaks]
 
     p = (
         ggplot()
-        + geom_tile(df, aes("n", "label", fill="outcome"), width=0.86, height=0.4)
-        + geom_text(end_df, aes("n", "label", label="text"), ha="left",
-                    color=INK_2, size=7.5)
-        + scale_fill_manual(values={"Win": HOT, "Loss": COLD, "Tie": MUTED},
-                            breaks=["Win", "Loss"])
-        + scale_x_continuous(limits=(0.4, df["n"].max() + 10), expand=(0, 0))
-        + scale_y_discrete(drop=False)
-        + labs(title=textwrap.fill(f"The last {r['days']} days in {prof['city']}",
+        # 0.55 keeps the two poles apart where it counts — mixed into the
+        # surface they are #88b3e7 and #ee9a99, ΔE 11.1 protan and 17.0 to
+        # normal vision — without letting a month spent above .500 land as a
+        # saturated slab. Position carries the same reading regardless: the
+        # fill is above or below a drawn, labelled baseline
+        + geom_rect(fill_df, aes(xmin="x0", xmax="x1", ymin=0, ymax="net",
+                                 fill="sign"), alpha=0.55)
+        + geom_hline(yintercept=0, color=BASELINE, size=0.5)
+        + geom_path(line_df, aes("x", "net", group="label"), color=INK_2, size=0.8)
+        + geom_point(end_df, aes("x", "net"), color=INK, size=2.4, stroke=0)
+        + scale_fill_manual(values={"up": HOT, "down": COLD}, guide=None)
+        + scale_x_continuous(breaks=x_breaks, labels=x_labels,
+                             limits=(0, days), expand=(0.01, 0, 0.02, 0))
+        + scale_y_continuous(breaks=y_breaks, limits=(lo, hi),
+                             labels=[f"{v:+d}" if v else "0" for v in y_breaks])
+        + facet_wrap("label", ncol=1)
+        + labs(title=textwrap.fill(f"The last {days} days in {prof['city']}",
                                    TITLE_WRAP),
                subtitle=textwrap.fill(
-                   f"{r['w']}-{r['l']}{tie}, {r['weighted']:+.1f} weighted — {shape}. "
-                   f"One tile per game, in order, through "
-                   f"{ref.strftime('%B %-d, %Y')}.", SUBTITLE_WRAP),
-               caption=CAPTION)
+                   f"{r['w']}-{r['l']}{tie}, {r['weighted']:+.1f} weighted — "
+                   f"{shape_reading(r['index'])}. Each row is one team's record "
+                   f"against .500 through {ref.strftime('%B %-d, %Y')}: every "
+                   f"step up is a win, every step down a loss.", SUBTITLE_WRAP),
+               y="games over .500", caption=CAPTION)
         + spotlight_theme()
-        # in midsummer only the MLB team is playing, so the panel has to
-        # look composed at one row as well as at four
-        + theme(figure_size=(8, 2.1 + 0.45 * len(teams)),
-                axis_title=element_blank(), axis_text_x=element_blank(),
-                axis_text_y=element_text(size=8, linespacing=1.3),
-                panel_grid_major=element_blank(), panel_grid_minor=element_blank())
+        # in midsummer only the MLB team is playing, so the figure has to look
+        # composed at one panel as well as at four
+        + theme(figure_size=(8, 2.2 + 1.05 * n_teams),
+                axis_title_x=element_blank(),
+                axis_title_y=element_text(color=MUTED, size=8),
+                panel_grid_major_x=element_blank(),
+                panel_spacing=0.05,
+                strip_background=element_rect(fill=SURFACE, color=SURFACE),
+                strip_text=element_text(color=INK_2, size=8.5, ha="left"))
     )
     p.save(path, verbose=False)

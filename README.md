@@ -17,7 +17,7 @@ Default teams live in [`my_teams.json`](my_teams.json); the full team list (ESPN
 Every morning after the scrape, **[`city_of_the_day.py`](city_of_the_day.py)** draws one fandom at random and renders its season into [`content/daily/`](content/daily):
 
 - **`season.png`** — the group's cumulative weighted index this year against their own earlier seasons, day of year for day of year, so a bad start or a long climb shows up against the years that came before it
-- **`games.png`** — every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run; the subtitle reads the order of results against chance (see streakiness below)
+- **`form.png`** — the last 30 days as each team's running record against .500, one panel per team on a shared calendar, so every step up is a win and a run shows up as a climb; the panel heading carries the record and the longest run, and the subtitle reads the order of results against chance (see streakiness below)
 - **`summary.md`** — the numbers behind both, ready to paste
 
 The draw is deliberately random rather than ranked. A detector-driven feed keeps circling back to whoever is having an extreme week; a random draw gets around the whole league, and an ordinary season is interesting once someone actually looks at it. Some care goes into the draw:
@@ -25,7 +25,7 @@ The draw is deliberately random rather than ranked. A detector-driven feed keeps
 - a **city** is picked first, then a group inside it, so the 24 New York permutations take one city's worth of days instead of a quarter of the year
 - the draw is **seeded by the date**, so replaying a day reproduces it exactly
 - cities drawn in the last **21 days** are passed over, tracked in `content/daily/history.json` — a small file, not a folder scan
-- a city only qualifies with at least 6 games in the last 30 days and 2 earlier seasons, so neither chart is ever empty (in midsummer that usually means the group's MLB team is the only row on `games.png`)
+- a city only qualifies with at least 6 games in the last 30 days and 2 earlier seasons, so neither chart is ever empty (in midsummer that usually means the group's MLB team is the only panel on `form.png`)
 
 Force a pick with `--city Detroit`, replay a day with `--date 20260716`, or skip the plotnine import with `--no-images`.
 
@@ -82,7 +82,7 @@ Replay a run with `python fandom_analysis.py --date 20260716 && python render_co
 Every image above lives at a fixed path and is overwritten by the next run, which is the right shape for a working tree and the wrong shape for reading. [`publish_blog.py`](publish_blog.py) files each run's output into a dated folder and writes the manifest the page reads:
 
     content/posts/2026-08-03/daily-season.png
-    content/posts/2026-08-03/daily-games.png
+    content/posts/2026-08-03/daily-form.png
     content/posts/index.json
 
 **One post per run, not one per image.** The morning's city of the day is a post; Wednesday's spotlight is a post carrying its three findings; Wednesday's streakiness charts are a post. The feed is reverse-chronological, so a Wednesday shows all three and an ordinary Tuesday shows one. Chips filter it to a single kind.

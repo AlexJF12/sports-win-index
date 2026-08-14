@@ -59,9 +59,9 @@
        "alt": "Baltimore: Orioles/Ravens \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
       },
       {
-       "file": "daily-games.png",
-       "caption": "Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run.",
-       "alt": "Baltimore: Orioles/Ravens \u2014 Every game of the last 30 days as win/loss tiles, one row per team, with each team's record and longest run"
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Baltimore: Orioles/Ravens \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
       }
      ]
     }

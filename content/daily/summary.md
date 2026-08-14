@@ -11,5 +11,5 @@
 |---|---|---|---|
 | Orioles | 12-12 | +0.0 | 3 straight wins |
 
-Images: `season.png` · `games.png`
+Images: `season.png` · `form.png`
 

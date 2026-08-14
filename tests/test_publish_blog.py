@@ -19,7 +19,7 @@ DAILY_SUMMARY = """# City of the day — Philadelphia
 |---|---|---|---|
 | Phillies | 10-14 | -9.0 | 4 straight losses |
 
-Images: `season.png` · `games.png`
+Images: `season.png` · `form.png`
 """
 
 WEEKLY_SUMMARY = """# Fandom spotlight — 2026-08-02
@@ -64,7 +64,7 @@ def daily_dir(tmp_path, summary=DAILY_SUMMARY, name="daily", body=b""):
     folder = str(tmp_path / name)
     write(folder, "summary.md", summary)
     png(folder, "season.png", body)
-    png(folder, "games.png", body)
+    png(folder, "form.png", body)
     return folder
 
 
@@ -127,7 +127,7 @@ def test_parses_a_daily_summary_into_one_section():
     assert body["stats"][0]["label"] == "2026 so far"
     assert body["table"]["columns"][0] == "Team"
     assert body["table"]["rows"] == [["Phillies", "10-14", "-9.0", "4 straight losses"]]
-    assert body["images"] == ["season.png", "games.png"]
+    assert body["images"] == ["season.png", "form.png"]
 
 
 def test_parses_a_spotlight_summary_into_one_section_per_finding():
@@ -152,13 +152,13 @@ def test_daily_post_reads_its_date_from_the_summary(tmp_path):
     assert post["kind"] == "daily"
     assert post["title"] == "City of the day — Philadelphia"
     assert [i["file"] for i in post["sections"][0]["images"]] == [
-        "daily-season.png", "daily-games.png"]
+        "daily-season.png", "daily-form.png"]
     assert all(i["alt"] for i in post["sections"][0]["images"])
 
 
 def test_daily_post_skips_images_that_were_not_drawn(tmp_path):
     folder = daily_dir(tmp_path)
-    os.remove(os.path.join(folder, "games.png"))       # --no-images run
+    os.remove(os.path.join(folder, "form.png"))       # --no-images run
     post = daily_post(folder)
     assert [i["file"] for i in post["sections"][0]["images"]] == ["daily-season.png"]
 

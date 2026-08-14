@@ -78,8 +78,8 @@ KINDS = {
 DAILY_CAPTIONS = {
     "season.png": "The group's cumulative weighted index this year, drawn against "
                   "its own earlier seasons, day of year for day of year.",
-    "games.png": "Every game of the last 30 days as win/loss tiles, one row per "
-                 "team, with each team's record and longest run.",
+    "form.png": "Each team's running record against .500 over the last 30 days, "
+                "one panel per team, on a shared calendar.",
 }
 STREAK_CAPTIONS = {
     "season_vs_history.png": "This season's streak index for the ten fandoms "
