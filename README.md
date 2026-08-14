@@ -121,6 +121,25 @@ So the manifest is two files: `index.json` holds the posts still inside the wind
 
 [`backfill_blog.py`](backfill_blog.py) seeds the blog from git history: it walks the commit log, exports each run's folder to a scratch directory, and hands it to the same builders, so a backfilled post and a fresh one are identical. It reads all three layouts the log contains, including the original `content/<date>/` spotlight folders. `--dry-run` lists what it would publish.
 
+### Every post goes to Bluesky
+
+[`share_bluesky.py`](share_bluesky.py) runs in the same job as the publisher, right after it, so each morning's post reaches the timeline minutes after the page exists rather than on a schedule of its own that could fire first.
+
+**The share is the chart and the link, and nothing else** — no post text. A Bluesky record carries at most one embed, and only the external embed holds a picture and a clickable URL together: an images embed would show the chart with no way to reach the post, and putting the URL in the body is text. So each share is a link card with the post's lead chart as its thumbnail — the *same* image the page already serves as its `og:image`, read the same way, so the share and the unfurl can't disagree. The card's two lines are the post's own headline and dek, which are the link's metadata rather than anything written for the occasion.
+
+What has already gone out is remembered in `content/posts/bluesky.json`, keyed on date and kind, next to a fingerprint of what was shared: the URL, the headline, the dek, and the bytes of the chart. That precision is the point — `publish_blog.py` rewrites every page every morning and almost all of it comes out byte-identical, so anything looser would re-share the whole 90-day window daily. A run that changes one of those four is an update, and **an updated post is shared again**: Bluesky posts can't be edited, so the superseded share is deleted and a fresh one replaces it (`--keep-superseded` leaves the old one up). Archived posts, whose charts are gone, are never shared.
+
+A run reaches back one day from the newest post (`--max-age-days`) and shares at most four (`--max-posts`, since a Wednesday carries three) — which is what keeps the first run against a manifest full of history from posting ninety days of backlog. `--backfill` lifts the window when that's what you want. The state file rides along in the same commit as the post it refers to.
+
+**Setting it up.** Until the account exists, `BLUESKY_HANDLE` and `BLUESKY_APP_PASSWORD` are placeholders at the top of the script, and a run that finds a placeholder says what's missing and exits 0 — the daily scrape must not start failing because the account for it doesn't exist yet. To finish it:
+
+1. Create the Bluesky account and note its handle (`something.bsky.social`).
+2. In Bluesky: **Settings → Privacy and security → App passwords → Add App Password**. Use that, never the account password — it can be revoked on its own and can't change the account's email or password.
+3. In this repo: **Settings → Secrets and variables → Actions → New repository secret**, twice — `BLUESKY_HANDLE` and `BLUESKY_APP_PASSWORD`.
+4. Run the **Share to Bluesky** workflow by hand with `dry_run` on to see what it would post, then off to post it. After that the daily scrape carries it.
+
+The daily step is `continue-on-error`, so an outage costs a day's share and not the day's scores; the post simply stays pending and goes out on the next run. Nothing is ever posted from a local run unless you set both environment variables yourself — `--dry-run` needs no credentials at all.
+
 ## The three scoring methods
 
 The page can score your teams' games three ways:
@@ -164,6 +183,8 @@ python3 streakiness.py                   # rebuild content/streakiness/
 python3 fandom_analysis.py && python3 render_content.py   # rebuild content/weekly/
 python3 publish_blog.py                  # file the newest runs into content/posts/
 python3 publish_blog.py --retain-days 1  # see what an archived post looks like
+python3 share_bluesky.py --dry-run       # what would go out to Bluesky (no credentials needed)
+python3 share_bluesky.py                 # share it (needs $BLUESKY_HANDLE, $BLUESKY_APP_PASSWORD)
 python3 backfill_blog.py --dry-run       # what the git log would add to the blog
 python3 -m pytest tests/                 # test suite (offline, fixture-based)
 ```
