@@ -125,9 +125,35 @@ So the manifest is two files: `index.json` holds the posts still inside the wind
 
 [`share_bluesky.py`](share_bluesky.py) runs in the same job as the publisher, right after it, so each morning's post reaches the timeline minutes after the page exists rather than on a schedule of its own that could fire first.
 
-**The share is the chart and the link, and nothing else** — no post text. A Bluesky record carries at most one embed, and only the external embed holds a picture and a clickable URL together: an images embed would show the chart with no way to reach the post, and putting the URL in the body is text. So each share is a link card with the post's lead chart as its thumbnail — the *same* image the page already serves as its `og:image`, read the same way, so the share and the unfurl can't disagree. The card's two lines are the post's own headline and dek, which are the link's metadata rather than anything written for the occasion.
+**The chart goes out full size, not as a link card.** A card is the tidier shape — the URL never appears as text — and it's the wrong one. A card's thumbnail renders a few hundred pixels wide and cropped, and these charts are 1600×920 with 8pt axis labels, so the picture lands as a gray smudge and the work in it is invisible. An images embed renders full width in the timeline and opens to full size on a tap. The two embeds are mutually exclusive, so the link lives in the post text instead, as a rich-text facet — offsets counted in UTF-8 *bytes*, since these headlines carry em dashes and the odd emoji and a facet counted in characters would land on the wrong slice.
 
-What has already gone out is remembered in `content/posts/bluesky.json`, keyed on date and kind, next to a fingerprint of what was shared: the URL, the headline, the dek, and the bytes of the chart. That precision is the point — `publish_blog.py` rewrites every page every morning and almost all of it comes out byte-identical, so anything looser would re-share the whole 90-day window daily. A run that changes one of those four is an update, and **an updated post is shared again**: Bluesky posts can't be edited, so the superseded share is deleted and a fresh one replaces it (`--keep-superseded` leaves the old one up). Archived posts, whose charts are gone, are never shared.
+Above the chart go two lines: **the fandom, then the number that makes it worth a stranger's attention.** "City of the day — Baltimore" is how the blog files a post; what somebody actually stops for is
+
+> Baltimore: Orioles/Ravens
+> August 2026 through day 13: 4-7, -6.8 weighted — the worst of the 11 on record
+
+Both strings were already in the manifest. Only one of them was worth leading with. The image carries the alt text `publish_blog.py` already builds, which the link card had no field for and was throwing away.
+
+### Not every post is worth posting
+
+The daily is a city a morning, in rotation, whether or not anything happened to it — that's right for a blog and wrong for a timeline. An account that posts an unremarkable team every single day teaches the people following it to scroll past its name, and then the one morning something *is* remarkable gets scrolled past too. So the weekly reads always go out (a spotlight only exists at all when a detector fired, and the streakiness pair is the whole field at once) and **a daily has to clear a bar**:
+
+| Signal | Bar | Why there |
+|---|---|---|
+| This month against every past one | **best or worst on record**, out of ≥5 | "their best August ever" is a sentence someone repeats; "their 2nd-best August" is one nobody finishes — and top-*two* of eleven fires on better than a third of mornings by chance |
+| Longest run, last 30 days | **6 straight** | most of a month going one way |
+| Longest run, full season | **10 straight** | six straight across 230 games is a fortnight nobody noticed |
+| Order of results | **outside the chance band** | `streakiness.py`'s own "clumpier than chance" / "more alternating than chance" |
+
+Every bar is the analysis's own phrasing and the analysis's own threshold — `fandom_analysis.standing()`, `streakiness.CHANCE_BAND` — parsed back out of the manifest rather than re-derived, so a change to how the analysis measures carries through instead of drifting away from it. Whichever signal fires is also the line the post leads with, since the reason it's worth sharing is the reason it's worth reading.
+
+Measured against the blog as it stands, that's **12 shares across 16 days instead of 20** — 4 of 12 dailies, all 5 spotlights, all 3 streakiness runs, about five posts a week. `--share-daily always` restores the old behavior; `--share-daily never` leaves the timeline to the weeklies.
+
+> The month signal is the strongest one and it only landed in `city_of_the_day.py` recently, so most posts already in the manifest don't carry that bullet and are judged on runs alone. New posts get all four.
+
+### The record
+
+What has gone out is remembered in `content/posts/bluesky.json`, keyed on date and kind, next to a fingerprint of what was shared: the text, the URL, the alt, and the bytes of the chart. That precision is the point — `publish_blog.py` rewrites every page every morning and almost all of it comes out byte-identical, so anything looser would re-share the whole 90-day window daily. A run that changes one of those four is an update, and **an updated post is shared again**: Bluesky posts can't be edited, so the superseded share is deleted and a fresh one replaces it (`--keep-superseded` leaves the old one up). Archived posts, whose charts are gone, are never shared.
 
 A run reaches back one day from the newest post (`--max-age-days`) and shares at most four (`--max-posts`, since a Wednesday carries three) — which is what keeps the first run against a manifest full of history from posting ninety days of backlog. `--backfill` lifts the window when that's what you want. The state file rides along in the same commit as the post it refers to.
 

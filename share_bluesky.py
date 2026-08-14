@@ -3,22 +3,36 @@
 Share each new blog post to Bluesky, as soon as the post exists.
 
 publish_blog.py files every morning's run into content/posts/<date>/ and
-rewrites content/posts/index.json. This reads that manifest and posts anything
-it hasn't posted before: the post's lead chart and a link to the post's own
-page, and nothing else. There is no post text — the chart and the link *are*
-the post, which is why each share goes out as a link card (the one embed shape
-that carries a picture and a clickable link at the same time). The card's
-headline is the post's own headline, the same string the page already serves as
-its <title> and og:title.
+rewrites content/posts/index.json. This reads that manifest and posts what is
+worth posting: the post's lead chart shown full size, one line naming the fandom
+and one giving the number that makes it interesting, and a link to the post's
+own page.
+
+Two decisions are load-bearing, and both cut against the tidier version.
+
+The chart goes out as an image embed rather than a link card. A card is neater —
+the URL never shows as text — but its thumbnail renders a few hundred pixels
+wide and cropped, and these charts are 1600px with 8pt axis labels, so the
+picture arrives as a gray smudge. An images embed renders full width and opens
+to full size on a tap. The two embeds are exclusive, so the link then has to
+live in the text as a rich-text facet.
+
+And not every post goes out. The daily is a city a morning in rotation, whether
+or not anything happened to it; an account that posts an unremarkable team every
+day teaches its followers to scroll past. So a daily has to clear a bar — a
+month at the top or bottom of its own record, a long enough run, results outside
+the band chance alone produces — measured with the analysis's own phrases and
+thresholds. The weekly reads always go out. See finding(); --share-daily
+overrides it either way.
 
 What has already gone out is remembered in content/posts/bluesky.json, keyed on
-the post's date and kind, alongside a fingerprint of what was shared — the
-headline, the dek, the URL and the bytes of the lead image. A run that changes
-any of those is an *update*, and an updated post is shared again: Bluesky posts
-can't be edited, so the superseded share is deleted and a fresh one takes its
-place (--keep-superseded leaves the old one up). A run that changes none of them
-is a no-op, which matters because publish_blog.py rewrites every page every
-morning and almost all of that output is byte-identical.
+the post's date and kind, alongside a fingerprint of what was shared — the text,
+the URL, the alt, and the bytes of the lead image. A run that changes any of
+those is an *update*, and an updated post is shared again: Bluesky posts can't
+be edited, so the superseded share is deleted and a fresh one takes its place
+(--keep-superseded leaves the old one up). A run that changes none of them is a
+no-op, which matters because publish_blog.py rewrites every page every morning
+and almost all of that output is byte-identical.
 
 Credentials come from the environment — BLUESKY_HANDLE and BLUESKY_APP_PASSWORD
 (an app password from Settings → Privacy and security → App passwords, never the
@@ -30,6 +44,7 @@ doesn't exist yet. --require-credentials turns that into an error once it does.
 Usage:
     python share_bluesky.py                      # share today's posts
     python share_bluesky.py --dry-run            # print what would go out
+    python share_bluesky.py --share-daily always # every morning, bar or no bar
     python share_bluesky.py --max-age-days 7     # a week's backlog, not a day's
     python share_bluesky.py --backfill --max-posts 5   # ignore the age window
 """
@@ -39,6 +54,8 @@ import hashlib
 import json
 import logging
 import os
+import re
+import struct
 import sys
 import time
 from datetime import datetime, timezone
@@ -162,24 +179,228 @@ class Bluesky:
                    json={"repo": self.did, "collection": self.COLLECTION, "rkey": rkey})
 
 
-def link_card(url: str, title: str, description: str, thumb: dict = None) -> dict:
-    """A post that is a picture and a link and nothing else.
+def image_post(text: str, facets: list, blob: dict, alt: str,
+               ratio: dict = None) -> dict:
+    """A post that is the chart, big, over a line of text and the link.
 
-    A Bluesky record carries at most one embed, and only the external embed
-    holds a URL and an image together — an images embed would show the chart
-    with no way to reach the post, and putting the URL in the text is text.
-    So the share is a link card: the chart as its thumbnail, the post's own
-    headline and dek as the card's, and an empty post body above it.
+    The other shape available is a link card, which is tidier — the URL never
+    appears as text — and it is the wrong one. A card's thumbnail renders a few
+    hundred pixels wide and cropped, and these charts are 1600px with 8pt axis
+    labels: the picture arrives as a gray smudge. An images embed renders
+    full-width and opens to full size on a tap, which is the only version of
+    these charts anyone can actually read on a phone. The cost is that the two
+    embeds are exclusive, so the link has to live in the text as a facet.
+
+    One image and not four. The embed takes up to four, and two or more render
+    as a grid at half width or less — which would undo the thing this format
+    was chosen for.
     """
-    external = {"uri": url, "title": title, "description": description}
-    if thumb:
-        external["thumb"] = thumb
+    image = {"alt": alt, "image": blob}
+    if ratio:
+        # lets the client reserve the right box before the blob loads, instead
+        # of guessing square and cropping a 1600x920 chart to fit
+        image["aspectRatio"] = ratio
     return {
         "$type": "app.bsky.feed.post",
-        "text": "",
+        "text": text,
         "createdAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z"),
-        "embed": {"$type": "app.bsky.embed.external", "external": external},
+        "langs": ["en"],
+        "facets": facets,
+        "embed": {"$type": "app.bsky.embed.images", "images": [image]},
     }
+
+
+TEXT_LIMIT = 290    # the cap is 300 graphemes; len() counts code points, and
+                    # the gap between the two is the headroom
+
+
+def compose(hook: str, url: str) -> tuple[str, list]:
+    """The post's text, and the facet that makes the URL in it a link.
+
+    Facet offsets are UTF-8 *byte* offsets rather than character offsets. These
+    headlines carry em dashes and the occasional emoji, both of which are more
+    than one byte, so counting characters would hand Bluesky a link over the
+    wrong slice of the string.
+    """
+    hook = trim(hook, TEXT_LIMIT - len(url) - 2)
+    text = f"{hook}\n\n{url}" if hook else url
+    start = len(text[:text.rindex(url)].encode())
+    return text, [{"index": {"byteStart": start,
+                             "byteEnd": start + len(url.encode())},
+                   "features": [{"$type": "app.bsky.richtext.facet#link",
+                                 "uri": url}]}]
+
+
+def trim(text: str, room: int) -> str:
+    """Cut to length at a word boundary — a stat cut mid-number reads as a typo."""
+    if room <= 1:
+        return ""
+    if len(text) <= room:
+        return text
+    cut = text[:room - 1]
+    space = cut.rfind(" ")
+    if space > room // 2:
+        cut = cut[:space]
+    return cut.rstrip(" ,;:—-") + "…"
+
+
+def png_size(path: str) -> dict | None:
+    """A PNG's pixel dimensions, straight out of its IHDR — 8 bytes of header,
+    rather than a Pillow dependency to read them."""
+    with open(path, "rb") as f:
+        head = f.read(24)
+    if len(head) < 24 or head[:8] != b"\x89PNG\r\n\x1a\n" or head[12:16] != b"IHDR":
+        return None
+    width, height = struct.unpack(">II", head[16:24])
+    return {"width": width, "height": height}
+
+
+# --- is there anything in this post? ------------------------------------------
+
+# The daily post exists for the blog's sake: a city a morning, in rotation,
+# whether or not anything happened to it. A timeline is not a blog. An account
+# that posts an unremarkable team every single day teaches the people following
+# it to scroll past its name, and then the one morning something *is* remarkable
+# gets scrolled past too. So the weekly reads always go out — the spotlight only
+# exists at all when a detector fired, and the streakiness pair is the whole
+# field at once — and a daily has to earn it.
+#
+# Every bar below is the analysis's own. The standing is the phrase
+# fandom_analysis.standing() already writes; "clumpier than chance" is
+# streakiness.band_reading() already saying the order of results sits outside
+# the band chance alone produces. Nothing here re-derives a number, so a change
+# to how the analysis measures carries through instead of drifting away from it.
+
+# The best or the worst on record, and nothing in between. "Their best August
+# ever" is a sentence somebody repeats; "their 2nd-best August" is a sentence
+# nobody finishes — and out of the eleven years on record, top-or-bottom-two
+# would fire on better than a third of mornings by chance alone.
+MONTH_EDGE = 1
+MIN_FIELD = 5        # a field deep enough for "on record" to mean something
+
+# A run is only remarkable against the window it happened in. Six straight
+# inside thirty days is most of the month going one way; six straight across a
+# 230-game season is a fortnight nobody noticed, and measuring both against one
+# bar is what made the first version of this gate pass eleven of twelve posts.
+LONG_RUN = {"recent": 6, "season": 10}
+RECENT_LABEL_RE = re.compile(r"^Last \d+ days$")
+SEASON_LABEL_RE = re.compile(r"^\d{4} so far$")
+
+ORDINALS = {"best": 1, "second-best": 2, "third-best": 3,
+            "fourth-best": 4, "fifth-best": 5, "sixth-best": 6}
+# Two phrasings reach this. fandom_analysis.standing(), which the daily writes:
+# "the worst of the 11", "the second-best of the 11", "the 7th-best of the 11".
+# And the spotlight's own, which drops the article and can name the thing being
+# ranked: "1st-worst July of the 5 since 2022", "2nd-best of 61 months".
+STANDING_RE = re.compile(
+    r"(?:the )?(?:(best|second-best|third-best|fourth-best|fifth-best|sixth-best|worst)"
+    r"|(\d+)(?:st|nd|rd|th)-(best|worst))"
+    r"(?:\s+\w+)? of (?:the )?(\d+)")
+RUN_RE = re.compile(r"longest run (\d+) straight (?:wins|losses)")
+MONTH_LABEL_RE = re.compile(r"^[A-Z][a-z]+ \d{4}(?: through day \d+)?$")
+ORDER_LABEL = "Order of results"
+OUT_OF_BAND = ("clumpier than chance", "more alternating than chance")
+
+
+def standing_of(text: str) -> tuple[int, int] | None:
+    """(place, field) out of "the 7th-best of the 11 on record"."""
+    m = STANDING_RE.search(text)
+    if not m:
+        return None
+    field = int(m.group(4))
+    if m.group(2):
+        n = int(m.group(2))
+        # "1st-worst of the 5" is the 5th place, counted from the good end —
+        # everything downstream compares against one end or the other, so both
+        # spellings have to arrive on the same scale
+        place = n if m.group(3) == "best" else field - n + 1
+    elif m.group(1) == "worst":
+        place = field
+    else:
+        place = ORDINALS[m.group(1)]
+    return place, field
+
+
+def stats_of(post: dict) -> list:
+    return [stat for section in post.get("sections") or []
+            for stat in section.get("stats") or []]
+
+
+def finding(post: dict) -> str | None:
+    """What makes this morning worth a stranger's attention, in the analysis's
+    own words — or None when the honest answer is nothing.
+
+    Checked strongest first, because whatever comes back is also the line the
+    post leads with: a month at the edge of its own record beats a long run,
+    and a long run beats results that merely arrived in an odd order.
+    """
+    stats = stats_of(post)
+
+    for stat in stats:                     # this month against every past one
+        if not MONTH_LABEL_RE.match(stat["label"]):
+            continue
+        place_field = standing_of(stat["value"])
+        if not place_field:
+            continue
+        place, field = place_field
+        if field >= MIN_FIELD and (place <= MONTH_EDGE or place > field - MONTH_EDGE):
+            return f"{stat['label']}: {stat['value']}"
+
+    for stat in stats:                     # a run long enough to be the story
+        m = RUN_RE.search(stat["value"])
+        if not m:
+            continue
+        if RECENT_LABEL_RE.match(stat["label"]):
+            bar = LONG_RUN["recent"]
+        elif SEASON_LABEL_RE.match(stat["label"]):
+            bar = LONG_RUN["season"]
+        else:
+            continue
+        if int(m.group(1)) >= bar:
+            return f"{stat['label']}: {stat['value']}"
+
+    for stat in stats:                     # wins and losses not arriving at random
+        if stat["label"] == ORDER_LABEL and any(p in stat["value"]
+                                                for p in OUT_OF_BAND):
+            return f"The order of the results this year is {stat['value']}"
+
+    return None
+
+
+def first_stat(post: dict) -> str:
+    """The lead number, for a post that doesn't need a gate to justify it."""
+    stats = stats_of(post)
+    return f"{stats[0]['label']}: {stats[0]['value']}" if stats else ""
+
+
+def hook(post: dict) -> str:
+    """The post's text: the claim, then the number under it.
+
+    Two lines, because a timeline is scanned rather than read — the first line
+    has to be a thing that happened, not a filing label. "City of the day —
+    Baltimore" is how the blog indexes a post; "Baltimore: Orioles/Ravens"
+    followed by the month that put them at the bottom of eleven years is what
+    somebody stops for. Both are already in the manifest; only one of them is
+    worth leading with.
+    """
+    sections = post.get("sections") or []
+    lead = sections[0] if sections else {}
+
+    if post["kind"] == "spotlight":
+        # the spotlight's headline is already a sentence about a fandom —
+        # "Raleigh is having its best year on record" — so it needs no help
+        claim = lead.get("heading") or post.get("title") or ""
+        stats = lead.get("stats") or []
+        detail = f"{stats[0]['label']}: {stats[0]['value']}" if stats else ""
+    elif post["kind"] == "daily":
+        claim = post.get("dek") or post.get("title") or ""
+        detail = finding(post) or first_stat(post)
+    else:
+        claim = post.get("title") or ""
+        detail = next((f"{s['label']}: {s['value']}" for s in stats_of(post)
+                       if s["label"].startswith("Streakiest")), first_stat(post))
+
+    return "\n".join(line for line in (claim, detail) if line)
 
 
 # --- what to share ------------------------------------------------------------
@@ -209,16 +430,16 @@ def key(post: dict) -> str:
     return f"{post['date']}/{post['kind']}"
 
 
-def fingerprint(post: dict, url: str, image_path: str | None) -> str:
+def fingerprint(text: str, url: str, alt: str, image_path: str | None) -> str:
     """What a share is made of, as one hash.
 
-    Everything that reaches Bluesky and nothing that doesn't: the link, the
-    card's two lines, and the pixels of the chart. The publisher rewrites every
+    Everything that reaches Bluesky and nothing that doesn't: the text, the
+    link, the alt, and the pixels of the chart. The publisher rewrites every
     page every morning, so comparing anything looser than this would re-share
     the whole window daily.
     """
     h = hashlib.sha256()
-    for part in (url, post.get("title") or "", post.get("dek") or ""):
+    for part in (text, url, alt):
         h.update(part.encode())
         h.update(b"\0")
     if image_path and os.path.exists(image_path):
@@ -229,7 +450,7 @@ def fingerprint(post: dict, url: str, image_path: str | None) -> str:
 
 def pending(manifest: dict, state: dict, posts_dir: str = POSTS_DIR,
             max_age_days: int = MAX_AGE_DAYS, max_posts: int = MAX_POSTS,
-            backfill: bool = False) -> list[dict]:
+            backfill: bool = False, share_daily: str = "notable") -> list[dict]:
     """The posts that should go out on this run, oldest first.
 
     Oldest first so a Wednesday's three land on the timeline in the order the
@@ -250,6 +471,11 @@ def pending(manifest: dict, state: dict, posts_dir: str = POSTS_DIR,
             continue
         if post.get("archived"):
             continue                       # its charts are gone; nothing to show
+        if post["kind"] == "daily" and share_daily != "always":
+            if share_daily == "never" or not finding(post):
+                log.info("%s — %s: nothing in it worth a post, skipping",
+                         name, post.get("dek") or post.get("title") or "")
+                continue
         image = lead_image(post)
         if not image:
             log.info("%s has no chart — nothing to share", name)
@@ -262,12 +488,15 @@ def pending(manifest: dict, state: dict, posts_dir: str = POSTS_DIR,
             continue
 
         url = post_url(post, base_url)
-        mark = fingerprint(post, url, path)
+        alt = image.get("alt") or ""
+        text, facets = compose(hook(post), url)
+        mark = fingerprint(text, url, alt, path)
         before = shared.get(name)
         if before and before.get("fingerprint") == mark:
             continue                       # unchanged since it was shared
         out.append({"post": post, "key": name, "url": url, "image": path,
-                    "alt": image.get("alt") or "", "fingerprint": mark,
+                    "alt": alt, "text": text, "facets": facets,
+                    "ratio": png_size(path), "fingerprint": mark,
                     "supersedes": before})
 
     if len(out) > max_posts:
@@ -297,11 +526,10 @@ def share(items: list[dict], client: Bluesky, state: dict,
     """
     shared = state.setdefault("shared", {})
     for item in items:
-        post = item["post"]
         old = item["supersedes"]
-        thumb = client.upload(item["image"])
-        record = link_card(item["url"], post.get("title") or "Team Wins",
-                           post.get("dek") or "", thumb)
+        blob = client.upload(item["image"])
+        record = image_post(item["text"], item["facets"], blob, item["alt"],
+                            item["ratio"])
         created = client.create(record)
 
         if old and old.get("uri") and not keep_superseded:
@@ -362,6 +590,11 @@ def main():
     parser.add_argument("--backfill", action="store_true",
                         help="Ignore the age window and consider every post in "
                              "the manifest (--max-posts still applies).")
+    parser.add_argument("--share-daily", choices=("notable", "always", "never"),
+                        default="notable",
+                        help="Which city-of-the-day posts go out: only the ones "
+                             "with a finding in them (default), all of them, or "
+                             "none. The weekly reads always go out.")
     parser.add_argument("--keep-superseded", action="store_true",
                         help="Leave the old share up when a post is updated, "
                              "instead of replacing it.")
@@ -382,7 +615,7 @@ def main():
     state = read_json(state_path) or {}
 
     items = pending(manifest, state, args.posts_dir, args.max_age_days,
-                    args.max_posts, args.backfill)
+                    args.max_posts, args.backfill, args.share_daily)
     if not items:
         log.info("Nothing new to share")
         return 0
@@ -391,7 +624,11 @@ def main():
         for item in items:
             log.info("Would share %s%s", describe(item),
                      " (update)" if item["supersedes"] else "")
-            log.info("    %s  ←  %s", item["url"], item["image"])
+            for line in item["text"].splitlines():
+                log.info("    | %s", line)
+            log.info("    image %s%s", os.path.basename(item["image"]),
+                     f" ({item['ratio']['width']}x{item['ratio']['height']})"
+                     if item["ratio"] else "")
         return 0
 
     creds = credentials(args.handle, APP_PASSWORD)

@@ -23,6 +23,11 @@ on:
       max_posts:
         description: "Ceiling on this run's shares"
         default: "4"
+      share_daily:
+        description: "Which city-of-the-day posts go out"
+        type: choice
+        default: notable
+        options: [notable, always, never]
 
 permissions:
   contents: write
@@ -57,6 +62,7 @@ jobs:
           python share_bluesky.py \
             --max-age-days "${{ inputs.max_age_days }}" \
             --max-posts "${{ inputs.max_posts }}" \
+            --share-daily "${{ inputs.share_daily }}" \
             ${{ inputs.backfill && '--backfill' || '' }} \
             ${{ inputs.dry_run && '--dry-run' || '--require-credentials' }}
 
