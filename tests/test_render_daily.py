@@ -19,10 +19,11 @@ def game(day_offset, result):
     return {"date": when.strftime("%Y%m%d"), "result": result}
 
 
-def team(nickname, log, league="mlb", longest=None):
+def team(nickname, log, league="mlb", longest=None, weighted=0.0):
     results = [g["result"] for g in log]
     return {"nickname": nickname, "league": league, "log": log,
             "w": results.count("W"), "l": results.count("L"),
+            "weighted": weighted,
             "longest": longest or {"length": 1, "type": "W"}}
 
 
@@ -85,13 +86,24 @@ def test_panels_keep_the_order_the_group_lists_its_teams_in():
         ["Cards", "Bucks"]
 
 
-def test_the_panel_heading_carries_the_record_and_the_run():
+def test_the_panel_heading_carries_the_record_the_weight_and_the_run():
     _, lines, _, _ = form_frames(
         prof(team("Cards", [game(0, "W"), game(1, "W")],
-                  longest={"length": 2, "type": "W"})), REF)
+                  longest={"length": 2, "type": "W"}, weighted=4.5)), REF)
 
     assert lines["label"].cat.categories[0] == \
-        "Cards · MLB · 2-0 · longest run 2 wins"
+        "Cards · MLB · 2-0 · +4.5 weighted · longest run 2 wins"
+
+
+def test_the_heading_weight_is_the_index_the_games_axis_cannot_show():
+    """A 3-1 NFL month is +2 games and +42.9 weighted. The panel draws the
+    first, so the heading has to carry the second."""
+    _, lines, ends, _ = form_frames(
+        prof(team("Bears", [game(0, "W"), game(3, "W"), game(10, "L"),
+                            game(17, "W")], league="nfl", weighted=42.9)), REF)
+
+    assert ends["net"].iloc[0] == 2                      # what the panel draws
+    assert "+42.9 weighted" in lines["label"].cat.categories[0]
 
 
 def test_run_label_survives_a_team_with_no_games():

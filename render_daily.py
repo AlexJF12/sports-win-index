@@ -102,8 +102,13 @@ def form_frames(prof: dict, ref) -> tuple:
     fills, lines, ends, order = [], [], [], []
 
     for team in prof["recent"]["teams"]:
+        # the heading carries the weighted total because the panel below it
+        # does not: the y axis counts games, where an NFL win and an MLB win
+        # are the same step up. A 3-1 NFL month is +2 on the chart and +42.9
+        # to the index, and only one of those numbers is in the picture
         label = (f"{team['nickname']} · {team['league'].upper()} · "
-                 f"{team['w']}-{team['l']} · {run_label(team['longest'])}")
+                 f"{team['w']}-{team['l']} · {team['weighted']:+.1f} weighted · "
+                 f"{run_label(team['longest'])}")
         order.append(label)
         by_day = {}
         for game in team["log"]:
@@ -150,10 +155,13 @@ def render_form(prof: dict, ref, path: str) -> None:
     days = r["days"]
     tie = f", {r['t']} tied" if r["t"] else ""
 
-    # one scale for every panel, in games, so a four-team city's rows are read
-    # against each other and not each against its own private ruler. The range
-    # is the data's, padded to at least a game either side of .500 — a team
-    # that never strayed far gets a flat line, not a dramatic-looking panel
+    # one scale for every panel, so the rows share a ruler rather than each
+    # getting a private one. That ruler is games, not the weighted index —
+    # two rows can be compared as records, but a taller row is not the bigger
+    # contribution to the day's index, which is what the headings are for.
+    # The range is the data's, padded to at least a game either side of .500,
+    # so a team that never strayed far gets a flat line rather than a
+    # dramatic-looking panel
     lo = min(-1, int(line_df["net"].min()))
     hi = max(1, int(line_df["net"].max()))
     span = hi - lo

@@ -17,7 +17,7 @@ Default teams live in [`my_teams.json`](my_teams.json); the full team list (ESPN
 Every morning after the scrape, **[`city_of_the_day.py`](city_of_the_day.py)** draws one fandom at random and renders its season into [`content/daily/`](content/daily):
 
 - **`season.png`** — the group's cumulative weighted index this year against their own earlier seasons, day of year for day of year, so a bad start or a long climb shows up against the years that came before it
-- **`form.png`** — the last 30 days as each team's running record against .500, one panel per team on a shared calendar, so every step up is a win and a run shows up as a climb; the panel heading carries the record and the longest run, and the subtitle reads the order of results against chance (see streakiness below)
+- **`form.png`** — the last 30 days as each team's running record against .500, one panel per team on a shared calendar, so every step up is a win and a run shows up as a climb; the panel heading carries the record, the weighted total and the longest run — the axis counts games, where an NFL win and an MLB win are the same step, so the heading is where the index reading lives — and the subtitle reads the order of results against chance (see streakiness below)
 - **`summary.md`** — the numbers behind both, ready to paste
 
 The draw is deliberately random rather than ranked. A detector-driven feed keeps circling back to whoever is having an extreme week; a random draw gets around the whole league, and an ordinary season is interesting once someone actually looks at it. Some care goes into the draw:
