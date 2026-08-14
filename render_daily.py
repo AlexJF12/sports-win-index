@@ -23,10 +23,11 @@ from plotnine import (aes, element_blank, element_rect, element_text,
                       scale_fill_manual, scale_x_continuous,
                       scale_y_continuous, theme)
 
-from fandom_analysis import standing
+from fandom_analysis import run_word, standing
 from render_content import (BASELINE, CAPTION, COLD, FIELD, HOT, INK, INK_2,
                             MONTH_STARTS, MONTH_TICKS, MUTED, SURFACE,
                             spotlight_theme)
+from streakiness import band_reading
 
 log = logging.getLogger(__name__)
 
@@ -184,22 +185,25 @@ def month_subtitle(prof: dict, ref) -> str:
             f"weighted, {standing(m['place'], m['field'])} on record {stretch}")
 
 
+SHAPES = {"clumpy": "the results arrived clumpier than chance",
+          "alternating": "the results alternated more than chance",
+          "chance": "the order is about what coin flips produce"}
+
+
 def shape_reading(index: float | None) -> str:
-    """How the order of the results sits against chance, in a phrase."""
-    if index is None:
+    """How the order of the results sits against chance, in the phrasing this
+    chart's subtitle uses. The band itself is streakiness.band_reading's — the
+    subtitle and the summary bullet beside it must not disagree about it."""
+    band = band_reading(index)
+    if band is None:
         return "too few of both results to read the order"
-    if index >= 2:
-        return f"the results arrived clumpier than chance ({index:+.1f})"
-    if index <= -2:
-        return f"the results alternated more than chance ({index:+.1f})"
-    return f"the order is about what coin flips produce ({index:+.1f})"
+    return f"{SHAPES[band]} ({index:+.1f})"
 
 
 def run_label(run: dict) -> str:
     if not run["length"]:
         return "no games"
-    word = "wins" if run["type"] == "W" else "losses"
-    return f"longest run {run['length']} {word}"
+    return f"longest run {run['length']} {run_word(run['type'])}"
 
 
 def form_frames(prof: dict, ref) -> tuple:

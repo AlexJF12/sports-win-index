@@ -42,6 +42,8 @@ from plotnine import (aes, annotate, coord_flip, element_blank, element_line,
                       scale_size_manual, scale_x_continuous, scale_x_date,
                       scale_y_reverse, theme, theme_minimal)
 
+from fandom_analysis import pretty_month, run_word
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
 
@@ -67,8 +69,6 @@ CAPTION = ("weighted index: every game = 365 ÷ season length "
            "(MLB ±2.25, NBA/NHL ±4.45, NFL ±21.5) · records begin January 2010")
 TITLE_WRAP = 58      # characters before the title wraps to a second line
 SUBTITLE_WRAP = 84
-MONTHS = ["", "January", "February", "March", "April", "May", "June", "July",
-          "August", "September", "October", "November", "December"]
 
 
 def spotlight_theme():
@@ -116,8 +116,7 @@ def titles(finding, subtitle, title=None):
 
 
 def month_name(data):
-    y, m = data["month"].split("-")
-    return f"{MONTHS[int(m)]} {y}"
+    return pretty_month(data["month"])
 
 
 def render_race(data, finding, path):
@@ -296,11 +295,10 @@ def render_timeline(data, finding, path):
     # the phase line must connect to the preceding game, or it floats
     if not rest_df.empty and not lead_df.empty:
         lead_df = pd.concat([rest_df.tail(1), lead_df])
-    end = df.iloc[-1]
 
     if finding["kind"] == "streak":
         s = finding["streak"]
-        word = "wins" if s["type"] == "W" else "losses"
+        word = run_word(s["type"])
         title = f"Where the run sits in {finding['city']}'s season"
         subtitle = (f"{finding['label']} — last {len(df)} games; the "
                     f"{s['length']} straight {word} in color")

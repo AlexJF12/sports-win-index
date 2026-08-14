@@ -9,8 +9,10 @@ from datetime import date, timedelta
 
 import pandas as pd
 
-from render_daily import (LABEL_GAP, field_alpha, form_frames, run_label,
-                          shape_reading, spread_labels)
+from city_of_the_day import READINGS, reading
+from render_daily import (LABEL_GAP, SHAPES, field_alpha, form_frames,
+                          run_label, shape_reading, spread_labels)
+from streakiness import CHANCE_BAND, band_reading
 
 REF = date(2026, 8, 13)
 DAYS = 30
@@ -162,3 +164,18 @@ def test_nudging_never_reorders_the_labels():
 def test_the_field_recedes_only_once_it_is_crowded():
     assert field_alpha(4) == 1.0
     assert field_alpha(10) < 1.0
+
+
+def test_the_summary_bullet_and_the_chart_subtitle_never_disagree():
+    """summary.md and the form chart describe the same index in deliberately
+    different words. What they must not do is disagree about where the band
+    starts — a bullet calling a season streaky above a chart calling the same
+    order ordinary."""
+    for index in (-3.0, -CHANCE_BAND, -1.9, 0.0, 1.9, CHANCE_BAND, 3.0, None):
+        band = band_reading(index)
+        if band is None:
+            assert "not enough" in reading(index)
+            assert "too few" in shape_reading(index)
+            continue
+        assert READINGS[band] in reading(index)
+        assert SHAPES[band] in shape_reading(index)

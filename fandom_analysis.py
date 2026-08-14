@@ -60,7 +60,9 @@ DATA_DIR = "data"
 CONTENT_DIR = os.path.join("content", "weekly")
 HISTORY_FILE = "history.json"
 HISTORY_KEEP = 60           # runs retained in the cooldown log
-HISTORY_START = (2022, 1)   # first month of score data
+HISTORY_START = (2022, 1)   # scores go back to 2010-01; this is how far back
+                            # the detectors' comparison sets and their
+                            # percentile claims reach
 MIN_GAMES = 3               # months where the group played fewer games don't count
 MIN_DAY = 4                 # too early in a month to call anything notable
 MIN_HISTORY = 12            # the all-months lane needs at least this many months
@@ -211,6 +213,12 @@ def ordinal(n: int) -> str:
     return f"{n}{ {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th') }"
 
 
+def run_word(kind: str) -> str:
+    """What a run of this result is called. Every chart and every summary in
+    the repo needs it, so none of them spell the ternary out."""
+    return "wins" if kind == "W" else "losses"
+
+
 def display_label(group: dict) -> str:
     return f"{group['city']}: " + "/".join(t["nickname"] for t in group["teams"])
 
@@ -243,7 +251,9 @@ def standing(place: int, field: int) -> str:
         return "the only one on record"
     if place >= field:
         return f"the worst of the {field}"
-    return f"the {ORDINALS.get(place, f'{place}th-best')} of the {field}"
+    # ordinal() rather than a bare "th": past 20 the suffix stops being "th",
+    # and this reads "21th-best" the day the history window gets any deeper
+    return f"the {ORDINALS.get(place, ordinal(place) + '-best')} of the {field}"
 
 
 def pretty_date(yyyymmdd: str) -> str:
@@ -438,7 +448,7 @@ def detect_turnaround(ctx: dict) -> dict | None:
     )
 
 
-# --- detector: year to date, against itself and the field --------------------
+# --- cumulative series (shared with the daily draw) --------------------------
 
 def season_series(by_team: dict, group: dict, year: int, through: date | None = None) -> list:
     """[{day of year, cumulative weighted index}] for each day the group played."""
@@ -470,6 +480,8 @@ def month_series(by_team: dict, group: dict, year: int, month: int,
     # one point per day played: the last game of a day carries that day's total
     return list({point["day"]: point for point in series}.values())
 
+
+# --- detector: year to date, against itself and the field --------------------
 
 def ytd_window(year: int, ref: date) -> tuple:
     """(lo, hi) for January 1 through the same day of year as ref, capped at

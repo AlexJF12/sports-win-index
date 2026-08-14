@@ -46,8 +46,8 @@ from zoneinfo import ZoneInfo
 from aggregate_cities import index_by_team, load_scores
 from fandom_analysis import (MONTH_NAMES, display_label, group_games,
                              month_series, mtd_window, pretty_date,
-                             season_series, standing, tally)
-from streakiness import longest_run, streak_index
+                             run_word, season_series, standing, tally)
+from streakiness import band_reading, longest_run, streak_index
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
@@ -216,21 +216,24 @@ def draw(groups: list, by_team: dict, ref: date, history: list,
 
 # --- copy --------------------------------------------------------------------
 
+READINGS = {"clumpy": "clumpier than chance",
+            "alternating": "more alternating than chance",
+            "chance": "about as clumped as coin flips"}
+
+
 def reading(index: float | None) -> str:
-    if index is None:
+    """The order of results as the summary's bullet says it. Where the band
+    starts is streakiness.band_reading's call, not this sentence's."""
+    band = band_reading(index)
+    if band is None:
         return "not enough of both results to score"
-    if index >= 2:
-        return f"clumpier than chance ({index:+.1f})"
-    if index <= -2:
-        return f"more alternating than chance ({index:+.1f})"
-    return f"about as clumped as coin flips ({index:+.1f})"
+    return f"{READINGS[band]} ({index:+.1f})"
 
 
 def run_phrase(run: dict) -> str:
     if not run["length"]:
         return "no games"
-    word = "wins" if run["type"] == "W" else "losses"
-    return f"{run['length']} straight {word}"
+    return f"{run['length']} straight {run_word(run['type'])}"
 
 
 def write_summary(path: str, prof: dict, ref: date) -> None:

@@ -20,10 +20,11 @@ from plotnine import (aes, coord_flip, element_blank, element_text, geom_hline,
                       labs, scale_color_manual, scale_fill_manual,
                       scale_x_continuous, scale_y_discrete, theme)
 
+from fandom_analysis import run_word
 from render_content import (BASELINE, COLD, GRID, HOT, INK, INK_2, MUTED,
                             spotlight_theme)
+from streakiness import CHANCE_BAND
 
-CHANCE_BAND = 2.0    # |index| below this is ordinary sampling noise
 TITLE_WRAP = 40      # characters before the headline wraps (bold 14pt)
 SUBTITLE_WRAP = 68
 LABEL_WRAP = 34
@@ -111,7 +112,7 @@ def render_month(panel: list, ref, path: str) -> None:
             rows.append({"label": label, "n": n,
                          "outcome": {"W": "Win", "L": "Loss"}.get(result, "Tie")})
         run = r["month"]["longest"]
-        word = "wins" if run["type"] == "W" else "losses"
+        word = run_word(run["type"])
         ends.append({"label": label, "n": r["month"]["games"] + 1.6,
                      "text": f"{r['month']['wins']}-{r['month']['losses']}   "
                              f"longest run: {run['length']} {word}"})
