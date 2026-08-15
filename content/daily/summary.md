@@ -1,17 +1,17 @@
-# City of the day — Baltimore
-*Baltimore: Orioles/Ravens* · 2026-08-13
+# City of the day — Atlanta
+*Atlanta: Braves/Hawks/Falcons* · 2026-08-14
 
-- **2026 so far:** 58-64, -32.7 weighted over 122 games; longest run 7 straight wins
+- **2026 so far:** 106-70, +124.5 weighted over 176 games; longest run 11 straight wins
 - **Order of results:** about as clumped as coin flips (+0.2)
-- **Earlier seasons (full-year weighted):** 2016 +33.8, 2017 -5.6, 2018 -67.3, 2019 +114.5, 2020 +63.4, 2021 -87.7, 2022 +73.4, 2023 +233.7, 2024 +147.9, 2025 -5.6
-- **Last 30 days:** 12-12, +0.0 weighted; longest run 3 straight wins
+- **Earlier seasons (full-year weighted):** 2016 +51.8, 2017 +21.5, 2018 -149.3, 2019 -108.9, 2020 -141.0, 2021 +35.5, 2022 -46.9, 2023 +76.9, 2024 +1.2, 2025 -131.5
+- **Last 30 days:** 18-9, +20.3 weighted; longest run 8 straight wins
 - **Window opens:** July 17, 2026
-- **August 2026 through day 13:** 4-7, -6.8 weighted — the 7th-best of the 11 on record
-- **Same August in earlier years (same stretch):** 2016 +0.0, 2017 +2.2, 2018 -13.5, 2019 -15.8, 2020 +9.0, 2021 -20.3, 2022 +11.3, 2023 +9.0, 2024 -2.2, 2025 -6.8
+- **August 2026 through day 14:** 8-4, +9.0 weighted — the third-best of the 11 on record
+- **Same August in earlier years (same stretch):** 2016 +2.2, 2017 -9.0, 2018 +13.5, 2019 +6.8, 2020 -2.2, 2021 +13.5, 2022 +6.8, 2023 +9.0, 2024 -2.2, 2025 +2.2
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Orioles | 12-12 | +0.0 | 3 straight wins |
+| Braves | 18-9 | +20.3 | 8 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 

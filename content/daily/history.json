@@ -58,5 +58,10 @@
   "date": "2026-08-13",
   "city": "Baltimore",
   "group": "Baltimore"
+ },
+ {
+  "date": "2026-08-14",
+  "city": "Atlanta",
+  "group": "Atlanta"
  }
 ]
