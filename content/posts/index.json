@@ -1,10 +1,86 @@
 {
- "generated": "2026-08-15",
+ "generated": "2026-08-16",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-08-15",
+   "kind": "daily",
+   "title": "City of the day \u2014 Cleveland",
+   "dek": "Cleveland: Guardians/Cavaliers/Browns",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "102-88, +88.1 weighted over 190 games; longest run 7 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.5)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 -10.4, 2017 -174.7, 2018 -41.0, 2019 -196.5, 2020 +67.5, 2021 -115.8, 2022 +27.5, 2023 +159.7, 2024 -63.4, 2025 -52.7"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "9-18, -20.3 weighted; longest run 6 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "July 18, 2026"
+      },
+      {
+       "label": "August 2026 through day 15",
+       "value": "4-9, -11.3 weighted \u2014 the worst of the 11 on record"
+      },
+      {
+       "label": "Same August in earlier years (same stretch)",
+       "value": "2016 +0.0, 2017 +6.8, 2018 +18.0, 2019 +11.3, 2020 +2.2, 2021 -6.8, 2022 +11.3, 2023 -6.8, 2024 +0.0, 2025 +11.3"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Guardians",
+        "9-18",
+        "-20.3",
+        "6 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Cleveland: Guardians/Cavaliers/Browns \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Cleveland: Guardians/Cavaliers/Browns \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Cleveland: Guardians/Cavaliers/Browns \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-08-15/daily.html"
+  },
   {
    "date": "2026-08-14",
    "kind": "daily",

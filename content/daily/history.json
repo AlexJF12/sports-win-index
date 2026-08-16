@@ -63,5 +63,10 @@
   "date": "2026-08-14",
   "city": "Atlanta",
   "group": "Atlanta"
+ },
+ {
+  "date": "2026-08-15",
+  "city": "Cleveland",
+  "group": "Cleveland"
  }
 ]
