@@ -1,10 +1,86 @@
 {
- "generated": "2026-08-16",
+ "generated": "2026-08-17",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-08-16",
+   "kind": "daily",
+   "title": "City of the day \u2014 Kansas City",
+   "dek": "Kansas City: Royals/Chiefs",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "51-75, -73.3 weighted over 126 games; longest run 8 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+1.8)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 +171.8, 2017 +81.4, 2018 +46.7, 2019 +72.6, 2020 +325.5, 2021 +118.8, 2022 +142.6, 2023 +80.6, 2024 +430.5, 2025 -81.4"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "12-15, -6.8 weighted; longest run 4 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "July 18, 2026"
+      },
+      {
+       "label": "August 2026 through day 16",
+       "value": "5-9, -9.0 weighted \u2014 the 7th-best of the 11 on record"
+      },
+      {
+       "label": "Same August in earlier years (same stretch)",
+       "value": "2016 +11.3, 2017 -9.0, 2018 -15.8, 2019 -11.3, 2020 -4.5, 2021 -9.0, 2022 +0.0, 2023 -2.2, 2024 +2.2, 2025 +4.5"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Royals",
+        "12-15",
+        "-6.8",
+        "4 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Kansas City: Royals/Chiefs \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Kansas City: Royals/Chiefs \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Kansas City: Royals/Chiefs \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-08-16/daily.html"
+  },
   {
    "date": "2026-08-15",
    "kind": "daily",
