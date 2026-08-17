@@ -121,6 +121,55 @@ So the manifest is two files: `index.json` holds the posts still inside the wind
 
 [`backfill_blog.py`](backfill_blog.py) seeds the blog from git history: it walks the commit log, exports each run's folder to a scratch directory, and hands it to the same builders, so a backfilled post and a fresh one are identical. It reads all three layouts the log contains, including the original `content/<date>/` spotlight folders. `--dry-run` lists what it would publish.
 
+### Every post goes to Bluesky
+
+[`share_bluesky.py`](share_bluesky.py) reads the manifest the publisher just wrote and announces what's in it, on its own schedule ([`bluesky.yml`](.github/workflows/bluesky.yml)) rather than inside the scrape.
+
+**Publishing and announcing want opposite clocks.** The scrape runs at 10:00 UTC because that's comfortably after every league's last game of the previous day — and 10:00 UTC is 5–6am Eastern, close to the worst hour of the day to post anything. So the site still updates at dawn and the timeline hears about it at **22:00 UTC**: 6pm Eastern in summer, 5pm in winter (3pm / 2pm Pacific). After work, before first pitch, inside the evening window where US social traffic peaks and a sports audience is already thinking about sports.
+
+> Cron is UTC and doesn't follow DST, so the Eastern hour drifts by one across the year. That's inside the window either way, and it's one line to change. Treat the hour as a starting hypothesis: after a few weeks of posts the account's own numbers beat any rule of thumb.
+
+**The chart goes out full size, not as a link card.** A card is the tidier shape — the URL never appears as text — and it's the wrong one. A card's thumbnail renders a few hundred pixels wide and cropped, and these charts are 1600×920 with 8pt axis labels, so the picture lands as a gray smudge and the work in it is invisible. An images embed renders full width in the timeline and opens to full size on a tap. The two embeds are mutually exclusive, so the link lives in the post text instead, as a rich-text facet — offsets counted in UTF-8 *bytes*, since these headlines carry em dashes and the odd emoji and a facet counted in characters would land on the wrong slice.
+
+Above the chart go two lines: **the fandom, then the number that makes it worth a stranger's attention.** "City of the day — Baltimore" is how the blog files a post; what somebody actually stops for is
+
+> Baltimore: Orioles/Ravens
+> August 2026 through day 13: 4-7, -6.8 weighted — the worst of the 11 on record
+
+Both strings were already in the manifest. Only one of them was worth leading with. The image carries the alt text `publish_blog.py` already builds, which the link card had no field for and was throwing away.
+
+### Not every post is worth posting
+
+The daily is a city a morning, in rotation, whether or not anything happened to it — that's right for a blog and wrong for a timeline. An account that posts an unremarkable team every single day teaches the people following it to scroll past its name, and then the one morning something *is* remarkable gets scrolled past too. So the weekly reads always go out (a spotlight only exists at all when a detector fired, and the streakiness pair is the whole field at once) and **a daily has to clear a bar**:
+
+| Signal | Bar | Why there |
+|---|---|---|
+| This month against every past one | **best or worst on record**, out of ≥5 | "their best August ever" is a sentence someone repeats; "their 2nd-best August" is one nobody finishes — and top-*two* of eleven fires on better than a third of mornings by chance |
+| Longest run, last 30 days | **6 straight** | most of a month going one way |
+| Longest run, full season | **10 straight** | six straight across 230 games is a fortnight nobody noticed |
+| Order of results | **outside the chance band** | `streakiness.py`'s own "clumpier than chance" / "more alternating than chance" |
+
+Every bar is the analysis's own phrasing and the analysis's own threshold — `fandom_analysis.standing()`, `streakiness.CHANCE_BAND` — parsed back out of the manifest rather than re-derived, so a change to how the analysis measures carries through instead of drifting away from it. Whichever signal fires is also the line the post leads with, since the reason it's worth sharing is the reason it's worth reading.
+
+Measured against the blog as it stands, that's **12 shares across 16 days instead of 20** — 4 of 12 dailies, all 5 spotlights, all 3 streakiness runs, about five posts a week. `--share-daily always` restores the old behavior; `--share-daily never` leaves the timeline to the weeklies.
+
+> The month signal is the strongest one and it only landed in `city_of_the_day.py` recently, so most posts already in the manifest don't carry that bullet and are judged on runs alone. New posts get all four.
+
+### The record
+
+What has gone out is remembered in `content/posts/bluesky.json`, keyed on date and kind, next to a fingerprint of what was shared: the text, the URL, the alt, and the bytes of the chart. That precision is the point — `publish_blog.py` rewrites every page every morning and almost all of it comes out byte-identical, so anything looser would re-share the whole 90-day window daily. A run that changes one of those four is an update, and **an updated post is shared again**: Bluesky posts can't be edited, so the superseded share is deleted and a fresh one replaces it (`--keep-superseded` leaves the old one up). Archived posts, whose charts are gone, are never shared.
+
+A run reaches back one day from the newest post (`--max-age-days`) and shares at most four (`--max-posts`, since a Wednesday carries three) — which is what keeps the first run against a manifest full of history from posting ninety days of backlog. `--backfill` lifts the window when that's what you want. The state file rides along in the same commit as the post it refers to.
+
+**Setting it up.** Until the account exists, `BLUESKY_HANDLE` and `BLUESKY_APP_PASSWORD` are placeholders at the top of the script, and a run that finds a placeholder says what's missing and exits 0 — the daily scrape must not start failing because the account for it doesn't exist yet. To finish it:
+
+1. Create the Bluesky account and note its handle (`something.bsky.social`).
+2. In Bluesky: **Settings → Privacy and security → App passwords → Add App Password**. Use that, never the account password — it can be revoked on its own and can't change the account's email or password.
+3. In this repo: **Settings → Secrets and variables → Actions → New repository secret**, twice — `BLUESKY_HANDLE` and `BLUESKY_APP_PASSWORD`.
+4. Run the **Share to Bluesky** workflow by hand with `dry_run` on to see what it would post, then off to post it. After that the nightly schedule carries it.
+
+A hand-started run fails loudly when the secrets are missing; the nightly one exits quietly, so an account that doesn't exist yet isn't a red X every evening. Because the two workflows are separate, a Bluesky outage costs a share and never the day's scores — the post stays pending and goes out the next evening. Nothing is ever posted from a local run unless you set both environment variables yourself; `--dry-run` needs no credentials at all.
+
 ## The three scoring methods
 
 The page can score your teams' games three ways:
@@ -164,6 +213,8 @@ python3 streakiness.py                   # rebuild content/streakiness/
 python3 fandom_analysis.py && python3 render_content.py   # rebuild content/weekly/
 python3 publish_blog.py                  # file the newest runs into content/posts/
 python3 publish_blog.py --retain-days 1  # see what an archived post looks like
+python3 share_bluesky.py --dry-run       # what would go out to Bluesky (no credentials needed)
+python3 share_bluesky.py                 # share it (needs $BLUESKY_HANDLE, $BLUESKY_APP_PASSWORD)
 python3 backfill_blog.py --dry-run       # what the git log would add to the blog
 python3 -m pytest tests/                 # test suite (offline, fixture-based)
 ```

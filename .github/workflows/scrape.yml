@@ -74,6 +74,10 @@ jobs:
       - name: Publish the blog
         run: python publish_blog.py
 
+      # The morning's post is announced on Bluesky by .github/workflows/bluesky.yml
+      # at 22:00 UTC, not from here. This job's hour is dictated by when the
+      # games finish; that one's is dictated by when anybody is awake to read it.
+
       - name: Commit and push updated data
         run: |
           git config user.name "github-actions[bot]"
