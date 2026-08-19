@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>About — Team Wins</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
+<title>About — Best Month</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><rect x=%220.5%22 y=%229%22 width=%223.6%22 height=%226%22 rx=%221.3%22 fill=%22%23a5a49c%22/><rect x=%226.2%22 y=%225.5%22 width=%223.6%22 height=%229.5%22 rx=%221.3%22 fill=%22%236f6e69%22/><rect x=%2211.9%22 y=%221%22 width=%223.6%22 height=%2214%22 rx=%221.3%22 fill=%22%237d3ff0%22/></svg>">
 <style>
   :root {
     color-scheme: light;
@@ -15,6 +15,9 @@
     --text-muted:     #898781;
     --hairline:       #e1e0d9;
     --border:         rgba(11, 11, 11, 0.10);
+    --accent:         #7d3ff0;
+    --accent-ink:     #ffffff;
+    --chip:           rgba(11, 11, 11, 0.05);
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -26,6 +29,9 @@
       --text-muted:     #898781;
       --hairline:       #2c2c2a;
       --border:         rgba(255, 255, 255, 0.10);
+      --accent:         #9d6bff;
+      --accent-ink:     #12071f;
+      --chip:           rgba(255, 255, 255, 0.07);
     }
   }
   * { box-sizing: border-box; }
@@ -35,46 +41,85 @@
     color: var(--text-primary);
     font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
   }
-  main { max-width: 680px; margin: 0 auto; padding: 24px 20px 64px; }
-  header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-  h1 { font-size: 20px; font-weight: 650; margin: 0; }
-  nav { display: flex; gap: 16px; }
-  nav a { color: var(--text-secondary); font-size: 13px; text-decoration: none; }
-  nav a:hover { text-decoration: underline; }
-  nav [aria-current="page"] { color: var(--text-primary); font-size: 13px; font-weight: 650; }
-  .as-of { color: var(--text-muted); font-size: 13px; margin: 6px 0 0; }
+  main { max-width: 680px; margin: 0 auto; padding: 20px 20px 64px; }
+
+  /* the brand bar, shared by every page (index, my-teams, groups, about, blog.css) */
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--page) 88%, transparent);
+    backdrop-filter: blur(10px) saturate(1.6);
+    -webkit-backdrop-filter: blur(10px) saturate(1.6);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .bar {
+    max-width: 680px; margin: 0 auto; padding: 9px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 4px 16px; flex-wrap: wrap;
+  }
+  .wordmark {
+    display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+    font-size: 17px; font-weight: 700; letter-spacing: -0.025em;
+    color: var(--text-primary); text-decoration: none;
+  }
+  .wordmark svg { width: 15px; height: 15px; display: block; }
+  .wordmark .b1 { fill: var(--text-muted); opacity: 0.5; }
+  .wordmark .b2 { fill: var(--text-muted); }
+  .wordmark .b3 { fill: var(--accent); transform-origin: 50% 100%; transition: transform 0.18s ease; }
+  .wordmark:hover .b3 { transform: scaleY(1.14); }
+  nav { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+  nav a {
+    color: var(--text-secondary); font-size: 13px; text-decoration: none;
+    padding: 5px 9px; border-radius: 999px;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  nav a:hover { color: var(--text-primary); background: var(--chip); }
+  nav [aria-current="page"] { color: var(--text-primary); font-weight: 650; background: var(--chip); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+  h1 { font-size: 25px; font-weight: 700; letter-spacing: -0.03em; margin: 0; }
+  .as-of { color: var(--text-muted); font-size: 13px; margin: 5px 0 0; }
   h2 { font-size: 15px; font-weight: 650; margin: 32px 0 8px; }
   p { color: var(--text-secondary); margin: 0 0 12px; }
   p strong { color: var(--text-primary); }
   a { color: var(--text-primary); }
-  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 12px 0; }
+  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin: 12px 0; }
   table { border-collapse: collapse; width: 100%; font-size: 14px; }
   th, td { text-align: left; padding: 8px 14px; white-space: nowrap; }
   th { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid var(--hairline); }
   tr + tr td { border-top: 1px solid var(--hairline); }
   @media (max-width: 560px) {
-    main { padding: 18px 12px 48px; }
+    main { padding: 16px 12px 48px; }
+    .bar { padding: 8px 12px; }
+    h1 { font-size: 21px; }
   }
 </style>
 </head>
 <body>
-<main>
-  <header>
-    <h1>About</h1>
+<div class="topbar">
+  <div class="bar">
+    <a class="wordmark" href="index.html" aria-label="Best Month — home">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><rect class="b1" x="0.5" y="9" width="3.6" height="6" rx="1.3"/><rect class="b2" x="6.2" y="5.5" width="3.6" height="9.5" rx="1.3"/><rect class="b3" x="11.9" y="1" width="3.6" height="14" rx="1.3"/></svg>
+      Best Month
+    </a>
     <nav>
-      <a href="index.html">city index</a>
-      <a href="my-teams.html">my teams</a>
-      <a href="groups.html">city groups</a>
-      <a href="blog.html">blog</a>
-      <span aria-current="page">about</span>
+      <a href="index.html">Cities</a>
+      <a href="my-teams.html">My teams</a>
+      <a href="groups.html">Groups</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html" aria-current="page">About</a>
     </nav>
-  </header>
+  </div>
+</div>
+<main>
+  <h1>About</h1>
   <p class="as-of" id="as-of"></p>
 
   <h2>What is this?</h2>
-  <p><strong>Team Wins</strong> answers a simple question: how good has it been to be a sports fan of
+  <p><strong>Best Month</strong> answers a simple question: how good has it been to be a sports fan of
     your teams — or your city — lately? It tracks every regular-season game in the four major US
-    leagues (MLB ⚾, NBA 🏀, NHL 🏒, NFL 🏈) and turns wins and losses into one running score.</p>
+    leagues (MLB ⚾, NBA 🏀, NHL 🏒, NFL 🏈) and turns wins and losses into one running score — then
+    tells you where the month you are having sits against every month you have already had.</p>
   <p>Every morning a scheduled job pulls the previous day's final scores from ESPN's public
     scoreboard API and commits them to this site's repository. There are no servers and no
     database — the pages you're reading are static files that read those score files directly.</p>

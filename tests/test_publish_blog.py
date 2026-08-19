@@ -396,7 +396,9 @@ def test_every_post_gets_a_page_with_a_social_card(tmp_path):
 
     with open(os.path.join(posts_dir, "2026-08-02", "spotlight.html")) as f:
         page = f.read()
-    assert "<title>Out of the norm — two fandoms off their own script — Team Wins" in page
+    assert "<title>Out of the norm — two fandoms off their own script — Best Month" in page
+    # the headline is the page's own h1, not the brand bar above it
+    assert "<h1>Out of the norm — two fandoms off their own script</h1>" in page
     assert ('<link rel="canonical" href="https://example.com/site/content/posts/'
             '2026-08-02/spotlight.html">') in page
     # the lead chart is the card, and the card is an absolute URL

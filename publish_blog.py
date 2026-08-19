@@ -64,6 +64,23 @@ RETAIN_DAYS = 90            # how long a post keeps its images
 # the site ever moves to its own domain.
 BASE_URL = "https://alexjf12.github.io/sports-win-index"
 
+SITE_NAME = "Best Month"
+
+# Three ascending bars, the tallest in the brand violet: the mark in the top bar
+# and, URL-escaped, the favicon. The hand-written pages carry the same two, and
+# blog.css styles this one (.wordmark .b1/.b2/.b3) — change all three together.
+MARK = ('<svg viewBox="0 0 16 16" aria-hidden="true">'
+        '<rect class="b1" x="0.5" y="9" width="3.6" height="6" rx="1.3"/>'
+        '<rect class="b2" x="6.2" y="5.5" width="3.6" height="9.5" rx="1.3"/>'
+        '<rect class="b3" x="11.9" y="1" width="3.6" height="14" rx="1.3"/></svg>')
+FAVICON = (
+    "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 "
+    "viewBox=%220 0 16 16%22>"
+    "<rect x=%220.5%22 y=%229%22 width=%223.6%22 height=%226%22 rx=%221.3%22 fill=%22%23a5a49c%22/>"
+    "<rect x=%226.2%22 y=%225.5%22 width=%223.6%22 height=%229.5%22 rx=%221.3%22 fill=%22%236f6e69%22/>"
+    "<rect x=%2211.9%22 y=%221%22 width=%223.6%22 height=%2214%22 rx=%221.3%22 fill=%22%237d3ff0%22/>"
+    "</svg>")
+
 # One row per kind: the badge the page shows, and the sort rank inside a date
 # (a Wednesday carries all three, and the weekly reads lead).
 KINDS = {
@@ -486,7 +503,7 @@ def render_page(post: dict, base_url: str) -> str:
     kind = KINDS[post["kind"]]["label"]
     images = [img for section in post["sections"] for img in section["images"]]
     url = f"{base_url}/{page_path(post)}"
-    title = f"{post['title']} — Team Wins"
+    title = f"{post['title']} — {SITE_NAME}"
     root = "../../../"        # content/posts/<date>/ back to the site root
 
     head = [
@@ -496,7 +513,7 @@ def render_page(post: dict, base_url: str) -> str:
         tag("description", summarize(post)),
         f'<link rel="canonical" href="{esc(url)}">',
         tag("og:type", "article", "property"),
-        tag("og:site_name", "Team Wins", "property"),
+        tag("og:site_name", SITE_NAME, "property"),
         tag("og:title", post["title"], "property"),
         tag("og:description", summarize(post), "property"),
         tag("og:url", url, "property"),
@@ -511,24 +528,27 @@ def render_page(post: dict, base_url: str) -> str:
     else:
         head.append(tag("twitter:card", "summary"))
     head += [
-        '<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/'
-        '2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>'
-        "🏆</text></svg>\">",
+        f'<link rel="icon" href="{FAVICON}">',
         f'<link rel="stylesheet" href="{root}blog.css">',
-        "</head>", "<body>", "<main>",
-        "  <header>", "    <h1>Team Wins</h1>", "    <nav>",
-        f'      <a href="{root}index.html">city index</a>',
-        f'      <a href="{root}my-teams.html">my teams</a>',
-        f'      <a href="{root}groups.html">city groups</a>',
-        f'      <a href="{root}blog.html">blog</a>',
-        f'      <a href="{root}about.html">about</a>',
-        "    </nav>", "  </header>",
+        "</head>", "<body>",
+        '<div class="topbar">', '  <div class="bar">',
+        f'    <a class="wordmark" href="{root}index.html" '
+        f'aria-label="{SITE_NAME} — home">{MARK} {SITE_NAME}</a>',
+        "    <nav>",
+        f'      <a href="{root}index.html">Cities</a>',
+        f'      <a href="{root}my-teams.html">My teams</a>',
+        f'      <a href="{root}groups.html">Groups</a>',
+        f'      <a href="{root}blog.html" aria-current="page">Blog</a>',
+        f'      <a href="{root}about.html">About</a>',
+        "    </nav>", "  </div>", "</div>", "<main>",
         f'  <p class="as-of"><a href="{root}blog.html">← every post</a></p>',
         '  <article class="post post-page">',
         f'    <span class="badge" data-kind="{post["kind"]}">{esc(kind)}</span>',
         f'    <p class="dateline"><time datetime="{post["date"]}">'
         f"{esc(pretty(as_date(post['date'])))}</time></p>",
-        f'    <h2>{esc(post["title"])}</h2>',
+        # the headline is the page's h1: the brand bar above it is a link, not a
+        # heading, so the post's own title is the top of the outline
+        f'    <h1>{esc(post["title"])}</h1>',
     ]
     if post.get("dek"):
         head.append(f'    <p class="dek">{esc(post["dek"])}</p>')
