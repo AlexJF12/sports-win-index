@@ -1,10 +1,254 @@
 {
- "generated": "2026-08-18",
+ "generated": "2026-08-19",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-08-18",
+   "kind": "spotlight",
+   "title": "Out of the norm \u2014 three fandoms off their own script",
+   "dek": "The weekly hunt across all 88 city groups, through August 18, 2026",
+   "sections": [
+    {
+     "heading": "Memphis is having its worst year on record \u2014 75th of 88 this year",
+     "subhead": "Memphis: Grizzlies",
+     "stats": [
+      {
+       "label": "2026 so far (through August 18)",
+       "value": "10-39, -129.1 weighted \u2014 1st-worst of the 11 years on record, at the same point"
+      },
+      {
+       "label": "Against the field",
+       "value": "75th of 88 city groups on the year (15th percentile)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-memphis_year.png",
+       "caption": "Every season's cumulative index by day of year, this one in color.",
+       "alt": "Memphis: Grizzlies \u2014 Every season's cumulative index by day of year, this one in color"
+      },
+      {
+       "file": "spotlight-memphis_field.png",
+       "caption": "All 88 city groups on this year's index, the group picked out.",
+       "alt": "Memphis: Grizzlies \u2014 All 88 city groups on this year's index, the group picked out"
+      }
+     ]
+    },
+    {
+     "heading": "Tampa Bay's August has come apart: 9-1 before this week, 2-4 since",
+     "subhead": "Tampa Bay: Rays/Lightning/Buccaneers",
+     "stats": [
+      {
+       "label": "Before this week",
+       "value": "9-1, +18.0 weighted (+1.80 per game)"
+      },
+      {
+       "label": "Since",
+       "value": "2-4, -4.5 weighted (-0.75 per game)"
+      },
+      {
+       "label": "This month (through August 18)",
+       "value": "11-5, +13.5 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "2-4, -4.5 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Rays (2-4, -4.5)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-tampa-bay_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "spotlight-tampa-bay_timeline.png",
+       "caption": "Game by game, with the streak picked out.",
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 Game by game, with the streak picked out"
+      },
+      {
+       "file": "spotlight-tampa-bay_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    },
+    {
+     "heading": "Cleveland is having its worst August on record",
+     "subhead": "Cleveland: Guardians/Cavaliers/Browns",
+     "stats": [
+      {
+       "label": "This month (through August 18)",
+       "value": "5-10, -11.3 weighted \u2014 1st-worst August of the 11 on record"
+      },
+      {
+       "label": "vs all months",
+       "value": "32nd-worst of 114 months on record (28th percentile)"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "3-3, +0.0 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Guardians (3-3, +0.0)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-cleveland_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Cleveland: Guardians/Cavaliers/Browns \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "spotlight-cleveland_history.png",
+       "caption": "Every comparable month on record, this one picked out.",
+       "alt": "Cleveland: Guardians/Cavaliers/Browns \u2014 Every comparable month on record, this one picked out"
+      },
+      {
+       "file": "spotlight-cleveland_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Cleveland: Guardians/Cavaliers/Browns \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-08-18/spotlight.html"
+  },
+  {
+   "date": "2026-08-18",
+   "kind": "streakiness",
+   "title": "Streakiness \u2014 not how often they win, but how the wins arrive",
+   "dek": "All 88 city groups, through August 18, 2026",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "City groups measured",
+       "value": "88"
+      },
+      {
+       "label": "Furthest from its own norm this year",
+       "value": "New York: Mets/Nets/Rangers/Giants \u2014 streak index +2.8 over 220 games, against a usual +0.2"
+      },
+      {
+       "label": "Streakiest of the last 30 days",
+       "value": "Miami: Marlins/Heat/Panthers/Dolphins \u2014 +2.1, longest run 6 losses"
+      },
+      {
+       "label": "Steadiest of the last 30 days",
+       "value": "Toronto: Blue Jays/Raptors/Maple Leafs \u2014 -2.1, wins and losses taking turns"
+      },
+      {
+       "label": "Reading the index",
+       "value": "+2 or more is clumpier than chance, \u22122 or less more alternating than chance, 0 exactly as clumped as coin flips"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "streak-season_vs_history.png",
+       "caption": "This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray.",
+       "alt": "All 88 city groups, through August 18, 2026 \u2014 This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray"
+      },
+      {
+       "file": "streak-past_month.png",
+       "caption": "The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest.",
+       "alt": "All 88 city groups, through August 18, 2026 \u2014 The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-08-18/streakiness.html"
+  },
+  {
+   "date": "2026-08-18",
+   "kind": "daily",
+   "title": "City of the day \u2014 Miami",
+   "dek": "Miami: Marlins/Heat/Panthers/Dolphins",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "108-113, -41.5 weighted over 221 games; longest run 12 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+1.0)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 +93.1, 2017 -120.1, 2018 -95.1, 2019 -205.8, 2020 +131.9, 2021 +110.5, 2022 +132.1, 2023 +267.7, 2024 +18.3, 2025 -42.3"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "12-15, -6.8 weighted; longest run 6 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "July 20, 2026"
+      },
+      {
+       "label": "August 2026 through day 18",
+       "value": "8-8, +0.0 weighted \u2014 the second-best of the 11 on record"
+      },
+      {
+       "label": "Same August in earlier years (same stretch)",
+       "value": "2016 -13.5, 2017 +9.0, 2018 -22.5, 2019 -20.3, 2020 -13.3, 2021 -6.8, 2022 -13.5, 2023 -4.5, 2024 -9.0, 2025 -9.0"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Marlins",
+        "12-15",
+        "-6.8",
+        "6 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Miami: Marlins/Heat/Panthers/Dolphins \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Miami: Marlins/Heat/Panthers/Dolphins \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Miami: Marlins/Heat/Panthers/Dolphins \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-08-18/daily.html"
+  },
   {
    "date": "2026-08-17",
    "kind": "daily",

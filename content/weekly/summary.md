@@ -1,32 +1,31 @@
-# Fandom spotlight — 2026-08-11
+# Fandom spotlight — 2026-08-18
 
-## 1. 🏆 Raleigh is having its best year on record — 9th of 88 this year
-*Raleigh: Hurricanes* · `year`
+## 1. 🧊 Memphis is having its worst year on record — 75th of 88 this year
+*Memphis: Grizzlies* · `year`
 
-- **2026 so far (through August 11):** 45-17, +124.6 weighted — 1st-best of the 11 years on record, at the same point
-- **Against the field:** 9th of 88 city groups on the year (91st percentile)
+- **2026 so far (through August 18):** 10-39, -129.1 weighted — 1st-worst of the 11 years on record, at the same point
+- **Against the field:** 75th of 88 city groups on the year (15th percentile)
 
-Images: `raleigh_year.png` · `raleigh_field.png`
+Images: `memphis_year.png` · `memphis_field.png`
 
-## 2. 🔥 San Diego is having its best month since April 2026
-*San Diego: Padres* · `month`
+## 2. 🔄 Tampa Bay's August has come apart: 9-1 before this week, 2-4 since
+*Tampa Bay: Rays/Lightning/Buccaneers* · `turnaround`
 
-- **This month (through August 11):** 8-3, +11.3 weighted — 2nd-best of 61 months on record (96th percentile)
-- **vs past Augusts:** 1st-best August of the 11 on record
-- **Last 7 days:** 5-2, +6.8 weighted
-- **Driving it this week:** Padres (5-2, +6.8)
-- **Active streaks:** Padres W4
+- **Before this week:** 9-1, +18.0 weighted (+1.80 per game)
+- **Since:** 2-4, -4.5 weighted (-0.75 per game)
+- **This month (through August 18):** 11-5, +13.5 weighted
+- **Last 7 days:** 2-4, -4.5 weighted
+- **Driving it this week:** Rays (2-4, -4.5)
 
-Images: `san-diego_race.png` · `san-diego_history.png` · `san-diego_teams.png`
+Images: `tampa-bay_race.png` · `tampa-bay_timeline.png` · `tampa-bay_teams.png`
 
-## 3. 🔄 Washington has flipped its August: 0-4 before this week, 4-2 since
-*Washington: Nationals/Wizards/Capitals/Commanders* · `turnaround`
+## 3. 🥶 Cleveland is having its worst August on record
+*Cleveland: Guardians/Cavaliers/Browns* · `month`
 
-- **Before this week:** 0-4, -9.0 weighted (-2.25 per game)
-- **Since:** 4-2, +4.5 weighted (+0.75 per game)
-- **This month (through August 11):** 4-6, -4.5 weighted
-- **Last 7 days:** 4-2, +4.5 weighted
-- **Driving it this week:** Nationals (4-2, +4.5)
+- **This month (through August 18):** 5-10, -11.3 weighted — 1st-worst August of the 11 on record
+- **vs all months:** 32nd-worst of 114 months on record (28th percentile)
+- **Last 7 days:** 3-3, +0.0 weighted
+- **Driving it this week:** Guardians (3-3, +0.0)
 
-Images: `washington_race.png` · `washington_timeline.png` · `washington_teams.png`
+Images: `cleveland_race.png` · `cleveland_history.png` · `cleveland_teams.png`
 
