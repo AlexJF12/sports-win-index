@@ -15,8 +15,8 @@ name: Share to Bluesky
 # the account's own numbers beat any rule of thumb.
 
 on:
-  schedule:
-    - cron: "0 22 * * *"
+  # No schedule trigger yet — this is wired up for later, not ready to post
+  # to Bluesky automatically. Run it by hand via workflow_dispatch until then.
   workflow_dispatch:
     inputs:
       dry_run:
