@@ -1,17 +1,17 @@
-# City of the day — Miami
-*Miami: Marlins/Heat/Panthers/Dolphins* · 2026-08-18
+# City of the day — Phoenix
+*Phoenix: Diamondbacks/Suns/Cardinals* · 2026-08-19
 
-- **2026 so far:** 108-113, -41.5 weighted over 221 games; longest run 12 straight losses
-- **Order of results:** about as clumped as coin flips (+1.0)
-- **Earlier seasons (full-year weighted):** 2016 +93.1, 2017 -120.1, 2018 -95.1, 2019 -205.8, 2020 +131.9, 2021 +110.5, 2022 +132.1, 2023 +267.7, 2024 +18.3, 2025 -42.3
-- **Last 30 days:** 12-15, -6.8 weighted; longest run 6 straight losses
-- **Window opens:** July 20, 2026
-- **August 2026 through day 18:** 8-8, +0.0 weighted — the second-best of the 11 on record
-- **Same August in earlier years (same stretch):** 2016 -13.5, 2017 +9.0, 2018 -22.5, 2019 -20.3, 2020 -13.3, 2021 -6.8, 2022 -13.5, 2023 -4.5, 2024 -9.0, 2025 -9.0
+- **2026 so far:** 94-90, -12.4 weighted over 184 games; longest run 5 straight losses
+- **Order of results:** about as clumped as coin flips (-0.3)
+- **Earlier seasons (full-year weighted):** 2016 -292.1, 2017 -62.5, 2018 -435.0, 2019 -229.6, 2020 +21.2, 2021 +186.7, 2022 -65.3, 2023 -158.8, 2024 +7.2, 2025 -211.1
+- **Last 30 days:** 16-12, +9.0 weighted; longest run 4 straight wins
+- **Window opens:** July 21, 2026
+- **August 2026 through day 19:** 9-9, +0.0 weighted — the sixth-best of the 11 on record
+- **Same August in earlier years (same stretch):** 2016 -6.8, 2017 -9.0, 2018 +4.5, 2019 +0.0, 2020 +37.9, 2021 -2.2, 2022 +4.5, 2023 -9.0, 2024 +15.8, 2025 +4.5
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Marlins | 12-15 | -6.8 | 6 straight losses |
+| Diamondbacks | 16-12 | +9.0 | 4 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 
