@@ -1,10 +1,86 @@
 {
- "generated": "2026-08-20",
+ "generated": "2026-08-21",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-08-20",
+   "kind": "daily",
+   "title": "City of the day \u2014 Toronto",
+   "dek": "Toronto: Blue Jays/Raptors/Maple Leafs",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "106-120, -55.7 weighted over 226 games; longest run 6 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.7)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 +109.5, 2017 +88.8, 2018 +222.1, 2019 +99.4, 2020 +98.0, 2021 +67.3, 2022 +196.4, 2023 +44.9, 2024 -147.3, 2025 +125.4"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "17-11, +13.5 weighted; longest run 3 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "July 22, 2026"
+      },
+      {
+       "label": "August 2026 through day 20",
+       "value": "12-7, +11.3 weighted \u2014 the second-best of the 11 on record"
+      },
+      {
+       "label": "Same August in earlier years (same stretch)",
+       "value": "2016 +9.0, 2017 +4.5, 2018 -6.8, 2019 +0.0, 2020 +35.7, 2021 +2.2, 2022 -2.2, 2023 +4.5, 2024 +2.2, 2025 +4.5"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Blue Jays",
+        "17-11",
+        "+13.5",
+        "3 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Toronto: Blue Jays/Raptors/Maple Leafs \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Toronto: Blue Jays/Raptors/Maple Leafs \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Toronto: Blue Jays/Raptors/Maple Leafs \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-08-20/daily.html"
+  },
   {
    "date": "2026-08-19",
    "kind": "daily",

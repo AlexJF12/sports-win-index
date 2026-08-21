@@ -1,17 +1,17 @@
-# City of the day — Phoenix
-*Phoenix: Diamondbacks/Suns/Cardinals* · 2026-08-19
+# City of the day — Toronto
+*Toronto: Blue Jays/Raptors/Maple Leafs* · 2026-08-20
 
-- **2026 so far:** 94-90, -12.4 weighted over 184 games; longest run 5 straight losses
-- **Order of results:** about as clumped as coin flips (-0.3)
-- **Earlier seasons (full-year weighted):** 2016 -292.1, 2017 -62.5, 2018 -435.0, 2019 -229.6, 2020 +21.2, 2021 +186.7, 2022 -65.3, 2023 -158.8, 2024 +7.2, 2025 -211.1
-- **Last 30 days:** 16-12, +9.0 weighted; longest run 4 straight wins
-- **Window opens:** July 21, 2026
-- **August 2026 through day 19:** 9-9, +0.0 weighted — the sixth-best of the 11 on record
-- **Same August in earlier years (same stretch):** 2016 -6.8, 2017 -9.0, 2018 +4.5, 2019 +0.0, 2020 +37.9, 2021 -2.2, 2022 +4.5, 2023 -9.0, 2024 +15.8, 2025 +4.5
+- **2026 so far:** 106-120, -55.7 weighted over 226 games; longest run 6 straight losses
+- **Order of results:** about as clumped as coin flips (-0.7)
+- **Earlier seasons (full-year weighted):** 2016 +109.5, 2017 +88.8, 2018 +222.1, 2019 +99.4, 2020 +98.0, 2021 +67.3, 2022 +196.4, 2023 +44.9, 2024 -147.3, 2025 +125.4
+- **Last 30 days:** 17-11, +13.5 weighted; longest run 3 straight wins
+- **Window opens:** July 22, 2026
+- **August 2026 through day 20:** 12-7, +11.3 weighted — the second-best of the 11 on record
+- **Same August in earlier years (same stretch):** 2016 +9.0, 2017 +4.5, 2018 -6.8, 2019 +0.0, 2020 +35.7, 2021 +2.2, 2022 -2.2, 2023 +4.5, 2024 +2.2, 2025 +4.5
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Diamondbacks | 16-12 | +9.0 | 4 straight wins |
+| Blue Jays | 17-11 | +13.5 | 3 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 
