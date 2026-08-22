@@ -1,17 +1,17 @@
-# City of the day — Toronto
-*Toronto: Blue Jays/Raptors/Maple Leafs* · 2026-08-20
+# City of the day — Detroit
+*Detroit: Tigers/Pistons/Red Wings/Lions* · 2026-08-21
 
-- **2026 so far:** 106-120, -55.7 weighted over 226 games; longest run 6 straight losses
-- **Order of results:** about as clumped as coin flips (-0.7)
-- **Earlier seasons (full-year weighted):** 2016 +109.5, 2017 +88.8, 2018 +222.1, 2019 +99.4, 2020 +98.0, 2021 +67.3, 2022 +196.4, 2023 +44.9, 2024 -147.3, 2025 +125.4
-- **Last 30 days:** 17-11, +13.5 weighted; longest run 3 straight wins
-- **Window opens:** July 22, 2026
-- **August 2026 through day 20:** 12-7, +11.3 weighted — the second-best of the 11 on record
-- **Same August in earlier years (same stretch):** 2016 +9.0, 2017 +4.5, 2018 -6.8, 2019 +0.0, 2020 +35.7, 2021 +2.2, 2022 -2.2, 2023 +4.5, 2024 +2.2, 2025 +4.5
+- **2026 so far:** 121-112, +70.3 weighted over 233 games; longest run 9 straight losses
+- **Order of results:** about as clumped as coin flips (+1.1)
+- **Earlier seasons (full-year weighted):** 2016 +61.7, 2017 -156.7, 2018 -322.7, 2019 -517.7, 2020 -294.6, 2021 -570.2, 2022 -316.1, 2023 -140.0, 2024 +165.1, 2025 +182.8
+- **Last 30 days:** 13-13, +0.0 weighted; longest run 4 straight wins
+- **Window opens:** July 23, 2026
+- **August 2026 through day 21:** 9-9, +0.0 weighted — the fourth-best of the 11 on record
+- **Same August in earlier years (same stretch):** 2016 -6.8, 2017 -11.3, 2018 -13.5, 2019 -15.8, 2020 -13.5, 2021 +0.0, 2022 -18.0, 2023 +2.2, 2024 +4.5, 2025 +11.3
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Blue Jays | 17-11 | +13.5 | 3 straight wins |
+| Tigers | 13-13 | +0.0 | 4 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 
