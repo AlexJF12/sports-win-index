@@ -103,5 +103,10 @@
   "date": "2026-08-22",
   "city": "Tampa Bay",
   "group": "Tampa Bay"
+ },
+ {
+  "date": "2026-08-23",
+  "city": "San Francisco",
+  "group": "San Francisco"
  }
 ]
