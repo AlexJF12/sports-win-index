@@ -30,5 +30,13 @@
    "Tampa Bay",
    "Cleveland"
   ]
+ },
+ {
+  "date": "2026-08-25",
+  "cities": [
+   "New York",
+   "Sacramento",
+   "Kansas City"
+  ]
  }
 ]

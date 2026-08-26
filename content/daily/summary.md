@@ -1,17 +1,17 @@
-# City of the day — Milwaukee
-*Milwaukee: Brewers/Bucks* · 2026-08-24
+# City of the day — Boston
+*Boston: Red Sox/Celtics/Bruins/Patriots* · 2026-08-25
 
-- **2026 so far:** 99-80, +16.4 weighted over 179 games; longest run 5 straight losses
-- **Order of results:** about as clumped as coin flips (+0.2)
-- **Earlier seasons (full-year weighted):** 2016 -71.7, 2017 +40.3, 2018 +141.1, 2019 +274.2, 2020 +48.9, 2021 +241.1, 2022 +120.5, 2023 +205.3, 2024 +60.7, 2025 +74.2
-- **Last 30 days:** 16-11, +11.3 weighted; longest run 3 straight wins
-- **Window opens:** July 26, 2026
-- **August 2026 through day 24:** 13-9, +9.0 weighted — the fifth-best of the 11 on record
-- **Same August in earlier years (same stretch):** 2016 -11.3, 2017 +2.2, 2018 -4.5, 2019 +0.0, 2020 -11.2, 2021 +20.3, 2022 -11.3, 2023 +13.5, 2024 +15.8, 2025 +24.8
+- **2026 so far:** 142-99, +211.7 weighted over 241 games; longest run 14 straight wins
+- **Order of results:** about as clumped as coin flips (+0.6)
+- **Earlier seasons (full-year weighted):** 2016 +319.9, 2017 +554.9, 2018 +428.0, 2019 +481.2, 2020 -6.1, 2021 +173.3, 2022 +295.2, 2023 +144.1, 2024 +17.5, 2025 +350.1
+- **Last 30 days:** 19-9, +22.5 weighted; longest run 9 straight wins
+- **Window opens:** July 27, 2026
+- **August 2026 through day 25:** 15-8, +15.8 weighted — the fourth-best of the 11 on record
+- **Same August in earlier years (same stretch):** 2016 +9.0, 2017 +20.3, 2018 +18.0, 2019 -2.2, 2020 +26.5, 2021 -9.0, 2022 -9.0, 2023 +2.2, 2024 -4.5, 2025 +9.0
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Brewers | 16-11 | +11.3 | 3 straight wins |
+| Red Sox | 19-9 | +22.5 | 9 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 
