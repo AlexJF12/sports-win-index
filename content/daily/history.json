@@ -118,5 +118,10 @@
   "date": "2026-08-25",
   "city": "Boston",
   "group": "Boston"
+ },
+ {
+  "date": "2026-08-26",
+  "city": "Philadelphia",
+  "group": "Philadelphia"
  }
 ]
