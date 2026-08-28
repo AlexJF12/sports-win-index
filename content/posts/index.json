@@ -1,10 +1,86 @@
 {
- "generated": "2026-08-27",
+ "generated": "2026-08-28",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-08-27",
+   "kind": "daily",
+   "title": "City of the day \u2014 St. Louis",
+   "dek": "St. Louis: Cardinals/Blues",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "89-87, +11.1 weighted over 176 games; longest run 7 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+0.3)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 +71.5, 2017 +84.7, 2018 -4.1, 2019 +178.5, 2020 +2.3, 2021 +29.4, 2022 +89.6, 2023 -67.3, 2024 +13.5, 2025 -26.9"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "14-14, +0.0 weighted; longest run 5 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "July 29, 2026"
+      },
+      {
+       "label": "August 2026 through day 27",
+       "value": "13-12, +2.2 weighted \u2014 the fifth-best of the 11 on record"
+      },
+      {
+       "label": "Same August in earlier years (same stretch)",
+       "value": "2016 +2.2, 2017 +2.2, 2018 +31.5, 2019 +18.0, 2020 -6.7, 2021 +6.8, 2022 +29.3, 2023 -13.5, 2024 -13.5, 2025 -9.0"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Cardinals",
+        "14-14",
+        "+0.0",
+        "5 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "St. Louis: Cardinals/Blues \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "St. Louis: Cardinals/Blues \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "St. Louis: Cardinals/Blues \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-08-27/daily.html"
+  },
   {
    "date": "2026-08-26",
    "kind": "daily",
