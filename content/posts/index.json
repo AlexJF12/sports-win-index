@@ -1,10 +1,86 @@
 {
- "generated": "2026-08-29",
+ "generated": "2026-08-30",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-08-29",
+   "kind": "daily",
+   "title": "City of the day \u2014 Washington",
+   "dek": "Washington: Nationals/Wizards/Capitals/Commanders",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "97-134, -130.1 weighted over 231 games; longest run 9 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.3)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 +214.3, 2017 +234.6, 2018 +23.9, 2019 -167.1, 2020 -162.6, 2021 -51.9, 2022 -197.3, 2023 -403.8, 2024 -138.0, 2025 -343.3"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "10-18, -18.0 weighted; longest run 5 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "July 31, 2026"
+      },
+      {
+       "label": "August 2026 through day 29",
+       "value": "10-17, -15.8 weighted \u2014 the 7th-best of the 11 on record"
+      },
+      {
+       "label": "Same August in earlier years (same stretch)",
+       "value": "2016 +9.0, 2017 +15.8, 2018 +0.0, 2019 +22.5, 2020 -46.9, 2021 -24.8, 2022 -20.3, 2023 +18.0, 2024 -2.2, 2025 -18.0"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Nationals",
+        "10-18",
+        "-18.0",
+        "5 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Washington: Nationals/Wizards/Capitals/Commanders \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Washington: Nationals/Wizards/Capitals/Commanders \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Washington: Nationals/Wizards/Capitals/Commanders \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-08-29/daily.html"
+  },
   {
    "date": "2026-08-28",
    "kind": "daily",
