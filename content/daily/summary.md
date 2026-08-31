@@ -1,17 +1,17 @@
-# City of the day — Washington
-*Washington: Nationals/Wizards/Capitals/Commanders* · 2026-08-29
+# City of the day — Seattle
+*Seattle: Mariners/Kraken/Seahawks* · 2026-08-30
 
-- **2026 so far:** 97-134, -130.1 weighted over 231 games; longest run 9 straight losses
-- **Order of results:** about as clumped as coin flips (-0.3)
-- **Earlier seasons (full-year weighted):** 2016 +214.3, 2017 +234.6, 2018 +23.9, 2019 -167.1, 2020 -162.6, 2021 -51.9, 2022 -197.3, 2023 -403.8, 2024 -138.0, 2025 -343.3
-- **Last 30 days:** 10-18, -18.0 weighted; longest run 5 straight losses
-- **Window opens:** July 31, 2026
-- **August 2026 through day 29:** 10-17, -15.8 weighted — the 7th-best of the 11 on record
-- **Same August in earlier years (same stretch):** 2016 +9.0, 2017 +15.8, 2018 +0.0, 2019 +22.5, 2020 -46.9, 2021 -24.8, 2022 -20.3, 2023 +18.0, 2024 -2.2, 2025 -18.0
+- **2026 so far:** 86-100, +25.5 weighted over 186 games; longest run 8 straight losses
+- **Order of results:** about as clumped as coin flips (+0.8)
+- **Earlier seasons (full-year weighted):** 2016 +129.9, 2017 +50.9, 2018 +121.9, 2019 +48.8, 2020 +136.8, 2021 -120.2, 2022 -2.5, 2023 +48.6, 2024 +42.4, 2025 +218.9
+- **Last 30 days:** 11-15, -9.0 weighted; longest run 6 straight losses
+- **Window opens:** August 1, 2026
+- **August 2026 through day 30:** 11-15, -9.0 weighted — the 9th-best of the 11 on record
+- **Same August in earlier years (same stretch):** 2016 +6.8, 2017 -6.8, 2018 -6.8, 2019 -11.3, 2020 -18.0, 2021 +2.2, 2022 +13.5, 2023 +33.8, 2024 -2.2, 2025 +4.5
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Nationals | 10-18 | -18.0 | 5 straight losses |
+| Mariners | 11-15 | -9.0 | 6 straight losses |
 
 Images: `season.png` · `month.png` · `form.png`
 

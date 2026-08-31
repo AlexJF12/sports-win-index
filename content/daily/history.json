@@ -138,5 +138,10 @@
   "date": "2026-08-29",
   "city": "Washington",
   "group": "Washington"
+ },
+ {
+  "date": "2026-08-30",
+  "city": "Seattle",
+  "group": "Seattle"
  }
 ]

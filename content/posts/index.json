@@ -1,10 +1,86 @@
 {
- "generated": "2026-08-30",
+ "generated": "2026-08-31",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-08-30",
+   "kind": "daily",
+   "title": "City of the day \u2014 Seattle",
+   "dek": "Seattle: Mariners/Kraken/Seahawks",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "86-100, +25.5 weighted over 186 games; longest run 8 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+0.8)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 +129.9, 2017 +50.9, 2018 +121.9, 2019 +48.8, 2020 +136.8, 2021 -120.2, 2022 -2.5, 2023 +48.6, 2024 +42.4, 2025 +218.9"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "11-15, -9.0 weighted; longest run 6 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "August 1, 2026"
+      },
+      {
+       "label": "August 2026 through day 30",
+       "value": "11-15, -9.0 weighted \u2014 the 9th-best of the 11 on record"
+      },
+      {
+       "label": "Same August in earlier years (same stretch)",
+       "value": "2016 +6.8, 2017 -6.8, 2018 -6.8, 2019 -11.3, 2020 -18.0, 2021 +2.2, 2022 +13.5, 2023 +33.8, 2024 -2.2, 2025 +4.5"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Mariners",
+        "11-15",
+        "-9.0",
+        "6 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Seattle: Mariners/Kraken/Seahawks \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Seattle: Mariners/Kraken/Seahawks \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Seattle: Mariners/Kraken/Seahawks \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-08-30/daily.html"
+  },
   {
    "date": "2026-08-29",
    "kind": "daily",
