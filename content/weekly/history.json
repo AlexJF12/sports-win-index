@@ -38,5 +38,13 @@
    "Sacramento",
    "Kansas City"
   ]
+ },
+ {
+  "date": "2026-09-01",
+  "cities": [
+   "Los Angeles",
+   "Montreal",
+   "Philadelphia"
+  ]
  }
 ]

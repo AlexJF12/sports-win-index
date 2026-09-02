@@ -1,10 +1,236 @@
 {
- "generated": "2026-09-01",
+ "generated": "2026-09-02",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-09-01",
+   "kind": "spotlight",
+   "title": "Out of the norm \u2014 three fandoms off their own script",
+   "dek": "The weekly hunt across all 88 city groups, through September 1, 2026",
+   "sections": [
+    {
+     "heading": "Los Angeles is having its best year on record \u2014 4th of 88 this year",
+     "subhead": "Los Angeles: Dodgers/Lakers/Ducks/Rams",
+     "stats": [
+      {
+       "label": "2026 so far (through September 1)",
+       "value": "150-107, +168.3 weighted \u2014 1st-best of the 11 years on record, at the same point"
+      },
+      {
+       "label": "Against the field",
+       "value": "4th of 88 city groups on the year (97th percentile)"
+      },
+      {
+       "label": "This month (through September 1)",
+       "value": "0-1, -2.2 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "0-1, -2.2 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Dodgers (0-1, -2.2)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-los-angeles-14_year.png",
+       "caption": "Every season's cumulative index by day of year, this one in color.",
+       "alt": "Los Angeles: Dodgers/Lakers/Ducks/Rams \u2014 Every season's cumulative index by day of year, this one in color"
+      },
+      {
+       "file": "spotlight-los-angeles-14_field.png",
+       "caption": "All 88 city groups on this year's index, the group picked out.",
+       "alt": "Los Angeles: Dodgers/Lakers/Ducks/Rams \u2014 All 88 city groups on this year's index, the group picked out"
+      }
+     ]
+    },
+    {
+     "heading": "Montreal is having its best year on record \u2014 30th of 88 this year",
+     "subhead": "Montreal: Canadiens",
+     "stats": [
+      {
+       "label": "2026 so far (through September 1)",
+       "value": "36-26, +44.5 weighted \u2014 1st-best of the 11 years on record, at the same point"
+      },
+      {
+       "label": "Against the field",
+       "value": "30th of 88 city groups on the year (67th percentile)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-montreal_year.png",
+       "caption": "Every season's cumulative index by day of year, this one in color.",
+       "alt": "Montreal: Canadiens \u2014 Every season's cumulative index by day of year, this one in color"
+      },
+      {
+       "file": "spotlight-montreal_field.png",
+       "caption": "All 88 city groups on this year's index, the group picked out.",
+       "alt": "Montreal: Canadiens \u2014 All 88 city groups on this year's index, the group picked out"
+      }
+     ]
+    },
+    {
+     "heading": "Philadelphia has climbed 5 places in the 2026 standings this week (46th \u2192 41st of 88)",
+     "subhead": "Philadelphia: Phillies/76ers/Flyers/Eagles",
+     "stats": [
+      {
+       "label": "Year standings",
+       "value": "46th \u2192 41st of 88 (+4.2 \u2192 +17.7 weighted)"
+      },
+      {
+       "label": "This month (through September 1)",
+       "value": "1-0, +2.2 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "1-0, +2.2 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Phillies (1-0, +2.2)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-philadelphia_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Philadelphia: Phillies/76ers/Flyers/Eagles \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "spotlight-philadelphia_bump.png",
+       "caption": "Place in the year-to-date standings over the last 30 days.",
+       "alt": "Philadelphia: Phillies/76ers/Flyers/Eagles \u2014 Place in the year-to-date standings over the last 30 days"
+      },
+      {
+       "file": "spotlight-philadelphia_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Philadelphia: Phillies/76ers/Flyers/Eagles \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-01/spotlight.html"
+  },
+  {
+   "date": "2026-09-01",
+   "kind": "streakiness",
+   "title": "Streakiness \u2014 not how often they win, but how the wins arrive",
+   "dek": "All 88 city groups, through September 1, 2026",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "City groups measured",
+       "value": "88"
+      },
+      {
+       "label": "Furthest from its own norm this year",
+       "value": "Houston: Astros/Rockets/Texans \u2014 streak index -2.5 over 200 games, against a usual +0.4"
+      },
+      {
+       "label": "Streakiest of the last 30 days",
+       "value": "Kansas City: Royals/Chiefs \u2014 +1.4, longest run 9 wins"
+      },
+      {
+       "label": "Steadiest of the last 30 days",
+       "value": "Toronto: Blue Jays/Raptors/Maple Leafs \u2014 -2.4, wins and losses taking turns"
+      },
+      {
+       "label": "Reading the index",
+       "value": "+2 or more is clumpier than chance, \u22122 or less more alternating than chance, 0 exactly as clumped as coin flips"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "streak-season_vs_history.png",
+       "caption": "This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray.",
+       "alt": "All 88 city groups, through September 1, 2026 \u2014 This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray"
+      },
+      {
+       "file": "streak-past_month.png",
+       "caption": "The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest.",
+       "alt": "All 88 city groups, through September 1, 2026 \u2014 The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-01/streakiness.html"
+  },
+  {
+   "date": "2026-09-01",
+   "kind": "daily",
+   "title": "City of the day \u2014 Minnesota",
+   "dek": "Minnesota: Twins/Timberwolves/Wild/Vikings",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "129-123, +54.7 weighted over 252 games; longest run 8 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.3)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 -245.2, 2017 +269.8, 2018 +3.5, 2019 +60.2, 2020 -113.1, 2021 -71.7, 2022 +299.9, 2023 +51.6, 2024 +347.5, 2025 +41.0"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "11-15, -9.0 weighted; longest run 4 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "August 4, 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Twins",
+        "11-15",
+        "-9.0",
+        "4 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Minnesota: Twins/Timberwolves/Wild/Vikings \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Minnesota: Twins/Timberwolves/Wild/Vikings \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-01/daily.html"
+  },
   {
    "date": "2026-08-31",
    "kind": "daily",
