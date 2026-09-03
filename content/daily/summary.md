@@ -1,15 +1,15 @@
-# City of the day — Minnesota
-*Minnesota: Twins/Timberwolves/Wild/Vikings* · 2026-09-01
+# City of the day — Chicago
+*Chicago: Cubs/Bulls/Blackhawks/Bears* · 2026-09-02
 
-- **2026 so far:** 129-123, +54.7 weighted over 252 games; longest run 8 straight wins
-- **Order of results:** about as clumped as coin flips (-0.3)
-- **Earlier seasons (full-year weighted):** 2016 -245.2, 2017 +269.8, 2018 +3.5, 2019 +60.2, 2020 -113.1, 2021 -71.7, 2022 +299.9, 2023 +51.6, 2024 +347.5, 2025 +41.0
-- **Last 30 days:** 11-15, -9.0 weighted; longest run 4 straight losses
+- **2026 so far:** 109-126, -127.9 weighted over 235 games; longest run 13 straight losses
+- **Order of results:** clumpier than chance (+2.4)
+- **Earlier seasons (full-year weighted):** 2016 -70.9, 2017 -127.5, 2018 -36.7, 2019 -154.8, 2020 -36.2, 2021 -248.8, 2022 -434.0, 2023 -197.1, 2024 -357.8, 2025 +57.4
+- **Last 30 days:** 14-13, +2.2 weighted; longest run 4 straight wins
 - **Window opens:** August 4, 2026
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Twins | 11-15 | -9.0 | 4 straight losses |
+| Cubs | 14-13 | +2.2 | 4 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 

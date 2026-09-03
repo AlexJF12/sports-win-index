@@ -1,10 +1,78 @@
 {
- "generated": "2026-09-02",
+ "generated": "2026-09-03",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-09-02",
+   "kind": "daily",
+   "title": "City of the day \u2014 Chicago",
+   "dek": "Chicago: Cubs/Bulls/Blackhawks/Bears",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "109-126, -127.9 weighted over 235 games; longest run 13 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "clumpier than chance (+2.4)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 -70.9, 2017 -127.5, 2018 -36.7, 2019 -154.8, 2020 -36.2, 2021 -248.8, 2022 -434.0, 2023 -197.1, 2024 -357.8, 2025 +57.4"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "14-13, +2.2 weighted; longest run 4 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "August 4, 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Cubs",
+        "14-13",
+        "+2.2",
+        "4 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Chicago: Cubs/Bulls/Blackhawks/Bears \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Chicago: Cubs/Bulls/Blackhawks/Bears \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Chicago: Cubs/Bulls/Blackhawks/Bears \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-02/daily.html"
+  },
   {
    "date": "2026-09-01",
    "kind": "spotlight",
