@@ -1,15 +1,15 @@
-# City of the day — Chicago
-*Chicago: Cubs/Bulls/Blackhawks/Bears* · 2026-09-02
+# City of the day — Denver
+*Denver: Rockies/Nuggets/Avalanche/Broncos* · 2026-09-03
 
-- **2026 so far:** 109-126, -127.9 weighted over 235 games; longest run 13 straight losses
-- **Order of results:** clumpier than chance (+2.4)
-- **Earlier seasons (full-year weighted):** 2016 -70.9, 2017 -127.5, 2018 -36.7, 2019 -154.8, 2020 -36.2, 2021 -248.8, 2022 -434.0, 2023 -197.1, 2024 -357.8, 2025 +57.4
-- **Last 30 days:** 14-13, +2.2 weighted; longest run 4 straight wins
-- **Window opens:** August 4, 2026
+- **2026 so far:** 122-132, +42.9 weighted over 254 games; longest run 9 straight wins
+- **Order of results:** about as clumped as coin flips (-0.5)
+- **Earlier seasons (full-year weighted):** 2016 -35.4, 2017 -176.0, 2018 +41.4, 2019 +56.7, 2020 -80.9, 2021 +168.1, 2022 +10.8, 2023 +176.8, 2024 +131.7, 2025 +283.8
+- **Last 30 days:** 9-17, -18.0 weighted; longest run 7 straight losses
+- **Window opens:** August 5, 2026
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Cubs | 14-13 | +2.2 | 4 straight wins |
+| Rockies | 9-17 | -18.0 | 7 straight losses |
 
 Images: `season.png` · `month.png` · `form.png`
 

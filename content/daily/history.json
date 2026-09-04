@@ -158,5 +158,10 @@
   "date": "2026-09-02",
   "city": "Chicago",
   "group": "Chicago 1"
+ },
+ {
+  "date": "2026-09-03",
+  "city": "Denver",
+  "group": "Denver"
  }
 ]
