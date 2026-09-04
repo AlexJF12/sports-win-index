@@ -1,8 +1,8 @@
-# Best Month
+# Fandom Pulse
 
 Pick your favorite team from each major US sport (MLB, NBA, NHL, NFL) and see how good your month — or your year — has been.
 
-The name is the question the whole thing answers. Every league keeps standings; nobody keeps the standing that a fan actually feels, which is whether *this* month is a good one by the only benchmark that means anything — the months that came before it. Best Month keeps that one.
+Every league keeps standings; nobody keeps the reading a fan actually feels, which is whether *this* month is a good one to follow your teams, by the only benchmark that means anything — the months that came before it. Fandom Pulse is that reading, taken fresh every morning.
 
 This repo is the whole system: a daily scraper, the score data itself, and a static web page that reads it. No servers, no database — **the repo is the database**.
 
@@ -165,7 +165,7 @@ A run reaches back one day from the newest post (`--max-age-days`) and shares at
 
 **Setting it up.** Until the account exists, `BLUESKY_HANDLE` and `BLUESKY_APP_PASSWORD` are placeholders at the top of the script, and a run that finds a placeholder says what's missing and exits 0 — the daily scrape must not start failing because the account for it doesn't exist yet. To finish it:
 
-1. Create the Bluesky account and note its handle. **`bestmonth.bsky.social`** is the one to try first — it is the site's name and nothing else, which is what a reader has to be able to type from memory after seeing one chart in a timeline. If it's gone, `bestmonthhq`, `yourbestmonth` and `bestmonthindex` are the fallbacks in that order; avoid anything with a sport or a league in it, since the account covers all four. Once the site has its own domain the handle can move to it (Bluesky verifies handles by DNS), and the `.bsky.social` name stays claimed either way.
+1. Create the Bluesky account and note its handle. **`fandompulse.bsky.social`** is the one to try first — it is the site's name and nothing else, which is what a reader has to be able to type from memory after seeing one chart in a timeline. If it's gone, `fandompulsehq`, `thefandompulse` and `pulseoffandom` are the fallbacks in that order; avoid anything with a sport or a league in it, since the account covers all four. Once the site has its own domain the handle can move to it (Bluesky verifies handles by DNS), and the `.bsky.social` name stays claimed either way.
 2. In Bluesky: **Settings → Privacy and security → App passwords → Add App Password**. Use that, never the account password — it can be revoked on its own and can't change the account's email or password.
 3. In this repo: **Settings → Secrets and variables → Actions → New repository secret**, twice — `BLUESKY_HANDLE` and `BLUESKY_APP_PASSWORD`.
 4. Run the **Share to Bluesky** workflow by hand with `dry_run` on to see what it would post, then off to post it. After that the nightly schedule carries it.
