@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Team Wins — City Index</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
+<title>Fandom Pulse — City Index</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><rect x=%220.5%22 y=%229%22 width=%223.6%22 height=%226%22 rx=%221.3%22 fill=%22%23a5a49c%22/><rect x=%226.2%22 y=%225.5%22 width=%223.6%22 height=%229.5%22 rx=%221.3%22 fill=%22%236f6e69%22/><rect x=%2211.9%22 y=%221%22 width=%223.6%22 height=%2214%22 rx=%221.3%22 fill=%22%237d3ff0%22/></svg>">
 <style>
   :root {
     color-scheme: light;
@@ -26,6 +26,9 @@
     --series-5:       #1baf7a;
     --series-6:       #eb6834;
     --highlight:      #7d3ff0;
+    --accent:         #7d3ff0;
+    --accent-ink:     #ffffff;
+    --chip:           rgba(11, 11, 11, 0.05);
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -48,6 +51,9 @@
       --series-5:       #199e70;
       --series-6:       #d95926;
       --highlight:      #9d6bff;
+      --accent:         #9d6bff;
+      --accent-ink:     #12071f;
+      --chip:           rgba(255, 255, 255, 0.07);
     }
   }
   * { box-sizing: border-box; }
@@ -57,27 +63,61 @@
     color: var(--text-primary);
     font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
   }
-  main { max-width: 880px; margin: 0 auto; padding: 24px 20px 64px; }
+  main { max-width: 880px; margin: 0 auto; padding: 20px 20px 64px; }
 
-  header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-  h1 { font-size: 20px; font-weight: 650; margin: 0; }
-  nav a { color: var(--text-secondary); font-size: 13px; text-decoration: none; }
-  nav a:hover { text-decoration: underline; }
-  nav [aria-current="page"] { color: var(--text-primary); font-size: 13px; font-weight: 650; }
+  /* the brand bar, shared by every page (index, my-teams, groups, about, blog.css) */
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--page) 88%, transparent);
+    backdrop-filter: blur(10px) saturate(1.6);
+    -webkit-backdrop-filter: blur(10px) saturate(1.6);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .bar {
+    max-width: 880px; margin: 0 auto; padding: 9px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 4px 16px; flex-wrap: wrap;
+  }
+  .wordmark {
+    display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+    font-size: 17px; font-weight: 700; letter-spacing: -0.025em;
+    color: var(--text-primary); text-decoration: none;
+  }
+  .wordmark svg { width: 15px; height: 15px; display: block; }
+  .wordmark .b1 { fill: var(--text-muted); opacity: 0.5; }
+  .wordmark .b2 { fill: var(--text-muted); }
+  .wordmark .b3 { fill: var(--accent); transform-origin: 50% 100%; transition: transform 0.18s ease; }
+  .wordmark:hover .b3 { transform: scaleY(1.14); }
+  nav { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+  nav a {
+    color: var(--text-secondary); font-size: 13px; text-decoration: none;
+    padding: 5px 9px; border-radius: 999px;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  nav a:hover { color: var(--text-primary); background: var(--chip); }
+  nav [aria-current="page"] { color: var(--text-primary); font-weight: 650; background: var(--chip); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+  .page-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  h1 { font-size: 25px; font-weight: 700; letter-spacing: -0.03em; margin: 0; }
+  .tagline { color: var(--text-muted); font-size: 13.5px; margin: 5px 0 0; }
   a.glink { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--text-muted); }
   a.glink:hover { border-bottom-style: solid; }
 
-  .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
+  .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 16px; }
   .scope {
-    display: inline-flex; border: 1px solid var(--border); border-radius: 8px;
-    overflow: hidden; background: var(--surface);
+    display: inline-flex; border: 1px solid var(--border); border-radius: 999px;
+    overflow: hidden; background: var(--surface); padding: 2px;
   }
   .scope button {
-    background: none; border: none; color: var(--text-secondary);
+    background: none; border: none; color: var(--text-secondary); border-radius: 999px;
     font: inherit; font-size: 13px; padding: 5px 12px; cursor: pointer;
+    transition: color 0.15s ease, background 0.15s ease;
   }
+  .scope button:hover { color: var(--text-primary); }
   .scope button[aria-pressed="true"] {
-    background: var(--text-primary); color: var(--page); font-weight: 600;
+    background: var(--accent); color: var(--accent-ink); font-weight: 600;
   }
 
   #sections { margin-top: 24px; }
@@ -95,23 +135,26 @@
   .day-box .dom { font-size: 15px; font-weight: 650; color: var(--text-primary); font-variant-numeric: tabular-nums; }
   .day-box.future { opacity: 0.45; border-style: dashed; }
   .day-box.future .dom { color: var(--text-secondary); }
-  .day-box.today { background: var(--text-primary); border-color: var(--text-primary); }
-  .day-box.today .dow, .day-box.today .dom { color: var(--page); }
+  .day-box.today { background: var(--accent); border-color: var(--accent); }
+  .day-box.today .dow, .day-box.today .dom { color: var(--accent-ink); }
 
   .champ {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    padding: 14px 16px; margin-bottom: 10px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 14px 16px 14px 19px; margin-bottom: 10px;
     display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+    position: relative; overflow: hidden;
   }
-  .champ .city { font-size: 24px; font-weight: 650; }
-  .champ .score { font-size: 24px; font-weight: 650; margin-left: auto; }
+  /* the winner gets the brand rule down its edge — the one card on the page that does */
+  .champ::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); }
+  .champ .city { font-size: 25px; font-weight: 700; letter-spacing: -0.025em; }
+  .champ .score { font-size: 25px; font-weight: 700; letter-spacing: -0.025em; margin-left: auto; font-variant-numeric: tabular-nums; }
   .champ .score.pos { color: var(--win); }
   .champ .score.neg { color: var(--loss); }
   .champ .detail-record { color: var(--text-muted); font-size: 15px; }
   .champ .detail { color: var(--text-muted); font-size: 13px; flex-basis: 100%; }
 
   .race {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
     padding: 12px 16px 8px; margin-bottom: 10px; position: relative;
   }
   .race .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
@@ -126,11 +169,13 @@
   }
   .race .tooltip .tt-date { color: var(--text-muted); margin-bottom: 2px; }
   .race .tooltip .tt-row { display: flex; align-items: center; gap: 6px; }
-  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
   table { border-collapse: collapse; width: 100%; font-size: 14px; }
   th, td { text-align: left; padding: 7px 14px; white-space: nowrap; }
   th { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid var(--hairline); }
   tr + tr td { border-top: 1px solid var(--hairline); }
+  tbody td { transition: background 0.12s ease; }
+  tbody tr:hover td { background: var(--chip); }
   td.num { font-variant-numeric: tabular-nums; }
   td.teams { color: var(--text-muted); font-size: 13px; white-space: normal; }
   .empty { color: var(--text-muted); padding: 18px 14px; }
@@ -143,10 +188,11 @@
 
   .share-btn {
     background: var(--surface); color: var(--text-secondary);
-    border: 1px solid var(--border); border-radius: 8px;
-    font: inherit; font-size: 13px; padding: 5px 12px; cursor: pointer;
+    border: 1px solid var(--border); border-radius: 999px;
+    font: inherit; font-size: 13px; padding: 5px 14px; cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
   }
-  .share-btn:hover { color: var(--text-primary); }
+  .share-btn:hover { color: var(--text-primary); border-color: var(--accent); }
 
   .hl-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 13px; color: var(--text-secondary); }
   .hl-row select {
@@ -154,7 +200,7 @@
     background: var(--surface); color: var(--text-primary);
     border: 1px solid var(--border); border-radius: 8px;
   }
-  tr.hl td { background: color-mix(in srgb, var(--highlight) 10%, transparent); }
+  tbody tr.hl td, tbody tr.hl:hover td { background: color-mix(in srgb, var(--highlight) 12%, transparent); }
 
   .fandom-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
   .fandom-head {
@@ -168,9 +214,12 @@
   .fandom-foot a { color: var(--text-secondary); }
 
   @media (max-width: 560px) {
-    main { padding: 18px 12px 48px; }
+    main { padding: 16px 12px 48px; }
+    .bar { padding: 8px 12px; }
+    nav { flex-basis: 100%; }
+    h1 { font-size: 21px; }
     th, td { padding: 7px 10px; }
-    .champ .city, .champ .score { font-size: 20px; }
+    .champ .city, .champ .score { font-size: 21px; }
     .week-strip { gap: 4px; }
     .day-box { padding: 6px 2px; }
     .day-box .dom { font-size: 13px; }
@@ -178,18 +227,27 @@
 </style>
 </head>
 <body>
-<main>
-  <header>
-    <h1>City Index</h1>
-    <nav style="display:flex;gap:16px;align-items:center">
-      <span aria-current="page">city index</span>
-      <a href="my-teams.html">my teams</a>
-      <a href="groups.html">city groups</a>
-      <a href="blog.html">blog</a>
-      <a href="about.html">about</a>
-      <button id="share" class="share-btn" title="Share this view">Share</button>
+<div class="topbar">
+  <div class="bar">
+    <a class="wordmark" href="index.html" aria-label="Fandom Pulse — home">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><rect class="b1" x="0.5" y="9" width="3.6" height="6" rx="1.3"/><rect class="b2" x="6.2" y="5.5" width="3.6" height="9.5" rx="1.3"/><rect class="b3" x="11.9" y="1" width="3.6" height="14" rx="1.3"/></svg>
+      Fandom Pulse
+    </a>
+    <nav>
+      <a href="index.html" aria-current="page">Cities</a>
+      <a href="my-teams.html">My teams</a>
+      <a href="groups.html">Groups</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html">About</a>
     </nav>
-  </header>
+  </div>
+</div>
+<main>
+  <div class="page-head">
+    <h1>City Index</h1>
+    <button id="share" class="share-btn" title="Share this view">Share</button>
+  </div>
+  <p class="tagline">Every city fields one team per league. Best day, best week, best month, best year.</p>
   <div class="controls">
     <div class="scope" role="group" aria-label="Metric">
       <button id="metric-wins" aria-pressed="false">Wins</button>

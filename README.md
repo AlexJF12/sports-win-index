@@ -1,6 +1,8 @@
-# Team Wins
+# Fandom Pulse
 
 Pick your favorite team from each major US sport (MLB, NBA, NHL, NFL) and see how good your month — or your year — has been.
+
+Every league keeps standings; nobody keeps the reading a fan actually feels, which is whether *this* month is a good one to follow your teams, by the only benchmark that means anything — the months that came before it. Fandom Pulse is that reading, taken fresh every morning.
 
 This repo is the whole system: a daily scraper, the score data itself, and a static web page that reads it. No servers, no database — **the repo is the database**.
 
@@ -163,7 +165,7 @@ A run reaches back one day from the newest post (`--max-age-days`) and shares at
 
 **Setting it up.** Until the account exists, `BLUESKY_HANDLE` and `BLUESKY_APP_PASSWORD` are placeholders at the top of the script, and a run that finds a placeholder says what's missing and exits 0 — the daily scrape must not start failing because the account for it doesn't exist yet. To finish it:
 
-1. Create the Bluesky account and note its handle (`something.bsky.social`).
+1. Create the Bluesky account and note its handle. **`fandompulse.bsky.social`** is the one to try first — it is the site's name and nothing else, which is what a reader has to be able to type from memory after seeing one chart in a timeline. If it's gone, `fandompulsehq`, `thefandompulse` and `pulseoffandom` are the fallbacks in that order; avoid anything with a sport or a league in it, since the account covers all four. Once the site has its own domain the handle can move to it (Bluesky verifies handles by DNS), and the `.bsky.social` name stays claimed either way.
 2. In Bluesky: **Settings → Privacy and security → App passwords → Add App Password**. Use that, never the account password — it can be revoked on its own and can't change the account's email or password.
 3. In this repo: **Settings → Secrets and variables → Actions → New repository secret**, twice — `BLUESKY_HANDLE` and `BLUESKY_APP_PASSWORD`.
 4. Run the **Share to Bluesky** workflow by hand with `dry_run` on to see what it would post, then off to post it. After that the nightly schedule carries it.
@@ -192,6 +194,16 @@ The page can score your teams' games three ways:
   | NFL | 17 | ±21.47 |
 
   The idea: one NFL Sunday carries about as much of a season's weight as three weeks of baseball. A Commanders win (+21.5) can cancel out a rough Nationals homestand — and a bad Wizards season can sink your whole year.
+
+## The look
+
+Five hand-written pages and one generated one, and no build step to share a stylesheet between them — so the brand is a small block of CSS copied into each page's `<style>`, plus [`blog.css`](blog.css) for the blog and the post pages. It is short on purpose, and it is the only part that must stay in step across files.
+
+- **The bar.** Every page opens with the same sticky top bar: the wordmark on the left (three ascending bars, the tallest in the accent violet — the same shape as the favicon, and the same three `rect`s that `publish_blog.py` writes into a post page), the five destinations on the right as pills, the current one filled. The page's own `h1` sits below it, so the brand and the page name never compete for the same line.
+- **The accent.** `--accent` (`#7d3ff0` light, `#9d6bff` dark) marks *the thing you chose or the thing that won*: the pressed segment of a metric toggle, today's box in the week strip, the rule down the champion card, the active blog filter, every focus ring. It is deliberately not green or red — those two are spoken for by wins and losses, and an accent that borrows either would read as a score.
+- **Everything else is unchanged.** Same warm paper and near-black surfaces, same type scale, same charts. Headline numbers just got tabular figures and tighter tracking, cards got 14px corners, and anything clickable got a 0.15s transition — dropped entirely under `prefers-reduced-motion`.
+
+Changing the mark means changing four things together: the `.wordmark` rules and the inline `<svg>` in each of the four hand-written pages, the same pair in `blog.css` and `publish_blog.MARK`, the `<link rel="icon">` in every page, and `publish_blog.FAVICON`. Post pages already on disk pick it up on the next `publish_blog.py` run, which rewrites all of them.
 
 ## Running the page locally
 
