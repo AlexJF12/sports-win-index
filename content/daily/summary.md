@@ -1,15 +1,17 @@
-# City of the day — Denver
-*Denver: Rockies/Nuggets/Avalanche/Broncos* · 2026-09-03
+# City of the day — Cincinnati
+*Cincinnati: Reds/Bengals* · 2026-09-04
 
-- **2026 so far:** 122-132, +42.9 weighted over 254 games; longest run 9 straight wins
+- **2026 so far:** 67-75, -37.2 weighted over 142 games; longest run 8 straight losses
 - **Order of results:** about as clumped as coin flips (-0.5)
-- **Earlier seasons (full-year weighted):** 2016 -35.4, 2017 -176.0, 2018 +41.4, 2019 +56.7, 2020 -80.9, 2021 +168.1, 2022 +10.8, 2023 +176.8, 2024 +131.7, 2025 +283.8
-- **Last 30 days:** 9-17, -18.0 weighted; longest run 7 straight losses
-- **Window opens:** August 5, 2026
+- **Earlier seasons (full-year weighted):** 2016 -144.5, 2017 -80.1, 2018 -149.0, 2019 -284.7, 2020 -128.8, 2021 +52.0, 2022 +107.6, 2023 +47.4, 2024 +3.4, 2025 -59.9
+- **Last 30 days:** 12-16, -9.0 weighted; longest run 3 straight losses
+- **Window opens:** August 6, 2026
+- **September 2026 through day 4:** 2-1, +2.2 weighted — the second-best of the 11 on record
+- **Same September in earlier years (same stretch):** 2016 +2.2, 2017 +0.0, 2018 +0.0, 2019 -2.2, 2020 +0.0, 2021 +0.0, 2022 +2.2, 2023 +2.2, 2024 +6.8, 2025 -2.2
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Rockies | 9-17 | -18.0 | 7 straight losses |
+| Reds | 12-16 | -9.0 | 3 straight losses |
 
 Images: `season.png` · `month.png` · `form.png`
 

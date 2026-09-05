@@ -1,10 +1,86 @@
 {
- "generated": "2026-09-04",
+ "generated": "2026-09-05",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-09-04",
+   "kind": "daily",
+   "title": "City of the day \u2014 Cincinnati",
+   "dek": "Cincinnati: Reds/Bengals",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "67-75, -37.2 weighted over 142 games; longest run 8 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.5)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 -144.5, 2017 -80.1, 2018 -149.0, 2019 -284.7, 2020 -128.8, 2021 +52.0, 2022 +107.6, 2023 +47.4, 2024 +3.4, 2025 -59.9"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "12-16, -9.0 weighted; longest run 3 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "August 6, 2026"
+      },
+      {
+       "label": "September 2026 through day 4",
+       "value": "2-1, +2.2 weighted \u2014 the second-best of the 11 on record"
+      },
+      {
+       "label": "Same September in earlier years (same stretch)",
+       "value": "2016 +2.2, 2017 +0.0, 2018 +0.0, 2019 -2.2, 2020 +0.0, 2021 +0.0, 2022 +2.2, 2023 +2.2, 2024 +6.8, 2025 -2.2"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Reds",
+        "12-16",
+        "-9.0",
+        "3 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Cincinnati: Reds/Bengals \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Cincinnati: Reds/Bengals \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Cincinnati: Reds/Bengals \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-04/daily.html"
+  },
   {
    "date": "2026-09-03",
    "kind": "daily",
