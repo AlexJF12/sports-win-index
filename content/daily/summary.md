@@ -1,17 +1,17 @@
-# City of the day — Cincinnati
-*Cincinnati: Reds/Bengals* · 2026-09-04
+# City of the day — Cleveland
+*Cleveland: Guardians/Cavaliers/Browns* · 2026-09-05
 
-- **2026 so far:** 67-75, -37.2 weighted over 142 games; longest run 8 straight losses
+- **2026 so far:** 114-95, +99.4 weighted over 209 games; longest run 7 straight wins
 - **Order of results:** about as clumped as coin flips (-0.5)
-- **Earlier seasons (full-year weighted):** 2016 -144.5, 2017 -80.1, 2018 -149.0, 2019 -284.7, 2020 -128.8, 2021 +52.0, 2022 +107.6, 2023 +47.4, 2024 +3.4, 2025 -59.9
-- **Last 30 days:** 12-16, -9.0 weighted; longest run 3 straight losses
-- **Window opens:** August 6, 2026
-- **September 2026 through day 4:** 2-1, +2.2 weighted — the second-best of the 11 on record
-- **Same September in earlier years (same stretch):** 2016 +2.2, 2017 +0.0, 2018 +0.0, 2019 -2.2, 2020 +0.0, 2021 +0.0, 2022 +2.2, 2023 +2.2, 2024 +6.8, 2025 -2.2
+- **Earlier seasons (full-year weighted):** 2016 -10.4, 2017 -174.7, 2018 -41.0, 2019 -196.5, 2020 +67.5, 2021 -115.8, 2022 +27.5, 2023 +159.7, 2024 -63.4, 2025 -52.7
+- **Last 30 days:** 15-12, +6.8 weighted; longest run 7 straight wins
+- **Window opens:** August 7, 2026
+- **September 2026 through day 5:** 3-3, +0.0 weighted — the sixth-best of the 11 on record
+- **Same September in earlier years (same stretch):** 2016 +4.5, 2017 +13.5, 2018 -2.2, 2019 -2.2, 2020 +4.5, 2021 +2.2, 2022 -6.8, 2023 -2.2, 2024 +4.5, 2025 -2.2
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Reds | 12-16 | -9.0 | 3 straight losses |
+| Guardians | 15-12 | +6.8 | 7 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 

@@ -168,5 +168,10 @@
   "date": "2026-09-04",
   "city": "Cincinnati",
   "group": "Cincinnati"
+ },
+ {
+  "date": "2026-09-05",
+  "city": "Cleveland",
+  "group": "Cleveland"
  }
 ]
