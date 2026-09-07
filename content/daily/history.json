@@ -173,5 +173,10 @@
   "date": "2026-09-05",
   "city": "Cleveland",
   "group": "Cleveland"
+ },
+ {
+  "date": "2026-09-06",
+  "city": "Sacramento",
+  "group": "Sacramento"
  }
 ]

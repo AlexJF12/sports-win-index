@@ -1,17 +1,17 @@
-# City of the day — Cleveland
-*Cleveland: Guardians/Cavaliers/Browns* · 2026-09-05
+# City of the day — Sacramento
+*Sacramento: Athletics/Kings* · 2026-09-06
 
-- **2026 so far:** 114-95, +99.4 weighted over 209 games; longest run 7 straight wins
-- **Order of results:** about as clumped as coin flips (-0.5)
-- **Earlier seasons (full-year weighted):** 2016 -10.4, 2017 -174.7, 2018 -41.0, 2019 -196.5, 2020 +67.5, 2021 -115.8, 2022 +27.5, 2023 +159.7, 2024 -63.4, 2025 -52.7
-- **Last 30 days:** 15-12, +6.8 weighted; longest run 7 straight wins
-- **Window opens:** August 7, 2026
-- **September 2026 through day 5:** 3-3, +0.0 weighted — the sixth-best of the 11 on record
-- **Same September in earlier years (same stretch):** 2016 +4.5, 2017 +13.5, 2018 -2.2, 2019 -2.2, 2020 +4.5, 2021 +2.2, 2022 -6.8, 2023 -2.2, 2024 +4.5, 2025 -2.2
+- **2026 so far:** 71-122, -161.1 weighted over 193 games; longest run 16 straight losses
+- **Order of results:** about as clumped as coin flips (+1.2)
+- **Earlier seasons (full-year weighted):** 2016 -111.9, 2017 -138.3, 2018 +9.8, 2019 +0.9, 2020 +31.5, 2021 -57.6, 2022 -143.6, 2023 -68.5, 2024 -63.0, 2025 -89.3
+- **Last 30 days:** 12-16, -9.0 weighted; longest run 5 straight losses
+- **Window opens:** August 8, 2026
+- **September 2026 through day 6:** 4-2, +4.5 weighted — the best of the 11 on record
+- **Same September in earlier years (same stretch):** 2016 -2.2, 2017 -9.0, 2018 +2.2, 2019 +2.2, 2020 -2.2, 2021 -6.8, 2022 -6.8, 2023 +4.5, 2024 +0.0, 2025 +2.2
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Guardians | 15-12 | +6.8 | 7 straight wins |
+| Athletics | 12-16 | -9.0 | 5 straight losses |
 
 Images: `season.png` · `month.png` · `form.png`
 
