@@ -1,17 +1,17 @@
-# City of the day — Atlanta
-*Atlanta: Braves/Hawks/Falcons* · 2026-09-07
+# City of the day — Dallas
+*Dallas: Rangers/Mavericks/Stars/Cowboys* · 2026-09-08
 
-- **2026 so far:** 118-80, +129.0 weighted over 198 games; longest run 11 straight wins
-- **Order of results:** about as clumped as coin flips (+0.3)
-- **Earlier seasons (full-year weighted):** 2016 +51.8, 2017 +21.5, 2018 -149.3, 2019 -108.9, 2020 -141.0, 2021 +35.5, 2022 -46.9, 2023 +76.9, 2024 +1.2, 2025 -131.5
-- **Last 30 days:** 15-12, +6.8 weighted; longest run 7 straight wins
-- **Window opens:** August 9, 2026
-- **September 2026 through day 7:** 3-3, +0.0 weighted — the fifth-best of the 11 on record
-- **Same September in earlier years (same stretch):** 2016 +2.2, 2017 -2.2, 2018 -23.7, 2019 +13.5, 2020 +2.2, 2021 +0.0, 2022 +13.5, 2023 +0.0, 2024 +0.0, 2025 -26.0
+- **2026 so far:** 113-129, -86.0 weighted over 242 games; longest run 9 straight losses
+- **Order of results:** about as clumped as coin flips (-1.9)
+- **Earlier seasons (full-year weighted):** 2016 +159.8, 2017 -93.6, 2018 -92.9, 2019 -0.2, 2020 -87.1, 2021 +47.5, 2022 +287.6, 2023 +203.8, 2024 +148.3, 2025 -47.4
+- **Last 30 days:** 13-14, -2.2 weighted; longest run 4 straight losses
+- **Window opens:** August 10, 2026
+- **September 2026 through day 8:** 4-3, +2.2 weighted — the fourth-best of the 11 on record
+- **Same September in earlier years (same stretch):** 2016 -2.2, 2017 +6.8, 2018 -2.2, 2019 +26.0, 2020 -9.0, 2021 +2.2, 2022 -11.3, 2023 -11.3, 2024 +30.5, 2025 -19.2
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Braves | 15-12 | +6.8 | 7 straight wins |
+| Rangers | 13-14 | -2.2 | 4 straight losses |
 
 Images: `season.png` · `month.png` · `form.png`
 

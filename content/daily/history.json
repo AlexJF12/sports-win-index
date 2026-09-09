@@ -183,5 +183,10 @@
   "date": "2026-09-07",
   "city": "Atlanta",
   "group": "Atlanta"
+ },
+ {
+  "date": "2026-09-08",
+  "city": "Dallas",
+  "group": "Dallas"
  }
 ]

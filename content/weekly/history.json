@@ -46,5 +46,13 @@
    "Montreal",
    "Philadelphia"
   ]
+ },
+ {
+  "date": "2026-09-08",
+  "cities": [
+   "Memphis",
+   "Baltimore",
+   "Raleigh"
+  ]
  }
 ]
