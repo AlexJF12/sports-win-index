@@ -29,3 +29,4 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20260125,nfl,401772987,LAR,27,SEA,31,SEA,Final
 20260208,nfl,401772988,SEA,29,NE,13,SEA,Final
 20260909,nfl,401872656,NE,10,SEA,13,SEA,Final
+20260910,nfl,401872657,SF,27,LAR,7,SF,Final
