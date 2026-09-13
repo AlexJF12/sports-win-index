@@ -1,10 +1,86 @@
 {
- "generated": "2026-09-12",
+ "generated": "2026-09-13",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-09-12",
+   "kind": "daily",
+   "title": "City of the day \u2014 Tampa Bay",
+   "dek": "Tampa Bay: Rays/Lightning/Buccaneers",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "120-79, +133.6 weighted over 199 games; longest run 9 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+1.1)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 +17.1, 2017 -22.8, 2018 +67.5, 2019 +111.4, 2020 +254.8, 2021 +490.1, 2022 +159.7, 2023 +32.9, 2024 +117.8, 2025 -16.5"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "15-13, +4.5 weighted; longest run 4 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "August 14, 2026"
+      },
+      {
+       "label": "September 2026 through day 12",
+       "value": "7-4, +6.8 weighted \u2014 the 9th-best of the 11 on record"
+      },
+      {
+       "label": "Same September in earlier years (same stretch)",
+       "value": "2016 +14.7, 2017 -2.2, 2018 +37.2, 2019 +13.5, 2020 +4.5, 2021 +19.2, 2022 +26.0, 2023 +26.0, 2024 +17.0, 2025 +19.2"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Rays",
+        "15-13",
+        "+4.5",
+        "4 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-12/daily.html"
+  },
   {
    "date": "2026-09-11",
    "kind": "daily",
