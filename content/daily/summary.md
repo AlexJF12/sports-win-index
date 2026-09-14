@@ -1,17 +1,18 @@
-# City of the day — Tampa Bay
-*Tampa Bay: Rays/Lightning/Buccaneers* · 2026-09-12
+# City of the day — Pittsburgh
+*Pittsburgh: Pirates/Penguins/Steelers* · 2026-09-13
 
-- **2026 so far:** 120-79, +133.6 weighted over 199 games; longest run 9 straight wins
-- **Order of results:** about as clumped as coin flips (+1.1)
-- **Earlier seasons (full-year weighted):** 2016 +17.1, 2017 -22.8, 2018 +67.5, 2019 +111.4, 2020 +254.8, 2021 +490.1, 2022 +159.7, 2023 +32.9, 2024 +117.8, 2025 -16.5
-- **Last 30 days:** 15-13, +4.5 weighted; longest run 4 straight wins
-- **Window opens:** August 14, 2026
-- **September 2026 through day 12:** 7-4, +6.8 weighted — the 9th-best of the 11 on record
-- **Same September in earlier years (same stretch):** 2016 +14.7, 2017 -2.2, 2018 +37.2, 2019 +13.5, 2020 +4.5, 2021 +19.2, 2022 +26.0, 2023 +26.0, 2024 +17.0, 2025 +19.2
+- **2026 so far:** 103-100, +30.4 weighted over 203 games; longest run 6 straight wins
+- **Order of results:** about as clumped as coin flips (-0.6)
+- **Earlier seasons (full-year weighted):** 2016 +273.4, 2017 +279.6, 2018 +127.6, 2019 -14.0, 2020 +143.7, 2021 -44.0, 2022 -54.5, 2023 +50.0, 2024 +9.9, 2025 -102.9
+- **Last 30 days:** 16-11, +30.5 weighted; longest run 4 straight wins
+- **Window opens:** August 15, 2026
+- **September 2026 through day 13:** 9-4, +30.5 weighted — the best of the 11 on record
+- **Same September in earlier years (same stretch):** 2016 +8.0, 2017 +14.7, 2018 +4.5, 2019 -21.5, 2020 -9.0, 2021 +14.7, 2022 +17.0, 2023 -17.0, 2024 +26.0, 2025 +14.7
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Rays | 15-13 | +4.5 | 4 straight wins |
+| Pirates | 15-11 | +9.0 | 4 straight wins |
+| Steelers | 1-0 | +21.5 | 1 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 
