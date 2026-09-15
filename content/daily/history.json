@@ -213,5 +213,10 @@
   "date": "2026-09-13",
   "city": "Pittsburgh",
   "group": "Pittsburgh"
+ },
+ {
+  "date": "2026-09-14",
+  "city": "Baltimore",
+  "group": "Baltimore"
  }
 ]

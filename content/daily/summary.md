@@ -1,18 +1,18 @@
-# City of the day — Pittsburgh
-*Pittsburgh: Pirates/Penguins/Steelers* · 2026-09-13
+# City of the day — Baltimore
+*Baltimore: Orioles/Ravens* · 2026-09-14
 
-- **2026 so far:** 103-100, +30.4 weighted over 203 games; longest run 6 straight wins
-- **Order of results:** about as clumped as coin flips (-0.6)
-- **Earlier seasons (full-year weighted):** 2016 +273.4, 2017 +279.6, 2018 +127.6, 2019 -14.0, 2020 +143.7, 2021 -44.0, 2022 -54.5, 2023 +50.0, 2024 +9.9, 2025 -102.9
-- **Last 30 days:** 16-11, +30.5 weighted; longest run 4 straight wins
-- **Window opens:** August 15, 2026
-- **September 2026 through day 13:** 9-4, +30.5 weighted — the best of the 11 on record
-- **Same September in earlier years (same stretch):** 2016 +8.0, 2017 +14.7, 2018 +4.5, 2019 -21.5, 2020 -9.0, 2021 +14.7, 2022 +17.0, 2023 -17.0, 2024 +26.0, 2025 +14.7
+- **2026 so far:** 74-79, -11.3 weighted over 153 games; longest run 7 straight wins
+- **Order of results:** about as clumped as coin flips (+0.6)
+- **Earlier seasons (full-year weighted):** 2016 +33.8, 2017 -5.6, 2018 -67.3, 2019 +114.5, 2020 +63.4, 2021 -87.7, 2022 +73.4, 2023 +233.7, 2024 +147.9, 2025 -5.6
+- **Last 30 days:** 14-15, +17.0 weighted; longest run 6 straight losses
+- **Window opens:** August 16, 2026
+- **September 2026 through day 14:** 5-9, +10.2 weighted — the fifth-best of the 11 on record
+- **Same September in earlier years (same stretch):** 2016 +30.5, 2017 +10.2, 2018 -18.0, 2019 +5.7, 2020 +19.2, 2021 -28.2, 2022 +23.7, 2023 +28.2, 2024 -21.5, 2025 +9.0
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Pirates | 15-11 | +9.0 | 4 straight wins |
-| Steelers | 1-0 | +21.5 | 1 straight wins |
+| Orioles | 13-15 | -4.5 | 6 straight losses |
+| Ravens | 1-0 | +21.5 | 1 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 

@@ -1,10 +1,92 @@
 {
- "generated": "2026-09-14",
+ "generated": "2026-09-15",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-09-14",
+   "kind": "daily",
+   "title": "City of the day \u2014 Baltimore",
+   "dek": "Baltimore: Orioles/Ravens",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "74-79, -11.3 weighted over 153 games; longest run 7 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+0.6)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 +33.8, 2017 -5.6, 2018 -67.3, 2019 +114.5, 2020 +63.4, 2021 -87.7, 2022 +73.4, 2023 +233.7, 2024 +147.9, 2025 -5.6"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "14-15, +17.0 weighted; longest run 6 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "August 16, 2026"
+      },
+      {
+       "label": "September 2026 through day 14",
+       "value": "5-9, +10.2 weighted \u2014 the fifth-best of the 11 on record"
+      },
+      {
+       "label": "Same September in earlier years (same stretch)",
+       "value": "2016 +30.5, 2017 +10.2, 2018 -18.0, 2019 +5.7, 2020 +19.2, 2021 -28.2, 2022 +23.7, 2023 +28.2, 2024 -21.5, 2025 +9.0"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Orioles",
+        "13-15",
+        "-4.5",
+        "6 straight losses"
+       ],
+       [
+        "Ravens",
+        "1-0",
+        "+21.5",
+        "1 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Baltimore: Orioles/Ravens \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Baltimore: Orioles/Ravens \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Baltimore: Orioles/Ravens \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-14/daily.html"
+  },
   {
    "date": "2026-09-13",
    "kind": "daily",
