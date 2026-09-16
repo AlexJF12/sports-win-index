@@ -1,10 +1,270 @@
 {
- "generated": "2026-09-15",
+ "generated": "2026-09-16",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-09-15",
+   "kind": "spotlight",
+   "title": "Out of the norm \u2014 three fandoms off their own script",
+   "dek": "The weekly hunt across all 88 city groups, through September 15, 2026",
+   "sections": [
+    {
+     "heading": "Boston's September has come apart: 5-3 before this week, 2-4 since",
+     "subhead": "Boston: Red Sox/Celtics/Bruins/Patriots",
+     "stats": [
+      {
+       "label": "Before this week",
+       "value": "5-3, +4.5 weighted (+0.56 per game)"
+      },
+      {
+       "label": "Since",
+       "value": "2-4, -23.7 weighted (-3.95 per game)"
+      },
+      {
+       "label": "This month (through September 15)",
+       "value": "7-7, -19.2 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "2-4, -23.7 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Patriots (0-1, -21.5)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-boston_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Boston: Red Sox/Celtics/Bruins/Patriots \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "spotlight-boston_timeline.png",
+       "caption": "Game by game, with the streak picked out.",
+       "alt": "Boston: Red Sox/Celtics/Bruins/Patriots \u2014 Game by game, with the streak picked out"
+      },
+      {
+       "file": "spotlight-boston_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Boston: Red Sox/Celtics/Bruins/Patriots \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    },
+    {
+     "heading": "New York is having its best September on record",
+     "subhead": "New York: Yankees/Nets/Devils/Jets",
+     "stats": [
+      {
+       "label": "This month (through September 15)",
+       "value": "11-3, +37.2 weighted \u2014 1st-best September of the 11 on record"
+      },
+      {
+       "label": "vs all months",
+       "value": "3rd-best of 115 months on record (98th percentile)"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "7-1, +32.7 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Jets (1-0, +21.5)"
+      },
+      {
+       "label": "Active streaks",
+       "value": "Yankees W3"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-new-york-14_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "New York: Yankees/Nets/Devils/Jets \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "spotlight-new-york-14_history.png",
+       "caption": "Every comparable month on record, this one picked out.",
+       "alt": "New York: Yankees/Nets/Devils/Jets \u2014 Every comparable month on record, this one picked out"
+      },
+      {
+       "file": "spotlight-new-york-14_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "New York: Yankees/Nets/Devils/Jets \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    },
+    {
+     "heading": "Buffalo is having its best year on record \u2014 16th of 88 this year",
+     "subhead": "Buffalo: Sabres/Bills",
+     "stats": [
+      {
+       "label": "2026 so far (through September 15)",
+       "value": "39-21, +114.2 weighted \u2014 1st-best of the 11 years on record, at the same point"
+      },
+      {
+       "label": "Against the field",
+       "value": "16th of 88 city groups on the year (83rd percentile)"
+      },
+      {
+       "label": "This month (through September 15)",
+       "value": "1-0, +21.5 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "1-0, +21.5 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Bills (1-0, +21.5)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-buffalo_year.png",
+       "caption": "Every season's cumulative index by day of year, this one in color.",
+       "alt": "Buffalo: Sabres/Bills \u2014 Every season's cumulative index by day of year, this one in color"
+      },
+      {
+       "file": "spotlight-buffalo_field.png",
+       "caption": "All 88 city groups on this year's index, the group picked out.",
+       "alt": "Buffalo: Sabres/Bills \u2014 All 88 city groups on this year's index, the group picked out"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-15/spotlight.html"
+  },
+  {
+   "date": "2026-09-15",
+   "kind": "streakiness",
+   "title": "Streakiness \u2014 not how often they win, but how the wins arrive",
+   "dek": "All 88 city groups, through September 15, 2026",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "City groups measured",
+       "value": "88"
+      },
+      {
+       "label": "Furthest from its own norm this year",
+       "value": "Houston: Astros/Rockets/Texans \u2014 streak index -2.4 over 213 games, against a usual +0.4"
+      },
+      {
+       "label": "Streakiest of the last 30 days",
+       "value": "Los Angeles: Dodgers/Clippers/Kings/Chargers \u2014 +1.8, longest run 8 wins"
+      },
+      {
+       "label": "Steadiest of the last 30 days",
+       "value": "New York: Mets/Nets/Devils/Giants \u2014 -2.2, wins and losses taking turns"
+      },
+      {
+       "label": "Reading the index",
+       "value": "+2 or more is clumpier than chance, \u22122 or less more alternating than chance, 0 exactly as clumped as coin flips"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "streak-season_vs_history.png",
+       "caption": "This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray.",
+       "alt": "All 88 city groups, through September 15, 2026 \u2014 This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray"
+      },
+      {
+       "file": "streak-past_month.png",
+       "caption": "The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest.",
+       "alt": "All 88 city groups, through September 15, 2026 \u2014 The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-15/streakiness.html"
+  },
+  {
+   "date": "2026-09-15",
+   "kind": "daily",
+   "title": "City of the day \u2014 Toronto",
+   "dek": "Toronto: Blue Jays/Raptors/Maple Leafs",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "118-131, -53.5 weighted over 249 games; longest run 6 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.9)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 +109.5, 2017 +88.8, 2018 +222.1, 2019 +99.4, 2020 +98.0, 2021 +67.3, 2022 +196.4, 2023 +44.9, 2024 -147.3, 2025 +125.4"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "14-12, +4.5 weighted; longest run 4 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "August 18, 2026"
+      },
+      {
+       "label": "September 2026 through day 15",
+       "value": "7-7, +0.0 weighted \u2014 the sixth-best of the 11 on record"
+      },
+      {
+       "label": "Same September in earlier years (same stretch)",
+       "value": "2016 -11.3, 2017 +0.0, 2018 -9.0, 2019 -11.3, 2020 +4.5, 2021 +24.8, 2022 +15.8, 2023 +4.5, 2024 -4.5, 2025 +11.3"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Blue Jays",
+        "14-12",
+        "+4.5",
+        "4 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Toronto: Blue Jays/Raptors/Maple Leafs \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Toronto: Blue Jays/Raptors/Maple Leafs \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Toronto: Blue Jays/Raptors/Maple Leafs \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-15/daily.html"
+  },
   {
    "date": "2026-09-14",
    "kind": "daily",

@@ -1,28 +1,35 @@
-# Fandom spotlight — 2026-09-08
+# Fandom spotlight — 2026-09-15
 
-## 1. 🧊 Memphis is having its worst year on record — 77th of 88 this year
-*Memphis: Grizzlies* · `year`
+## 1. 🔄 Boston's September has come apart: 5-3 before this week, 2-4 since
+*Boston: Red Sox/Celtics/Bruins/Patriots* · `turnaround`
 
-- **2026 so far (through September 8):** 10-39, -129.1 weighted — 1st-worst of the 11 years on record, at the same point
-- **Against the field:** 77th of 88 city groups on the year (13th percentile)
+- **Before this week:** 5-3, +4.5 weighted (+0.56 per game)
+- **Since:** 2-4, -23.7 weighted (-3.95 per game)
+- **This month (through September 15):** 7-7, -19.2 weighted
+- **Last 7 days:** 2-4, -23.7 weighted
+- **Driving it this week:** Patriots (0-1, -21.5)
 
-Images: `memphis_year.png` · `memphis_field.png`
+Images: `boston_race.png` · `boston_timeline.png` · `boston_teams.png`
 
-## 2. 🥶 Baltimore is having its worst month since September 2024
-*Baltimore: Orioles/Ravens* · `month`
+## 2. 🔥 New York is having its best September on record
+*New York: Yankees/Nets/Devils/Jets* · `month`
 
-- **This month (through September 8):** 1-7, -13.5 weighted — 5th-worst of 62 months on record (7th percentile)
-- **vs past Septembers:** 2nd-worst September of the 11 on record
-- **Last 7 days:** 1-6, -11.3 weighted
-- **Driving it this week:** Orioles (1-6, -11.3)
+- **This month (through September 15):** 11-3, +37.2 weighted — 1st-best September of the 11 on record
+- **vs all months:** 3rd-best of 115 months on record (98th percentile)
+- **Last 7 days:** 7-1, +32.7 weighted
+- **Driving it this week:** Jets (1-0, +21.5)
+- **Active streaks:** Yankees W3
 
-Images: `baltimore_race.png` · `baltimore_history.png` · `baltimore_teams.png`
+Images: `new-york-14_race.png` · `new-york-14_history.png` · `new-york-14_teams.png`
 
-## 3. 🏆 Raleigh is having its best year on record — 14th of 88 this year
-*Raleigh: Hurricanes* · `year`
+## 3. 🏆 Buffalo is having its best year on record — 16th of 88 this year
+*Buffalo: Sabres/Bills* · `year`
 
-- **2026 so far (through September 8):** 45-17, +124.6 weighted — 1st-best of the 11 years on record, at the same point
-- **Against the field:** 14th of 88 city groups on the year (85th percentile)
+- **2026 so far (through September 15):** 39-21, +114.2 weighted — 1st-best of the 11 years on record, at the same point
+- **Against the field:** 16th of 88 city groups on the year (83rd percentile)
+- **This month (through September 15):** 1-0, +21.5 weighted
+- **Last 7 days:** 1-0, +21.5 weighted
+- **Driving it this week:** Bills (1-0, +21.5)
 
-Images: `raleigh_year.png` · `raleigh_field.png`
+Images: `buffalo_year.png` · `buffalo_field.png`
 

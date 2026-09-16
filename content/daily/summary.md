@@ -1,18 +1,17 @@
-# City of the day — Baltimore
-*Baltimore: Orioles/Ravens* · 2026-09-14
+# City of the day — Toronto
+*Toronto: Blue Jays/Raptors/Maple Leafs* · 2026-09-15
 
-- **2026 so far:** 74-79, -11.3 weighted over 153 games; longest run 7 straight wins
-- **Order of results:** about as clumped as coin flips (+0.6)
-- **Earlier seasons (full-year weighted):** 2016 +33.8, 2017 -5.6, 2018 -67.3, 2019 +114.5, 2020 +63.4, 2021 -87.7, 2022 +73.4, 2023 +233.7, 2024 +147.9, 2025 -5.6
-- **Last 30 days:** 14-15, +17.0 weighted; longest run 6 straight losses
-- **Window opens:** August 16, 2026
-- **September 2026 through day 14:** 5-9, +10.2 weighted — the fifth-best of the 11 on record
-- **Same September in earlier years (same stretch):** 2016 +30.5, 2017 +10.2, 2018 -18.0, 2019 +5.7, 2020 +19.2, 2021 -28.2, 2022 +23.7, 2023 +28.2, 2024 -21.5, 2025 +9.0
+- **2026 so far:** 118-131, -53.5 weighted over 249 games; longest run 6 straight losses
+- **Order of results:** about as clumped as coin flips (-0.9)
+- **Earlier seasons (full-year weighted):** 2016 +109.5, 2017 +88.8, 2018 +222.1, 2019 +99.4, 2020 +98.0, 2021 +67.3, 2022 +196.4, 2023 +44.9, 2024 -147.3, 2025 +125.4
+- **Last 30 days:** 14-12, +4.5 weighted; longest run 4 straight wins
+- **Window opens:** August 18, 2026
+- **September 2026 through day 15:** 7-7, +0.0 weighted — the sixth-best of the 11 on record
+- **Same September in earlier years (same stretch):** 2016 -11.3, 2017 +0.0, 2018 -9.0, 2019 -11.3, 2020 +4.5, 2021 +24.8, 2022 +15.8, 2023 +4.5, 2024 -4.5, 2025 +11.3
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Orioles | 13-15 | -4.5 | 6 straight losses |
-| Ravens | 1-0 | +21.5 | 1 straight wins |
+| Blue Jays | 14-12 | +4.5 | 4 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 
