@@ -223,5 +223,10 @@
   "date": "2026-09-15",
   "city": "Toronto",
   "group": "Toronto"
+ },
+ {
+  "date": "2026-09-16",
+  "city": "Houston",
+  "group": "Houston"
  }
 ]
