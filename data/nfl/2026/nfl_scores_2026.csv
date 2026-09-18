@@ -44,3 +44,4 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20260913,nfl,401872926,ARI,26,LAC,14,ARI,Final
 20260913,nfl,401872930,DAL,20,NYG,28,NYG,Final
 20260914,nfl,401872931,DEN,10,KC,31,KC,Final
+20260917,nfl,401872932,DET,31,BUF,41,BUF,Final
