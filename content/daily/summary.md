@@ -1,18 +1,18 @@
-# City of the day — Philadelphia
-*Philadelphia: Phillies/76ers/Flyers/Eagles* · 2026-09-17
+# City of the day — Los Angeles
+*Los Angeles: Angels/Clippers/Ducks/Chargers* · 2026-09-18
 
-- **2026 so far:** 146-126, +34.6 weighted over 272 games; longest run 9 straight wins
-- **Order of results:** about as clumped as coin flips (-0.3)
-- **Earlier seasons (full-year weighted):** 2016 -283.9, 2017 +61.8, 2018 +240.8, 2019 +165.4, 2020 -105.9, 2021 +80.2, 2022 +190.7, 2023 +317.8, 2024 +154.7, 2025 +130.1
-- **Last 30 days:** 17-10, +35.0 weighted; longest run 6 straight wins
-- **Window opens:** August 19, 2026
-- **September 2026 through day 17:** 8-8, +19.2 weighted — the fourth-best of the 11 on record
-- **Same September in earlier years (same stretch):** 2016 +17.0, 2017 +0.0, 2018 -15.8, 2019 +2.2, 2020 -19.3, 2021 +19.2, 2022 +21.5, 2023 +38.4, 2024 +15.8, 2025 +61.0
+- **2026 so far:** 118-144, -87.7 weighted over 262 games; longest run 10 straight wins
+- **Order of results:** about as clumped as coin flips (+0.8)
+- **Earlier seasons (full-year weighted):** 2016 -4.6, 2017 +99.3, 2018 +229.6, 2019 -162.7, 2020 -29.0, 2021 +16.0, 2022 -118.5, 2023 -288.7, 2024 -52.3, 2025 +79.4
+- **Last 30 days:** 9-19, -41.8 weighted; longest run 7 straight losses
+- **Window opens:** August 20, 2026
+- **September 2026 through day 18:** 6-11, -30.5 weighted — the 9th-best of the 11 on record
+- **Same September in earlier years (same stretch):** 2016 -9.0, 2017 -45.2, 2018 +4.5, 2019 -15.8, 2020 +26.0, 2021 +14.7, 2022 -2.2, 2023 -61.0, 2024 +33.9, 2025 +27.2
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Phillies | 16-10 | +13.5 | 6 straight wins |
-| Eagles | 1-0 | +21.5 | 1 straight wins |
+| Angels | 9-18 | -20.3 | 7 straight losses |
+| Chargers | 0-1 | -21.5 | 1 straight losses |
 
 Images: `season.png` · `month.png` · `form.png`
 

@@ -233,5 +233,10 @@
   "date": "2026-09-17",
   "city": "Philadelphia",
   "group": "Philadelphia"
+ },
+ {
+  "date": "2026-09-18",
+  "city": "Los Angeles",
+  "group": "Los Angeles 1"
  }
 ]
