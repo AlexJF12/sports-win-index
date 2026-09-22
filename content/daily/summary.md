@@ -1,18 +1,18 @@
-# City of the day — Washington
-*Washington: Nationals/Wizards/Capitals/Commanders* · 2026-09-20
+# City of the day — Phoenix
+*Phoenix: Diamondbacks/Suns/Cardinals* · 2026-09-21
 
-- **2026 so far:** 105-146, -177.5 weighted over 251 games; longest run 9 straight losses
-- **Order of results:** about as clumped as coin flips (-0.2)
-- **Earlier seasons (full-year weighted):** 2016 +214.3, 2017 +234.6, 2018 +23.9, 2019 -167.1, 2020 -162.6, 2021 -51.9, 2022 -197.3, 2023 -403.8, 2024 -138.0, 2025 -343.3
-- **Last 30 days:** 12-16, -47.5 weighted; longest run 7 straight losses
-- **Window opens:** August 22, 2026
-- **September 2026 through day 20:** 7-11, -47.5 weighted — the 10th-best of the 11 on record
-- **Same September in earlier years (same stretch):** 2016 -38.4, 2017 +9.0, 2018 +4.5, 2019 -47.5, 2020 -9.0, 2021 -15.8, 2022 -9.0, 2023 +29.4, 2024 -9.0, 2025 +2.2
+- **2026 so far:** 110-104, -7.9 weighted over 214 games; longest run 5 straight losses
+- **Order of results:** about as clumped as coin flips (-0.8)
+- **Earlier seasons (full-year weighted):** 2016 -292.1, 2017 -62.5, 2018 -435.0, 2019 -229.6, 2020 +21.2, 2021 +186.7, 2022 -65.3, 2023 -158.8, 2024 +7.2, 2025 -211.1
+- **Last 30 days:** 15-13, +4.5 weighted; longest run 4 straight wins
+- **Window opens:** August 23, 2026
+- **September 2026 through day 21:** 10-9, +2.2 weighted — the sixth-best of the 11 on record
+- **Same September in earlier years (same stretch):** 2016 -6.8, 2017 +11.3, 2018 -63.2, 2019 -19.2, 2020 +27.2, 2021 +22.7, 2022 -6.8, 2023 -31.7, 2024 +6.8, 2025 +30.5
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Nationals | 12-14 | -4.5 | 7 straight losses |
-| Commanders | 0-2 | -42.9 | 2 straight losses |
+| Diamondbacks | 14-12 | +4.5 | 4 straight wins |
+| Cardinals | 1-1 | +0.0 | 1 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 

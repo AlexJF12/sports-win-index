@@ -1,10 +1,92 @@
 {
- "generated": "2026-09-21",
+ "generated": "2026-09-22",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-09-21",
+   "kind": "daily",
+   "title": "City of the day \u2014 Phoenix",
+   "dek": "Phoenix: Diamondbacks/Suns/Cardinals",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "110-104, -7.9 weighted over 214 games; longest run 5 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.8)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 -292.1, 2017 -62.5, 2018 -435.0, 2019 -229.6, 2020 +21.2, 2021 +186.7, 2022 -65.3, 2023 -158.8, 2024 +7.2, 2025 -211.1"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "15-13, +4.5 weighted; longest run 4 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "August 23, 2026"
+      },
+      {
+       "label": "September 2026 through day 21",
+       "value": "10-9, +2.2 weighted \u2014 the sixth-best of the 11 on record"
+      },
+      {
+       "label": "Same September in earlier years (same stretch)",
+       "value": "2016 -6.8, 2017 +11.3, 2018 -63.2, 2019 -19.2, 2020 +27.2, 2021 +22.7, 2022 -6.8, 2023 -31.7, 2024 +6.8, 2025 +30.5"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Diamondbacks",
+        "14-12",
+        "+4.5",
+        "4 straight wins"
+       ],
+       [
+        "Cardinals",
+        "1-1",
+        "+0.0",
+        "1 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Phoenix: Diamondbacks/Suns/Cardinals \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Phoenix: Diamondbacks/Suns/Cardinals \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Phoenix: Diamondbacks/Suns/Cardinals \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-21/daily.html"
+  },
   {
    "date": "2026-09-20",
    "kind": "daily",

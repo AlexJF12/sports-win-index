@@ -2338,3 +2338,6 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20260920,mlb,401817025,NYY,4,ARI,8,ARI,Final
 20260920,mlb,401817026,SF,1,LAD,3,LAD,Final
 20260920,mlb,401817016,MIL,3,BAL,0,MIL,Final
+20260921,mlb,401817027,TOR,3,BAL,4,BAL,Final
+20260921,mlb,401817028,WSH,2,DET,9,DET,Final
+20260921,mlb,401817029,MIN,2,SF,5,SF,Final
