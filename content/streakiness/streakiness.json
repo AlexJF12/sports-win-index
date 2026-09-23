@@ -56,25 +56,25 @@
    ],
    "label": "New York: Mets/Nets/Devils/Giants",
    "month": {
-    "games": 27,
-    "index": -2.169,
+    "games": 28,
+    "index": -0.77,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 13,
+    "losses": 14,
     "wins": 14
    },
    "name": "New York 1",
    "season": {
-    "games": 247,
-    "index": -1.084,
+    "games": 254,
+    "index": -1.013,
     "longest": {
      "length": 10,
      "type": "L"
     },
-    "losses": 145,
-    "wins": 102,
+    "losses": 149,
+    "wins": 105,
     "year": 2026
    }
   },
@@ -134,25 +134,25 @@
    ],
    "label": "New York: Mets/Nets/Devils/Jets",
    "month": {
-    "games": 27,
-    "index": -2.169,
+    "games": 28,
+    "index": -0.77,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 13,
+    "losses": 14,
     "wins": 14
    },
    "name": "New York 2",
    "season": {
-    "games": 247,
-    "index": -1.134,
+    "games": 254,
+    "index": -1.062,
     "longest": {
      "length": 10,
      "type": "L"
     },
-    "losses": 146,
-    "wins": 101,
+    "losses": 150,
+    "wins": 104,
     "year": 2026
    }
   },
@@ -212,25 +212,25 @@
    ],
    "label": "New York: Mets/Nets/Islanders/Giants",
    "month": {
-    "games": 27,
-    "index": -2.169,
+    "games": 28,
+    "index": -0.77,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 13,
+    "losses": 14,
     "wins": 14
    },
    "name": "New York 3",
    "season": {
-    "games": 247,
-    "index": 0.757,
+    "games": 254,
+    "index": 0.802,
     "longest": {
      "length": 17,
      "type": "L"
     },
-    "losses": 145,
-    "wins": 102,
+    "losses": 149,
+    "wins": 105,
     "year": 2026
    }
   },
@@ -290,25 +290,25 @@
    ],
    "label": "New York: Mets/Nets/Islanders/Jets",
    "month": {
-    "games": 27,
-    "index": -2.169,
+    "games": 28,
+    "index": -0.77,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 13,
+    "losses": 14,
     "wins": 14
    },
    "name": "New York 4",
    "season": {
-    "games": 247,
-    "index": 0.449,
+    "games": 254,
+    "index": 0.499,
     "longest": {
      "length": 17,
      "type": "L"
     },
-    "losses": 146,
-    "wins": 101,
+    "losses": 150,
+    "wins": 104,
     "year": 2026
    }
   },
@@ -368,25 +368,25 @@
    ],
    "label": "New York: Mets/Nets/Rangers/Giants",
    "month": {
-    "games": 27,
-    "index": -2.169,
+    "games": 28,
+    "index": -0.77,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 13,
+    "losses": 14,
     "wins": 14
    },
    "name": "New York 5",
    "season": {
-    "games": 245,
-    "index": 1.984,
+    "games": 252,
+    "index": 2.013,
     "longest": {
      "length": 13,
      "type": "L"
     },
-    "losses": 149,
-    "wins": 96,
+    "losses": 153,
+    "wins": 99,
     "year": 2026
    }
   },
@@ -446,25 +446,25 @@
    ],
    "label": "New York: Mets/Nets/Rangers/Jets",
    "month": {
-    "games": 27,
-    "index": -2.169,
+    "games": 28,
+    "index": -0.77,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 13,
+    "losses": 14,
     "wins": 14
    },
    "name": "New York 6",
    "season": {
-    "games": 245,
-    "index": 1.932,
+    "games": 252,
+    "index": 1.963,
     "longest": {
      "length": 13,
      "type": "L"
     },
-    "losses": 150,
-    "wins": 95,
+    "losses": 154,
+    "wins": 98,
     "year": 2026
    }
   },
@@ -524,25 +524,25 @@
    ],
    "label": "New York: Mets/Knicks/Devils/Giants",
    "month": {
-    "games": 27,
-    "index": -2.169,
+    "games": 28,
+    "index": -0.77,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 13,
+    "losses": 14,
     "wins": 14
    },
    "name": "New York 7",
    "season": {
-    "games": 263,
-    "index": -0.845,
+    "games": 270,
+    "index": -0.766,
     "longest": {
      "length": 8,
      "type": "L"
     },
-    "losses": 125,
-    "wins": 138,
+    "losses": 129,
+    "wins": 141,
     "year": 2026
    }
   },
@@ -602,25 +602,25 @@
    ],
    "label": "New York: Mets/Knicks/Devils/Jets",
    "month": {
-    "games": 27,
-    "index": -2.169,
+    "games": 28,
+    "index": -0.77,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 13,
+    "losses": 14,
     "wins": 14
    },
    "name": "New York 8",
    "season": {
-    "games": 263,
-    "index": -0.585,
+    "games": 270,
+    "index": -0.511,
     "longest": {
      "length": 8,
      "type": "L"
     },
-    "losses": 126,
-    "wins": 137,
+    "losses": 130,
+    "wins": 140,
     "year": 2026
    }
   },
@@ -680,25 +680,25 @@
    ],
    "label": "New York: Mets/Knicks/Islanders/Giants",
    "month": {
-    "games": 27,
-    "index": -2.169,
+    "games": 28,
+    "index": -0.77,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 13,
+    "losses": 14,
     "wins": 14
    },
    "name": "New York 9",
    "season": {
-    "games": 263,
-    "index": -0.349,
+    "games": 270,
+    "index": -0.277,
     "longest": {
      "length": 12,
      "type": "L"
     },
-    "losses": 125,
-    "wins": 138,
+    "losses": 129,
+    "wins": 141,
     "year": 2026
    }
   },
@@ -758,25 +758,25 @@
    ],
    "label": "New York: Mets/Knicks/Islanders/Jets",
    "month": {
-    "games": 27,
-    "index": -2.169,
+    "games": 28,
+    "index": -0.77,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 13,
+    "losses": 14,
     "wins": 14
    },
    "name": "New York 10",
    "season": {
-    "games": 263,
-    "index": -0.09,
+    "games": 270,
+    "index": -0.023,
     "longest": {
      "length": 12,
      "type": "L"
     },
-    "losses": 126,
-    "wins": 137,
+    "losses": 130,
+    "wins": 140,
     "year": 2026
    }
   },
@@ -836,25 +836,25 @@
    ],
    "label": "New York: Mets/Knicks/Rangers/Giants",
    "month": {
-    "games": 27,
-    "index": -2.169,
+    "games": 28,
+    "index": -0.77,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 13,
+    "losses": 14,
     "wins": 14
    },
    "name": "New York 11",
    "season": {
-    "games": 261,
-    "index": -0.808,
+    "games": 268,
+    "index": -0.735,
     "longest": {
      "length": 8,
      "type": "W"
     },
-    "losses": 129,
-    "wins": 132,
+    "losses": 133,
+    "wins": 135,
     "year": 2026
    }
   },
@@ -914,25 +914,25 @@
    ],
    "label": "New York: Mets/Knicks/Rangers/Jets",
    "month": {
-    "games": 27,
-    "index": -2.169,
+    "games": 28,
+    "index": -0.77,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 13,
+    "losses": 14,
     "wins": 14
    },
    "name": "New York 12",
    "season": {
-    "games": 261,
-    "index": -0.558,
+    "games": 268,
+    "index": -0.49,
     "longest": {
      "length": 8,
      "type": "W"
     },
-    "losses": 130,
-    "wins": 131,
+    "losses": 134,
+    "wins": 134,
     "year": 2026
    }
   },
@@ -992,25 +992,25 @@
    ],
    "label": "New York: Yankees/Nets/Devils/Giants",
    "month": {
-    "games": 28,
-    "index": -2.176,
+    "games": 29,
+    "index": -1.144,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 8,
-    "wins": 20
+    "losses": 12,
+    "wins": 17
    },
    "name": "New York 13",
    "season": {
-    "games": 247,
-    "index": -0.963,
+    "games": 254,
+    "index": -1.023,
     "longest": {
      "length": 9,
      "type": "L"
     },
-    "losses": 126,
-    "wins": 121,
+    "losses": 131,
+    "wins": 123,
     "year": 2026
    }
   },
@@ -1070,25 +1070,25 @@
    ],
    "label": "New York: Yankees/Nets/Devils/Jets",
    "month": {
-    "games": 28,
-    "index": -2.176,
+    "games": 29,
+    "index": -1.144,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 8,
-    "wins": 20
+    "losses": 12,
+    "wins": 17
    },
    "name": "New York 14",
    "season": {
-    "games": 247,
-    "index": -0.97,
+    "games": 254,
+    "index": -1.032,
     "longest": {
      "length": 9,
      "type": "L"
     },
-    "losses": 127,
-    "wins": 120,
+    "losses": 132,
+    "wins": 122,
     "year": 2026
    }
   },
@@ -1148,25 +1148,25 @@
    ],
    "label": "New York: Yankees/Nets/Islanders/Giants",
    "month": {
-    "games": 28,
-    "index": -2.176,
+    "games": 29,
+    "index": -1.144,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 8,
-    "wins": 20
+    "losses": 12,
+    "wins": 17
    },
    "name": "New York 15",
    "season": {
-    "games": 247,
-    "index": 0.568,
+    "games": 254,
+    "index": 0.488,
     "longest": {
      "length": 9,
      "type": "L"
     },
-    "losses": 126,
-    "wins": 121,
+    "losses": 131,
+    "wins": 123,
     "year": 2026
    }
   },
@@ -1226,25 +1226,25 @@
    ],
    "label": "New York: Yankees/Nets/Islanders/Jets",
    "month": {
-    "games": 28,
-    "index": -2.176,
+    "games": 29,
+    "index": -1.144,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 8,
-    "wins": 20
+    "losses": 12,
+    "wins": 17
    },
    "name": "New York 16",
    "season": {
-    "games": 247,
-    "index": 0.306,
+    "games": 254,
+    "index": 0.227,
     "longest": {
      "length": 9,
      "type": "L"
     },
-    "losses": 127,
-    "wins": 120,
+    "losses": 132,
+    "wins": 122,
     "year": 2026
    }
   },
@@ -1304,25 +1304,25 @@
    ],
    "label": "New York: Yankees/Nets/Rangers/Giants",
    "month": {
-    "games": 28,
-    "index": -2.176,
+    "games": 29,
+    "index": -1.144,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 8,
-    "wins": 20
+    "losses": 12,
+    "wins": 17
    },
    "name": "New York 17",
    "season": {
-    "games": 245,
-    "index": 1.933,
+    "games": 252,
+    "index": 1.822,
     "longest": {
      "length": 13,
      "type": "L"
     },
-    "losses": 130,
-    "wins": 115,
+    "losses": 135,
+    "wins": 117,
     "year": 2026
    }
   },
@@ -1382,25 +1382,25 @@
    ],
    "label": "New York: Yankees/Nets/Rangers/Jets",
    "month": {
-    "games": 28,
-    "index": -2.176,
+    "games": 29,
+    "index": -1.144,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 8,
-    "wins": 20
+    "losses": 12,
+    "wins": 17
    },
    "name": "New York 18",
    "season": {
-    "games": 245,
-    "index": 1.918,
+    "games": 252,
+    "index": 1.805,
     "longest": {
      "length": 13,
      "type": "L"
     },
-    "losses": 131,
-    "wins": 114,
+    "losses": 136,
+    "wins": 116,
     "year": 2026
    }
   },
@@ -1460,25 +1460,25 @@
    ],
    "label": "New York: Yankees/Knicks/Devils/Giants",
    "month": {
-    "games": 28,
-    "index": -2.176,
+    "games": 29,
+    "index": -1.144,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 8,
-    "wins": 20
+    "losses": 12,
+    "wins": 17
    },
    "name": "New York 19",
    "season": {
-    "games": 263,
-    "index": -1.598,
+    "games": 270,
+    "index": -1.545,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 106,
-    "wins": 157,
+    "losses": 111,
+    "wins": 159,
     "year": 2026
    }
   },
@@ -1538,25 +1538,25 @@
    ],
    "label": "New York: Yankees/Knicks/Devils/Jets",
    "month": {
-    "games": 28,
-    "index": -2.176,
+    "games": 29,
+    "index": -1.144,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 8,
-    "wins": 20
+    "losses": 12,
+    "wins": 17
    },
    "name": "New York 20",
    "season": {
-    "games": 263,
-    "index": -1.288,
+    "games": 270,
+    "index": -1.246,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 107,
-    "wins": 156,
+    "losses": 112,
+    "wins": 158,
     "year": 2026
    }
   },
@@ -1616,25 +1616,25 @@
    ],
    "label": "New York: Yankees/Knicks/Islanders/Giants",
    "month": {
-    "games": 28,
-    "index": -2.176,
+    "games": 29,
+    "index": -1.144,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 8,
-    "wins": 20
+    "losses": 12,
+    "wins": 17
    },
    "name": "New York 21",
    "season": {
-    "games": 263,
-    "index": -1.598,
+    "games": 270,
+    "index": -1.545,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 106,
-    "wins": 157,
+    "losses": 111,
+    "wins": 159,
     "year": 2026
    }
   },
@@ -1694,25 +1694,25 @@
    ],
    "label": "New York: Yankees/Knicks/Islanders/Jets",
    "month": {
-    "games": 28,
-    "index": -2.176,
+    "games": 29,
+    "index": -1.144,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 8,
-    "wins": 20
+    "losses": 12,
+    "wins": 17
    },
    "name": "New York 22",
    "season": {
-    "games": 263,
-    "index": -1.288,
+    "games": 270,
+    "index": -1.246,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 107,
-    "wins": 156,
+    "losses": 112,
+    "wins": 158,
     "year": 2026
    }
   },
@@ -1772,25 +1772,25 @@
    ],
    "label": "New York: Yankees/Knicks/Rangers/Giants",
    "month": {
-    "games": 28,
-    "index": -2.176,
+    "games": 29,
+    "index": -1.144,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 8,
-    "wins": 20
+    "losses": 12,
+    "wins": 17
    },
    "name": "New York 23",
    "season": {
-    "games": 261,
-    "index": -2.127,
+    "games": 268,
+    "index": -2.085,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 110,
-    "wins": 151,
+    "losses": 115,
+    "wins": 153,
     "year": 2026
    }
   },
@@ -1850,25 +1850,25 @@
    ],
    "label": "New York: Yankees/Knicks/Rangers/Jets",
    "month": {
-    "games": 28,
-    "index": -2.176,
+    "games": 29,
+    "index": -1.144,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 8,
-    "wins": 20
+    "losses": 12,
+    "wins": 17
    },
    "name": "New York 24",
    "season": {
-    "games": 261,
-    "index": -1.829,
+    "games": 268,
+    "index": -1.797,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 111,
-    "wins": 150,
+    "losses": 116,
+    "wins": 152,
     "year": 2026
    }
   },
@@ -1928,25 +1928,25 @@
    ],
    "label": "Los Angeles: Angels/Clippers/Ducks/Chargers",
    "month": {
-    "games": 27,
-    "index": -0.0,
+    "games": 28,
+    "index": -0.272,
     "longest": {
-     "length": 7,
+     "length": 6,
      "type": "L"
     },
-    "losses": 18,
-    "wins": 9
+    "losses": 20,
+    "wins": 8
    },
    "name": "Los Angeles 1",
    "season": {
-    "games": 259,
-    "index": 1.042,
+    "games": 266,
+    "index": 0.811,
     "longest": {
      "length": 10,
      "type": "W"
     },
-    "losses": 142,
-    "wins": 117,
+    "losses": 147,
+    "wins": 119,
     "year": 2026
    }
   },
@@ -2006,25 +2006,25 @@
    ],
    "label": "Los Angeles: Angels/Clippers/Ducks/Rams",
    "month": {
-    "games": 27,
-    "index": -0.0,
+    "games": 28,
+    "index": -0.793,
     "longest": {
-     "length": 7,
+     "length": 6,
      "type": "L"
     },
-    "losses": 18,
+    "losses": 19,
     "wins": 9
    },
    "name": "Los Angeles 2",
    "season": {
-    "games": 261,
-    "index": 0.956,
+    "games": 268,
+    "index": 0.505,
     "longest": {
      "length": 10,
      "type": "W"
     },
-    "losses": 141,
-    "wins": 120,
+    "losses": 145,
+    "wins": 123,
     "year": 2026
    }
   },
@@ -2084,25 +2084,25 @@
    ],
    "label": "Los Angeles: Angels/Clippers/Kings/Chargers",
    "month": {
-    "games": 27,
-    "index": -0.0,
+    "games": 28,
+    "index": -0.272,
     "longest": {
-     "length": 7,
+     "length": 6,
      "type": "L"
     },
-    "losses": 18,
-    "wins": 9
+    "losses": 20,
+    "wins": 8
    },
    "name": "Los Angeles 3",
    "season": {
-    "games": 253,
-    "index": 1.132,
+    "games": 260,
+    "index": 0.881,
     "longest": {
      "length": 9,
      "type": "L"
     },
-    "losses": 145,
-    "wins": 108,
+    "losses": 150,
+    "wins": 110,
     "year": 2026
    }
   },
@@ -2162,25 +2162,25 @@
    ],
    "label": "Los Angeles: Angels/Clippers/Kings/Rams",
    "month": {
-    "games": 27,
-    "index": -0.0,
+    "games": 28,
+    "index": -0.793,
     "longest": {
-     "length": 7,
+     "length": 6,
      "type": "L"
     },
-    "losses": 18,
+    "losses": 19,
     "wins": 9
    },
    "name": "Los Angeles 4",
    "season": {
-    "games": 255,
-    "index": 1.068,
+    "games": 262,
+    "index": 0.604,
     "longest": {
      "length": 9,
      "type": "L"
     },
-    "losses": 144,
-    "wins": 111,
+    "losses": 148,
+    "wins": 114,
     "year": 2026
    }
   },
@@ -2240,25 +2240,25 @@
    ],
    "label": "Los Angeles: Angels/Lakers/Ducks/Chargers",
    "month": {
-    "games": 27,
-    "index": -0.0,
+    "games": 28,
+    "index": -0.272,
     "longest": {
-     "length": 7,
+     "length": 6,
      "type": "L"
     },
-    "losses": 18,
-    "wins": 9
+    "losses": 20,
+    "wins": 8
    },
    "name": "Los Angeles 5",
    "season": {
-    "games": 269,
-    "index": 1.048,
+    "games": 276,
+    "index": 0.824,
     "longest": {
      "length": 9,
      "type": "L"
     },
-    "losses": 146,
-    "wins": 123,
+    "losses": 151,
+    "wins": 125,
     "year": 2026
    }
   },
@@ -2318,25 +2318,25 @@
    ],
    "label": "Los Angeles: Angels/Lakers/Ducks/Rams",
    "month": {
-    "games": 27,
-    "index": -0.0,
+    "games": 28,
+    "index": -0.793,
     "longest": {
-     "length": 7,
+     "length": 6,
      "type": "L"
     },
-    "losses": 18,
+    "losses": 19,
     "wins": 9
    },
    "name": "Los Angeles 6",
    "season": {
-    "games": 271,
-    "index": 0.958,
+    "games": 278,
+    "index": 0.517,
     "longest": {
      "length": 9,
      "type": "L"
     },
-    "losses": 145,
-    "wins": 126,
+    "losses": 149,
+    "wins": 129,
     "year": 2026
    }
   },
@@ -2396,25 +2396,25 @@
    ],
    "label": "Los Angeles: Angels/Lakers/Kings/Chargers",
    "month": {
-    "games": 27,
-    "index": -0.0,
+    "games": 28,
+    "index": -0.272,
     "longest": {
-     "length": 7,
+     "length": 6,
      "type": "L"
     },
-    "losses": 18,
-    "wins": 9
+    "losses": 20,
+    "wins": 8
    },
    "name": "Los Angeles 7",
    "season": {
-    "games": 263,
-    "index": 1.028,
+    "games": 270,
+    "index": 0.787,
     "longest": {
      "length": 9,
      "type": "L"
     },
-    "losses": 149,
-    "wins": 114,
+    "losses": 154,
+    "wins": 116,
     "year": 2026
    }
   },
@@ -2474,25 +2474,25 @@
    ],
    "label": "Los Angeles: Angels/Lakers/Kings/Rams",
    "month": {
-    "games": 27,
-    "index": -0.0,
+    "games": 28,
+    "index": -0.793,
     "longest": {
-     "length": 7,
+     "length": 6,
      "type": "L"
     },
-    "losses": 18,
+    "losses": 19,
     "wins": 9
    },
    "name": "Los Angeles 8",
    "season": {
-    "games": 265,
-    "index": 1.209,
+    "games": 272,
+    "index": 0.754,
     "longest": {
      "length": 9,
      "type": "L"
     },
-    "losses": 148,
-    "wins": 117,
+    "losses": 152,
+    "wins": 120,
     "year": 2026
    }
   },
@@ -2552,25 +2552,25 @@
    ],
    "label": "Los Angeles: Dodgers/Clippers/Ducks/Chargers",
    "month": {
-    "games": 27,
-    "index": 1.775,
+    "games": 28,
+    "index": 0.953,
     "longest": {
      "length": 8,
      "type": "W"
     },
-    "losses": 9,
-    "wins": 18
+    "losses": 11,
+    "wins": 17
    },
    "name": "Los Angeles 9",
    "season": {
-    "games": 259,
-    "index": -0.265,
+    "games": 266,
+    "index": -0.377,
     "longest": {
      "length": 10,
      "type": "W"
     },
-    "losses": 108,
-    "wins": 151,
+    "losses": 110,
+    "wins": 156,
     "year": 2026
    }
   },
@@ -2630,25 +2630,25 @@
    ],
    "label": "Los Angeles: Dodgers/Clippers/Ducks/Rams",
    "month": {
-    "games": 27,
-    "index": 0.888,
+    "games": 28,
+    "index": 0.782,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 9,
+    "losses": 10,
     "wins": 18
    },
    "name": "Los Angeles 10",
    "season": {
-    "games": 261,
-    "index": -0.735,
+    "games": 268,
+    "index": -0.642,
     "longest": {
      "length": 10,
      "type": "W"
     },
-    "losses": 107,
-    "wins": 154,
+    "losses": 108,
+    "wins": 160,
     "year": 2026
    }
   },
@@ -2708,25 +2708,25 @@
    ],
    "label": "Los Angeles: Dodgers/Clippers/Kings/Chargers",
    "month": {
-    "games": 27,
-    "index": 1.775,
+    "games": 28,
+    "index": 0.953,
     "longest": {
      "length": 8,
      "type": "W"
     },
-    "losses": 9,
-    "wins": 18
+    "losses": 11,
+    "wins": 17
    },
    "name": "Los Angeles 11",
    "season": {
-    "games": 253,
-    "index": 0.461,
+    "games": 260,
+    "index": 0.351,
     "longest": {
      "length": 9,
      "type": "W"
     },
-    "losses": 111,
-    "wins": 142,
+    "losses": 113,
+    "wins": 147,
     "year": 2026
    }
   },
@@ -2786,25 +2786,25 @@
    ],
    "label": "Los Angeles: Dodgers/Clippers/Kings/Rams",
    "month": {
-    "games": 27,
-    "index": 0.888,
+    "games": 28,
+    "index": 0.782,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 9,
+    "losses": 10,
     "wins": 18
    },
    "name": "Los Angeles 12",
    "season": {
-    "games": 255,
-    "index": 0.013,
+    "games": 262,
+    "index": 0.12,
     "longest": {
      "length": 9,
      "type": "W"
     },
-    "losses": 110,
-    "wins": 145,
+    "losses": 111,
+    "wins": 151,
     "year": 2026
    }
   },
@@ -2864,25 +2864,25 @@
    ],
    "label": "Los Angeles: Dodgers/Lakers/Ducks/Chargers",
    "month": {
-    "games": 27,
-    "index": 1.775,
+    "games": 28,
+    "index": 0.953,
     "longest": {
      "length": 8,
      "type": "W"
     },
-    "losses": 9,
-    "wins": 18
+    "losses": 11,
+    "wins": 17
    },
    "name": "Los Angeles 13",
    "season": {
-    "games": 269,
-    "index": -1.29,
+    "games": 276,
+    "index": -1.39,
     "longest": {
      "length": 8,
      "type": "W"
     },
-    "losses": 112,
-    "wins": 157,
+    "losses": 114,
+    "wins": 162,
     "year": 2026
    }
   },
@@ -2942,25 +2942,25 @@
    ],
    "label": "Los Angeles: Dodgers/Lakers/Ducks/Rams",
    "month": {
-    "games": 27,
-    "index": 0.888,
+    "games": 28,
+    "index": 0.782,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 9,
+    "losses": 10,
     "wins": 18
    },
    "name": "Los Angeles 14",
    "season": {
-    "games": 271,
-    "index": -1.753,
+    "games": 278,
+    "index": -1.654,
     "longest": {
      "length": 7,
      "type": "L"
     },
-    "losses": 111,
-    "wins": 160,
+    "losses": 112,
+    "wins": 166,
     "year": 2026
    }
   },
@@ -3020,25 +3020,25 @@
    ],
    "label": "Los Angeles: Dodgers/Lakers/Kings/Chargers",
    "month": {
-    "games": 27,
-    "index": 1.775,
+    "games": 28,
+    "index": 0.953,
     "longest": {
      "length": 8,
      "type": "W"
     },
-    "losses": 9,
-    "wins": 18
+    "losses": 11,
+    "wins": 17
    },
    "name": "Los Angeles 15",
    "season": {
-    "games": 263,
-    "index": 0.054,
+    "games": 270,
+    "index": -0.05,
     "longest": {
      "length": 8,
      "type": "W"
     },
-    "losses": 115,
-    "wins": 148,
+    "losses": 117,
+    "wins": 153,
     "year": 2026
    }
   },
@@ -3098,25 +3098,25 @@
    ],
    "label": "Los Angeles: Dodgers/Lakers/Kings/Rams",
    "month": {
-    "games": 27,
-    "index": 0.888,
+    "games": 28,
+    "index": 0.782,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 9,
+    "losses": 10,
     "wins": 18
    },
    "name": "Los Angeles 16",
    "season": {
-    "games": 265,
-    "index": -0.136,
+    "games": 272,
+    "index": -0.03,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 114,
-    "wins": 151,
+    "losses": 115,
+    "wins": 157,
     "year": 2026
    }
   },
@@ -3177,7 +3177,7 @@
    "label": "Chicago: Cubs/Bulls/Blackhawks/Bears",
    "month": {
     "games": 28,
-    "index": 0.36,
+    "index": -0.415,
     "longest": {
      "length": 4,
      "type": "L"
@@ -3187,14 +3187,14 @@
    },
    "name": "Chicago 1",
    "season": {
-    "games": 248,
-    "index": 2.362,
+    "games": 254,
+    "index": 2.209,
     "longest": {
      "length": 13,
      "type": "L"
     },
-    "losses": 132,
-    "wins": 116,
+    "losses": 135,
+    "wins": 119,
     "year": 2026
    }
   },
@@ -3255,24 +3255,24 @@
    "label": "Chicago: White Sox/Bulls/Blackhawks/Bears",
    "month": {
     "games": 29,
-    "index": -1.398,
+    "index": -0.953,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 16,
-    "wins": 13
+    "losses": 15,
+    "wins": 14
    },
    "name": "Chicago 2",
    "season": {
-    "games": 247,
-    "index": 0.362,
+    "games": 254,
+    "index": 0.185,
     "longest": {
      "length": 13,
      "type": "L"
     },
-    "losses": 138,
-    "wins": 109,
+    "losses": 141,
+    "wins": 113,
     "year": 2026
    }
   },
@@ -3332,25 +3332,25 @@
    ],
    "label": "San Francisco: Giants/Warriors/Sharks/49ers",
    "month": {
-    "games": 29,
-    "index": -1.015,
+    "games": 30,
+    "index": -0.743,
     "longest": {
      "length": 4,
-     "type": "L"
+     "type": "W"
     },
-    "losses": 16,
-    "wins": 13
+    "losses": 15,
+    "wins": 15
    },
    "name": "San Francisco",
    "season": {
-    "games": 248,
-    "index": -1.075,
+    "games": 255,
+    "index": -1.004,
     "longest": {
      "length": 6,
      "type": "W"
     },
-    "losses": 144,
-    "wins": 104,
+    "losses": 148,
+    "wins": 107,
     "year": 2026
    }
   },
@@ -3410,25 +3410,25 @@
    ],
    "label": "Sacramento: Athletics/Kings",
    "month": {
-    "games": 27,
-    "index": 0.53,
+    "games": 26,
+    "index": 0.695,
     "longest": {
-     "length": 5,
+     "length": 6,
      "type": "L"
     },
     "losses": 15,
-    "wins": 12
+    "wins": 11
    },
    "name": "Sacramento",
    "season": {
-    "games": 200,
-    "index": 0.87,
+    "games": 206,
+    "index": 1.039,
     "longest": {
      "length": 16,
      "type": "L"
     },
-    "losses": 125,
-    "wins": 75,
+    "losses": 130,
+    "wins": 76,
     "year": 2026
    }
   },
@@ -3488,25 +3488,25 @@
    ],
    "label": "Dallas: Rangers/Mavericks/Stars/Cowboys",
    "month": {
-    "games": 27,
-    "index": -0.204,
+    "games": 28,
+    "index": -0.385,
     "longest": {
      "length": 4,
      "type": "L"
     },
-    "losses": 13,
+    "losses": 14,
     "wins": 14
    },
    "name": "Dallas",
    "season": {
-    "games": 249,
-    "index": -1.924,
+    "games": 256,
+    "index": -2.075,
     "longest": {
      "length": 9,
      "type": "L"
     },
-    "losses": 133,
-    "wins": 116,
+    "losses": 136,
+    "wins": 120,
     "year": 2026
    }
   },
@@ -3566,25 +3566,25 @@
    ],
    "label": "Boston: Red Sox/Celtics/Bruins/Patriots",
    "month": {
-    "games": 28,
-    "index": 1.068,
+    "games": 29,
+    "index": 0.561,
     "longest": {
      "length": 5,
      "type": "W"
     },
-    "losses": 12,
-    "wins": 16
+    "losses": 15,
+    "wins": 14
    },
    "name": "Boston",
    "season": {
-    "games": 261,
-    "index": 0.799,
+    "games": 268,
+    "index": 0.753,
     "longest": {
      "length": 14,
      "type": "W"
     },
-    "losses": 110,
-    "wins": 151,
+    "losses": 114,
+    "wins": 154,
     "year": 2026
    }
   },
@@ -3644,25 +3644,25 @@
    ],
    "label": "Washington: Nationals/Wizards/Capitals/Commanders",
    "month": {
-    "games": 27,
-    "index": 0.829,
+    "games": 28,
+    "index": 0.747,
     "longest": {
      "length": 7,
      "type": "L"
     },
-    "losses": 16,
-    "wins": 11
+    "losses": 15,
+    "wins": 13
    },
    "name": "Washington",
    "season": {
-    "games": 246,
-    "index": -0.164,
+    "games": 253,
+    "index": -0.236,
     "longest": {
      "length": 9,
      "type": "L"
     },
-    "losses": 143,
-    "wins": 103,
+    "losses": 147,
+    "wins": 106,
     "year": 2026
    }
   },
@@ -3722,25 +3722,25 @@
    ],
    "label": "Philadelphia: Phillies/76ers/Flyers/Eagles",
    "month": {
-    "games": 27,
-    "index": 0.672,
+    "games": 28,
+    "index": 0.281,
     "longest": {
      "length": 6,
      "type": "W"
     },
-    "losses": 10,
-    "wins": 17
+    "losses": 12,
+    "wins": 16
    },
    "name": "Philadelphia",
    "season": {
-    "games": 270,
-    "index": -0.318,
+    "games": 277,
+    "index": -0.278,
     "longest": {
      "length": 9,
      "type": "W"
     },
-    "losses": 126,
-    "wins": 144,
+    "losses": 128,
+    "wins": 149,
     "year": 2026
    }
   },
@@ -3800,25 +3800,25 @@
    ],
    "label": "Denver: Rockies/Nuggets/Avalanche/Broncos",
    "month": {
-    "games": 28,
-    "index": 1.416,
+    "games": 29,
+    "index": -0.198,
     "longest": {
      "length": 9,
      "type": "L"
     },
-    "losses": 22,
-    "wins": 6
+    "losses": 21,
+    "wins": 8
    },
    "name": "Denver",
    "season": {
-    "games": 266,
-    "index": -0.322,
+    "games": 273,
+    "index": -0.526,
     "longest": {
      "length": 9,
      "type": "W"
     },
-    "losses": 142,
-    "wins": 124,
+    "losses": 147,
+    "wins": 126,
     "year": 2026
    }
   },
@@ -3878,25 +3878,25 @@
    ],
    "label": "Detroit: Tigers/Pistons/Red Wings/Lions",
    "month": {
-    "games": 28,
-    "index": 0.747,
+    "games": 30,
+    "index": -0.398,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 15,
-    "wins": 13
+    "losses": 16,
+    "wins": 14
    },
    "name": "Detroit",
    "season": {
-    "games": 257,
-    "index": 1.169,
+    "games": 265,
+    "index": 1.041,
     "longest": {
      "length": 9,
      "type": "L"
     },
-    "losses": 124,
-    "wins": 133,
+    "losses": 130,
+    "wins": 135,
     "year": 2026
    }
   },
@@ -3956,25 +3956,25 @@
    ],
    "label": "Minnesota: Twins/Timberwolves/Wild/Vikings",
    "month": {
-    "games": 27,
-    "index": 0.015,
+    "games": 29,
+    "index": -1.398,
     "longest": {
      "length": 4,
      "type": "L"
     },
     "losses": 16,
-    "wins": 11
+    "wins": 13
    },
    "name": "Minnesota",
    "season": {
-    "games": 265,
-    "index": -0.554,
+    "games": 273,
+    "index": -0.912,
     "longest": {
      "length": 8,
      "type": "W"
     },
-    "losses": 132,
-    "wins": 133,
+    "losses": 135,
+    "wins": 138,
     "year": 2026
    }
   },
@@ -4035,24 +4035,24 @@
    "label": "Miami: Marlins/Heat/Panthers/Dolphins",
    "month": {
     "games": 28,
-    "index": 0.144,
+    "index": -0.06,
     "longest": {
      "length": 4,
      "type": "L"
     },
-    "losses": 17,
-    "wins": 11
+    "losses": 18,
+    "wins": 10
    },
    "name": "Miami",
    "season": {
-    "games": 247,
-    "index": 0.937,
+    "games": 253,
+    "index": 1.043,
     "longest": {
      "length": 12,
      "type": "L"
     },
-    "losses": 128,
-    "wins": 119,
+    "losses": 132,
+    "wins": 121,
     "year": 2026
    }
   },
@@ -4113,7 +4113,7 @@
    "label": "Phoenix: Diamondbacks/Suns/Cardinals",
    "month": {
     "games": 28,
-    "index": -1.577,
+    "index": -1.189,
     "longest": {
      "length": 4,
      "type": "W"
@@ -4123,14 +4123,14 @@
    },
    "name": "Phoenix",
    "season": {
-    "games": 209,
-    "index": -0.919,
+    "games": 215,
+    "index": -0.905,
     "longest": {
      "length": 5,
      "type": "L"
     },
-    "losses": 101,
-    "wins": 108,
+    "losses": 104,
+    "wins": 111,
     "year": 2026
    }
   },
@@ -4190,25 +4190,25 @@
    ],
    "label": "Tampa Bay: Rays/Lightning/Buccaneers",
    "month": {
-    "games": 28,
-    "index": -1.069,
+    "games": 29,
+    "index": -1.637,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 11,
-    "wins": 17
+    "losses": 10,
+    "wins": 19
    },
    "name": "Tampa Bay",
    "season": {
-    "games": 202,
-    "index": 0.978,
+    "games": 210,
+    "index": 0.78,
     "longest": {
      "length": 9,
      "type": "W"
     },
-    "losses": 80,
-    "wins": 122,
+    "losses": 83,
+    "wins": 127,
     "year": 2026
    }
   },
@@ -4268,25 +4268,25 @@
    ],
    "label": "Toronto: Blue Jays/Raptors/Maple Leafs",
    "month": {
-    "games": 26,
-    "index": -0.837,
+    "games": 25,
+    "index": -0.622,
     "longest": {
      "length": 4,
      "type": "W"
     },
     "losses": 12,
-    "wins": 14
+    "wins": 13
    },
    "name": "Toronto",
    "season": {
-    "games": 249,
-    "index": -0.871,
+    "games": 254,
+    "index": -1.058,
     "longest": {
      "length": 6,
      "type": "L"
     },
-    "losses": 131,
-    "wins": 118,
+    "losses": 134,
+    "wins": 120,
     "year": 2026
    }
   },
@@ -4346,25 +4346,25 @@
    ],
    "label": "Atlanta: Braves/Hawks/Falcons",
    "month": {
-    "games": 29,
-    "index": 1.319,
+    "games": 28,
+    "index": 1.068,
     "longest": {
-     "length": 7,
+     "length": 6,
      "type": "W"
     },
-    "losses": 14,
-    "wins": 15
+    "losses": 12,
+    "wins": 16
    },
    "name": "Atlanta",
    "season": {
-    "games": 207,
-    "index": 0.604,
+    "games": 213,
+    "index": 0.607,
     "longest": {
      "length": 11,
      "type": "W"
     },
-    "losses": 85,
-    "wins": 122,
+    "losses": 88,
+    "wins": 125,
     "year": 2026
    }
   },
@@ -4424,25 +4424,25 @@
    ],
    "label": "Houston: Astros/Rockets/Texans",
    "month": {
-    "games": 27,
-    "index": -1.383,
+    "games": 28,
+    "index": -0.802,
     "longest": {
      "length": 4,
      "type": "L"
     },
-    "losses": 14,
+    "losses": 15,
     "wins": 13
    },
    "name": "Houston",
    "season": {
-    "games": 213,
-    "index": -2.449,
+    "games": 220,
+    "index": -2.456,
     "longest": {
      "length": 9,
      "type": "W"
     },
-    "losses": 101,
-    "wins": 112,
+    "losses": 106,
+    "wins": 114,
     "year": 2026
    }
   },
@@ -4503,24 +4503,24 @@
    "label": "Cleveland: Guardians/Cavaliers/Browns",
    "month": {
     "games": 28,
-    "index": -1.069,
+    "index": -0.481,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 11,
-    "wins": 17
+    "losses": 10,
+    "wins": 18
    },
    "name": "Cleveland",
    "season": {
-    "games": 219,
-    "index": -1.0,
+    "games": 225,
+    "index": -0.662,
     "longest": {
      "length": 7,
      "type": "W"
     },
     "losses": 100,
-    "wins": 119,
+    "wins": 125,
     "year": 2026
    }
   },
@@ -4580,25 +4580,25 @@
    ],
    "label": "Pittsburgh: Pirates/Penguins/Steelers",
    "month": {
-    "games": 26,
-    "index": 0.284,
+    "games": 27,
+    "index": -0.0,
     "longest": {
      "length": 4,
      "type": "W"
     },
-    "losses": 11,
-    "wins": 15
+    "losses": 9,
+    "wins": 18
    },
    "name": "Pittsburgh",
    "season": {
-    "games": 204,
-    "index": -0.703,
+    "games": 211,
+    "index": -0.63,
     "longest": {
      "length": 6,
      "type": "W"
     },
-    "losses": 101,
-    "wins": 103,
+    "losses": 103,
+    "wins": 108,
     "year": 2026
    }
   },
@@ -4659,24 +4659,24 @@
    "label": "Seattle: Mariners/Kraken/Seahawks",
    "month": {
     "games": 28,
-    "index": -0.112,
+    "index": 0.36,
     "longest": {
      "length": 5,
      "type": "L"
     },
-    "losses": 16,
-    "wins": 12
+    "losses": 15,
+    "wins": 13
    },
    "name": "Seattle",
    "season": {
-    "games": 202,
-    "index": 0.762,
+    "games": 208,
+    "index": 0.632,
     "longest": {
      "length": 8,
      "type": "L"
     },
-    "losses": 109,
-    "wins": 93,
+    "losses": 111,
+    "wins": 97,
     "year": 2026
    }
   },
@@ -4747,14 +4747,14 @@
    },
    "name": "Milwaukee",
    "season": {
-    "games": 199,
-    "index": 0.279,
+    "games": 205,
+    "index": 0.245,
     "longest": {
      "length": 5,
      "type": "L"
     },
-    "losses": 87,
-    "wins": 112,
+    "losses": 89,
+    "wins": 116,
     "year": 2026
    }
   },
@@ -4814,25 +4814,25 @@
    ],
    "label": "St. Louis: Cardinals/Blues",
    "month": {
-    "games": 28,
-    "index": -0.899,
+    "games": 25,
+    "index": -0.853,
     "longest": {
-     "length": 5,
+     "length": 4,
      "type": "L"
     },
-    "losses": 16,
-    "wins": 12
+    "losses": 15,
+    "wins": 10
    },
    "name": "St. Louis",
    "season": {
-    "games": 193,
-    "index": -0.073,
+    "games": 198,
+    "index": -0.001,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 96,
-    "wins": 97,
+    "losses": 100,
+    "wins": 98,
     "year": 2026
    }
   },
@@ -4893,24 +4893,24 @@
    "label": "Kansas City: Royals/Chiefs",
    "month": {
     "games": 27,
-    "index": 0.829,
+    "index": -0.799,
     "longest": {
-     "length": 8,
-     "type": "W"
+     "length": 4,
+     "type": "L"
     },
-    "losses": 11,
-    "wins": 16
+    "losses": 16,
+    "wins": 11
    },
    "name": "Kansas City",
    "season": {
-    "games": 153,
-    "index": 2.195,
+    "games": 160,
+    "index": 2.019,
     "longest": {
      "length": 9,
      "type": "W"
     },
-    "losses": 86,
-    "wins": 67,
+    "losses": 91,
+    "wins": 69,
     "year": 2026
    }
   },
@@ -4970,25 +4970,25 @@
    ],
    "label": "Cincinnati: Reds/Bengals",
    "month": {
-    "games": 29,
-    "index": -0.363,
+    "games": 28,
+    "index": -0.415,
     "longest": {
      "length": 5,
      "type": "L"
     },
-    "losses": 17,
-    "wins": 12
+    "losses": 15,
+    "wins": 13
    },
    "name": "Cincinnati",
    "season": {
-    "games": 153,
-    "index": -0.309,
+    "games": 160,
+    "index": -0.527,
     "longest": {
      "length": 8,
      "type": "L"
     },
-    "losses": 82,
-    "wins": 71,
+    "losses": 85,
+    "wins": 75,
     "year": 2026
    }
   },
@@ -5048,25 +5048,25 @@
    ],
    "label": "Baltimore: Orioles/Ravens",
    "month": {
-    "games": 29,
-    "index": 1.319,
+    "games": 28,
+    "index": 1.541,
     "longest": {
      "length": 6,
      "type": "L"
     },
-    "losses": 15,
+    "losses": 14,
     "wins": 14
    },
    "name": "Baltimore",
    "season": {
-    "games": 154,
-    "index": 0.639,
+    "games": 160,
+    "index": 0.776,
     "longest": {
      "length": 7,
      "type": "W"
     },
-    "losses": 79,
-    "wins": 75,
+    "losses": 83,
+    "wins": 77,
     "year": 2026
    }
   },
@@ -5127,24 +5127,24 @@
    "label": "San Diego: Padres",
    "month": {
     "games": 26,
-    "index": 0.284,
+    "index": 0.978,
     "longest": {
      "length": 8,
      "type": "W"
     },
-    "losses": 11,
-    "wins": 15
+    "losses": 10,
+    "wins": 16
    },
    "name": "San Diego",
    "season": {
-    "games": 151,
-    "index": -0.174,
+    "games": 157,
+    "index": -0.068,
     "longest": {
      "length": 8,
      "type": "W"
     },
-    "losses": 69,
-    "wins": 82,
+    "losses": 70,
+    "wins": 87,
     "year": 2026
    }
   },
@@ -5199,25 +5199,25 @@
    ],
    "label": "Charlotte: Hornets/Panthers",
    "month": {
-    "games": 1,
+    "games": 2,
     "index": null,
     "longest": {
      "length": 1,
      "type": "L"
     },
     "losses": 1,
-    "wins": 0
+    "wins": 1
    },
    "name": "Charlotte",
    "season": {
-    "games": 54,
-    "index": 0.94,
+    "games": 55,
+    "index": 0.723,
     "longest": {
      "length": 9,
      "type": "W"
     },
     "losses": 20,
-    "wins": 34,
+    "wins": 35,
     "year": 2026
    }
   },
@@ -5345,24 +5345,24 @@
    ],
    "label": "Nashville: Predators/Titans",
    "month": {
-    "games": 1,
+    "games": 2,
     "index": null,
     "longest": {
-     "length": 1,
+     "length": 2,
      "type": "L"
     },
-    "losses": 1,
+    "losses": 2,
     "wins": 0
    },
    "name": "Nashville",
    "season": {
-    "games": 45,
-    "index": -0.543,
+    "games": 46,
+    "index": -0.422,
     "longest": {
      "length": 5,
      "type": "W"
     },
-    "losses": 25,
+    "losses": 26,
     "wins": 20,
     "year": 2026
    }
@@ -5418,25 +5418,25 @@
    ],
    "label": "Buffalo: Sabres/Bills",
    "month": {
-    "games": 1,
+    "games": 2,
     "index": null,
     "longest": {
-     "length": 1,
+     "length": 2,
      "type": "W"
     },
     "losses": 0,
-    "wins": 1
+    "wins": 2
    },
    "name": "Buffalo",
    "season": {
-    "games": 60,
-    "index": 0.086,
+    "games": 61,
+    "index": 0.155,
     "longest": {
      "length": 8,
      "type": "W"
     },
     "losses": 21,
-    "wins": 39,
+    "wins": 40,
     "year": 2026
    }
   },
@@ -5496,24 +5496,24 @@
    ],
    "label": "Indianapolis: Pacers/Colts",
    "month": {
-    "games": 1,
+    "games": 2,
     "index": null,
     "longest": {
-     "length": 1,
+     "length": 2,
      "type": "L"
     },
-    "losses": 1,
+    "losses": 2,
     "wins": 0
    },
    "name": "Indianapolis",
    "season": {
-    "games": 50,
-    "index": 1.211,
+    "games": 51,
+    "index": 1.264,
     "longest": {
      "length": 16,
      "type": "L"
     },
-    "losses": 37,
+    "losses": 38,
     "wins": 13,
     "year": 2026
    }
@@ -5569,25 +5569,25 @@
    ],
    "label": "New Orleans: Pelicans/Saints",
    "month": {
-    "games": 1,
+    "games": 2,
     "index": null,
     "longest": {
      "length": 1,
      "type": "L"
     },
     "losses": 1,
-    "wins": 0
+    "wins": 1
    },
    "name": "New Orleans",
    "season": {
-    "games": 49,
-    "index": 0.863,
+    "games": 50,
+    "index": 0.777,
     "longest": {
      "length": 8,
      "type": "L"
     },
     "losses": 31,
-    "wins": 18,
+    "wins": 19,
     "year": 2026
    }
   },
@@ -5637,25 +5637,25 @@
    ],
    "label": "Las Vegas: Golden Knights/Raiders",
    "month": {
-    "games": 1,
+    "games": 2,
     "index": null,
     "longest": {
-     "length": 1,
+     "length": 2,
      "type": "W"
     },
     "losses": 0,
-    "wins": 1
+    "wins": 2
    },
    "name": "Las Vegas",
    "season": {
-    "games": 68,
-    "index": 1.618,
+    "games": 69,
+    "index": 1.706,
     "longest": {
      "length": 7,
      "type": "W"
     },
     "losses": 30,
-    "wins": 38,
+    "wins": 39,
     "year": 2026
    }
   },
@@ -6613,25 +6613,25 @@
    "history": [],
    "label": "Green Bay: Packers",
    "month": {
-    "games": 1,
+    "games": 2,
     "index": null,
     "longest": {
      "length": 1,
      "type": "L"
     },
     "losses": 1,
-    "wins": 0
+    "wins": 1
    },
    "name": "Green Bay",
    "season": {
-    "games": 3,
+    "games": 4,
     "index": null,
     "longest": {
      "length": 3,
      "type": "L"
     },
     "losses": 3,
-    "wins": 0,
+    "wins": 1,
     "year": 2026
    }
   },
@@ -6640,48 +6640,48 @@
    "history": [],
    "label": "Jacksonville: Jaguars",
    "month": {
-    "games": 1,
-    "index": null,
-    "longest": {
-     "length": 1,
-     "type": "W"
-    },
-    "losses": 0,
-    "wins": 1
-   },
-   "name": "Jacksonville",
-   "season": {
-    "games": 3,
+    "games": 2,
     "index": null,
     "longest": {
      "length": 1,
      "type": "W"
     },
     "losses": 1,
+    "wins": 1
+   },
+   "name": "Jacksonville",
+   "season": {
+    "games": 4,
+    "index": -1.225,
+    "longest": {
+     "length": 1,
+     "type": "W"
+    },
+    "losses": 2,
     "wins": 2,
     "year": 2026
    }
   }
  ],
  "month_panel": [
-  "Los Angeles 11",
-  "Denver",
+  "Baltimore",
   "Atlanta",
-  "Houston",
+  "San Diego",
   "Phoenix",
-  "New York 1"
+  "Minnesota",
+  "Tampa Bay"
  ],
- "reference_date": "20260915",
+ "reference_date": "20260922",
  "season_panel": [
   "Houston",
   "New York 23",
   "Dallas",
   "Los Angeles 14",
   "Raleigh",
+  "Salt Lake City",
   "Phoenix",
   "Pittsburgh",
   "Las Vegas",
-  "Kansas City",
   "Chicago 1"
  ],
  "window_days": 30

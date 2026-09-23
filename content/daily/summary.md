@@ -1,18 +1,17 @@
-# City of the day — Phoenix
-*Phoenix: Diamondbacks/Suns/Cardinals* · 2026-09-21
+# City of the day — San Diego
+*San Diego: Padres* · 2026-09-22
 
-- **2026 so far:** 110-104, -7.9 weighted over 214 games; longest run 5 straight losses
-- **Order of results:** about as clumped as coin flips (-0.8)
-- **Earlier seasons (full-year weighted):** 2016 -292.1, 2017 -62.5, 2018 -435.0, 2019 -229.6, 2020 +21.2, 2021 +186.7, 2022 -65.3, 2023 -158.8, 2024 +7.2, 2025 -211.1
-- **Last 30 days:** 15-13, +4.5 weighted; longest run 4 straight wins
-- **Window opens:** August 23, 2026
-- **September 2026 through day 21:** 10-9, +2.2 weighted — the sixth-best of the 11 on record
-- **Same September in earlier years (same stretch):** 2016 -6.8, 2017 +11.3, 2018 -63.2, 2019 -19.2, 2020 +27.2, 2021 +22.7, 2022 -6.8, 2023 -31.7, 2024 +6.8, 2025 +30.5
+- **2026 so far:** 87-70, +38.3 weighted over 157 games; longest run 8 straight wins
+- **Order of results:** about as clumped as coin flips (-0.1)
+- **Earlier seasons (full-year weighted):** 2016 -58.6, 2017 -45.1, 2018 -67.6, 2019 -49.6, 2020 +27.0, 2021 -9.0, 2022 +36.0, 2023 +4.5, 2024 +56.3, 2025 +38.3
+- **Last 30 days:** 16-10, +13.5 weighted; longest run 8 straight wins
+- **Window opens:** August 24, 2026
+- **September 2026 through day 22:** 14-5, +20.3 weighted — the best of the 11 on record
+- **Same September in earlier years (same stretch):** 2016 -6.8, 2017 -2.2, 2018 -4.5, 2019 -15.8, 2020 +13.5, 2021 -18.0, 2022 +4.5, 2023 +20.3, 2024 +18.0, 2025 +0.0
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Diamondbacks | 14-12 | +4.5 | 4 straight wins |
-| Cardinals | 1-1 | +0.0 | 1 straight wins |
+| Padres | 16-10 | +13.5 | 8 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 

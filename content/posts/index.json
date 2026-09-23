@@ -1,10 +1,270 @@
 {
- "generated": "2026-09-22",
+ "generated": "2026-09-23",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-09-22",
+   "kind": "spotlight",
+   "title": "Out of the norm \u2014 three fandoms off their own script",
+   "dek": "The weekly hunt across all 88 city groups, through September 22, 2026",
+   "sections": [
+    {
+     "heading": "Dallas has flipped its September: 7-7 before this week, 4-3 since",
+     "subhead": "Dallas: Rangers/Mavericks/Stars/Cowboys",
+     "stats": [
+      {
+       "label": "Before this week",
+       "value": "7-7, -19.2 weighted (-1.37 per game)"
+      },
+      {
+       "label": "Since",
+       "value": "4-3, +21.5 weighted (+3.07 per game)"
+      },
+      {
+       "label": "This month (through September 22)",
+       "value": "11-10, +2.2 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "4-3, +21.5 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Cowboys (1-0, +21.5)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-dallas_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Dallas: Rangers/Mavericks/Stars/Cowboys \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "spotlight-dallas_timeline.png",
+       "caption": "Game by game, with the streak picked out.",
+       "alt": "Dallas: Rangers/Mavericks/Stars/Cowboys \u2014 Game by game, with the streak picked out"
+      },
+      {
+       "file": "spotlight-dallas_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Dallas: Rangers/Mavericks/Stars/Cowboys \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    },
+    {
+     "heading": "Los Angeles is having its best year on record \u2014 2nd of 88 this year",
+     "subhead": "Los Angeles: Dodgers/Lakers/Ducks/Rams",
+     "stats": [
+      {
+       "label": "2026 so far (through September 22)",
+       "value": "166-112, +193.1 weighted \u2014 1st-best of the 11 years on record, at the same point"
+      },
+      {
+       "label": "Against the field",
+       "value": "2nd of 88 city groups on the year (99th percentile)"
+      },
+      {
+       "label": "This month (through September 22)",
+       "value": "16-6, +22.5 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "6-1, +30.5 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Rams (1-0, +21.5)"
+      },
+      {
+       "label": "Active streaks",
+       "value": "Dodgers W5"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-los-angeles-14_year.png",
+       "caption": "Every season's cumulative index by day of year, this one in color.",
+       "alt": "Los Angeles: Dodgers/Lakers/Ducks/Rams \u2014 Every season's cumulative index by day of year, this one in color"
+      },
+      {
+       "file": "spotlight-los-angeles-14_field.png",
+       "caption": "All 88 city groups on this year's index, the group picked out.",
+       "alt": "Los Angeles: Dodgers/Lakers/Ducks/Rams \u2014 All 88 city groups on this year's index, the group picked out"
+      }
+     ]
+    },
+    {
+     "heading": "Tampa Bay is having its worst September on record",
+     "subhead": "Tampa Bay: Rays/Lightning/Buccaneers",
+     "stats": [
+      {
+       "label": "This month (through September 22)",
+       "value": "14-8, -24.9 weighted \u2014 1st-worst September of the 11 on record"
+      },
+      {
+       "label": "vs all months",
+       "value": "10th-worst of 116 months on record (8th percentile)"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "5-3, -14.7 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Buccaneers (0-1, -21.5)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-tampa-bay_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "spotlight-tampa-bay_history.png",
+       "caption": "Every comparable month on record, this one picked out.",
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 Every comparable month on record, this one picked out"
+      },
+      {
+       "file": "spotlight-tampa-bay_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-22/spotlight.html"
+  },
+  {
+   "date": "2026-09-22",
+   "kind": "streakiness",
+   "title": "Streakiness \u2014 not how often they win, but how the wins arrive",
+   "dek": "All 88 city groups, through September 22, 2026",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "City groups measured",
+       "value": "88"
+      },
+      {
+       "label": "Furthest from its own norm this year",
+       "value": "Houston: Astros/Rockets/Texans \u2014 streak index -2.5 over 220 games, against a usual +0.4"
+      },
+      {
+       "label": "Streakiest of the last 30 days",
+       "value": "Baltimore: Orioles/Ravens \u2014 +1.5, longest run 6 losses"
+      },
+      {
+       "label": "Steadiest of the last 30 days",
+       "value": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 -1.6, wins and losses taking turns"
+      },
+      {
+       "label": "Reading the index",
+       "value": "+2 or more is clumpier than chance, \u22122 or less more alternating than chance, 0 exactly as clumped as coin flips"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "streak-season_vs_history.png",
+       "caption": "This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray.",
+       "alt": "All 88 city groups, through September 22, 2026 \u2014 This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray"
+      },
+      {
+       "file": "streak-past_month.png",
+       "caption": "The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest.",
+       "alt": "All 88 city groups, through September 22, 2026 \u2014 The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-22/streakiness.html"
+  },
+  {
+   "date": "2026-09-22",
+   "kind": "daily",
+   "title": "City of the day \u2014 San Diego",
+   "dek": "San Diego: Padres",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "87-70, +38.3 weighted over 157 games; longest run 8 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.1)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 -58.6, 2017 -45.1, 2018 -67.6, 2019 -49.6, 2020 +27.0, 2021 -9.0, 2022 +36.0, 2023 +4.5, 2024 +56.3, 2025 +38.3"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "16-10, +13.5 weighted; longest run 8 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "August 24, 2026"
+      },
+      {
+       "label": "September 2026 through day 22",
+       "value": "14-5, +20.3 weighted \u2014 the best of the 11 on record"
+      },
+      {
+       "label": "Same September in earlier years (same stretch)",
+       "value": "2016 -6.8, 2017 -2.2, 2018 -4.5, 2019 -15.8, 2020 +13.5, 2021 -18.0, 2022 +4.5, 2023 +20.3, 2024 +18.0, 2025 +0.0"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Padres",
+        "16-10",
+        "+13.5",
+        "8 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "San Diego: Padres \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "San Diego: Padres \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "San Diego: Padres \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-22/daily.html"
+  },
   {
    "date": "2026-09-21",
    "kind": "daily",
