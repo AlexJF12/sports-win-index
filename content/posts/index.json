@@ -1,10 +1,92 @@
 {
- "generated": "2026-09-23",
+ "generated": "2026-09-24",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-09-23",
+   "kind": "daily",
+   "title": "City of the day \u2014 Minnesota",
+   "dek": "Minnesota: Twins/Timberwolves/Wild/Vikings",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "139-135, +88.7 weighted over 274 games; longest run 8 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.9)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2016 -245.2, 2017 +269.8, 2018 +3.5, 2019 +60.2, 2020 -113.1, 2021 -71.7, 2022 +299.9, 2023 +51.6, 2024 +347.5, 2025 +41.0"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "13-16, +31.7 weighted; longest run 4 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "August 25, 2026"
+      },
+      {
+       "label": "September 2026 through day 23",
+       "value": "11-12, +36.2 weighted \u2014 the second-best of the 11 on record"
+      },
+      {
+       "label": "Same September in earlier years (same stretch)",
+       "value": "2016 +22.7, 2017 +0.0, 2018 -6.8, 2019 +32.7, 2020 -22.7, 2021 -45.2, 2022 -22.5, 2023 -31.7, 2024 +53.1, 2025 +1.2"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Twins",
+        "11-16",
+        "-11.3",
+        "4 straight losses"
+       ],
+       [
+        "Vikings",
+        "2-0",
+        "+42.9",
+        "2 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Minnesota: Twins/Timberwolves/Wild/Vikings \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Minnesota: Twins/Timberwolves/Wild/Vikings \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Minnesota: Twins/Timberwolves/Wild/Vikings \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-23/daily.html"
+  },
   {
    "date": "2026-09-22",
    "kind": "spotlight",
