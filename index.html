@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fandom Pulse — City Index</title>
+<title>Banner Month — City Index</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><rect x=%220.5%22 y=%229%22 width=%223.6%22 height=%226%22 rx=%221.3%22 fill=%22%23a5a49c%22/><rect x=%226.2%22 y=%225.5%22 width=%223.6%22 height=%229.5%22 rx=%221.3%22 fill=%22%236f6e69%22/><rect x=%2211.9%22 y=%221%22 width=%223.6%22 height=%2214%22 rx=%221.3%22 fill=%22%237d3ff0%22/></svg>">
 <style>
   :root {
@@ -138,6 +138,21 @@
   .day-box.today { background: var(--accent); border-color: var(--accent); }
   .day-box.today .dow, .day-box.today .dom { color: var(--accent-ink); }
 
+  /* the month leads the page: bigger heading, a progress rail, a bigger champion */
+  section.hero { margin-bottom: 44px; }
+  section.hero .eyebrow {
+    color: var(--accent); font-size: 12px; font-weight: 650;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px;
+  }
+  section.hero h2 { font-size: 30px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 4px; }
+  .month-rail { height: 6px; border-radius: 999px; background: var(--chip); overflow: hidden; margin-bottom: 14px; }
+  .month-rail span { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+  section.hero .champ { padding: 18px 20px 18px 24px; }
+  section.hero .champ::before { width: 4px; }
+  section.hero .champ .city, section.hero .champ .score { font-size: 34px; }
+  .also { color: var(--text-muted); font-size: 12px; font-weight: 650; text-transform: uppercase;
+    letter-spacing: 0.06em; margin: 0 0 14px; padding-top: 18px; border-top: 1px solid var(--hairline); }
+
   .champ {
     background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
     padding: 14px 16px 14px 19px; margin-bottom: 10px;
@@ -223,15 +238,17 @@
     .week-strip { gap: 4px; }
     .day-box { padding: 6px 2px; }
     .day-box .dom { font-size: 13px; }
+    section.hero h2 { font-size: 24px; }
+    section.hero .champ .city, section.hero .champ .score { font-size: 26px; }
   }
 </style>
 </head>
 <body>
 <div class="topbar">
   <div class="bar">
-    <a class="wordmark" href="index.html" aria-label="Fandom Pulse — home">
+    <a class="wordmark" href="index.html" aria-label="Banner Month — home">
       <svg viewBox="0 0 16 16" aria-hidden="true"><rect class="b1" x="0.5" y="9" width="3.6" height="6" rx="1.3"/><rect class="b2" x="6.2" y="5.5" width="3.6" height="9.5" rx="1.3"/><rect class="b3" x="11.9" y="1" width="3.6" height="14" rx="1.3"/></svg>
-      Fandom Pulse
+      Banner Month
     </a>
     <nav>
       <a href="index.html" aria-current="page">Cities</a>
@@ -247,7 +264,7 @@
     <h1>City Index</h1>
     <button id="share" class="share-btn" title="Share this view">Share</button>
   </div>
-  <p class="tagline">Every city fields one team per league. Best day, best week, best month, best year.</p>
+  <p class="tagline">Every city fields one team per league. Which one is having a banner month?</p>
   <div class="controls">
     <div class="scope" role="group" aria-label="Metric">
       <button id="metric-wins" aria-pressed="false">Wins</button>
@@ -267,9 +284,10 @@ const LEAGUE_EMOJI = { mlb: "⚾", nba: "🏀", nhl: "🏒", nfl: "🏈" };
 // a game's share of the year: 365 / regular-season games
 const LEAGUE_WEIGHT = { mlb: 365 / 162, nba: 365 / 82, nhl: 365 / 82, nfl: 365 / 17 };
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+// the month leads the page; week and year follow as supporting reads
 const PERIODS = [
+  { key: "month", title: "Best month", hero: true },
   { key: "week", title: "Best week", note: "Tuesday–Monday" },
-  { key: "month", title: "Best month" },
   { key: "year", title: "Best year" },
 ];
 const TOP_N = 5;  // default number of cities shown per period before "show all"
@@ -321,6 +339,18 @@ function weekStrip(p) {
     </div>`;
   }).join("");
   return `<div class="week-strip">${boxes}</div>`;
+}
+
+// how far through the month the data runs: "Day 24 of 30" plus a filled rail
+function monthProgress(p) {
+  const end = data.reference_date < p.end ? data.reference_date : p.end;
+  const done = [...dayRange(p.start, end)].length;
+  const total = [...dayRange(p.start, p.end)].length;
+  return {
+    label: done >= total ? "Final" : `Day ${done} of ${total}`,
+    rail: `<div class="month-rail" role="img" aria-label="Day ${done} of ${total}">
+      <span style="width:${(100 * done / total).toFixed(1)}%"></span></div>`,
+  };
 }
 
 function fmtSigned(n, decimals) {
@@ -597,14 +627,15 @@ function cityLink(g, label) {
 
 function assignCityColors(rankedByPeriod) {
   // one stable color per city across every chart on the page, ordered by
-  // year standing so the season leader is always slot 1
+  // month standing so the month's leader — the page's headline — is slot 1
   const inCharts = new Set();
   for (const key of ["week", "month", "year"]) {
     for (const g of rankedByPeriod[key].slice(0, TOP_N)) inCharts.add(g.city);
   }
   cityColors = {};
   let slot = 0;
-  for (const g of rankedByPeriod.year) {
+  const order = [...rankedByPeriod.month, ...rankedByPeriod.week, ...rankedByPeriod.year];
+  for (const g of order) {
     if (inCharts.has(g.city) && !(g.city in cityColors)) {
       cityColors[g.city] = SLOT_COLORS[slot % SLOT_COLORS.length];
       slot++;
@@ -633,12 +664,19 @@ function hlOptions() {
 function render() {
   const rankedByPeriod = Object.fromEntries(PERIODS.map(({ key }) => [key, bestPerCity(key)]));
   assignCityColors(rankedByPeriod);
-  const sections = PERIODS.map(({ key, title, note }) => {
+  const sections = PERIODS.map(({ key, title, note, hero }) => {
     const ranked = rankedByPeriod[key];
-    const range = rangeLabel(key) + (note ? ` (${note})` : "");
+    const progress = hero ? monthProgress(data.periods[key]) : null;
+    // the hero's heading is the month itself; its "Best month" label moves up to an eyebrow
+    const head = hero
+      ? `<div class="eyebrow">${title}</div><h2>${rangeLabel(key)}</h2>
+        <div class="range">${progress.label}</div>${progress.rail}`
+      : `<h2>${title}</h2><div class="range">${rangeLabel(key)}${note ? ` (${note})` : ""}</div>`;
+    const cls = hero ? "period hero" : "period";
+    const strip = key === "week" ? weekStrip(data.periods.week) : "";
     if (!ranked.length) {
-      return `<section class="period"><h2>${title}</h2><div class="range">${range}</div>
-        ${key === "week" ? weekStrip(data.periods.week) : ""}
+      return `<section class="${cls}">${head}
+        ${strip}
         <div class="table-wrap"><div class="empty">No games in this period.</div></div></section>`;
     }
     const champ = ranked[0];
@@ -676,10 +714,9 @@ function render() {
       <label for="highlight-city">Compare a city:</label>
       <select id="highlight-city"><option value="">None</option>${hlOptions()}</select>
     </div>` : "";
-    return `<section class="period">
-      <h2>${title}</h2>
-      <div class="range">${range}</div>
-      ${key === "week" ? weekStrip(data.periods.week) : ""}
+    return `<section class="${cls}">
+      ${head}
+      ${strip}
       <div class="champ">
         <span class="city">${cityLink(champ)}</span>
         <span class="detail-record">${champ[key].w}–${champ[key].l}${champ[key].t ? "–" + champ[key].t : ""}</span>
@@ -696,7 +733,8 @@ function render() {
       </div>` : ""}</div>
     </section>`;
   });
-  document.getElementById("sections").innerHTML = sections.join("") + fandomSection();
+  document.getElementById("sections").innerHTML = sections[0]
+    + `<p class="also">Also on the board</p>` + sections.slice(1).join("") + fandomSection();
   wireRaceHover();
   document.querySelectorAll(".show-more button").forEach(btn => {
     btn.addEventListener("click", () => {

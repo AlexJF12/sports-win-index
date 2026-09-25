@@ -64,7 +64,7 @@ RETAIN_DAYS = 90            # how long a post keeps its images
 # the site ever moves to its own domain.
 BASE_URL = "https://alexjf12.github.io/sports-win-index"
 
-SITE_NAME = "Fandom Pulse"
+SITE_NAME = "Banner Month"
 
 # Three ascending bars, the tallest in the brand violet: the mark in the top bar
 # and, URL-escaped, the favicon. The hand-written pages carry the same two, and
