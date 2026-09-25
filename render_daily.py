@@ -25,7 +25,7 @@ from plotnine import (aes, element_blank, element_rect, element_text,
 
 from chart_theme import (BASELINE, CAPTION, COLD, FIELD, HOT, INK, INK_2,
                          MONTH_STARTS, MONTH_TICKS, MUTED, SURFACE, accent,
-                         field_alpha, spotlight_theme, spread_labels)
+                         clear_of, field_alpha, spotlight_theme, spread_labels)
 from fandom_analysis import run_word, standing
 from streakiness import band_reading
 
@@ -45,6 +45,9 @@ def render_season(prof: dict, ref, path: str) -> None:
     ends = (past.sort_values("day").groupby("year", observed=True).tail(1))
     reach = pd.concat([past["cum"], now["cum"]])
     ends = spread_labels(ends, reach.max() - reach.min())
+    # this year's label runs about 45 days to the right of its point
+    ends = clear_of(ends, end["day"], end["cum"], reach.max() - reach.min(),
+                    before=15, after=45)
 
     p = (
         ggplot()
@@ -93,6 +96,8 @@ def render_month(prof: dict, ref, path: str) -> None:
     ends = past.sort_values("day").groupby("year", observed=True).tail(1)
     reach = pd.concat([past["cum"], now["cum"]])
     ends = spread_labels(ends, reach.max() - reach.min())
+    ends = clear_of(ends, end["day"], end["cum"], reach.max() - reach.min(),
+                    before=1.5, after=5)
     # where each past year stood on this day of the month — the comparison the
     # subtitle is actually making. The dots are pinned to the cutoff rather
     # than to each year's last game before it: a year that idled on the 14th
@@ -146,7 +151,7 @@ def month_subtitle(prof: dict, ref) -> str:
     else:
         stretch = f"over the whole of {m['name']}."
     return (f"{prof['label']} — {m['w']}-{m['l']}{tie}, {m['weighted']:+.1f} "
-            f"weighted, {standing(m['place'], m['field'])} on record {stretch}")
+            f"weighted, {standing(m['place'] - 1, m['worse'], m['field'])} on record {stretch}")
 
 
 SHAPES = {"clumpy": "the results arrived clumpier than chance",

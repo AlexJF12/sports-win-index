@@ -419,3 +419,75 @@ def test_detect_year_records_its_place_in_the_field():
 def test_ytd_window_stops_at_the_same_day_of_year():
     assert ytd_window(2024, date(2026, 3, 1)) == ("20240101", "20240229")
     assert ytd_window(2026, date(2026, 3, 1)) == ("20260101", "20260301")
+
+
+# --- what the record is, and what it counts ----------------------------------
+
+def test_a_team_counts_for_its_city_only_from_when_it_arrived():
+    """The Raiders were Oakland's until 2020: Las Vegas didn't live that."""
+    vegas = {"name": "Las Vegas 1", "city": "Las Vegas",
+             "teams": [{"league": "nfl", "abbr": "LV", "nickname": "Raiders"}]}
+    rows = [row("20191006", "LV", 24, "CHI", 21, "LV", gid="oak", league="nfl"),
+            row("20201004", "LV", 24, "BUF", 30, "BUF", gid="lv", league="nfl")]
+    games = group_games(by_team_index(rows), vegas, "20100101", "20261231")
+    assert [g["game_id"] for g in games] == ["lv"]
+
+
+def test_one_mlb_win_is_not_rounded_twice():
+    games = group_games(by_team_index([row("20260701", "STL", 1, "CHC", 0, "STL")]),
+                        GROUP, "20260701", "20260701")
+    assert f"{tally(games)['weighted']:+.1f}" == "+2.3"      # 2.253, not 2.25
+
+
+def test_last_7_days_crosses_into_the_previous_month():
+    """On September 2nd the last 7 days are Aug 27 - Sep 2, not two days."""
+    rows = [row(f"202608{d}", "STL", 1, "CHC", 0, "STL", gid=f"a{d}") for d in (27, 28, 29, 30, 31)]
+    rows += [row("20260901", "STL", 0, "CHC", 1, "CHC", gid="b1")]
+    ctx = group_context(by_team_index(rows), GROUP, date(2026, 9, 2))
+
+    assert (ctx["week"]["w"], ctx["week"]["l"]) == (5, 1)
+    assert ctx["last7"]["games"] == 1                    # the month's own split
+    assert ctx["per_team"][0]["week"]["games"] == 6
+
+
+def test_a_turnaround_needs_the_records_to_flip_too():
+    """One NFL result swings the index; '7-7 before, 4-3 since' is no turn."""
+    two = {"name": "Testville 2", "city": "Testville",
+           "teams": [{"league": "mlb", "abbr": "STL", "nickname": "Cards"},
+                     {"league": "nfl", "abbr": "KC", "nickname": "Chiefs"}]}
+    # 8-6 in baseball and a football loss before the week: 8-7, yet negative
+    rows = [row(f"202609{d:02d}", "STL", 1, "CHC", 0, "STL" if d % 2 or d == 2 else "CHC",
+                gid=f"m{d}") for d in range(1, 15)]
+    rows += [row("20260907", "KC", 0, "DEN", 7, "DEN", gid="n1", league="nfl")]
+    rows += [row(f"202609{d:02d}", "STL", 1, "CHC", 0, "STL" if d % 2 else "CHC",
+                 gid=f"w{d}") for d in range(16, 22)]          # 3-3 this week
+    rows += [row("20260920", "KC", 7, "DEN", 0, "KC", gid="n2", league="nfl")]
+    ctx = group_context(by_team_index(rows), two, date(2026, 9, 21))
+    assert detect_turnaround(ctx) is None
+
+
+def test_a_winning_record_is_never_the_worst_month():
+    two = {"name": "Testville 2", "city": "Testville",
+           "teams": [{"league": "mlb", "abbr": "STL", "nickname": "Cards"},
+                     {"league": "nfl", "abbr": "KC", "nickname": "Chiefs"}]}
+    rows = []
+    for year in range(2012, 2026):                     # ordinary Septembers
+        rows += [row(f"{year}09{d:02d}", "STL", 1, "CHC", 0, "STL" if d % 2 else "CHC",
+                     gid=f"{year}-{d}") for d in range(1, 21)]
+    # this one: 12-6 in baseball, but two football losses sink the index
+    rows += [row(f"202609{d:02d}", "STL", 1, "CHC", 0, "STL" if d % 3 else "CHC",
+                 gid=f"now{d}") for d in range(1, 19)]
+    rows += [row(f"202609{d:02d}", "KC", 0, "DEN", 7, "DEN", gid=f"nfl{d}", league="nfl")
+             for d in (7, 14)]
+    ctx = group_context(by_team_index(rows), two, date(2026, 9, 20))
+    assert ctx["month_totals"]["weighted"] < 0 < ctx["month_totals"]["w"] - ctx["month_totals"]["l"]
+    assert detect_month(ctx) is None
+
+
+def test_a_year_nobody_is_playing_in_is_not_news():
+    rows = year_rows({2022: (30, 30), 2023: (28, 32), 2024: (31, 29),
+                      2025: (30, 30), 2026: (55, 5)})
+    by_team = by_team_index(rows)
+    ref = date(2026, 6, 1)                        # last game was March 1
+    assert detect_year(year_context(rows, ref), by_team,
+                       ytd_totals(by_team, [GROUP], ref)) is None

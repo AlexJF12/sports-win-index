@@ -202,6 +202,11 @@ def test_a_post_with_no_numbers_at_all_has_no_finding():
     ("2nd-best of 61 months on record", (2, 61)),
     ("1st-worst July of the 5 since 2022", (5, 5)),
     ("1st-best of the 11 years on record, at the same point", (1, 11)),
+    # counted from the nearer end, and ties said as ties
+    ("tied for the worst of the 17 on record", (17, 17)),
+    ("the second-worst of the 17 on record", (16, 17)),
+    ("the 10th-worst of 200 months on record (8th percentile)", (191, 200)),
+    ("tied for the best September of the 17 on record", (1, 17)),
     ("the only one on record", None),
     ("nothing standing-shaped here", None),
 ])

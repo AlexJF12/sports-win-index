@@ -103,6 +103,32 @@ def spread_labels(ends, span: float, value: str = "cum", gap: float = LABEL_GAP)
     return ends
 
 
+def clear_of(ends, x: float, y: float, span: float, before: float, after: float,
+             gap: float = LABEL_GAP, value: str = "day"):
+    """Move the past-year labels that would print over this year's own label.
+
+    spread_labels only keeps the past years apart from each other. This year's
+    label sits wherever this year has got to, and a past line that ended near
+    that date (2020, cut short in the autumn) put its label underneath it:
+    St. Louis's chart printed "2026: +2.1" straight over "2020". Labels whose
+    x falls within [x - before, x + after] are pushed out of the band around
+    y, each keeping to the side it was already on, nearest first so they stack
+    rather than land on each other.
+    """
+    ends = ends.copy()
+    min_gap = max(span, 1e-9) * gap
+    near = ends[(ends[value] >= x - before) & (ends[value] <= x + after)]
+    taken = [y]
+    for idx in sorted(near.index, key=lambda i: abs(ends.at[i, "label_y"] - y)):
+        ly = ends.at[idx, "label_y"]
+        step = min_gap if ly >= y else -min_gap
+        while any(abs(ly - t) < min_gap for t in taken):
+            ly += step / 2
+        ends.at[idx, "label_y"] = ly
+        taken.append(ly)
+    return ends
+
+
 def field_alpha(n: int) -> float:
     """Four context lines can be solid; ten have to recede or they compete
     with the one line the chart is actually about."""

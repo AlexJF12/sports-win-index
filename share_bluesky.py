@@ -286,14 +286,15 @@ LONG_RUN = {"recent": 6, "season": 10}
 RECENT_LABEL_RE = re.compile(r"^Last \d+ days$")
 SEASON_LABEL_RE = re.compile(r"^\d{4} so far$")
 
-ORDINALS = {"best": 1, "second-best": 2, "third-best": 3,
-            "fourth-best": 4, "fifth-best": 5, "sixth-best": 6}
-# Two phrasings reach this. fandom_analysis.standing(), which the daily writes:
-# "the worst of the 11", "the second-best of the 11", "the 7th-best of the 11".
-# And the spotlight's own, which drops the article and can name the thing being
-# ranked: "1st-worst July of the 5 since 2022", "2nd-best of 61 months".
+WORD_PLACES = {"": 1, "second-": 2, "third-": 3, "fourth-": 4, "fifth-": 5, "sixth-": 6}
+# fandom_analysis.standing() and the spotlight's lane_claim() both count from
+# the nearer end, in words to sixth and digits after, and say a tie as one:
+# "the worst of the 17", "tied for the worst of the 17", "the second-worst of
+# the 17", "the 7th-best of the 17", "the worst September of the 17 on
+# record", "the 10th-worst of 200 months". A tie with the edge is still the
+# edge — "tied for the worst" is as much a headline as "the worst".
 STANDING_RE = re.compile(
-    r"(?:the )?(?:(best|second-best|third-best|fourth-best|fifth-best|sixth-best|worst)"
+    r"(?:the )?(?:(second-|third-|fourth-|fifth-|sixth-)?(best|worst)"
     r"|(\d+)(?:st|nd|rd|th)-(best|worst))"
     r"(?:\s+\w+)? of (?:the )?(\d+)")
 RUN_RE = re.compile(r"longest run (\d+) straight (?:wins|losses)")
@@ -303,22 +304,20 @@ OUT_OF_BAND = ("clumpier than chance", "more alternating than chance")
 
 
 def standing_of(text: str) -> tuple[int, int] | None:
-    """(place, field) out of "the 7th-best of the 11 on record"."""
+    """(place, field) out of "the 7th-best of the 11 on record", with place
+    counted from the good end."""
     m = STANDING_RE.search(text)
     if not m:
         return None
-    field = int(m.group(4))
-    if m.group(2):
-        n = int(m.group(2))
-        # "1st-worst of the 5" is the 5th place, counted from the good end —
-        # everything downstream compares against one end or the other, so both
-        # spellings have to arrive on the same scale
-        place = n if m.group(3) == "best" else field - n + 1
-    elif m.group(1) == "worst":
-        place = field
+    field = int(m.group(5))
+    if m.group(3):
+        n, side = int(m.group(3)), m.group(4)
     else:
-        place = ORDINALS[m.group(1)]
-    return place, field
+        n, side = WORD_PLACES[m.group(1) or ""], m.group(2)
+    # "the second-worst of the 17" is 16th from the good end — everything
+    # downstream compares against one end or the other, so both spellings
+    # have to arrive on the same scale
+    return (n if side == "best" else field - n + 1), field
 
 
 def stats_of(post: dict) -> list:

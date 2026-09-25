@@ -25,7 +25,7 @@ Two charts land in content/streakiness/, always at the same paths, so the repo
 carries two images rather than a growing pile:
 
     season_vs_history.png   this year's streak index against the same group's
-                            ten earlier seasons, one group per city, the
+                            earlier seasons since 2010, one group per city, the
                             biggest departures from their own norm
     past_month.png          the last 30 days game by game, win/loss tiles, for
                             the streakiest and steadiest fandoms of the month
@@ -50,16 +50,13 @@ from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from aggregate_cities import index_by_team, load_scores
-from fandom_analysis import display_label, group_games
+from fandom_analysis import FIRST_YEAR, display_label, group_games
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
 
 DATA_DIR = "data"
 OUT_DIR = os.path.join("content", "streakiness")
-HISTORY_YEARS = 10          # scores go back to 2010; this is how far back the
-                            # standing charts reach, rolling off the reference
-                            # date rather than anchored to a year
 MONTH_DAYS = 30             # the "past month" window
 MIN_SEASON_GAMES = 60       # below this a season's index is too noisy to plot
 MIN_MONTH_GAMES = 15        # same, for the 30-day window
@@ -136,7 +133,7 @@ def measure(by_team: dict, group: dict, ref: date) -> dict:
     month = results_between(by_team, group, ref - timedelta(days=MONTH_DAYS - 1), ref)
 
     history = []
-    for year in range(ref.year - HISTORY_YEARS, ref.year):
+    for year in range(FIRST_YEAR, ref.year):
         past = results_between(by_team, group, date(year, 1, 1), date(year, 12, 31))
         if len(past) >= MIN_SEASON_GAMES:
             idx = streak_index(past)

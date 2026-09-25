@@ -447,3 +447,70 @@ def test_pages_are_rewritten_for_older_posts_when_the_template_changes(tmp_path)
     publish([streakiness_post(streak_dir(tmp_path))], posts_dir)
     with open(page_path) as f:
         assert "City of the day" in f.read()
+
+
+# --- charts a run did not draw -----------------------------------------------
+
+def daily_on(tmp_path, day, month_body=None, body=b""):
+    """A city-of-the-day folder for `day`, with a month chart only if given."""
+    summary = DAILY_SUMMARY.replace("2026-08-03", day)
+    names = "`season.png` · `month.png` · `form.png`" if month_body is not None \
+        else "`season.png` · `form.png`"
+    summary = summary.replace("`season.png` · `form.png`", names)
+    folder = daily_dir(tmp_path, summary, name=f"daily-{day}", body=body)
+    if month_body is not None:
+        png(folder, "month.png", month_body)
+    return folder
+
+
+def test_a_chart_left_over_from_two_days_back_is_not_republished(tmp_path):
+    """Sep 2 carried San Diego's August chart under Chicago: the 1st skipped
+    the month chart, so the stale check — against the 1st only — let it by."""
+    posts_dir = str(tmp_path / "posts")
+    publish([daily_post(daily_on(tmp_path, "2026-08-31", b"august", b"a"))], posts_dir)
+    publish([daily_post(daily_on(tmp_path, "2026-09-01", None, b"b"))], posts_dir)
+    manifest = publish([daily_post(daily_on(tmp_path, "2026-09-02", b"august", b"c"))],
+                       posts_dir)
+
+    newest = next(p for p in manifest["posts"] if p["date"] == "2026-09-02")
+    files = [i["file"] for s in newest["sections"] for i in s["images"]]
+    assert "daily-month.png" not in files
+    assert files == ["daily-season.png", "daily-form.png"]
+
+
+# --- words that have to agree with the numbers -------------------------------
+
+def test_steadiest_inside_the_chance_band_is_not_called_alternating(tmp_path):
+    folder = streak_dir(tmp_path)
+    path = os.path.join(folder, "streakiness.json")
+    data = json.load(open(path))
+    data["measured"][1]["month"]["index"] = -1.6          # inside ±2
+    data["measured"][0]["month"]["index"] = 1.5
+    with open(path, "w") as f:
+        json.dump(data, f)
+    stats = {s["label"]: s["value"] for s in streakiness_post(folder)["sections"][0]["stats"]}
+
+    assert "taking turns" not in stats["Steadiest of the last 30 days"]
+    assert "within what chance produces" in stats["Steadiest of the last 30 days"]
+    assert "within what chance produces" in stats["Streakiest of the last 30 days"]
+
+
+def test_a_steadiest_past_the_band_is_called_alternating(tmp_path):
+    stats = {s["label"]: s["value"]
+             for s in streakiness_post(streak_dir(tmp_path))["sections"][0]["stats"]}
+    assert stats["Steadiest of the last 30 days"].endswith("wins and losses taking turns")
+    assert "chance" not in stats["Streakiest of the last 30 days"]
+
+
+def test_a_turnaround_timeline_is_captioned_as_the_week_not_a_streak(tmp_path):
+    folder = weekly_dir(tmp_path)
+    path = os.path.join(folder, "findings.json")
+    data = json.load(open(path))
+    data["findings"][0]["kind"] = "turnaround"
+    data["findings"][0]["images"] = ["new-york-4_timeline.png"]
+    with open(path, "w") as f:
+        json.dump(data, f)
+    png(folder, "new-york-4_timeline.png")
+
+    caption = spotlight_post(folder)["sections"][0]["images"][0]["caption"]
+    assert "last 7 days" in caption and "streak" not in caption
