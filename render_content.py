@@ -42,8 +42,8 @@ from plotnine import (aes, annotate, coord_flip, element_blank, expand_limits,
                       scale_y_reverse, theme)
 
 from chart_theme import (BASELINE, CAPTION, COLD, FIELD, HOT, INK, INK_2,
-                         MONTH_STARTS, MONTH_TICKS, MUTED, field_alpha,
-                         spotlight_theme, spread_labels)
+                         MONTH_STARTS, MONTH_TICKS, MUTED, clear_of,
+                         field_alpha, spotlight_theme, spread_labels)
 from fandom_analysis import pretty_month, run_word
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -161,9 +161,15 @@ def render_history(data, finding, path):
                     f"{data['cutoff_day']} of every month since {first}")
         # "%b %Y" every six months collides into unreadable overprints once
         # the window passes a few years; past that the year alone is enough
-        span_years = df["when"].dt.year.nunique()
-        ticks = ({"date_breaks": "1 year", "date_labels": "%Y"} if span_years > 4
-                 else {"date_breaks": "6 months", "date_labels": "%b %Y"})
+        years = sorted(df["when"].dt.year.unique())
+        if len(years) > 4:
+            # explicit January ticks, and only for years on the chart: with
+            # the whole record on it, the room kept for the value label is
+            # over a year wide, and automatic breaks labelled years to come
+            ticks = {"breaks": [pd.Timestamp(f"{y}-01-01") for y in years],
+                     "date_labels": "%Y"}
+        else:
+            ticks = {"date_breaks": "6 months", "date_labels": "%b %Y"}
         x_scale = scale_x_date(expand=(0.02, 0, 0.10, 0), **ticks)
         layers = [
             geom_segment(past, aes(x="when", xend="when", y=0, yend="weighted",
@@ -197,13 +203,15 @@ def render_teams(data, finding, path):
     """Who did it: per-team weighted contribution, month vs last 7 days."""
     rows = []
     for t in finding["per_team"]:
-        if not t["month"]["games"]:     # off-season team, nothing to show
+        # "last 7 days" is the true week, so early in a month a team can
+        # have games in it and none in the month yet
+        if not t["month"]["games"] and not t["week"]["games"]:
             continue
         team_label = f"{t['nickname']} ({t['month']['w']}-{t['month']['l']})"
         rows.append({"team": team_label, "period": "Full month",
                      "weighted": t["month"]["weighted"]})
         rows.append({"team": team_label, "period": "Last 7 days",
-                     "weighted": t["last7"]["weighted"]})
+                     "weighted": t["week"]["weighted"]})
     if not rows:        # every team is between seasons: nothing to draw
         log.warning("%s: no games this month, skipping the teams chart",
                     finding["slug"])
@@ -348,6 +356,8 @@ def render_year(data, finding, path):
     marks = (past[past["day"] <= cutoff].sort_values("day")
                  .groupby("year", observed=True).tail(1).assign(day=cutoff))
     end = now.iloc[-1]
+    ends = clear_of(ends, end["day"], end["cum"], df["cum"].max() - df["cum"].min(),
+                    before=15, after=45)
     ac = accent(finding)
 
     p = (

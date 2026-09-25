@@ -162,9 +162,9 @@ def test_a_month_with_no_games_of_its_own_is_not_drawable():
     assert not month_drawable(prof)
 
 
-def test_the_comparison_reaches_ten_years_back_not_to_a_fixed_year():
-    """Scores go back to 2010, so the window is a rolling ten years off the
-    reference date — not a constant that quietly shortens as years pass."""
+def test_every_earlier_year_with_games_is_compared():
+    """Every same-month on disk is in the comparison, so the field grows by
+    one each year instead of rolling a fixed window along."""
     rows = []
     for year in range(2016, 2027):
         rows += march("STL", year, list("WWWWW"))
@@ -174,19 +174,36 @@ def test_the_comparison_reaches_ten_years_back_not_to_a_fixed_year():
     assert m["field"] == 11
 
 
-def test_years_outside_the_ten_year_window_are_left_out():
-    rows = march("STL", 2026, list("WWWWW")) + march("STL", 2015, list("WWWWW"))
+def test_the_comparison_reaches_back_to_the_start_of_the_record():
+    # "on record" means the whole record: 2010 counts, 2009 isn't on disk
+    rows = march("STL", 2026, list("WWWWW")) + march("STL", 2010, list("WWWWW"))
     rows += march("STL", 2016, list("WWWWW"))
     m = same_months(by_team_index(rows), ONE_TEAM, date(2026, 3, 10))
 
-    assert [p["year"] for p in m["past"]] == [2016]      # 2015 is eleven back
+    assert [p["year"] for p in m["past"]] == [2010, 2016]
+
+
+def test_a_tie_with_the_worst_is_said_as_a_tie():
+    rows = march("STL", 2026, list("LLLLL")) + march("STL", 2010, list("LLLLL"))
+    rows += march("STL", 2016, list("WWWWW"))
+    m = same_months(by_team_index(rows), ONE_TEAM, date(2026, 3, 10))
+
+    assert standing(m["place"] - 1, m["worse"], m["field"]) == "tied for the worst of the 3"
 
 
 def test_standing_reads_the_ends_of_the_field_by_name():
-    assert standing(1, 5) == "the best of the 5"
-    assert standing(5, 5) == "the worst of the 5"
-    assert standing(2, 5) == "the second-best of the 5"
-    assert standing(1, 1) == "the only one on record"
+    # (strictly better, strictly worse, field)
+    assert standing(0, 4, 5) == "the best of the 5"
+    assert standing(4, 0, 5) == "the worst of the 5"
+    assert standing(1, 3, 5) == "the second-best of the 5"
+    assert standing(0, 0, 1) == "the only one on record"
+
+
+def test_standing_counts_from_the_nearer_end():
+    assert standing(9, 1, 11) == "the second-worst of the 11"
+    assert standing(12, 4, 17) == "the fifth-worst of the 17"
+    assert standing(15, 0, 17) == "tied for the worst of the 17"
+    assert standing(0, 15, 17) == "tied for the best of the 17"
 
 
 # --- the draw ----------------------------------------------------------------

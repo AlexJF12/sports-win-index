@@ -74,7 +74,7 @@ def render_season(panel: list, ref, path: str) -> None:
         + geom_hline(yintercept=0, color=BASELINE, size=0.4)
         + geom_segment(span, aes(x="label", xend="label", y="min", yend="max"),
                        color=MUTED, size=0.5, alpha=0.45)
-        # ten prior seasons per row rather than four: the history recedes so
+        # every prior season since 2010 per row: the history recedes so
         # the current season and its value label read over the top of it
         + geom_point(hist, aes("label", "index", color="series"), size=2.2,
                      stroke=0, alpha=0.55)

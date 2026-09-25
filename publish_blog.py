@@ -48,6 +48,8 @@ import shutil
 import statistics
 from datetime import date, datetime, timezone
 
+from streakiness import band_reading
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
 
@@ -119,6 +121,8 @@ SPOTLIGHT_CAPTIONS = {
     "teams": "Per-team contribution — the full month against the last 7 days.",
     "history": "Every comparable month on record, this one picked out.",
     "timeline": "Game by game, with the streak picked out.",
+    # the same chart on a turnaround highlights the week, not a run
+    "timeline-turnaround": "Game by game this month, with the last 7 days picked out.",
     "bump": "Place in the year-to-date standings over the last 30 days.",
     "year": "Every season's cumulative index by day of year, this one in color.",
     "field": "All 88 city groups on this year's index, the group picked out.",
@@ -298,14 +302,21 @@ def streakiness_post(src_dir: str = STREAK_DIR) -> dict | None:
     if month:
         top, bottom = month[0], month[-1]
         window = data.get("window_days", 30)
+        # "streakiest" and "steadiest" are only relative: the top of the field
+        # can still sit inside the chance band, and the legend a line below
+        # says what the band means, so the words have to agree with it
+        top_note = ("" if band_reading(top["month"]["index"]) == "clumpy"
+                    else " (still within what chance produces)")
+        bottom_note = ("wins and losses taking turns"
+                       if band_reading(bottom["month"]["index"]) == "alternating"
+                       else "the most alternating, though within what chance produces")
         stats += [
             {"label": f"Streakiest of the last {window} days",
-             "value": f"{top['label']} — {top['month']['index']:+.1f}, longest run "
+             "value": f"{top['label']} — {top['month']['index']:+.1f}{top_note}, longest run "
                       f"{top['month']['longest']['length']} "
                       f"{'wins' if top['month']['longest']['type'] == 'W' else 'losses'}"},
             {"label": f"Steadiest of the last {window} days",
-             "value": f"{bottom['label']} — {bottom['month']['index']:+.1f}, wins and "
-                      "losses taking turns"},
+             "value": f"{bottom['label']} — {bottom['month']['index']:+.1f}, {bottom_note}"},
         ]
     stats.append({"label": "Reading the index",
                   "value": "+2 or more is clumpier than chance, −2 or less more "
@@ -352,8 +363,9 @@ def spotlight_post(src_dir: str = WEEKLY_DIR) -> dict | None:
             if not os.path.exists(os.path.join(src_dir, name)):
                 continue
             suffix = name.rsplit("_", 1)[-1].removesuffix(".png")
-            images.append(image(src_dir, name, "spotlight",
-                                SPOTLIGHT_CAPTIONS.get(suffix, "")))
+            caption = (SPOTLIGHT_CAPTIONS.get(f"{suffix}-{finding.get('kind')}")
+                       or SPOTLIGHT_CAPTIONS.get(suffix, ""))
+            images.append(image(src_dir, name, "spotlight", caption))
         sections.append({"heading": finding["headline"], "subhead": finding["label"],
                          "stats": body["stats"], "table": body.get("table"),
                          "images": images})
@@ -385,25 +397,26 @@ def drop_stale(post: dict, posts_dir: str, published: list) -> dict:
     carries its own date, so an image byte-identical to the one the last post
     of this kind published is last run's — not this one's.
     """
-    previous = next((p for p in sorted(published, key=sort_key, reverse=True)
-                     if p["kind"] == post["kind"] and p["date"] < post["date"]), None)
-    if previous is None:
-        return post
-    folder = os.path.join(posts_dir, previous["date"])
-    seen = set()
-    for section in previous["sections"]:
-        for img in section["images"]:
-            path = os.path.join(folder, img["file"])
-            if os.path.exists(path):
-                seen.add(digest(path))
+    # every earlier post of the kind, not just the last one: a chart a run
+    # skips two days running is only caught by the day that first left it
+    earlier = [p for p in published
+               if p["kind"] == post["kind"] and p["date"] < post["date"]]
+    seen = {}
+    for previous in earlier:
+        folder = os.path.join(posts_dir, previous["date"])
+        for section in previous["sections"]:
+            for img in section["images"]:
+                path = os.path.join(folder, img["file"])
+                if os.path.exists(path):
+                    seen.setdefault(digest(path), previous["date"])
 
     for section in post["sections"]:
         kept = []
         for img in section["images"]:
             if digest(img["src"]) in seen:
                 log.warning("%s: %s is unchanged since %s — the run wrote a summary "
-                            "but no new chart, so it is left out",
-                            post["date"], os.path.basename(img["src"]), previous["date"])
+                            "but no new chart, so it is left out", post["date"],
+                            os.path.basename(img["src"]), seen[digest(img["src"])])
                 continue
             kept.append(img)
         section["images"] = kept

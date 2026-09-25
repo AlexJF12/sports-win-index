@@ -4,7 +4,7 @@ Share each new blog post to Bluesky, as soon as the post exists.
 
 publish_blog.py files every morning's run into content/posts/<date>/ and
 rewrites content/posts/index.json. This reads that manifest and posts what is
-worth posting: the post's lead chart shown full size, one line naming the fandom
+worth posting: the chart that shows the finding, full size, one line naming the fandom
 and one giving the number that makes it interesting, and a link to the post's
 own page.
 
@@ -27,7 +27,7 @@ overrides it either way.
 
 What has already gone out is remembered in content/posts/bluesky.json, keyed on
 the post's date and kind, alongside a fingerprint of what was shared — the text,
-the URL, the alt, and the bytes of the lead image. A run that changes any of
+the URL, the alt, and the bytes of the chart. A run that changes any of
 those is an *update*, and an updated post is shared again: Bluesky posts can't
 be edited, so the superseded share is deleted and a fresh one takes its place
 (--keep-superseded leaves the old one up). A run that changes none of them is a
@@ -286,14 +286,15 @@ LONG_RUN = {"recent": 6, "season": 10}
 RECENT_LABEL_RE = re.compile(r"^Last \d+ days$")
 SEASON_LABEL_RE = re.compile(r"^\d{4} so far$")
 
-ORDINALS = {"best": 1, "second-best": 2, "third-best": 3,
-            "fourth-best": 4, "fifth-best": 5, "sixth-best": 6}
-# Two phrasings reach this. fandom_analysis.standing(), which the daily writes:
-# "the worst of the 11", "the second-best of the 11", "the 7th-best of the 11".
-# And the spotlight's own, which drops the article and can name the thing being
-# ranked: "1st-worst July of the 5 since 2022", "2nd-best of 61 months".
+WORD_PLACES = {"": 1, "second-": 2, "third-": 3, "fourth-": 4, "fifth-": 5, "sixth-": 6}
+# fandom_analysis.standing() and the spotlight's lane_claim() both count from
+# the nearer end, in words to sixth and digits after, and say a tie as one:
+# "the worst of the 17", "tied for the worst of the 17", "the second-worst of
+# the 17", "the 7th-best of the 17", "the worst September of the 17 on
+# record", "the 10th-worst of 200 months". A tie with the edge is still the
+# edge — "tied for the worst" is as much a headline as "the worst".
 STANDING_RE = re.compile(
-    r"(?:the )?(?:(best|second-best|third-best|fourth-best|fifth-best|sixth-best|worst)"
+    r"(?:the )?(?:(second-|third-|fourth-|fifth-|sixth-)?(best|worst)"
     r"|(\d+)(?:st|nd|rd|th)-(best|worst))"
     r"(?:\s+\w+)? of (?:the )?(\d+)")
 RUN_RE = re.compile(r"longest run (\d+) straight (?:wins|losses)")
@@ -303,22 +304,20 @@ OUT_OF_BAND = ("clumpier than chance", "more alternating than chance")
 
 
 def standing_of(text: str) -> tuple[int, int] | None:
-    """(place, field) out of "the 7th-best of the 11 on record"."""
+    """(place, field) out of "the 7th-best of the 11 on record", with place
+    counted from the good end."""
     m = STANDING_RE.search(text)
     if not m:
         return None
-    field = int(m.group(4))
-    if m.group(2):
-        n = int(m.group(2))
-        # "1st-worst of the 5" is the 5th place, counted from the good end —
-        # everything downstream compares against one end or the other, so both
-        # spellings have to arrive on the same scale
-        place = n if m.group(3) == "best" else field - n + 1
-    elif m.group(1) == "worst":
-        place = field
+    field = int(m.group(5))
+    if m.group(3):
+        n, side = int(m.group(3)), m.group(4)
     else:
-        place = ORDINALS[m.group(1)]
-    return place, field
+        n, side = WORD_PLACES[m.group(1) or ""], m.group(2)
+    # "the second-worst of the 17" is 16th from the good end — everything
+    # downstream compares against one end or the other, so both spellings
+    # have to arrive on the same scale
+    return (n if side == "best" else field - n + 1), field
 
 
 def stats_of(post: dict) -> list:
@@ -334,6 +333,19 @@ def finding(post: dict) -> str | None:
     post leads with: a month at the edge of its own record beats a long run,
     and a long run beats results that merely arrived in an odd order.
     """
+    found = finding_and_chart(post)
+    return found[0] if found else None
+
+
+def finding_and_chart(post: dict) -> tuple[str, str] | None:
+    """finding(), plus which of the daily's charts shows it: "month" (this
+    month against the same stretch of every earlier one), "form" (the last 30
+    days), or "season" (the year so far against earlier years).
+
+    The chart has to be the one the sentence is about. "The worst September
+    of the 11" over the season chart reads as wrong the moment somebody spots
+    a year that finished lower — the season chart measures something else.
+    """
     stats = stats_of(post)
 
     for stat in stats:                     # this month against every past one
@@ -344,25 +356,25 @@ def finding(post: dict) -> str | None:
             continue
         place, field = place_field
         if field >= MIN_FIELD and (place <= MONTH_EDGE or place > field - MONTH_EDGE):
-            return f"{stat['label']}: {stat['value']}"
+            return f"{stat['label']}: {stat['value']}", "month"
 
     for stat in stats:                     # a run long enough to be the story
         m = RUN_RE.search(stat["value"])
         if not m:
             continue
         if RECENT_LABEL_RE.match(stat["label"]):
-            bar = LONG_RUN["recent"]
+            bar, chart = LONG_RUN["recent"], "form"
         elif SEASON_LABEL_RE.match(stat["label"]):
-            bar = LONG_RUN["season"]
+            bar, chart = LONG_RUN["season"], "season"
         else:
             continue
         if int(m.group(1)) >= bar:
-            return f"{stat['label']}: {stat['value']}"
+            return f"{stat['label']}: {stat['value']}", chart
 
     for stat in stats:                     # wins and losses not arriving at random
         if stat["label"] == ORDER_LABEL and any(p in stat["value"]
                                                 for p in OUT_OF_BAND):
-            return f"The order of the results this year is {stat['value']}"
+            return f"The order of the results this year is {stat['value']}", "season"
 
     return None
 
@@ -421,6 +433,21 @@ def lead_image(post: dict) -> dict | None:
     return None
 
 
+def share_image(post: dict) -> dict | None:
+    """The chart a share carries: for a daily with a finding, the chart that
+    finding is about (daily-month.png for a month claim, and so on); for
+    everything else, the lead image."""
+    if post["kind"] == "daily":
+        found = finding_and_chart(post)
+        if found:
+            suffix = f"-{found[1]}.png"
+            for section in post.get("sections") or []:
+                for img in section.get("images") or []:
+                    if img["file"].endswith(suffix):
+                        return img
+    return lead_image(post)
+
+
 def post_url(post: dict, base_url: str) -> str:
     page = post.get("page") or f"content/posts/{post['date']}/{post['kind']}.html"
     return f"{base_url.rstrip('/')}/{page}"
@@ -476,7 +503,7 @@ def pending(manifest: dict, state: dict, posts_dir: str = POSTS_DIR,
                 log.info("%s — %s: nothing in it worth a post, skipping",
                          name, post.get("dek") or post.get("title") or "")
                 continue
-        image = lead_image(post)
+        image = share_image(post)
         if not image:
             log.info("%s has no chart — nothing to share", name)
             continue

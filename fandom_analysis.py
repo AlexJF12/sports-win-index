@@ -60,10 +60,22 @@ DATA_DIR = "data"
 CONTENT_DIR = os.path.join("content", "weekly")
 HISTORY_FILE = "history.json"
 HISTORY_KEEP = 60           # runs retained in the cooldown log
-HISTORY_YEARS = 10          # scores go back to 2010-01; this is how far back
-                            # the detectors' comparison sets and their
-                            # percentile claims reach, rolling off the
-                            # reference date rather than anchored to a year
+FIRST_YEAR = 2010           # scores begin January 2010, and every comparison
+                            # reaches all the way back: a claim worded "on
+                            # record" has to mean the whole record, or a
+                            # reader who remembers 2012 catches it out
+
+# Teams that moved into their current city after the record begins. Their
+# earlier games are in the data under the current abbreviation, which is right
+# for someone following the team and wrong for a city: Sacramento did not live
+# through the Oakland A's seasons. A city group's history starts when the team
+# arrived. (The Nets are not here — New Jersey was already New York's metro.)
+ARRIVALS = {
+    ("nfl", "LAR"): "20160701",   # St. Louis Rams until the 2015 season
+    ("nfl", "LAC"): "20170701",   # San Diego Chargers until the 2016 season
+    ("nfl", "LV"): "20200701",    # Oakland Raiders until the 2019 season
+    ("mlb", "ATH"): "20250101",   # Oakland Athletics until the 2024 season
+}
 MIN_GAMES = 3               # months where the group played fewer games don't count
 MIN_DAY = 4                 # too early in a month to call anything notable
 MIN_HISTORY = 12            # the all-months lane needs at least this many months
@@ -97,11 +109,14 @@ def group_games(by_team: dict, group: dict, lo: str, hi: str) -> list:
     """The group's games in [lo, hi] (YYYYMMDD strings), sorted by date then id.
 
     Each item: {date, league, abbr, nickname, result ('W'/'L'/'T'), weighted}.
+    A team's games from before it arrived in the group's city are left out
+    (see ARRIVALS).
     """
     games = []
     for team in group["teams"]:
+        arrived = ARRIVALS.get((team["league"], team["abbr"]), "")
         for row in by_team.get((team["league"], team["abbr"]), []):
-            if not (lo <= row["date"] <= hi):
+            if not (lo <= row["date"] <= hi) or row["date"] < arrived:
                 continue
             if row["winner"] == team["abbr"]:
                 result, weighted = "W", LEAGUE_WEIGHT[team["league"]]
@@ -123,7 +138,10 @@ def tally(games: list) -> dict:
     l = sum(1 for g in games if g["result"] == "L")
     t = sum(1 for g in games if g["result"] == "T")
     return {"w": w, "l": l, "t": t, "games": len(games),
-            "weighted": round(sum(g["weighted"] for g in games), 2)}
+            # four places, not two: rounding here and again at display turns
+            # one MLB win (2.253) into "2.25" and then "+2.2", beside a chart
+            # that rounds once and reads +2.3
+            "weighted": round(sum(g["weighted"] for g in games), 4)}
 
 
 def mtd_window(year: int, month: int, cutoff_day: int) -> tuple:
@@ -244,17 +262,33 @@ ORDINALS = {1: "best", 2: "second-best", 3: "third-best", 4: "fourth-best",
             5: "fifth-best", 6: "sixth-best"}
 
 
-def standing(place: int, field: int) -> str:
+WORST_ORDINALS = {1: "worst", 2: "second-worst", 3: "third-worst", 4: "fourth-worst",
+                  5: "fifth-worst", 6: "sixth-worst"}
+
+
+def rank_phrase(n: int, side: str) -> str:
+    """ "best", "second-worst", "10th-best": a place counted from one end."""
+    words = ORDINALS if side == "best" else WORST_ORDINALS
+    # ordinal() rather than a bare "th": past 20 the suffix stops being "th"
+    return words.get(n, f"{ordinal(n)}-{side}")
+
+
+def standing(better: int, worse: int, field: int) -> str:
     """Where one month sits among the same months on record — the phrase the
     daily summary and the month chart's subtitle both need, so it lives here
-    rather than in either of them."""
+    rather than in either of them.
+
+    `better` and `worse` count the others strictly above and below it, so a
+    tie is visible: counted from whichever end is nearer ("the second-worst of
+    the 17", not "the 16th-best"), and said out loud ("tied for the worst")
+    rather than quietly awarded to this year.
+    """
     if field < 2:
         return "the only one on record"
-    if place >= field:
-        return f"the worst of the {field}"
-    # ordinal() rather than a bare "th": past 20 the suffix stops being "th",
-    # and this reads "21th-best" the day the history window gets any deeper
-    return f"the {ORDINALS.get(place, ordinal(place) + '-best')} of the {field}"
+    tied = field - 1 - better - worse
+    top, bottom = better + 1, worse + 1
+    phrase = rank_phrase(top, "best") if top <= bottom else rank_phrase(bottom, "worst")
+    return f"{'tied for the' if tied else 'the'} {phrase} of the {field}"
 
 
 def pretty_date(yyyymmdd: str) -> str:
@@ -274,10 +308,17 @@ def group_context(by_team: dict, group: dict, ref: date) -> dict:
     whole_month = last7_lo == ref.replace(day=1)
     last7_games = [g for g in month_games if g["date"] >= last7_lo.strftime("%Y%m%d")]
     early_games = [g for g in month_games if g["date"] < last7_lo.strftime("%Y%m%d")]
+    # last7_games stops at the 1st, because the month detectors split *this
+    # month* into before and after. Anything shown to a reader as "the last 7
+    # days" has to be the last 7 days, so that window is kept separately:
+    # clipped, September 1st's "last 7 days" was one game.
+    today = ref.strftime("%Y%m%d")
+    week_games = group_games(by_team, group, (ref - timedelta(days=6)).strftime("%Y%m%d"), today)
+    # long enough back that any run still going is seen whole
+    recent_games = group_games(by_team, group, (ref - timedelta(days=120)).strftime("%Y%m%d"), today)
 
     hist = []
-    for y, m in month_range((ref.year - HISTORY_YEARS, ref.month),
-                            (ref.year, ref.month)):
+    for y, m in month_range((FIRST_YEAR, 1), (ref.year, ref.month)):
         h_lo, h_hi = mtd_window(y, m, cutoff)
         totals = tally(group_games(by_team, group, h_lo, h_hi))
         if totals["games"] >= MIN_GAMES:
@@ -288,16 +329,19 @@ def group_context(by_team: dict, group: dict, ref: date) -> dict:
         def team_games(games):
             return [g for g in games
                     if g["abbr"] == team["abbr"] and g["league"] == team["league"]]
-        t_month = team_games(month_games)
+        t_month, t_week = team_games(month_games), team_games(week_games)
         per_team.append({**team, "month": tally(t_month),
                          "last7": tally(team_games(last7_games)),
-                         "streak": trailing_streak(t_month)})
+                         "week": tally(t_week),
+                         # a run is only "active" for a team that is playing
+                         "streak": trailing_streak(team_games(recent_games)) if t_week else None})
 
     return {
         "group": group, "ref": ref,
         "month_games": month_games, "last7_games": last7_games,
         "early_games": early_games, "whole_month": whole_month,
         "month_totals": tally(month_games), "last7": tally(last7_games),
+        "week_games": week_games, "week": tally(week_games),
         "history": hist, "per_team": per_team,
     }
 
@@ -308,7 +352,7 @@ def base_finding(ctx: dict, kind: str, score: float, **extra) -> dict:
         "kind": kind, "score": round(score, 4),
         "name": group["name"], "city": group["city"],
         "label": display_label(group), "teams": group["teams"],
-        "month_totals": ctx["month_totals"], "last7": ctx["last7"],
+        "month_totals": ctx["month_totals"], "last7": ctx["last7"], "week": ctx["week"],
         "per_team": ctx["per_team"], "history": ctx["history"],
         **extra,
     }
@@ -335,8 +379,9 @@ def lane_stats(hist: list, current: float, recency: float) -> dict:
     else:
         rank = 1 + sum(1 for v in values if v < current)
         since = max((h["month"] for h in hist if h["weighted"] <= current), default=None)
+    ties = sum(1 for v in values if v == current)
     return {"direction": direction, "score": round(score, 4),
-            "percentile": round(pctl, 4), "rank": rank,
+            "percentile": round(pctl, 4), "rank": rank, "ties": ties,
             "n_months": len(values), "since": since}
 
 
@@ -360,8 +405,14 @@ def detect_month(ctx: dict, lanes: tuple = ("all", "calendar")) -> dict | None:
 
     def sign_ok(lane):
         # a "best July on record" that's still a losing month (or a "worst"
-        # that's a winning one) is a hollow claim — the lane doesn't count
-        return cur > 0 if lane["direction"] == "hot" else cur < 0
+        # that's a winning one) is a hollow claim — the lane doesn't count.
+        # Losing by the record counts too, not just by the index: one NFL loss
+        # outweighs nine baseball wins, and "Tampa Bay's worst September" over
+        # a 14-8 line reads as a mistake however the weights are explained
+        m = ctx["month_totals"]
+        if lane["direction"] == "hot":
+            return cur > 0 and m["w"] >= m["l"]
+        return cur < 0 and m["w"] <= m["l"]
 
     comparisons = {}
     if "all" in lanes and len(hist) >= MIN_HISTORY:
@@ -436,6 +487,11 @@ def detect_turnaround(ctx: dict) -> dict | None:
     pace_l = l_tot["weighted"] / len(late)
     if pace_e * pace_l >= 0:          # no sign flip: not a turnaround
         return None
+    # the headline quotes both records, so they have to flip as well: a single
+    # NFL result swings the index while the records barely move ("7-7 before
+    # this week, 4-3 since" is not a month that turned)
+    if (e_tot["w"] - e_tot["l"]) * pace_e <= 0 or (l_tot["w"] - l_tot["l"]) * pace_l <= 0:
+        return None
     swing = abs(pace_l - pace_e)
     # 4.5 ≈ the full swing of an MLB game (all-loss pace to all-win pace)
     score = min(1.0, swing / 4.5)
@@ -507,9 +563,13 @@ def detect_year(ctx: dict, by_team: dict, field: dict) -> dict | None:
     current = tally(group_games(by_team, group, lo, hi))
     if current["games"] < MIN_YTD_GAMES:
         return None
+    # a year whose teams are all between seasons is a standing fact, not news:
+    # it would run with the same numbers every week until someone plays again
+    if not ctx["week_games"]:
+        return None
 
     history = []
-    for year in range(ref.year - HISTORY_YEARS, ref.year):
+    for year in range(FIRST_YEAR, ref.year):
         y_lo, y_hi = ytd_window(year, ref)
         totals = tally(group_games(by_team, group, y_lo, y_hi))
         if totals["games"] >= MIN_YTD_GAMES:
@@ -522,8 +582,10 @@ def detect_year(ctx: dict, by_team: dict, field: dict) -> dict | None:
     pctl = shrunk_percentile(values, cur)
     direction = "hot" if pctl >= 0.5 else "cold"
     # the same hollow-claim guard the month detector uses: a "best year on
-    # record" that is still a losing year isn't a story
+    # record" that is still a losing year isn't a story, by index or by record
     if (cur > 0) != (direction == "hot"):
+        return None
+    if (current["w"] - current["l"]) * (1 if direction == "hot" else -1) < 0:
         return None
 
     others = sorted(v for name, v in field.items() if name != group["name"])
@@ -541,10 +603,11 @@ def detect_year(ctx: dict, by_team: dict, field: dict) -> dict | None:
     else:
         rank = 1 + sum(1 for v in values if v < cur)
         since = max((h["year"] for h in history if h["weighted"] <= cur), default=None)
+    ties = sum(1 for v in values if v == cur)
 
     return base_finding(
         ctx, "year", score, direction=direction,
-        year={"totals": current, "rank": rank, "n_years": len(values) + 1,
+        year={"totals": current, "rank": rank, "ties": ties, "n_years": len(values) + 1,
               "percentile": round(pctl, 4), "since": since,
               "place": place, "field": len(others) + 1,
               "field_percentile": round(field_pctl, 4)},
@@ -594,7 +657,7 @@ def detect_climb(ctx: dict, ranks: dict) -> dict | None:
     week_ago = (ref - timedelta(days=7)).strftime("%Y%m%d")
     if today not in series or week_ago not in series:
         return None
-    if not ctx["last7_games"]:        # didn't play: the move isn't theirs
+    if not ctx["week_games"]:         # didn't play: the move isn't theirs
         return None
     new_rank, new_cum = series[today]
     old_rank, old_cum = series[week_ago]
@@ -700,19 +763,21 @@ def headline(f: dict, ref: date) -> str:
         # "on record" is honest because every chart's caption states that the
         # the window is a rolling ten years, and summary.md gives the
         # sample size, so the headline says "on record" rather than a year
+        having = "is tied for" if f.get("ties") else "is having"
         if f["basis"] == "calendar":
             if f["rank"] == 1:
-                return f"{city} is having its {adj} {month_name} on record"
+                return f"{city} {having} its {adj} {month_name} on record"
             return f"{city} is having its {adj} {month_name} since {f['since'][:4]}"
         if f["rank"] == 1:
-            return f"{city} is having its {adj} month on record"
+            return f"{city} {having} its {adj} month on record"
         return f"{city} is having its {adj} month since {pretty_month(f['since'])}"
 
     if f["kind"] == "year":
         y = f["year"]
         adj = "best" if f["direction"] == "hot" else "worst"
         if y["rank"] == 1:
-            run = f"{city} is having its {adj} year on record"
+            having = "is tied for" if y.get("ties") else "is having"
+            run = f"{city} {having} its {adj} year on record"
         else:
             run = f"{city} is having its {adj} year since {y['since']}"
         return f"{run} — {ordinal(y['place'])} of {y['field']} this year"
@@ -745,15 +810,17 @@ def headline(f: dict, ref: date) -> str:
 
 def lane_claim(lane: dict, basis: str, ref: date) -> str:
     adj = "best" if lane["direction"] == "hot" else "worst"
+    lead = "tied for the" if lane.get("ties") else "the"
+    phrase = rank_phrase(lane["rank"], adj)
     if basis == "calendar":
-        return (f"{ordinal(lane['rank'])}-{adj} {MONTH_NAMES[ref.month]} "
+        return (f"{lead} {phrase} {MONTH_NAMES[ref.month]} "
                 f"of the {lane['n_months'] + 1} on record")
-    return (f"{ordinal(lane['rank'])}-{adj} of {lane['n_months'] + 1} months "
+    return (f"{lead} {phrase} of {lane['n_months'] + 1} months "
             f"on record ({ordinal(round(lane['percentile'] * 100))} percentile)")
 
 
 def summary_lines(f: dict, ref: date) -> list:
-    m, l7 = f["month_totals"], f["last7"]
+    m, l7 = f["month_totals"], f["week"]
     tie = f" ({m['t']} ties)" if m["t"] else ""
     month_line = (f"- **This month (through {MONTH_NAMES[ref.month]} {ref.day}):** "
                   f"{m['w']}-{m['l']}{tie}, {m['weighted']:+.1f} weighted")
@@ -771,7 +838,8 @@ def summary_lines(f: dict, ref: date) -> list:
         adj = "best" if f["direction"] == "hot" else "worst"
         lines.append(f"- **{ref.year} so far (through {MONTH_NAMES[ref.month]} "
                      f"{ref.day}):** {t['w']}-{t['l']}, {t['weighted']:+.1f} weighted "
-                     f"— {ordinal(y['rank'])}-{adj} of the {y['n_years']} years "
+                     f"— {'tied for the' if y.get('ties') else 'the'} "
+                     f"{rank_phrase(y['rank'], adj)} of the {y['n_years']} years "
                      f"on record, at the same point")
         lines.append(f"- **Against the field:** {ordinal(y['place'])} of "
                      f"{y['field']} city groups on the year "
@@ -805,12 +873,12 @@ def summary_lines(f: dict, ref: date) -> list:
     if l7["games"]:
         lines.append(f"- **Last 7 days:** {l7['w']}-{l7['l']}, "
                      f"{l7['weighted']:+.1f} weighted")
-    drivers = sorted((t for t in f["per_team"] if t["last7"]["games"]),
-                     key=lambda t: abs(t["last7"]["weighted"]), reverse=True)
+    drivers = sorted((t for t in f["per_team"] if t["week"]["games"]),
+                     key=lambda t: abs(t["week"]["weighted"]), reverse=True)
     if drivers:
         d = drivers[0]
         lines.append(f"- **Driving it this week:** {d['nickname']} "
-                     f"({d['last7']['w']}-{d['last7']['l']}, {d['last7']['weighted']:+.1f})")
+                     f"({d['week']['w']}-{d['week']['l']}, {d['week']['weighted']:+.1f})")
     streaks = [t for t in f["per_team"] if t["streak"] and t["streak"]["length"] >= 3]
     if streaks:
         lines.append("- **Active streaks:** " + ", ".join(
@@ -962,7 +1030,11 @@ def main():
     for f in findings:
         f["headline"] = headline(f, ref)
         f["slug"] = slugify(f["name"])
-        f["images"] = [f"{f['slug']}_{img}.png" for img in IMAGES[f["kind"]]]
+        kinds_of_image = IMAGES[f["kind"]]
+        if early:
+            # the race is this month's, and on the 1st it is one dot
+            kinds_of_image = tuple(k for k in kinds_of_image if k != "race")
+        f["images"] = [f"{f['slug']}_{img}.png" for img in kinds_of_image]
         log.info("%-11s %-12s %s (score %.3f x novelty %.2f -> %.3f)",
                  f["kind"], f["slug"], f["headline"], f["score"],
                  f["novelty"], f["final_score"])

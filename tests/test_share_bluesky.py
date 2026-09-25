@@ -202,6 +202,11 @@ def test_a_post_with_no_numbers_at_all_has_no_finding():
     ("2nd-best of 61 months on record", (2, 61)),
     ("1st-worst July of the 5 since 2022", (5, 5)),
     ("1st-best of the 11 years on record, at the same point", (1, 11)),
+    # counted from the nearer end, and ties said as ties
+    ("tied for the worst of the 17 on record", (17, 17)),
+    ("the second-worst of the 17 on record", (16, 17)),
+    ("the 10th-worst of 200 months on record (8th percentile)", (191, 200)),
+    ("tied for the best September of the 17 on record", (1, 17)),
     ("the only one on record", None),
     ("nothing standing-shaped here", None),
 ])
@@ -341,10 +346,10 @@ def test_shares_a_post_it_has_never_seen(posts_dir):
 
 
 def test_shares_the_first_image_only(posts_dir):
-    p = place(posts_dir, post(images=("daily-season.png", "daily-month.png")))
+    p = place(posts_dir, post(kind="spotlight", images=("spotlight-a.png", "spotlight-b.png")))
     due = pending(manifest(p), {}, posts_dir)
     assert len(due) == 1
-    assert due[0]["image"].endswith("daily-season.png")
+    assert due[0]["image"].endswith("spotlight-a.png")
 
 
 def test_the_lead_of_a_multi_section_post_is_the_first_sections_first_chart():
@@ -637,3 +642,42 @@ def test_a_dry_run_without_credentials_skips_the_check():
     assert share_bluesky.check_login("REPLACE-ME.bsky.social", "REPLACE-ME-APP-PASSWORD",
                                      "https://pds.test", session) == 0
     assert session.calls == []
+
+
+# --- the chart has to be the one the finding is about -------------------------
+
+DAILY_CHARTS = ("daily-season.png", "daily-month.png", "daily-form.png")
+
+
+def test_a_month_finding_carries_the_month_chart(posts_dir):
+    p = place(posts_dir, post(images=DAILY_CHARTS))
+    (item,) = pending(manifest(p), {}, posts_dir)
+    assert item["image"].endswith("daily-month.png")
+    assert item["alt"] == "alt daily-month.png"
+
+
+def test_a_recent_run_carries_the_last_30_days_chart(posts_dir):
+    stats = ORDINARY[:2] + [{"label": "Last 30 days",
+                             "value": "18-6, +20.1 weighted; longest run 8 straight wins"}]
+    p = place(posts_dir, post(images=DAILY_CHARTS, stats=stats))
+    (item,) = pending(manifest(p), {}, posts_dir)
+    assert item["image"].endswith("daily-form.png")
+
+
+def test_the_order_of_results_carries_the_season_chart(posts_dir):
+    stats = [{"label": "Order of results", "value": "clumpier than chance (+2.6)"}]
+    p = place(posts_dir, post(images=DAILY_CHARTS, stats=stats))
+    (item,) = pending(manifest(p), {}, posts_dir)
+    assert item["image"].endswith("daily-season.png")
+
+
+def test_a_daily_without_its_findings_chart_falls_back_to_the_lead(posts_dir):
+    p = place(posts_dir, post(images=("daily-season.png",)))
+    (item,) = pending(manifest(p), {}, posts_dir)
+    assert item["image"].endswith("daily-season.png")
+
+
+def test_a_forced_daily_with_no_finding_carries_the_lead(posts_dir):
+    p = place(posts_dir, post(images=DAILY_CHARTS, stats=ORDINARY))
+    (item,) = pending(manifest(p), {}, posts_dir, share_daily="always")
+    assert item["image"].endswith("daily-season.png")
