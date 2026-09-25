@@ -60,3 +60,4 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20260920,nfl,401872942,MIA,13,SF,35,SF,Final
 20260920,nfl,401872945,IND,30,KC,33,KC,Final/OT
 20260921,nfl,401872947,NYG,6,LAR,28,LAR,Final
+20260924,nfl,401872948,ATL,35,GB,14,ATL,Final
