@@ -116,7 +116,9 @@ def clear_of(ends, x: float, y: float, span: float, before: float, after: float,
     rather than land on each other.
     """
     ends = ends.copy()
-    min_gap = max(span, 1e-9) * gap
+    # this year's label is set larger and bold, so it needs more room than
+    # two past-year labels need from each other
+    min_gap = max(span, 1e-9) * gap * 1.6
     near = ends[(ends[value] >= x - before) & (ends[value] <= x + after)]
     taken = [y]
     for idx in sorted(near.index, key=lambda i: abs(ends.at[i, "label_y"] - y)):
