@@ -87,9 +87,14 @@ jobs:
             --share-daily "$SHARE_DAILY" \
             $BACKFILL $MODE
 
+      # Runs even when the share step failed: a run that dies on its third post
+      # has still shared two, and share_bluesky.py writes those to the record
+      # before exiting. Dropping that record would share them again tomorrow.
       - name: Commit the record of what was shared
-        if: ${{ !inputs.dry_run }}
+        if: ${{ !cancelled() && !inputs.dry_run }}
         run: |
+          # no record yet means nothing has ever been shared — not an error
+          [ -f content/posts/bluesky.json ] || { echo "Nothing was shared"; exit 0; }
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add content/posts/bluesky.json

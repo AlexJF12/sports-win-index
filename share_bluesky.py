@@ -43,7 +43,7 @@ doesn't exist yet. --require-credentials turns that into an error once it does.
 
 Usage:
     python share_bluesky.py                      # share today's posts
-    python share_bluesky.py --dry-run            # print what would go out
+    python share_bluesky.py --dry-run            # print what would go out, check the login
     python share_bluesky.py --share-daily always # every morning, bar or no bar
     python share_bluesky.py --max-age-days 7     # a week's backlog, not a day's
     python share_bluesky.py --backfill --max-posts 5   # ignore the age window
@@ -572,6 +572,28 @@ def credentials(handle: str, password: str) -> tuple[str, str] | None:
     return handle, password
 
 
+def check_login(handle: str, password: str, service: str = SERVICE,
+                session=None) -> int:
+    """A dry run's other half: sign in and post nothing.
+
+    Listing what would go out says nothing about whether it *can* — a mistyped
+    handle or a revoked app password only shows up at createSession — so when
+    credentials are set, a dry run signs in too. That is the one call here that
+    changes nothing on the account. Placeholders skip it, since a dry run needs
+    no credentials; a rejected login is the run's failure.
+    """
+    creds = credentials(handle, password)
+    if creds is None:
+        log.info("Skipped the sign-in check — no credentials to check")
+        return 0
+    try:
+        Bluesky(*creds, service=service, session=session).login()
+    except BlueskyError as exc:
+        log.error("Bluesky sign-in failed — nothing would go out: %s", exc)
+        return 1
+    return 0
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--posts-dir", default=POSTS_DIR)
@@ -599,8 +621,9 @@ def main():
                         help="Leave the old share up when a post is updated, "
                              "instead of replacing it.")
     parser.add_argument("--dry-run", action="store_true",
-                        help="Print what would be shared. Needs no credentials "
-                             "and writes nothing.")
+                        help="Print what would be shared and post nothing. "
+                             "Needs no credentials, but signs in to check them "
+                             "when they are set.")
     parser.add_argument("--require-credentials", action="store_true",
                         help="Fail instead of exiting quietly when the handle "
                              "or app password is still a placeholder.")
@@ -616,9 +639,6 @@ def main():
 
     items = pending(manifest, state, args.posts_dir, args.max_age_days,
                     args.max_posts, args.backfill, args.share_daily)
-    if not items:
-        log.info("Nothing new to share")
-        return 0
 
     if args.dry_run:
         for item in items:
@@ -629,6 +649,12 @@ def main():
             log.info("    image %s%s", os.path.basename(item["image"]),
                      f" ({item['ratio']['width']}x{item['ratio']['height']})"
                      if item["ratio"] else "")
+        if not items:
+            log.info("Nothing new to share")
+        return check_login(args.handle, APP_PASSWORD, args.service)
+
+    if not items:
+        log.info("Nothing new to share")
         return 0
 
     creds = credentials(args.handle, APP_PASSWORD)
