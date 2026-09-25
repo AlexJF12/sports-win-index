@@ -618,3 +618,22 @@ def test_end_to_end_writes_the_state_file(posts_dir, monkeypatch):
     session.calls.clear()
     assert run(monkeypatch, posts_dir, "--handle", "teamwins.bsky.social") == 0
     assert session.of("com.atproto.repo.createRecord") == []
+
+
+def test_a_dry_run_checks_the_login_and_posts_nothing():
+    session = FakeSession()
+    assert share_bluesky.check_login("h", "p", "https://pds.test", session) == 0
+    assert [c["method"] for c in session.calls] == ["com.atproto.server.createSession"]
+
+
+def test_a_dry_run_fails_on_a_rejected_login():
+    session = FakeSession(failures={"com.atproto.server.createSession":
+                                    (401, "Invalid identifier or password")})
+    assert share_bluesky.check_login("h", "bad", "https://pds.test", session) == 1
+
+
+def test_a_dry_run_without_credentials_skips_the_check():
+    session = FakeSession()
+    assert share_bluesky.check_login("REPLACE-ME.bsky.social", "REPLACE-ME-APP-PASSWORD",
+                                     "https://pds.test", session) == 0
+    assert session.calls == []
