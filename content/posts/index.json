@@ -1,10 +1,92 @@
 {
- "generated": "2026-09-25",
+ "generated": "2026-09-26",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-09-25",
+   "kind": "daily",
+   "title": "City of the day \u2014 Seattle",
+   "dek": "Seattle: Mariners/Kraken/Seahawks",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "98-113, +61.7 weighted over 211 games; longest run 8 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+0.6)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -176.0, 2011 -63.1, 2012 +80.3, 2013 +148.2, 2014 +263.2, 2015 +63.4, 2016 +129.9, 2017 +50.9, 2018 +121.9, 2019 +48.8, 2020 +136.8, 2021 -120.2, 2022 -2.5, 2023 +48.6, 2024 +42.4, 2025 +218.9"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "12-16, +29.4 weighted; longest run 4 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "August 28, 2026"
+      },
+      {
+       "label": "September 2026 through day 25",
+       "value": "12-12, +38.4 weighted \u2014 the fifth-best of the 17 on record"
+      },
+      {
+       "label": "Same September in earlier years (same stretch)",
+       "value": "2010 -22.5, 2011 -39.5, 2012 +10.2, 2013 +46.4, 2014 +17.0, 2015 -33.9, 2016 +35.0, 2017 -28.2, 2018 -21.5, 2019 +14.7, 2020 +42.9, 2021 +13.5, 2022 -21.5, 2023 +5.7, 2024 +71.2, 2025 +70.0"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Mariners",
+        "10-16",
+        "-13.5",
+        "4 straight losses"
+       ],
+       [
+        "Seahawks",
+        "2-0",
+        "+42.9",
+        "2 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Seattle: Mariners/Kraken/Seahawks \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Seattle: Mariners/Kraken/Seahawks \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Seattle: Mariners/Kraken/Seahawks \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-25/daily.html"
+  },
   {
    "date": "2026-09-24",
    "kind": "daily",
@@ -170,125 +252,129 @@
    "dek": "The weekly hunt across all 88 city groups, through September 22, 2026",
    "sections": [
     {
-     "heading": "New York's September has come apart: 11-3 before this week, 2-5 since",
-     "subhead": "New York: Yankees/Nets/Islanders/Giants",
+     "heading": "Dallas has flipped its September: 7-7 before this week, 4-3 since",
+     "subhead": "Dallas: Rangers/Mavericks/Stars/Cowboys",
      "stats": [
       {
        "label": "Before this week",
-       "value": "11-3, +37.2 weighted (+2.66 per game)"
+       "value": "7-7, -19.2 weighted (-1.37 per game)"
       },
       {
        "label": "Since",
-       "value": "2-5, -26.0 weighted (-3.71 per game)"
+       "value": "4-3, +21.5 weighted (+3.07 per game)"
       },
       {
        "label": "This month (through September 22)",
-       "value": "13-8, +11.3 weighted"
+       "value": "11-10, +2.2 weighted"
       },
       {
        "label": "Last 7 days",
-       "value": "2-5, -26.0 weighted"
+       "value": "4-3, +21.5 weighted"
       },
       {
        "label": "Driving it this week",
-       "value": "Giants (0-1, -21.5)"
+       "value": "Cowboys (1-0, +21.5)"
       }
      ],
      "table": null,
      "images": [
       {
-       "file": "spotlight-new-york-15_race.png",
+       "file": "spotlight-dallas_race.png",
        "caption": "The group against the whole field this month, cumulative weighted index.",
-       "alt": "New York: Yankees/Nets/Islanders/Giants \u2014 The group against the whole field this month, cumulative weighted index"
+       "alt": "Dallas: Rangers/Mavericks/Stars/Cowboys \u2014 The group against the whole field this month, cumulative weighted index"
       },
       {
-       "file": "spotlight-new-york-15_timeline.png",
+       "file": "spotlight-dallas_timeline.png",
        "caption": "Game by game this month, with the last 7 days picked out.",
-       "alt": "New York: Yankees/Nets/Islanders/Giants \u2014 Game by game this month, with the last 7 days picked out"
+       "alt": "Dallas: Rangers/Mavericks/Stars/Cowboys \u2014 Game by game this month, with the last 7 days picked out"
       },
       {
-       "file": "spotlight-new-york-15_teams.png",
+       "file": "spotlight-dallas_teams.png",
        "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
-       "alt": "New York: Yankees/Nets/Islanders/Giants \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+       "alt": "Dallas: Rangers/Mavericks/Stars/Cowboys \u2014 Per-team contribution \u2014 the full month against the last 7 days"
       }
      ]
     },
     {
-     "heading": "Buffalo is having its best year on record \u2014 9th of 88 this year",
-     "subhead": "Buffalo: Sabres/Bills",
+     "heading": "Los Angeles is having its best year on record \u2014 2nd of 88 this year",
+     "subhead": "Los Angeles: Dodgers/Lakers/Ducks/Rams",
      "stats": [
       {
        "label": "2026 so far (through September 22)",
-       "value": "40-21, +135.6 weighted \u2014 the best of the 17 years on record, at the same point"
+       "value": "166-112, +193.1 weighted \u2014 1st-best of the 11 years on record, at the same point"
       },
       {
        "label": "Against the field",
-       "value": "9th of 88 city groups on the year (91st percentile)"
+       "value": "2nd of 88 city groups on the year (99th percentile)"
       },
       {
        "label": "This month (through September 22)",
-       "value": "2-0, +42.9 weighted"
+       "value": "16-6, +22.5 weighted"
       },
       {
        "label": "Last 7 days",
-       "value": "1-0, +21.5 weighted"
+       "value": "6-1, +30.5 weighted"
       },
       {
        "label": "Driving it this week",
-       "value": "Bills (1-0, +21.5)"
+       "value": "Rams (1-0, +21.5)"
+      },
+      {
+       "label": "Active streaks",
+       "value": "Dodgers W5"
       }
      ],
      "table": null,
      "images": [
       {
-       "file": "spotlight-buffalo_year.png",
+       "file": "spotlight-los-angeles-14_year.png",
        "caption": "Every season's cumulative index by day of year, this one in color.",
-       "alt": "Buffalo: Sabres/Bills \u2014 Every season's cumulative index by day of year, this one in color"
+       "alt": "Los Angeles: Dodgers/Lakers/Ducks/Rams \u2014 Every season's cumulative index by day of year, this one in color"
       },
       {
-       "file": "spotlight-buffalo_field.png",
+       "file": "spotlight-los-angeles-14_field.png",
        "caption": "All 88 city groups on this year's index, the group picked out.",
-       "alt": "Buffalo: Sabres/Bills \u2014 All 88 city groups on this year's index, the group picked out"
+       "alt": "Los Angeles: Dodgers/Lakers/Ducks/Rams \u2014 All 88 city groups on this year's index, the group picked out"
       }
      ]
     },
     {
-     "heading": "San Diego is having its best month since April 2026",
-     "subhead": "San Diego: Padres",
+     "heading": "Tampa Bay is having its worst September on record",
+     "subhead": "Tampa Bay: Rays/Lightning/Buccaneers",
      "stats": [
       {
        "label": "This month (through September 22)",
-       "value": "14-5, +20.3 weighted \u2014 tied for the second-best of 105 months on record (98th percentile)"
+       "value": "14-8, -24.9 weighted \u2014 1st-worst September of the 11 on record"
       },
       {
-       "label": "vs past Septembers",
-       "value": "tied for the best September of the 17 on record"
+       "label": "vs all months",
+       "value": "10th-worst of 116 months on record (8th percentile)"
       },
       {
        "label": "Last 7 days",
-       "value": "5-1, +9.0 weighted"
+       "value": "5-3, -14.7 weighted"
       },
       {
        "label": "Driving it this week",
-       "value": "Padres (5-1, +9.0)"
+       "value": "Buccaneers (0-1, -21.5)"
       }
      ],
      "table": null,
      "images": [
       {
-       "file": "spotlight-san-diego_race.png",
+       "file": "spotlight-tampa-bay_race.png",
        "caption": "The group against the whole field this month, cumulative weighted index.",
-       "alt": "San Diego: Padres \u2014 The group against the whole field this month, cumulative weighted index"
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 The group against the whole field this month, cumulative weighted index"
       },
       {
-       "file": "spotlight-san-diego_history.png",
+       "file": "spotlight-tampa-bay_history.png",
        "caption": "Every comparable month on record, this one picked out.",
-       "alt": "San Diego: Padres \u2014 Every comparable month on record, this one picked out"
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 Every comparable month on record, this one picked out"
       },
       {
-       "file": "spotlight-san-diego_teams.png",
+       "file": "spotlight-tampa-bay_teams.png",
        "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
-       "alt": "San Diego: Padres \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 Per-team contribution \u2014 the full month against the last 7 days"
       }
      ]
     }
@@ -311,7 +397,7 @@
       },
       {
        "label": "Furthest from its own norm this year",
-       "value": "Houston: Astros/Rockets/Texans \u2014 streak index -2.5 over 220 games, against a usual +0.6"
+       "value": "Houston: Astros/Rockets/Texans \u2014 streak index -2.5 over 220 games, against a usual +0.4"
       },
       {
        "label": "Streakiest of the last 30 days",
