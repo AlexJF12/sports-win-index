@@ -1,10 +1,92 @@
 {
- "generated": "2026-09-27",
+ "generated": "2026-09-28",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-09-27",
+   "kind": "daily",
+   "title": "City of the day \u2014 Chicago",
+   "dek": "Chicago: Cubs/Bulls/Blackhawks/Bears",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "121-138, -127.9 weighted over 259 games; longest run 13 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "clumpier than chance (+2.1)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 +282.7, 2011 +130.1, 2012 +155.2, 2013 +128.3, 2014 +17.6, 2015 +125.6, 2016 -70.9, 2017 -127.5, 2018 -36.7, 2019 -154.8, 2020 -36.2, 2021 -248.8, 2022 -434.0, 2023 -197.1, 2024 -357.8, 2025 +57.4"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "14-15, -2.3 weighted; longest run 4 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "August 29, 2026"
+      },
+      {
+       "label": "September 2026 through day 27",
+       "value": "12-14, -4.5 weighted \u2014 the 9th-best of the 17 on record"
+      },
+      {
+       "label": "Same September in earlier years (same stretch)",
+       "value": "2010 +80.2, 2011 -21.5, 2012 +1.2, 2013 +48.6, 2014 +17.0, 2015 -48.6, 2016 -48.6, 2017 -5.7, 2018 +28.2, 2019 +10.2, 2020 +68.9, 2021 -32.7, 2022 +23.7, 2023 -71.2, 2024 -21.5, 2025 -17.0"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Cubs",
+        "13-14",
+        "-2.3",
+        "4 straight losses"
+       ],
+       [
+        "Bears",
+        "1-1",
+        "+0.0",
+        "1 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Chicago: Cubs/Bulls/Blackhawks/Bears \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Chicago: Cubs/Bulls/Blackhawks/Bears \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Chicago: Cubs/Bulls/Blackhawks/Bears \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-27/daily.html"
+  },
   {
    "date": "2026-09-26",
    "kind": "daily",
