@@ -1,10 +1,92 @@
 {
- "generated": "2026-09-28",
+ "generated": "2026-09-29",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-09-28",
+   "kind": "daily",
+   "title": "City of the day \u2014 Atlanta",
+   "dek": "Atlanta: Braves/Hawks/Falcons",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "128-91, +107.5 weighted over 219 games; longest run 11 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+0.2)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 +330.9, 2011 +104.9, 2012 +355.6, 2013 -113.1, 2014 -79.3, 2015 +96.4, 2016 +51.8, 2017 +21.5, 2018 -149.3, 2019 -108.9, 2020 -141.0, 2021 +35.5, 2022 -46.9, 2023 +76.9, 2024 +1.2, 2025 -131.5"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "14-15, -21.5 weighted; longest run 3 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "August 30, 2026"
+      },
+      {
+       "label": "September 2026 through day 28",
+       "value": "13-14, -21.5 weighted \u2014 the fifth-worst of the 17 on record"
+      },
+      {
+       "label": "Same September in earlier years (same stretch)",
+       "value": "2010 +17.0, 2011 -41.7, 2012 +84.7, 2013 -26.0, 2014 -24.8, 2015 +44.1, 2016 +35.0, 2017 +57.7, 2018 -8.0, 2019 -12.5, 2020 -55.4, 2021 -12.5, 2022 -1.2, 2023 +30.5, 2024 -10.2, 2025 +6.8"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Braves",
+        "13-13",
+        "+0.0",
+        "3 straight losses"
+       ],
+       [
+        "Falcons",
+        "1-2",
+        "-21.5",
+        "2 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Atlanta: Braves/Hawks/Falcons \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Atlanta: Braves/Hawks/Falcons \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Atlanta: Braves/Hawks/Falcons \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-28/daily.html"
+  },
   {
    "date": "2026-09-27",
    "kind": "daily",

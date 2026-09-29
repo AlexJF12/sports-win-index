@@ -75,3 +75,4 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20260927,nfl,401872960,BAL,34,DAL,31,BAL,Final
 20260927,nfl,401872961,LV,35,NO,27,LV,Final
 20260927,nfl,401872962,LAR,26,DEN,30,DEN,Final
+20260928,nfl,401872963,PHI,7,CHI,27,CHI,Final
