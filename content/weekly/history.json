@@ -70,5 +70,13 @@
    "Los Angeles",
    "Tampa Bay"
   ]
+ },
+ {
+  "date": "2026-09-29",
+  "cities": [
+   "Baltimore",
+   "Sacramento",
+   "San Diego"
+  ]
  }
 ]

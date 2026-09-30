@@ -1,10 +1,257 @@
 {
- "generated": "2026-09-29",
+ "generated": "2026-09-30",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-09-29",
+   "kind": "spotlight",
+   "title": "Out of the norm \u2014 three fandoms off their own script",
+   "dek": "The weekly hunt across all 88 city groups, through September 29, 2026",
+   "sections": [
+    {
+     "heading": "Baltimore has flipped its September: 8-13 before this week, 4-1 since",
+     "subhead": "Baltimore: Orioles/Ravens",
+     "stats": [
+      {
+       "label": "Before this week",
+       "value": "8-13, -11.3 weighted (-0.54 per game)"
+      },
+      {
+       "label": "Since",
+       "value": "4-1, +26.0 weighted (+5.20 per game)"
+      },
+      {
+       "label": "This month (through September 29)",
+       "value": "12-14, +14.7 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "4-1, +26.0 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Ravens (1-0, +21.5)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-baltimore_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Baltimore: Orioles/Ravens \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "spotlight-baltimore_timeline.png",
+       "caption": "Game by game this month, with the last 7 days picked out.",
+       "alt": "Baltimore: Orioles/Ravens \u2014 Game by game this month, with the last 7 days picked out"
+      },
+      {
+       "file": "spotlight-baltimore_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Baltimore: Orioles/Ravens \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    },
+    {
+     "heading": "Sacramento is having its worst year on record \u2014 81st of 88 this year",
+     "subhead": "Sacramento: Athletics/Kings",
+     "stats": [
+      {
+       "label": "2026 so far (through September 29)",
+       "value": "78-133, -170.1 weighted \u2014 the worst of the 17 years on record, at the same point"
+      },
+      {
+       "label": "Against the field",
+       "value": "81st of 88 city groups on the year (8th percentile)"
+      },
+      {
+       "label": "This month (through September 29)",
+       "value": "11-13, -4.5 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "2-3, -2.3 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Athletics (2-3, -2.3)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-sacramento_year.png",
+       "caption": "Every season's cumulative index by day of year, this one in color.",
+       "alt": "Sacramento: Athletics/Kings \u2014 Every season's cumulative index by day of year, this one in color"
+      },
+      {
+       "file": "spotlight-sacramento_field.png",
+       "caption": "All 88 city groups on this year's index, the group picked out.",
+       "alt": "Sacramento: Athletics/Kings \u2014 All 88 city groups on this year's index, the group picked out"
+      }
+     ]
+    },
+    {
+     "heading": "San Diego is having its best month on record",
+     "subhead": "San Diego: Padres",
+     "stats": [
+      {
+       "label": "This month (through September 29)",
+       "value": "19-6, +29.3 weighted \u2014 the best of 109 months on record (100th percentile)"
+      },
+      {
+       "label": "vs past Septembers",
+       "value": "the best September of the 17 on record"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "5-1, +9.0 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Padres (5-1, +9.0)"
+      },
+      {
+       "label": "Active streaks",
+       "value": "Padres W3"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-san-diego_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "San Diego: Padres \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "spotlight-san-diego_history.png",
+       "caption": "Every comparable month on record, this one picked out.",
+       "alt": "San Diego: Padres \u2014 Every comparable month on record, this one picked out"
+      },
+      {
+       "file": "spotlight-san-diego_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "San Diego: Padres \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-29/spotlight.html"
+  },
+  {
+   "date": "2026-09-29",
+   "kind": "streakiness",
+   "title": "Streakiness \u2014 not how often they win, but how the wins arrive",
+   "dek": "All 88 city groups, through September 29, 2026",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "City groups measured",
+       "value": "88"
+      },
+      {
+       "label": "Furthest from its own norm this year",
+       "value": "Houston: Astros/Rockets/Texans \u2014 streak index -2.6 over 227 games, against a usual +0.6"
+      },
+      {
+       "label": "Streakiest of the last 30 days",
+       "value": "Baltimore: Orioles/Ravens \u2014 +1.4 (still within what chance produces), longest run 6 losses"
+      },
+      {
+       "label": "Steadiest of the last 30 days",
+       "value": "Minnesota: Twins/Timberwolves/Wild/Vikings \u2014 -1.6, the most alternating, though within what chance produces"
+      },
+      {
+       "label": "Reading the index",
+       "value": "+2 or more is clumpier than chance, \u22122 or less more alternating than chance, 0 exactly as clumped as coin flips"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "streak-season_vs_history.png",
+       "caption": "This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray.",
+       "alt": "All 88 city groups, through September 29, 2026 \u2014 This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray"
+      },
+      {
+       "file": "streak-past_month.png",
+       "caption": "The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest.",
+       "alt": "All 88 city groups, through September 29, 2026 \u2014 The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-29/streakiness.html"
+  },
+  {
+   "date": "2026-09-29",
+   "kind": "daily",
+   "title": "City of the day \u2014 Sacramento",
+   "dek": "Sacramento: Athletics/Kings",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "78-133, -170.1 weighted over 211 games; longest run 16 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+0.9)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -204.8, 2011 -84.6, 2012 -124.6, 2013 -124.6, 2014 -97.9, 2015 -115.7, 2016 -57.9, 2017 -111.3, 2018 -62.3, 2019 -71.2, 2020 +4.5, 2021 -80.1, 2022 -49.0, 2023 +71.2, 2024 -8.9, 2025 -89.3"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "11-14, -6.8 weighted; longest run 6 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "August 31, 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Athletics",
+        "11-14",
+        "-6.8",
+        "6 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Sacramento: Athletics/Kings \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Sacramento: Athletics/Kings \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-09-29/daily.html"
+  },
   {
    "date": "2026-09-28",
    "kind": "daily",
