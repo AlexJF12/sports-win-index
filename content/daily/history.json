@@ -293,5 +293,10 @@
   "date": "2026-09-29",
   "city": "Sacramento",
   "group": "Sacramento"
+ },
+ {
+  "date": "2026-09-30",
+  "city": "New York",
+  "group": "New York 1"
  }
 ]

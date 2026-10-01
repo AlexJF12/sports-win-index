@@ -767,3 +767,6 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20260929,nhl,401891774,NYR,0,BOS,3,BOS,Final
 20260929,nhl,401891804,VAN,6,EDM,5,VAN,Final/OT
 20260929,nhl,401891775,CHI,2,VGK,5,VGK,Final
+20260930,nhl,401891821,PIT,7,PHI,0,PIT,Final
+20260930,nhl,401892431,NYI,1,TOR,2,TOR,Final
+20260930,nhl,401891780,LA,4,COL,8,COL,Final
