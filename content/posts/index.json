@@ -1,10 +1,85 @@
 {
- "generated": "2026-10-02",
+ "generated": "2026-10-03",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-02",
+   "kind": "daily",
+   "title": "City of the day \u2014 Detroit",
+   "dek": "Detroit: Tigers/Pistons/Red Wings/Lions",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "138-133, +78.3 weighted over 271 games; longest run 9 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+0.9)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -195.6, 2011 +198.6, 2012 -290.0, 2013 -95.8, 2014 +11.3, 2015 -119.6, 2016 +61.7, 2017 -156.7, 2018 -322.7, 2019 -517.7, 2020 -294.6, 2021 -570.2, 2022 -316.1, 2023 -140.0, 2024 +165.1, 2025 +182.8"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "14-13, +19.3 weighted; longest run 7 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "September 4, 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Tigers",
+        "12-11",
+        "+2.3",
+        "6 straight wins"
+       ],
+       [
+        "Red Wings",
+        "0-1",
+        "-4.5",
+        "1 straight losses"
+       ],
+       [
+        "Lions",
+        "2-1",
+        "+21.5",
+        "1 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Detroit: Tigers/Pistons/Red Wings/Lions \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Detroit: Tigers/Pistons/Red Wings/Lions \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-02/daily.html"
+  },
   {
    "date": "2026-10-01",
    "kind": "daily",
