@@ -308,5 +308,10 @@
   "date": "2026-10-02",
   "city": "Detroit",
   "group": "Detroit"
+ },
+ {
+  "date": "2026-10-03",
+  "city": "Milwaukee",
+  "group": "Milwaukee"
  }
 ]

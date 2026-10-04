@@ -1,17 +1,15 @@
-# City of the day — Detroit
-*Detroit: Tigers/Pistons/Red Wings/Lions* · 2026-10-02
+# City of the day — Milwaukee
+*Milwaukee: Brewers/Bucks* · 2026-10-03
 
-- **2026 so far:** 138-133, +78.3 weighted over 271 games; longest run 9 straight losses
-- **Order of results:** about as clumped as coin flips (+0.9)
-- **Earlier seasons (full-year weighted):** 2010 -195.6, 2011 +198.6, 2012 -290.0, 2013 -95.8, 2014 +11.3, 2015 -119.6, 2016 +61.7, 2017 -156.7, 2018 -322.7, 2019 -517.7, 2020 -294.6, 2021 -570.2, 2022 -316.1, 2023 -140.0, 2024 +165.1, 2025 +182.8
-- **Last 30 days:** 14-13, +19.3 weighted; longest run 7 straight wins
+- **2026 so far:** 122-89, +48.0 weighted over 211 games; longest run 6 straight wins
+- **Order of results:** about as clumped as coin flips (+0.4)
+- **Earlier seasons (full-year weighted):** 2010 +22.0, 2011 +43.1, 2012 +0.1, 2013 -165.1, 2014 -146.8, 2015 -107.5, 2016 -71.7, 2017 +40.3, 2018 +141.1, 2019 +274.2, 2020 +48.9, 2021 +241.1, 2022 +120.5, 2023 +205.3, 2024 +60.7, 2025 +74.2
+- **Last 30 days:** 17-5, +27.0 weighted; longest run 6 straight wins
 - **Window opens:** September 4, 2026
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Tigers | 12-11 | +2.3 | 6 straight wins |
-| Red Wings | 0-1 | -4.5 | 1 straight losses |
-| Lions | 2-1 | +21.5 | 1 straight wins |
+| Brewers | 17-5 | +27.0 | 6 straight wins |
 
 Images: `season.png` · `form.png`
 
