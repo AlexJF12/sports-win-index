@@ -1,10 +1,98 @@
 {
- "generated": "2026-10-05",
+ "generated": "2026-10-06",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-05",
+   "kind": "daily",
+   "title": "City of the day \u2014 Pittsburgh",
+   "dek": "Pittsburgh: Pirates/Penguins/Steelers",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "113-108, +17.9 weighted over 221 games; longest run 6 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.9)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 +121.5, 2011 +188.3, 2012 +53.3, 2013 +241.1, 2014 +220.4, 2015 +75.0, 2016 +273.4, 2017 +279.6, 2018 +127.6, 2019 -14.0, 2020 +143.7, 2021 -44.0, 2022 -54.5, 2023 +50.0, 2024 +9.9, 2025 -102.9"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "16-10, +15.7 weighted; longest run 4 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "September 6, 2026"
+      },
+      {
+       "label": "October 2026 through day 5",
+       "value": "1-2, -21.5 weighted \u2014 the second-worst of the 9 on record"
+      },
+      {
+       "label": "Same October in earlier years (same stretch)",
+       "value": "2010 -23.7, 2012 +2.3, 2013 +11.2, 2015 -19.2, 2016 +17.0, 2017 +14.8, 2021 -19.2, 2022 -19.2"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Pirates",
+        "12-7",
+        "+11.3",
+        "5 straight wins"
+       ],
+       [
+        "Penguins",
+        "2-1",
+        "+4.5",
+        "2 straight wins"
+       ],
+       [
+        "Steelers",
+        "2-2",
+        "+0.0",
+        "1 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Pittsburgh: Pirates/Penguins/Steelers \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Pittsburgh: Pirates/Penguins/Steelers \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Pittsburgh: Pirates/Penguins/Steelers \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-05/daily.html"
+  },
   {
    "date": "2026-10-04",
    "kind": "daily",
