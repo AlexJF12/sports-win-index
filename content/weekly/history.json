@@ -78,5 +78,13 @@
    "Sacramento",
    "San Diego"
   ]
+ },
+ {
+  "date": "2026-10-06",
+  "cities": [
+   "Buffalo",
+   "New York",
+   "Minnesota"
+  ]
  }
 ]

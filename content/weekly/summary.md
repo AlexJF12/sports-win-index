@@ -1,35 +1,35 @@
-# Fandom spotlight — 2026-09-29
+# Fandom spotlight — 2026-10-06
 
-## 1. 🔄 Baltimore has flipped its September: 8-13 before this week, 4-1 since
-*Baltimore: Orioles/Ravens* · `turnaround`
+## 1. 🏆 Buffalo is having its best year on record — 8th of 88 this year
+*Buffalo: Sabres/Bills* · `year`
 
-- **Before this week:** 8-13, -11.3 weighted (-0.54 per game)
-- **Since:** 4-1, +26.0 weighted (+5.20 per game)
-- **This month (through September 29):** 12-14, +14.7 weighted
-- **Last 7 days:** 4-1, +26.0 weighted
-- **Driving it this week:** Ravens (1-0, +21.5)
+- **2026 so far (through October 6):** 43-23, +140.1 weighted — the best of the 17 years on record, at the same point
+- **Against the field:** 8th of 88 city groups on the year (92nd percentile)
+- **This month (through October 6):** 2-2, -17.0 weighted
+- **Last 7 days:** 2-2, -17.0 weighted
+- **Driving it this week:** Bills (0-1, -21.5)
 
-Images: `baltimore_race.png` · `baltimore_timeline.png` · `baltimore_teams.png`
+Images: `buffalo_year.png` · `buffalo_field.png`
 
-## 2. 🧊 Sacramento is having its worst year on record — 81st of 88 this year
-*Sacramento: Athletics/Kings* · `year`
+## 2. 🔥 New York is having its best month since January 2023
+*New York: Yankees/Nets/Rangers/Giants* · `month`
 
-- **2026 so far (through September 29):** 78-133, -170.1 weighted — the worst of the 17 years on record, at the same point
-- **Against the field:** 81st of 88 city groups on the year (8th percentile)
-- **This month (through September 29):** 11-13, -4.5 weighted
-- **Last 7 days:** 2-3, -2.3 weighted
-- **Driving it this week:** Athletics (2-3, -2.3)
+- **This month (through October 6):** 5-2, +34.8 weighted — the fourth-best of 192 months on record (98th percentile)
+- **vs past Octobers:** the best October of the 13 on record
+- **Last 7 days:** 6-2, +37.0 weighted
+- **Driving it this week:** Giants (1-0, +21.5)
+- **Active streaks:** Rangers W4
 
-Images: `sacramento_year.png` · `sacramento_field.png`
+Images: `new-york-17_race.png` · `new-york-17_history.png` · `new-york-17_teams.png`
 
-## 3. 🔥 San Diego is having its best month on record
-*San Diego: Padres* · `month`
+## 3. ⬆️ Minnesota has climbed 9 places in the 2026 standings this week (18th → 9th of 88)
+*Minnesota: Twins/Timberwolves/Wild/Vikings* · `climb`
 
-- **This month (through September 29):** 19-6, +29.3 weighted — the best of 109 months on record (100th percentile)
-- **vs past Septembers:** the best September of the 17 on record
-- **Last 7 days:** 5-1, +9.0 weighted
-- **Driving it this week:** Padres (5-1, +9.0)
-- **Active streaks:** Padres W3
+- **Year standings:** 18th → 9th of 88 (+112.4 → +138.3 weighted)
+- **This month (through October 6):** 3-1, +25.9 weighted
+- **Last 7 days:** 3-1, +25.9 weighted
+- **Driving it this week:** Vikings (1-0, +21.5)
+- **Active streaks:** Vikings W4
 
-Images: `san-diego_race.png` · `san-diego_history.png` · `san-diego_teams.png`
+Images: `minnesota_race.png` · `minnesota_bump.png` · `minnesota_teams.png`
 

@@ -323,5 +323,10 @@
   "date": "2026-10-05",
   "city": "Pittsburgh",
   "group": "Pittsburgh"
+ },
+ {
+  "date": "2026-10-06",
+  "city": "Toronto",
+  "group": "Toronto"
  }
 ]

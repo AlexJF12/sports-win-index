@@ -1,19 +1,16 @@
-# City of the day — Pittsburgh
-*Pittsburgh: Pirates/Penguins/Steelers* · 2026-10-05
+# City of the day — Toronto
+*Toronto: Blue Jays/Raptors/Maple Leafs* · 2026-10-06
 
-- **2026 so far:** 113-108, +17.9 weighted over 221 games; longest run 6 straight wins
-- **Order of results:** about as clumped as coin flips (-0.9)
-- **Earlier seasons (full-year weighted):** 2010 +121.5, 2011 +188.3, 2012 +53.3, 2013 +241.1, 2014 +220.4, 2015 +75.0, 2016 +273.4, 2017 +279.6, 2018 +127.6, 2019 -14.0, 2020 +143.7, 2021 -44.0, 2022 -54.5, 2023 +50.0, 2024 +9.9, 2025 -102.9
-- **Last 30 days:** 16-10, +15.7 weighted; longest run 4 straight wins
-- **Window opens:** September 6, 2026
-- **October 2026 through day 5:** 1-2, -21.5 weighted — the second-worst of the 9 on record
-- **Same October in earlier years (same stretch):** 2010 -23.7, 2012 +2.3, 2013 +11.2, 2015 -19.2, 2016 +17.0, 2017 +14.8, 2021 -19.2, 2022 -19.2
+- **2026 so far:** 124-139, -58.0 weighted over 263 games; longest run 6 straight losses
+- **Order of results:** about as clumped as coin flips (-1.4)
+- **Earlier seasons (full-year weighted):** 2010 -115.5, 2011 -129.1, 2012 -205.2, 2013 -49.3, 2014 +135.8, 2015 -81.7, 2016 +109.5, 2017 +88.8, 2018 +222.1, 2019 +99.4, 2020 +98.0, 2021 +67.3, 2022 +196.4, 2023 +44.9, 2024 -147.3, 2025 +125.4
+- **Last 30 days:** 9-13, -9.0 weighted; longest run 3 straight losses
+- **Window opens:** September 7, 2026
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Pirates | 12-7 | +11.3 | 5 straight wins |
-| Penguins | 2-1 | +4.5 | 2 straight wins |
-| Steelers | 2-2 | +0.0 | 1 straight wins |
+| Blue Jays | 7-11 | -9.0 | 3 straight losses |
+| Maple Leafs | 2-2 | +0.0 | 1 straight losses |
 
-Images: `season.png` · `month.png` · `form.png`
+Images: `season.png` · `form.png`
 
