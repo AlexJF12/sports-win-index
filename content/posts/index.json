@@ -1,10 +1,98 @@
 {
- "generated": "2026-10-07",
+ "generated": "2026-10-08",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-07",
+   "kind": "daily",
+   "title": "City of the day \u2014 Dallas",
+   "dek": "Dallas: Rangers/Mavericks/Stars/Cowboys",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "124-142, -92.7 weighted over 266 games; longest run 9 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "more alternating than chance (-2.0)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 +97.1, 2011 +233.0, 2012 +3.6, 2013 +82.9, 2014 +179.9, 2015 -0.8, 2016 +159.8, 2017 -93.6, 2018 -92.9, 2019 -0.2, 2020 -87.1, 2021 +47.5, 2022 +287.6, 2023 +203.8, 2024 +148.3, 2025 -47.4"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "12-13, -4.5 weighted; longest run 4 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "September 8, 2026"
+      },
+      {
+       "label": "October 2026 through day 7",
+       "value": "2-2, +17.0 weighted \u2014 the third-best of the 13 on record"
+      },
+      {
+       "label": "Same October in earlier years (same stretch)",
+       "value": "2010 +2.3, 2011 -10.3, 2012 -30.5, 2013 -21.5, 2015 -21.5, 2016 +12.5, 2017 -32.6, 2018 -12.6, 2019 -34.8, 2021 +19.2, 2022 +17.0, 2023 +26.0"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Rangers",
+        "9-9",
+        "+0.0",
+        "4 straight wins"
+       ],
+       [
+        "Stars",
+        "1-2",
+        "-4.5",
+        "2 straight losses"
+       ],
+       [
+        "Cowboys",
+        "2-2",
+        "+0.0",
+        "1 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Dallas: Rangers/Mavericks/Stars/Cowboys \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Dallas: Rangers/Mavericks/Stars/Cowboys \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Dallas: Rangers/Mavericks/Stars/Cowboys \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-07/daily.html"
+  },
   {
    "date": "2026-10-06",
    "kind": "spotlight",
