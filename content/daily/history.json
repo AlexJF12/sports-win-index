@@ -333,5 +333,10 @@
   "date": "2026-10-07",
   "city": "Dallas",
   "group": "Dallas"
+ },
+ {
+  "date": "2026-10-08",
+  "city": "Cleveland",
+  "group": "Cleveland"
  }
 ]

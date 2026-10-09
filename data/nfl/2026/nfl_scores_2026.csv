@@ -92,3 +92,4 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261004,nfl,401872977,LAC,23,SEA,30,SEA,Final
 20261004,nfl,401872978,DET,26,CAR,32,CAR,Final
 20261005,nfl,401872979,ATL,45,NO,24,ATL,Final
+20261008,nfl,401872980,TB,24,DAL,16,TB,Final
