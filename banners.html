@@ -30,17 +30,21 @@
     --arena-line:     rgba(255, 255, 255, 0.09);
     --steel:          #474552;
     --steel-hi:       #6a6876;
-    --felt:           #3a1a78;
-    --felt-deep:      #1e0c45;
-    --gold:           #e8bd52;
-    --gold-hi:        #fbe3a0;
-    --gold-lo:        #a37a22;
+    /* ivory felt, charcoal ink, pewter trim: no team's colors */
+    --felt:           #f3eee2;
+    --felt-deep:      #ddd5c2;
+    --cloth-ink:      #1c1c21;
+    --cloth-muted:    #6d675b;
+    --cloth-stitch:   rgba(28, 28, 33, 0.28);
+    --pewter:         #b4b8c0;
+    --pewter-hi:      #eef0f3;
+    --pewter-lo:      #737882;
     --win:            #4fd16a;
     --loss:           #ff6b6b;
-    --lg-mlb:         #5aa5f0;
-    --lg-nba:         #f5894a;
-    --lg-nhl:         #3fcf9b;
-    --lg-nfl:         #ee86b0;
+    --lg-mlb:         #2f7fd6;
+    --lg-nba:         #e0702c;
+    --lg-nhl:         #159c74;
+    --lg-nfl:         #d04a88;
     --display:        "Oswald", "Bebas Neue", "Arial Narrow", Impact, sans-serif-condensed, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
@@ -97,7 +101,7 @@
   }
   nav a:hover { color: var(--text-primary); background: var(--chip); }
   nav [aria-current="page"] { color: var(--text-primary); font-weight: 650; background: var(--chip); }
-  :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  :focus-visible { outline: 2px solid var(--pewter); outline-offset: 2px; }
 
   /* --- the arena ---------------------------------------------------------- */
   .arena {
@@ -125,12 +129,12 @@
 
   .eyebrow {
     font-family: var(--display); font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.22em; font-size: 12px; color: var(--gold);
+    letter-spacing: 0.22em; font-size: 12px; color: var(--pewter);
   }
   h1 {
     font-family: var(--display); font-weight: 700; text-transform: uppercase;
     font-size: clamp(40px, 8vw, 68px); line-height: 0.95; letter-spacing: 0.02em; margin: 6px 0 8px;
-    background: linear-gradient(180deg, var(--gold-hi), var(--gold) 55%, var(--gold-lo));
+    background: linear-gradient(180deg, var(--pewter-hi), var(--pewter) 55%, var(--pewter-lo));
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
   .tagline { color: var(--arena-muted); font-size: 15px; margin: 0; max-width: 560px; }
@@ -182,9 +186,9 @@
 
   .cloth {
     --notch: 9cqw;
-    text-decoration: none; color: var(--arena-ink); margin-top: -3px;
+    text-decoration: none; color: var(--cloth-ink); margin-top: -3px;
     padding: 3px 3px 0;
-    background: linear-gradient(160deg, var(--gold-hi), var(--gold) 40%, var(--gold-lo));
+    background: linear-gradient(160deg, var(--pewter-hi), var(--pewter) 40%, var(--pewter-lo));
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - var(--notch)), 0 100%);
     filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.45));
   }
@@ -203,52 +207,56 @@
   /* the stitched inner border */
   .felt::before {
     content: ""; position: absolute; inset: 3.5cqw 3.5cqw 0; pointer-events: none;
-    border: 1.5px dashed rgba(232, 189, 82, 0.45); border-bottom: none;
+    border: 1.5px dashed var(--cloth-stitch); border-bottom: none;
   }
   .felt::after {
     content: ""; position: absolute; left: 3.5cqw; right: 3.5cqw; bottom: 0; height: var(--notch);
     pointer-events: none;
     background:
-      linear-gradient(to top right, transparent calc(50% - 1px), rgba(232, 189, 82, 0.45) calc(50% - 1px) calc(50% + 0.5px), transparent calc(50% + 0.5px)) left / 50% 100% no-repeat,
-      linear-gradient(to top left, transparent calc(50% - 1px), rgba(232, 189, 82, 0.45) calc(50% - 1px) calc(50% + 0.5px), transparent calc(50% + 0.5px)) right / 50% 100% no-repeat;
+      linear-gradient(to top right, transparent calc(50% - 1px), var(--cloth-stitch) calc(50% - 1px) calc(50% + 0.5px), transparent calc(50% + 0.5px)) left / 50% 100% no-repeat,
+      linear-gradient(to top left, transparent calc(50% - 1px), var(--cloth-stitch) calc(50% - 1px) calc(50% + 0.5px), transparent calc(50% + 0.5px)) right / 50% 100% no-repeat;
     transform: translateY(calc(-1 * 3.5cqw));
     opacity: 0.9;
   }
-  .b-top { font-family: var(--display); font-weight: 600; letter-spacing: 0.24em; font-size: 4.6cqw; color: var(--gold); text-transform: uppercase; }
-  .b-stars { color: var(--gold); font-size: 4cqw; letter-spacing: 0.6em; margin: 1cqw 0 0 0.6em; }
+  .b-top { font-family: var(--display); font-weight: 600; letter-spacing: 0.24em; font-size: 4.6cqw; color: var(--cloth-muted); text-transform: uppercase; }
+  .b-stars { color: var(--cloth-ink); font-size: 4cqw; letter-spacing: 0.6em; margin: 1cqw 0 0 0.6em; }
   .b-month {
     font-family: var(--display); font-weight: 700; text-transform: uppercase; line-height: 0.92;
     font-size: 15cqw; letter-spacing: 0.02em; margin-top: 2cqw;
-    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
   }
   .b-month.long { font-size: 12.4cqw; }
   .b-year {
     font-family: var(--display); font-weight: 600; font-size: 8.5cqw; letter-spacing: 0.32em;
-    color: var(--gold-hi); margin: 1.5cqw 0 0 0.32em;
+    color: var(--cloth-ink); margin: 1.5cqw 0 0 0.32em;
   }
-  .b-rule { height: 1px; margin: 4cqw 6cqw; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .b-rule { height: 1px; margin: 4cqw 6cqw; background: linear-gradient(90deg, transparent, var(--cloth-ink), transparent); opacity: 0.5; }
   .b-label { font-size: 3.6cqw; letter-spacing: 0.2em; text-transform: uppercase; color: var(--arena-muted); }
   .b-city {
     font-family: var(--display); font-weight: 600; text-transform: uppercase; line-height: 1.02;
     font-size: 9.5cqw; letter-spacing: 0.04em; margin-top: 1cqw; overflow-wrap: anywhere;
   }
-  .b-score { display: flex; justify-content: center; gap: 4cqw; margin-top: 2.5cqw; font-variant-numeric: tabular-nums; font-size: 5cqw; color: var(--arena-muted); }
-  .b-score strong { color: var(--gold-hi); font-weight: 700; }
+  .b-score { display: flex; justify-content: center; gap: 4cqw; margin-top: 2.5cqw; font-variant-numeric: tabular-nums; font-size: 5cqw; color: var(--cloth-muted); }
+  .b-score strong { color: var(--cloth-ink); font-weight: 700; }
   .b-chart { display: block; flex: none; width: 100%; height: auto; margin-top: 4cqw; overflow: visible; }
-  .b-chart .total { stroke: var(--gold-hi); filter: drop-shadow(0 0 3px rgba(251, 227, 160, 0.65)); }
+  .b-chart .total { stroke: var(--cloth-ink); }
+  .b-chart text { fill: var(--cloth-muted); }
   .b-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.4cqw; text-align: left; }
   .b-legend li { display: flex; align-items: center; gap: 2.4cqw; font-size: 4.6cqw; line-height: 1.2; }
   .b-legend .sw { flex: none; width: 5cqw; height: 0.8cqw; min-height: 2px; border-radius: 2px; }
   .b-legend .nm { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .b-legend .rec { color: var(--arena-muted); font-variant-numeric: tabular-nums; }
+  .b-legend .rec { color: var(--cloth-muted); font-variant-numeric: tabular-nums; }
   .b-legend .v { font-variant-numeric: tabular-nums; font-weight: 650; min-width: 11cqw; text-align: right; }
   .pos { color: var(--win); }
   .neg { color: var(--loss); }
+  .felt .pos { color: #1b7a34; }
+  .felt .neg { color: #b5302d; }
 
   /* the month still being played: the banner is rolled out, not yet raised */
-  .banner.live .cloth { background: repeating-linear-gradient(45deg, var(--gold) 0 6px, var(--gold-lo) 6px 12px); }
-  .banner.live .felt { background: linear-gradient(180deg, #2a2340, #15111f); }
-  .banner.live .b-top { color: var(--arena-muted); }
+  .banner.live .cloth { background: repeating-linear-gradient(45deg, var(--pewter) 0 6px, var(--pewter-lo) 6px 12px); }
+  .banner.live .felt { background: linear-gradient(180deg, #d9d6cf, #bdb9b0); }
+  .banner.live .b-top { color: var(--cloth-muted); }
+  .banner.live .live-tag { color: #b5302d; }
   .live-tag {
     display: inline-flex; align-items: center; gap: 1.6cqw; margin-top: 2cqw;
     font-size: 3.8cqw; letter-spacing: 0.18em; text-transform: uppercase; color: var(--loss);
@@ -303,7 +311,7 @@
     border: 1px solid var(--arena-line); border-radius: 999px; padding: 7px 14px;
     transition: border-color 0.15s ease, background 0.15s ease;
   }
-  .btn:hover { border-color: var(--gold); background: rgba(232, 189, 82, 0.08); }
+  .btn:hover { border-color: var(--pewter); background: rgba(255, 255, 255, 0.06); }
 
   /* --- the rafters --------------------------------------------------------- */
   .section { margin-top: 72px; }
@@ -315,7 +323,7 @@
     padding: 4px 11px; cursor: pointer; transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
   }
   .years button:hover { color: var(--arena-ink); border-color: var(--arena-line); }
-  .years button[aria-pressed="true"] { color: #1a1206; background: var(--gold); border-color: var(--gold); font-weight: 600; }
+  .years button[aria-pressed="true"] { color: var(--cloth-ink); background: var(--felt); border-color: var(--felt); font-weight: 600; }
   .rafters {
     display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 30px 24px; margin-top: 28px;
@@ -329,15 +337,15 @@
   }
   .leader .rk { color: var(--arena-muted); font-variant-numeric: tabular-nums; }
   .leader .nm { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.05em; font-size: 17px; }
-  .leader .n { font-family: var(--display); font-size: 20px; text-align: right; color: var(--gold-hi); }
+  .leader .n { font-family: var(--display); font-size: 20px; text-align: right; color: var(--felt); }
   .pennants { display: flex; flex-wrap: wrap; gap: 3px; }
   .pennants i {
     width: 9px; height: 15px; display: block;
     background: linear-gradient(180deg, var(--felt), var(--felt-deep));
-    border-top: 2px solid var(--gold);
+    border-top: 2px solid var(--pewter); opacity: 0.4;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%);
   }
-  .pennants i.recent { background: linear-gradient(180deg, var(--gold-hi), var(--gold)); }
+  .pennants i.recent { opacity: 1; }
   .show-all {
     margin-top: 12px; background: none; border: none; color: var(--arena-muted);
     font: inherit; font-size: 13px; cursor: pointer; text-decoration: underline;
@@ -557,8 +565,8 @@ function chartSvg(mo, s, big) {
   const area = `<polygon points="${x(0).toFixed(1)},${zero.toFixed(1)} ${pts(s.total)} ${lastX.toFixed(1)},${zero.toFixed(1)}" fill="url(#${id})"/>`;
   // the days not yet played this month, so a half-month never reads as a whole one
   const rest = mo.live ? `<rect x="${lastX}" y="${P.t}" width="${x(mo.days) - lastX}" height="${H - P.t - P.b}"
-    fill="rgba(255,255,255,0.035)"/><line x1="${lastX}" y1="${P.t}" x2="${lastX}" y2="${H - P.b}"
-    stroke="rgba(255,255,255,0.25)" stroke-dasharray="2 3"/>` : "";
+    fill="rgba(0,0,0,0.05)"/><line x1="${lastX}" y1="${P.t}" x2="${lastX}" y2="${H - P.b}"
+    stroke="rgba(0,0,0,0.3)" stroke-dasharray="2 3"/>` : "";
   const axis = big ? `
     <text x="${P.l - 5}" y="${y(max - pad) + 4}" text-anchor="end" font-size="9" fill="var(--arena-muted)">${fmtSigned(max - pad, 0)}</text>
     <text x="${P.l - 5}" y="${zero + 3}" text-anchor="end" font-size="9" fill="var(--arena-muted)">0</text>
@@ -567,13 +575,13 @@ function chartSvg(mo, s, big) {
   return `<svg class="b-chart" viewBox="0 0 ${W} ${H}" role="img"
     aria-label="Cumulative weighted score by day: the group total and each team's share">
     <defs><linearGradient id="${id}" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0" stop-color="#fbe3a0" stop-opacity="0.32"/><stop offset="1" stop-color="#fbe3a0" stop-opacity="0"/>
+      <stop offset="0" stop-color="#1c1c21" stop-opacity="0.16"/><stop offset="1" stop-color="#1c1c21" stop-opacity="0"/>
     </linearGradient></defs>
     ${rest}
-    <line x1="${P.l}" y1="${zero}" x2="${W - P.r}" y2="${zero}" stroke="rgba(255,255,255,0.28)" stroke-dasharray="3 3"/>
+    <line x1="${P.l}" y1="${zero}" x2="${W - P.r}" y2="${zero}" stroke="rgba(0,0,0,0.3)" stroke-dasharray="3 3"/>
     ${axis}${area}${teamLines}
     <polyline class="total" points="${pts(s.total)}" fill="none" stroke-width="${big ? 3 : 2.6}" stroke-linejoin="round" stroke-linecap="round"/>
-    <circle cx="${lastX}" cy="${lastY}" r="${big ? 4 : 3.4}" fill="var(--gold-hi)" stroke="var(--felt-deep)" stroke-width="1.5"/>
+    <circle cx="${lastX}" cy="${lastY}" r="${big ? 4 : 3.4}" fill="var(--cloth-ink)" stroke="var(--felt)" stroke-width="1.5"/>
   </svg>`;
 }
 
@@ -713,7 +721,7 @@ function leadersHtml() {
   const fmtMo = m => `${MONTHS[m.month - 1].slice(0, 3)} ${m.year}`;
   return `<section class="section">
     <h2>Most banners</h2>
-    <p class="sub">Every month on record since ${MONTHS[months[0].month - 1]} ${months[0].year}. Gold pennants were won in ${lastYear}.</p>
+    <p class="sub">Every month on record since ${MONTHS[months[0].month - 1]} ${months[0].year}. Bright pennants were won in ${lastYear}.</p>
     ${best ? `<div class="stat-row">
       <div class="stat"><div class="k">Biggest month</div><div class="v">${fmtSigned(best.champ.value)}</div>
         <div class="sub">${esc(best.champ.g.city)} · ${fmtMo(best)}</div></div>
@@ -751,7 +759,7 @@ function render() {
   document.getElementById("app").innerHTML = heroHtml() + liveHtml() + raftersHtml() + leadersHtml()
     + `<p class="foot-note">A month's champion is the city group with the best weighted total that month — each win worth
       365 ÷ season length (MLB ±2.25, NBA/NHL ±4.45, NFL ±21.47) — so the cities on the <a href="index.html">City Index</a>
-      fight for every one. Each banner charts the group's running total in gold and every team's share of it in its league color.
+      fight for every one. Each banner charts the group's running total in black and every team's share of it in its league color.
       Teams that moved count for their city from the season they arrived.</p>`;
   wire();
 }
