@@ -651,7 +651,7 @@ function heroHtml() {
     ${bannerHtml(mo, { big: true, raise: true })}
     <div class="hero-copy">
       <div class="eyebrow">Latest banner raised</div>
-      <div class="big">${esc(c.g.city)}<br>owned ${MONTHS[mo.month - 1]}</div>
+      <div class="big">${esc(c.g.city)}<br>${MONTHS[mo.month - 1]} champions</div>
       <p>${fmtRec(c)}${playing === 1 ? ", all of it from one team" : ` across ${playing} teams`}${mo.runnerUp
         ? margin < 0.05 ? `, level with ${esc(mo.runnerUp.g.city)} on points and ahead on wins`
           : `, finishing <strong>${fmtSigned(margin)}</strong> clear of ${esc(mo.runnerUp.g.city)}` : ""}.
