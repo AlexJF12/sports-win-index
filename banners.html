@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Banner Month — Banners</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><rect x=%220.5%22 y=%229%22 width=%223.6%22 height=%226%22 rx=%221.3%22 fill=%22%23a5a49c%22/><rect x=%226.2%22 y=%225.5%22 width=%223.6%22 height=%229.5%22 rx=%221.3%22 fill=%22%236f6e69%22/><rect x=%2211.9%22 y=%221%22 width=%223.6%22 height=%2214%22 rx=%221.3%22 fill=%22%237d3ff0%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --page:           #f9f9f7;
+    --surface:        #fcfcfb;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --hairline:       #e1e0d9;
+    --border:         rgba(11, 11, 11, 0.10);
+    --accent:         #7d3ff0;
+    --accent-ink:     #ffffff;
+    --chip:           rgba(11, 11, 11, 0.05);
+
+    /* the arena is lit the same in both themes: the house lights are down */
+    --arena:          #0c0a12;
+    --arena-2:        #17121f;
+    --arena-ink:      #f4f1ea;
+    --arena-muted:    #a49fb2;
+    --arena-line:     rgba(255, 255, 255, 0.09);
+    --steel:          #474552;
+    --steel-hi:       #6a6876;
+    --felt:           #3a1a78;
+    --felt-deep:      #1e0c45;
+    --gold:           #e8bd52;
+    --gold-hi:        #fbe3a0;
+    --gold-lo:        #a37a22;
+    --win:            #4fd16a;
+    --loss:           #ff6b6b;
+    --lg-mlb:         #5aa5f0;
+    --lg-nba:         #f5894a;
+    --lg-nhl:         #3fcf9b;
+    --lg-nfl:         #ee86b0;
+    --display:        "Oswald", "Bebas Neue", "Arial Narrow", Impact, sans-serif-condensed, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --page:           #0d0d0d;
+      --surface:        #1a1a19;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --hairline:       #2c2c2a;
+      --border:         rgba(255, 255, 255, 0.10);
+      --accent:         #9d6bff;
+      --accent-ink:     #12071f;
+      --chip:           rgba(255, 255, 255, 0.07);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--arena);
+    color: var(--text-primary);
+    font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  /* the brand bar, shared by every page (index, my-teams, groups, about, blog.css) */
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--page) 88%, transparent);
+    backdrop-filter: blur(10px) saturate(1.6);
+    -webkit-backdrop-filter: blur(10px) saturate(1.6);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .bar {
+    max-width: 880px; margin: 0 auto; padding: 9px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 4px 16px; flex-wrap: wrap;
+  }
+  .wordmark {
+    display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+    font-size: 17px; font-weight: 700; letter-spacing: -0.025em;
+    color: var(--text-primary); text-decoration: none;
+  }
+  .wordmark svg { width: 15px; height: 15px; display: block; }
+  .wordmark .b1 { fill: var(--text-muted); opacity: 0.5; }
+  .wordmark .b2 { fill: var(--text-muted); }
+  .wordmark .b3 { fill: var(--accent); transform-origin: 50% 100%; transition: transform 0.18s ease; }
+  .wordmark:hover .b3 { transform: scaleY(1.14); }
+  nav { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+  nav a {
+    color: var(--text-secondary); font-size: 13px; text-decoration: none;
+    padding: 5px 9px; border-radius: 999px;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  nav a:hover { color: var(--text-primary); background: var(--chip); }
+  nav [aria-current="page"] { color: var(--text-primary); font-weight: 650; background: var(--chip); }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  /* --- the arena ---------------------------------------------------------- */
+  .arena {
+    position: relative; overflow: hidden; color: var(--arena-ink);
+    background:
+      radial-gradient(ellipse 70% 45% at 50% -8%, rgba(255, 236, 190, 0.20), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 50% 115%, rgba(125, 63, 240, 0.22), transparent 70%),
+      linear-gradient(180deg, var(--arena) 0%, var(--arena-2) 55%, var(--arena) 100%);
+    min-height: calc(100vh - 50px);
+  }
+  /* two spotlight beams sweeping down from the catwalk */
+  .arena::before, .arena::after {
+    content: ""; position: absolute; top: -10%; width: 46%; height: 120%;
+    pointer-events: none; mix-blend-mode: screen; opacity: 0.55;
+    background: linear-gradient(180deg, rgba(255, 238, 200, 0.16), rgba(255, 238, 200, 0) 75%);
+    clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%);
+    filter: blur(6px);
+  }
+  .arena::before { left: -6%; transform: rotate(-16deg); transform-origin: 50% 0; animation: sweep-l 14s ease-in-out infinite; }
+  .arena::after  { right: -6%; transform: rotate(16deg); transform-origin: 50% 0; animation: sweep-r 17s ease-in-out infinite; }
+  @keyframes sweep-l { 50% { transform: rotate(-9deg); } }
+  @keyframes sweep-r { 50% { transform: rotate(10deg); } }
+
+  main { position: relative; z-index: 1; max-width: 980px; margin: 0 auto; padding: 28px 20px 72px; }
+
+  .eyebrow {
+    font-family: var(--display); font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.22em; font-size: 12px; color: var(--gold);
+  }
+  h1 {
+    font-family: var(--display); font-weight: 700; text-transform: uppercase;
+    font-size: clamp(40px, 8vw, 68px); line-height: 0.95; letter-spacing: 0.02em; margin: 6px 0 8px;
+    background: linear-gradient(180deg, var(--gold-hi), var(--gold) 55%, var(--gold-lo));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .tagline { color: var(--arena-muted); font-size: 15px; margin: 0; max-width: 560px; }
+  h2 {
+    font-family: var(--display); font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; font-size: 22px; margin: 0;
+  }
+  .sub { color: var(--arena-muted); font-size: 13.5px; margin: 4px 0 0; }
+  a { color: inherit; }
+  #error { color: var(--loss); margin: 24px 0; display: none; }
+  .loading { color: var(--arena-muted); margin: 48px 0; font-family: var(--display); letter-spacing: 0.18em; text-transform: uppercase; }
+
+  /* --- banners ------------------------------------------------------------ */
+  .banner {
+    position: relative; margin: 0; padding-top: 34px;
+    container-type: inline-size; display: flex; flex-direction: column;
+  }
+  /* banners in a row hang to the same length, however short their legend */
+  .sway, .cloth, .felt { flex: 1; display: flex; flex-direction: column; }
+  .b-legend { margin-top: auto !important; padding-top: 3cqw; }
+  /* each banner carries its own length of truss; side by side they join up */
+  .banner::before {
+    content: ""; position: absolute; top: 0; left: -12px; right: -12px; height: 14px;
+    background:
+      linear-gradient(var(--steel-hi), var(--steel-hi)) top / 100% 2px no-repeat,
+      linear-gradient(var(--steel-hi), var(--steel-hi)) bottom / 100% 2px no-repeat,
+      repeating-linear-gradient(60deg, transparent 0 6px, var(--steel) 6px 8px),
+      repeating-linear-gradient(-60deg, transparent 0 6px, var(--steel) 6px 8px),
+      #1c1a24;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+  }
+  .banner.solo::before { left: 8%; right: 8%; border-radius: 2px; }
+  .sway { transform-origin: 50% -20px; animation: sway 7s ease-in-out infinite; animation-delay: calc(var(--i, 0) * -1.3s); }
+  @keyframes sway { 0%, 100% { transform: rotate(-0.7deg); } 50% { transform: rotate(0.7deg); } }
+  .banner:hover .sway { animation-duration: 2.4s; }
+  /* the two wires and the rod the cloth hangs from */
+  .wires { position: absolute; top: -20px; left: 0; right: 0; height: 20px; pointer-events: none; }
+  .wires::before, .wires::after {
+    content: ""; position: absolute; top: 0; bottom: 0; width: 1px;
+    background: linear-gradient(var(--steel-hi), #b9b6c4);
+  }
+  .wires::before { left: 16%; transform: skewX(14deg); }
+  .wires::after { right: 16%; transform: skewX(-14deg); }
+  .rod {
+    height: 7px; margin: 0 -5px; border-radius: 4px; position: relative; z-index: 1;
+    background: linear-gradient(180deg, #d9d6e2, #7c7988 60%, #4b4955);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .cloth {
+    --notch: 9cqw;
+    text-decoration: none; color: var(--arena-ink); margin-top: -3px;
+    padding: 3px 3px 0;
+    background: linear-gradient(160deg, var(--gold-hi), var(--gold) 40%, var(--gold-lo));
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - var(--notch)), 0 100%);
+    filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.45));
+  }
+  .felt {
+    position: relative; overflow: hidden;
+    padding: 9cqw 8cqw calc(var(--notch) + 7cqw);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - var(--notch) + 1px), 0 100%);
+    background:
+      linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.07) 45%, transparent 60%),
+      radial-gradient(ellipse 90% 50% at 50% 0%, rgba(255, 255, 255, 0.10), transparent 70%),
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.06) 0 1px, transparent 1px 3px),
+      linear-gradient(180deg, var(--felt), var(--felt-deep));
+    text-align: center;
+  }
+  /* the stitched inner border */
+  .felt::before {
+    content: ""; position: absolute; inset: 3.5cqw 3.5cqw 0; pointer-events: none;
+    border: 1.5px dashed rgba(232, 189, 82, 0.45); border-bottom: none;
+  }
+  .felt::after {
+    content: ""; position: absolute; left: 3.5cqw; right: 3.5cqw; bottom: 0; height: var(--notch);
+    pointer-events: none;
+    background:
+      linear-gradient(to top right, transparent calc(50% - 1px), rgba(232, 189, 82, 0.45) calc(50% - 1px) calc(50% + 0.5px), transparent calc(50% + 0.5px)) left / 50% 100% no-repeat,
+      linear-gradient(to top left, transparent calc(50% - 1px), rgba(232, 189, 82, 0.45) calc(50% - 1px) calc(50% + 0.5px), transparent calc(50% + 0.5px)) right / 50% 100% no-repeat;
+    transform: translateY(calc(-1 * 3.5cqw));
+    opacity: 0.9;
+  }
+  .b-top { font-family: var(--display); font-weight: 600; letter-spacing: 0.24em; font-size: 4.6cqw; color: var(--gold); text-transform: uppercase; }
+  .b-stars { color: var(--gold); font-size: 4cqw; letter-spacing: 0.6em; margin: 1cqw 0 0 0.6em; }
+  .b-month {
+    font-family: var(--display); font-weight: 700; text-transform: uppercase; line-height: 0.92;
+    font-size: 15cqw; letter-spacing: 0.02em; margin-top: 2cqw;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  }
+  .b-month.long { font-size: 12.4cqw; }
+  .b-year {
+    font-family: var(--display); font-weight: 600; font-size: 8.5cqw; letter-spacing: 0.32em;
+    color: var(--gold-hi); margin: 1.5cqw 0 0 0.32em;
+  }
+  .b-rule { height: 1px; margin: 4cqw 6cqw; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .b-label { font-size: 3.6cqw; letter-spacing: 0.2em; text-transform: uppercase; color: var(--arena-muted); }
+  .b-city {
+    font-family: var(--display); font-weight: 600; text-transform: uppercase; line-height: 1.02;
+    font-size: 9.5cqw; letter-spacing: 0.04em; margin-top: 1cqw; overflow-wrap: anywhere;
+  }
+  .b-score { display: flex; justify-content: center; gap: 4cqw; margin-top: 2.5cqw; font-variant-numeric: tabular-nums; font-size: 5cqw; color: var(--arena-muted); }
+  .b-score strong { color: var(--gold-hi); font-weight: 700; }
+  .b-chart { display: block; flex: none; width: 100%; height: auto; margin-top: 4cqw; overflow: visible; }
+  .b-chart .total { stroke: var(--gold-hi); filter: drop-shadow(0 0 3px rgba(251, 227, 160, 0.65)); }
+  .b-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.4cqw; text-align: left; }
+  .b-legend li { display: flex; align-items: center; gap: 2.4cqw; font-size: 4.6cqw; line-height: 1.2; }
+  .b-legend .sw { flex: none; width: 5cqw; height: 0.8cqw; min-height: 2px; border-radius: 2px; }
+  .b-legend .nm { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .b-legend .rec { color: var(--arena-muted); font-variant-numeric: tabular-nums; }
+  .b-legend .v { font-variant-numeric: tabular-nums; font-weight: 650; min-width: 11cqw; text-align: right; }
+  .pos { color: var(--win); }
+  .neg { color: var(--loss); }
+
+  /* the month still being played: the banner is rolled out, not yet raised */
+  .banner.live .cloth { background: repeating-linear-gradient(45deg, var(--gold) 0 6px, var(--gold-lo) 6px 12px); }
+  .banner.live .felt { background: linear-gradient(180deg, #2a2340, #15111f); }
+  .banner.live .b-top { color: var(--arena-muted); }
+  .live-tag {
+    display: inline-flex; align-items: center; gap: 1.6cqw; margin-top: 2cqw;
+    font-size: 3.8cqw; letter-spacing: 0.18em; text-transform: uppercase; color: var(--loss);
+  }
+  .live-tag::before { content: ""; width: 2cqw; height: 2cqw; border-radius: 50%; background: var(--loss); animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: 0.25; } }
+
+  /* a hook that hasn't been used yet */
+  .banner.empty .slot {
+    aspect-ratio: 1 / 2.05; margin-top: -3px; border: 1.5px dashed var(--arena-line);
+    border-top: none; display: grid; place-items: center;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 9cqw), 0 100%);
+    background: rgba(255, 255, 255, 0.015);
+  }
+  .banner.empty .slot span {
+    font-family: var(--display); text-transform: uppercase; letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.22); font-size: 8cqw; writing-mode: vertical-rl;
+  }
+
+  /* --- hero: the latest banner raised ------------------------------------- */
+  .hero { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 44px; align-items: start; margin-top: 36px; }
+  .hero .banner { width: 100%; }
+  .raise .sway { animation: raise 1.6s cubic-bezier(0.2, 0.9, 0.25, 1.15) both, sway 7s ease-in-out 1.6s infinite; }
+  @keyframes raise {
+    0% { transform: translateY(70vh) rotate(-2deg); opacity: 0; }
+    15% { opacity: 1; }
+    100% { transform: translateY(0) rotate(0); opacity: 1; }
+  }
+  .hero-copy { padding-top: 40px; }
+  .hero-copy .big {
+    font-family: var(--display); font-weight: 700; text-transform: uppercase; line-height: 1;
+    font-size: clamp(34px, 5.4vw, 52px); letter-spacing: 0.01em; margin: 8px 0 6px;
+  }
+  .hero-copy p { color: var(--arena-muted); margin: 0 0 18px; }
+  .hero-copy p strong { color: var(--arena-ink); }
+  .stat-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 18px 0; }
+  .stat {
+    border: 1px solid var(--arena-line); border-radius: 12px; padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .stat .k { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--arena-muted); }
+  .stat .v { font-family: var(--display); font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .contrib { list-style: none; margin: 0; padding: 0; }
+  .contrib li { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto 70px; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid var(--arena-line); font-size: 14px; }
+  .contrib .bar-wrap { grid-column: 2 / 5; height: 4px; border-radius: 4px; background: rgba(255, 255, 255, 0.06); position: relative; margin-top: -4px; }
+  .contrib .bar-wrap span { position: absolute; top: 0; bottom: 0; border-radius: 4px; }
+  .contrib .rec { color: var(--arena-muted); font-variant-numeric: tabular-nums; }
+  .contrib .v { text-align: right; font-variant-numeric: tabular-nums; font-weight: 650; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 16px;
+    color: var(--arena-ink); text-decoration: none; font-size: 13px;
+    border: 1px solid var(--arena-line); border-radius: 999px; padding: 7px 14px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .btn:hover { border-color: var(--gold); background: rgba(232, 189, 82, 0.08); }
+
+  /* --- the rafters --------------------------------------------------------- */
+  .section { margin-top: 72px; }
+  .section-head { display: flex; align-items: end; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; }
+  .years { display: flex; gap: 4px; flex-wrap: wrap; }
+  .years button {
+    font-family: var(--display); font-size: 14px; letter-spacing: 0.06em;
+    background: none; color: var(--arena-muted); border: 1px solid transparent; border-radius: 999px;
+    padding: 4px 11px; cursor: pointer; transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .years button:hover { color: var(--arena-ink); border-color: var(--arena-line); }
+  .years button[aria-pressed="true"] { color: #1a1206; background: var(--gold); border-color: var(--gold); font-weight: 600; }
+  .rafters {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 30px 24px; margin-top: 28px;
+  }
+
+  /* --- most banners -------------------------------------------------------- */
+  .leaders { margin-top: 20px; border-top: 1px solid var(--arena-line); }
+  .leader {
+    display: grid; grid-template-columns: 28px minmax(110px, 180px) minmax(0, 1fr) 36px;
+    align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--arena-line);
+  }
+  .leader .rk { color: var(--arena-muted); font-variant-numeric: tabular-nums; }
+  .leader .nm { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.05em; font-size: 17px; }
+  .leader .n { font-family: var(--display); font-size: 20px; text-align: right; color: var(--gold-hi); }
+  .pennants { display: flex; flex-wrap: wrap; gap: 3px; }
+  .pennants i {
+    width: 9px; height: 15px; display: block;
+    background: linear-gradient(180deg, var(--felt), var(--felt-deep));
+    border-top: 2px solid var(--gold);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%);
+  }
+  .pennants i.recent { background: linear-gradient(180deg, var(--gold-hi), var(--gold)); }
+  .show-all {
+    margin-top: 12px; background: none; border: none; color: var(--arena-muted);
+    font: inherit; font-size: 13px; cursor: pointer; text-decoration: underline;
+  }
+  .foot-note { color: var(--arena-muted); font-size: 12.5px; margin-top: 56px; max-width: 640px; }
+
+  @media (max-width: 860px) {
+    .rafters { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .hero { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .hero .banner { max-width: 320px; margin: 0 auto; }
+    .hero-copy { padding-top: 12px; }
+    .rafters { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 18px; }
+    .years { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px; }
+    .years button { flex: none; }
+    .stat .v { font-size: 21px; }
+    .leader { grid-template-columns: 22px minmax(90px, 120px) minmax(0, 1fr) 28px; gap: 8px; }
+  }
+  @media (max-width: 560px) {
+    main { padding: 20px 16px 56px; }
+    .bar { padding: 8px 12px; }
+    nav { flex-basis: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="bar">
+    <a class="wordmark" href="index.html" aria-label="Banner Month — home">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><rect class="b1" x="0.5" y="9" width="3.6" height="6" rx="1.3"/><rect class="b2" x="6.2" y="5.5" width="3.6" height="9.5" rx="1.3"/><rect class="b3" x="11.9" y="1" width="3.6" height="14" rx="1.3"/></svg>
+      Banner Month
+    </a>
+    <nav>
+      <a href="index.html">Cities</a>
+      <a href="banners.html" aria-current="page">Banners</a>
+      <a href="my-teams.html">My teams</a>
+      <a href="groups.html">Groups</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</div>
+<div class="arena">
+<main>
+  <div class="eyebrow">The rafters</div>
+  <h1>Hang the Banner</h1>
+  <p class="tagline">Every month one city wins it — the best weighted record across its four teams. Win the month, and the banner goes up.</p>
+  <p id="error"></p>
+  <div id="app"><p class="loading">Raising the banners…</p></div>
+</main>
+</div>
+
+<script>
+const LEAGUES = ["mlb", "nba", "nhl", "nfl"];
+const LEAGUE_EMOJI = { mlb: "⚾", nba: "🏀", nhl: "🏒", nfl: "🏈" };
+// a game's share of the year: 365 / regular-season games
+const LEAGUE_WEIGHT = { mlb: 365 / 162, nba: 365 / 82, nhl: 365 / 82, nfl: 365 / 17 };
+const LEAGUE_COLOR = { mlb: "var(--lg-mlb)", nba: "var(--lg-nba)", nhl: "var(--lg-nhl)", nfl: "var(--lg-nfl)" };
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+// Teams that moved into their current city after the record begins: a city
+// group's history starts when the team arrived (mirrors ARRIVALS in
+// fandom_analysis.py — Sacramento did not live through the Oakland A's seasons)
+const ARRIVALS = {
+  "nfl|LAR": "20160701",   // St. Louis Rams until the 2015 season
+  "nfl|LAC": "20170701",   // San Diego Chargers until the 2016 season
+  "nfl|LV": "20200701",    // Oakland Raiders until the 2019 season
+  "mlb|ATH": "20250101",   // Oakland Athletics until the 2024 season
+};
+const LEADERS_N = 10;
+
+let groups = [];
+let months = [];         // [{ym, year, month, days, played, live, ranked}], oldest first
+const teamMonth = {};    // "league|abbr" -> ym -> [{day, delta, res}]
+let year = null;         // year shown in the rafters
+let showAllLeaders = false;
+
+function parseCsv(text) {
+  const lines = text.trim().split(/\r?\n/);  // python csv writes CRLF
+  if (lines.length < 2) return [];
+  const cols = lines[0].split(",");
+  return lines.slice(1).map(line => {
+    const cells = line.split(",");
+    return Object.fromEntries(cols.map((c, i) => [c, cells[i] ?? ""]));
+  });
+}
+
+async function fetchJson(path) {
+  const r = await fetch(path);
+  if (!r.ok) throw new Error(`${path}: HTTP ${r.status}`);
+  return r.json();
+}
+
+async function fetchScores(league, years) {
+  const texts = await Promise.all(years.map(async y => {
+    const r = await fetch(`data/${league}/${y}/${league}_scores_${y}.csv`);
+    return r.ok ? r.text() : "";  // year file may not exist yet (off-season)
+  }));
+  return texts.flatMap(t => t ? parseCsv(t) : []);
+}
+
+function fmtSigned(n, decimals = 1) {
+  if (Math.abs(n) < 1e-9) n = 0;
+  const s = n.toFixed(decimals);
+  return n > 0 ? `+${s}` : s;
+}
+function signCls(n) { return n > 1e-9 ? "pos" : n < -1e-9 ? "neg" : ""; }
+function fmtRec(r) { return `${r.w}–${r.l}${r.t ? "–" + r.t : ""}`; }
+function daysIn(y, m) { return new Date(y, m, 0).getDate(); }  // m is 1-based
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+
+function myTeamsUrl(teams) {
+  const params = new URLSearchParams();
+  for (const l of LEAGUES) {
+    const t = teams.find(p => p.league === l);
+    params.set(l, t ? t.abbr : "");
+  }
+  return `my-teams.html?${params.toString()}`;
+}
+
+// --- the standings ----------------------------------------------------------
+
+function indexGames(scores) {
+  let latest = "";
+  for (const league of LEAGUES) {
+    for (const r of scores[league]) {
+      if (r.date > latest) latest = r.date;
+      for (const abbr of [r.away_team, r.home_team]) {
+        const key = `${league}|${abbr}`;
+        if (r.date < (ARRIVALS[key] || "")) continue;
+        const res = r.winner === abbr ? "W" : r.winner === "" ? "T" : "L";
+        const delta = res === "W" ? LEAGUE_WEIGHT[league] : res === "L" ? -LEAGUE_WEIGHT[league] : 0;
+        const byMonth = teamMonth[key] || (teamMonth[key] = {});
+        const ym = r.date.slice(0, 6);
+        (byMonth[ym] || (byMonth[ym] = [])).push({ day: +r.date.slice(6, 8), delta, res });
+      }
+    }
+  }
+  return latest;
+}
+
+function groupMonth(g, ym) {
+  let w = 0, l = 0, t = 0, value = 0;
+  for (const team of g.teams) {
+    for (const game of teamMonth[`${team.league}|${team.abbr}`]?.[ym] || []) {
+      if (game.res === "W") w++; else if (game.res === "L") l++; else t++;
+      value += game.delta;
+    }
+  }
+  return { g, w, l, t, value };
+}
+
+function buildMonths(latest) {
+  const first = Object.values(teamMonth).flatMap(Object.keys).sort()[0];
+  const out = [];
+  let y = +first.slice(0, 4), m = +first.slice(4, 6);
+  const lastYm = latest.slice(0, 6);
+  for (;;) {
+    const ym = `${y}${String(m).padStart(2, "0")}`;
+    if (ym > lastYm) break;
+    const days = daysIn(y, m);
+    const live = ym === lastYm && +latest.slice(6, 8) < days;
+    const ranked = groups.map(g => groupMonth(g, ym))
+      .filter(r => r.w + r.l + r.t > 0)
+      .sort((a, b) => b.value - a.value || b.w - a.w || a.g.name.localeCompare(b.g.name, undefined, { numeric: true }));
+    if (ranked.length) {
+      const champ = ranked[0];
+      const runnerUp = ranked.find(r => r.g.city !== champ.g.city) || null;
+      out.push({ ym, year: y, month: m, days, played: live ? +latest.slice(6, 8) : days, live, champ, runnerUp });
+    }
+    if (++m > 12) { m = 1; y++; }
+  }
+  return out;
+}
+
+// per-team cumulative contribution, day 0 (zero) through the last day played
+function series(mo) {
+  const teams = mo.champ.g.teams.map(team => {
+    const games = teamMonth[`${team.league}|${team.abbr}`]?.[mo.ym] || [];
+    const daily = new Array(mo.played + 1).fill(0);
+    let w = 0, l = 0, t = 0;
+    for (const game of games) {
+      daily[game.day] += game.delta;
+      if (game.res === "W") w++; else if (game.res === "L") l++; else t++;
+    }
+    let cum = 0;
+    const values = daily.map(d => (cum += d));
+    return { ...team, values, w, l, t, value: cum, played: w + l + t > 0 };
+  });
+  const total = teams[0].values.map((_, i) => teams.reduce((s, t) => s + t.values[i], 0));
+  return { teams, total };
+}
+
+// --- drawing ----------------------------------------------------------------
+
+let gradId = 0;
+function chartSvg(mo, s, big) {
+  const W = 240, H = big ? 150 : 128;
+  const P = big ? { l: 26, r: 8, t: 8, b: 18 } : { l: 4, r: 4, t: 6, b: 6 };
+  const all = s.total.concat(...s.teams.map(t => t.values));
+  let min = Math.min(0, ...all), max = Math.max(0, ...all);
+  if (max === min) max = min + 1;
+  const pad = (max - min) * 0.06;
+  min -= pad; max += pad;
+  const x = d => P.l + (d / mo.days) * (W - P.l - P.r);
+  const y = v => P.t + (1 - (v - min) / (max - min)) * (H - P.t - P.b);
+  const pts = vals => vals.map((v, d) => `${x(d).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  const id = `g${++gradId}`;
+  const lastX = x(mo.played), lastY = y(s.total[s.total.length - 1]);
+  const zero = y(0);
+
+  const teamLines = s.teams.filter(t => t.played).map(t => `<polyline points="${pts(t.values)}" fill="none"
+    stroke="${LEAGUE_COLOR[t.league]}" stroke-width="${big ? 1.6 : 1.4}" stroke-linejoin="round" stroke-linecap="round" opacity="0.9"/>`).join("");
+  const area = `<polygon points="${x(0).toFixed(1)},${zero.toFixed(1)} ${pts(s.total)} ${lastX.toFixed(1)},${zero.toFixed(1)}" fill="url(#${id})"/>`;
+  // the days not yet played this month, so a half-month never reads as a whole one
+  const rest = mo.live ? `<rect x="${lastX}" y="${P.t}" width="${x(mo.days) - lastX}" height="${H - P.t - P.b}"
+    fill="rgba(255,255,255,0.035)"/><line x1="${lastX}" y1="${P.t}" x2="${lastX}" y2="${H - P.b}"
+    stroke="rgba(255,255,255,0.25)" stroke-dasharray="2 3"/>` : "";
+  const axis = big ? `
+    <text x="${P.l - 5}" y="${y(max - pad) + 4}" text-anchor="end" font-size="9" fill="var(--arena-muted)">${fmtSigned(max - pad, 0)}</text>
+    <text x="${P.l - 5}" y="${zero + 3}" text-anchor="end" font-size="9" fill="var(--arena-muted)">0</text>
+    ${min + pad < -1 ? `<text x="${P.l - 5}" y="${y(min + pad) + 2}" text-anchor="end" font-size="9" fill="var(--arena-muted)">${fmtSigned(min + pad, 0)}</text>` : ""}
+    ${[1, 15, mo.days].map(d => `<text x="${x(d)}" y="${H - 4}" text-anchor="middle" font-size="9" fill="var(--arena-muted)">${d}</text>`).join("")}` : "";
+  return `<svg class="b-chart" viewBox="0 0 ${W} ${H}" role="img"
+    aria-label="Cumulative weighted score by day: the group total and each team's share">
+    <defs><linearGradient id="${id}" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#fbe3a0" stop-opacity="0.32"/><stop offset="1" stop-color="#fbe3a0" stop-opacity="0"/>
+    </linearGradient></defs>
+    ${rest}
+    <line x1="${P.l}" y1="${zero}" x2="${W - P.r}" y2="${zero}" stroke="rgba(255,255,255,0.28)" stroke-dasharray="3 3"/>
+    ${axis}${area}${teamLines}
+    <polyline class="total" points="${pts(s.total)}" fill="none" stroke-width="${big ? 3 : 2.6}" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${lastX}" cy="${lastY}" r="${big ? 4 : 3.4}" fill="var(--gold-hi)" stroke="var(--felt-deep)" stroke-width="1.5"/>
+  </svg>`;
+}
+
+function bannerHtml(mo, { big = false, i = 0, raise = false } = {}) {
+  const s = series(mo);
+  const c = mo.champ;
+  const name = MONTHS[mo.month - 1];
+  const legend = s.teams.map(t => `<li>
+      <span class="sw" style="background:${LEAGUE_COLOR[t.league]}"></span>
+      <span class="nm">${LEAGUE_EMOJI[t.league]} ${esc(t.nickname)}</span>
+      <span class="v ${signCls(t.value)}">${t.played ? fmtSigned(t.value) : "—"}</span>
+    </li>`).join("");
+  const cls = ["banner", mo.live ? "live" : "", big ? "solo" : "", raise ? "raise" : ""].filter(Boolean).join(" ");
+  const title = `${name} ${mo.year}: ${c.g.city}, ${fmtRec(c)}, ${fmtSigned(c.value)} weighted`;
+  return `<figure class="${cls}" style="--i:${i}">
+    <div class="sway">
+      <div class="wires"></div><div class="rod"></div>
+      <a class="cloth" href="${myTeamsUrl(c.g.teams)}" title="${esc(title)} — open in My Teams">
+        <div class="felt">
+          <div class="b-top">${mo.live ? "Leading" : "Champions"}</div>
+          <div class="b-stars">★★★</div>
+          <div class="b-month${name.length > 7 ? " long" : ""}">${name}</div>
+          <div class="b-year">${mo.year}</div>
+          ${mo.live ? `<div class="live-tag">Day ${mo.played} of ${mo.days}</div>` : ""}
+          <div class="b-rule"></div>
+          <div class="b-city">${esc(c.g.city)}</div>
+          <div class="b-score"><span>${fmtRec(c)}</span><strong>${fmtSigned(c.value)}</strong></div>
+          ${chartSvg(mo, s, big)}
+          <ul class="b-legend">${legend}</ul>
+        </div>
+      </a>
+    </div>
+  </figure>`;
+}
+
+function emptyHook(m, i) {
+  return `<figure class="banner empty" style="--i:${i}">
+    <div class="sway"><div class="wires"></div><div class="rod"></div>
+      <div class="slot"><span>${MONTHS[m - 1].slice(0, 3)}</span></div></div>
+  </figure>`;
+}
+
+// --- sections ---------------------------------------------------------------
+
+function heroHtml() {
+  const done = months.filter(m => !m.live);
+  const mo = done[done.length - 1];
+  if (!mo) return "";
+  const s = series(mo);
+  const c = mo.champ;
+  const margin = mo.runnerUp ? c.value - mo.runnerUp.value : null;
+  const count = done.filter(m => m.champ.g.city === c.g.city).length;
+  const playing = s.teams.filter(t => t.played).length;
+  const maxAbs = Math.max(...s.teams.map(t => Math.abs(t.value)), 1e-9);
+  const contrib = s.teams.map(t => {
+    const pct = 50 * Math.abs(t.value) / maxAbs;
+    const bar = t.value >= 0 ? `left:50%;width:${pct}%` : `right:50%;width:${pct}%`;
+    return `<li>
+      <span>${LEAGUE_EMOJI[t.league]}</span>
+      <span>${esc(t.nickname)}</span>
+      <span class="rec">${t.played ? fmtRec(t) : "off-season"}</span>
+      <span class="v ${signCls(t.value)}">${t.played ? fmtSigned(t.value) : "—"}</span>
+      <span class="bar-wrap"><span style="${bar};background:${LEAGUE_COLOR[t.league]}"></span></span>
+    </li>`;
+  }).join("");
+  return `<div class="hero">
+    ${bannerHtml(mo, { big: true, raise: true })}
+    <div class="hero-copy">
+      <div class="eyebrow">Latest banner raised</div>
+      <div class="big">${esc(c.g.city)}<br>owned ${MONTHS[mo.month - 1]}</div>
+      <p>${fmtRec(c)}${playing === 1 ? ", all of it from one team" : ` across ${playing} teams`}${mo.runnerUp
+        ? margin < 0.05 ? `, level with ${esc(mo.runnerUp.g.city)} on points and ahead on wins`
+          : `, finishing <strong>${fmtSigned(margin)}</strong> clear of ${esc(mo.runnerUp.g.city)}` : ""}.
+        That's banner <strong>#${count}</strong> for ${esc(c.g.city)} since ${months[0].year}.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="k">Weighted</div><div class="v">${fmtSigned(c.value)}</div></div>
+        <div class="stat"><div class="k">Record</div><div class="v">${fmtRec(c)}</div></div>
+        <div class="stat"><div class="k">Margin</div><div class="v">${margin == null ? "—" : fmtSigned(margin)}</div></div>
+      </div>
+      <ul class="contrib">${contrib}</ul>
+      <a class="btn" href="${myTeamsUrl(c.g.teams)}">Follow this fandom in My Teams →</a>
+    </div>
+  </div>`;
+}
+
+function raftersHtml() {
+  const years = [...new Set(months.map(m => m.year))].sort((a, b) => b - a);
+  const inYear = months.filter(m => m.year === year);
+  const byMonth = Object.fromEntries(inYear.map(m => [m.month, m]));
+  const live = months.find(m => m.live);
+  const cells = [];
+  for (let m = 1; m <= 12; m++) {
+    if (byMonth[m]) cells.push(bannerHtml(byMonth[m], { i: m }));
+    else if (!live || year >= live.year) cells.push(emptyHook(m, m));  // months still to come
+  }
+  const champs = inYear.filter(m => !m.live).map(m => m.champ.g.city);
+  const top = Object.entries(champs.reduce((a, c) => (a[c] = (a[c] || 0) + 1, a), {}))
+    .sort((a, b) => b[1] - a[1])[0];
+  const sub = !champs.length ? "The first banner of the year is still being played for."
+    : `${champs.length} banner${champs.length === 1 ? "" : "s"} raised` +
+      (top && top[1] > 1 ? ` — ${esc(top[0])} took ${top[1]} of them.` : ", every one to a different city.");
+  return `<section class="section" id="rafters">
+    <div class="section-head">
+      <div><h2>The ${year} rafters</h2><p class="sub">${sub}</p></div>
+      <div class="years" role="group" aria-label="Year">${years.map(y =>
+        `<button data-year="${y}" aria-pressed="${y === year}">${y}</button>`).join("")}</div>
+    </div>
+    <div class="rafters">${cells.join("")}</div>
+  </section>`;
+}
+
+function leadersHtml() {
+  const done = months.filter(m => !m.live);
+  const tally = {};
+  for (const m of done) {
+    const c = m.champ.g.city;
+    (tally[c] || (tally[c] = [])).push(m);
+  }
+  const rows = Object.entries(tally).sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
+  const shown = showAllLeaders ? rows : rows.slice(0, LEADERS_N);
+  const lastYear = done.length ? done[done.length - 1].year : 0;
+  let rank = 0, prev = null;
+  const html = shown.map(([city, ms], i) => {
+    if (ms.length !== prev) { rank = i + 1; prev = ms.length; }
+    const pennants = ms.map(m => `<i class="${m.year === lastYear ? "recent" : ""}"
+      title="${MONTHS[m.month - 1]} ${m.year} · ${fmtSigned(m.champ.value)}"></i>`).join("");
+    return `<div class="leader">
+      <span class="rk">${rank}</span>
+      <span class="nm">${esc(city)}</span>
+      <span class="pennants">${pennants}</span>
+      <span class="n">${ms.length}</span>
+    </div>`;
+  }).join("");
+  const best = done.reduce((a, m) => !a || m.champ.value > a.champ.value ? m : a, null);
+  const close = done.filter(m => m.runnerUp && m.champ.value - m.runnerUp.value >= 0.05)  // a dead heat goes to wins
+    .reduce((a, m) => !a || m.champ.value - m.runnerUp.value < a.champ.value - a.runnerUp.value ? m : a, null);
+  const fmtMo = m => `${MONTHS[m.month - 1].slice(0, 3)} ${m.year}`;
+  return `<section class="section">
+    <h2>Most banners</h2>
+    <p class="sub">Every month on record since ${MONTHS[months[0].month - 1]} ${months[0].year}. Gold pennants were won in ${lastYear}.</p>
+    ${best ? `<div class="stat-row">
+      <div class="stat"><div class="k">Biggest month</div><div class="v">${fmtSigned(best.champ.value)}</div>
+        <div class="sub">${esc(best.champ.g.city)} · ${fmtMo(best)}</div></div>
+      ${close ? `<div class="stat"><div class="k">Closest finish</div><div class="v">${fmtSigned(close.champ.value - close.runnerUp.value, 2)}</div>
+        <div class="sub">${esc(close.champ.g.city)} over ${esc(close.runnerUp.g.city)} · ${fmtMo(close)}</div></div>` : ""}
+      <div class="stat"><div class="k">Cities with a banner</div><div class="v">${rows.length}</div>
+        <div class="sub">of ${new Set(groups.map(g => g.city)).size}</div></div>
+    </div>` : ""}
+    <div class="leaders">${html}</div>
+    ${rows.length > LEADERS_N ? `<button class="show-all">${showAllLeaders ? `Show top ${LEADERS_N}` : `Show all ${rows.length} cities`}</button>` : ""}
+  </section>`;
+}
+
+// "leads Boston by +4.5", or, level on points, the wins tiebreak that decides it
+function leadText(mo) {
+  const r = mo.runnerUp;
+  if (!r) return "leads";
+  const margin = mo.champ.value - r.value;
+  return margin < 0.05 ? `is level with ${esc(r.g.city)} on points, ahead on wins`
+    : `leads ${esc(r.g.city)} by ${fmtSigned(margin)}`;
+}
+
+function liveHtml() {
+  const mo = months.find(m => m.live);
+  if (!mo) return "";
+  return `<section class="section">
+    <div class="section-head"><div>
+      <h2>Still up for grabs</h2>
+      <p class="sub">${MONTHS[mo.month - 1]} is ${mo.played} days in. ${esc(mo.champ.g.city)} ${leadText(mo)} — the banner stays on the floor until the month is done.</p>
+    </div></div>
+  </section>`;
+}
+
+function render() {
+  document.getElementById("app").innerHTML = heroHtml() + liveHtml() + raftersHtml() + leadersHtml()
+    + `<p class="foot-note">A month's champion is the city group with the best weighted total that month — each win worth
+      365 ÷ season length (MLB ±2.25, NBA/NHL ±4.45, NFL ±21.47) — so the cities on the <a href="index.html">City Index</a>
+      fight for every one. Each banner charts the group's running total in gold and every team's share of it in its league color.
+      Teams that moved count for their city from the season they arrived.</p>`;
+  wire();
+}
+
+function wire() {
+  document.querySelectorAll(".years button").forEach(b => b.onclick = () => {
+    year = +b.dataset.year;
+    history.replaceState(null, "", `#${year}`);
+    document.getElementById("rafters").outerHTML = raftersHtml();
+    wire();
+  });
+  const more = document.querySelector(".show-all");
+  if (more) more.onclick = () => { showAllLeaders = !showAllLeaders; render(); };
+}
+
+async function init() {
+  try {
+    const [groupsJson, manifest] = await Promise.all([
+      fetchJson("city_groups.json"),
+      fetchJson("data/manifest.json"),
+    ]);
+    const csvs = await Promise.all(LEAGUES.map(l => fetchScores(l, manifest[l] || [])));
+    groups = groupsJson;
+    const scores = Object.fromEntries(LEAGUES.map((l, i) => [l, csvs[i]]));
+    months = buildMonths(indexGames(scores));
+    const years = new Set(months.map(m => m.year));
+    const fromHash = +location.hash.slice(1);
+    year = years.has(fromHash) ? fromHash : months[months.length - 1].year;
+    render();
+  } catch (err) {
+    const e = document.getElementById("error");
+    e.style.display = "block";
+    e.textContent = `Could not load data (${err.message}). Serve this page over HTTP from the repo root, e.g.: python3 -m http.server`;
+    document.getElementById("app").innerHTML = "";
+  }
+}
+init();
+</script>
+</body>
+</html>
