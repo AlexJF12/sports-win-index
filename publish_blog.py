@@ -549,6 +549,7 @@ def render_page(post: dict, base_url: str) -> str:
         f'aria-label="{SITE_NAME} — home">{MARK} {SITE_NAME}</a>',
         "    <nav>",
         f'      <a href="{root}index.html">Cities</a>',
+        f'      <a href="{root}banners.html">Banners</a>',
         f'      <a href="{root}my-teams.html">My teams</a>',
         f'      <a href="{root}groups.html">Groups</a>',
         f'      <a href="{root}blog.html" aria-current="page">Blog</a>',
