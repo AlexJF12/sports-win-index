@@ -1,10 +1,79 @@
 {
- "generated": "2026-10-09",
+ "generated": "2026-10-10",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-09",
+   "kind": "daily",
+   "title": "City of the day \u2014 Houston",
+   "dek": "Houston: Astros/Rockets/Texans",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "117-112, -24.4 weighted over 229 games; longest run 9 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "more alternating than chance (-2.5)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -130.7, 2011 +34.0, 2012 +55.4, 2013 -343.9, 2014 +122.5, 2015 +117.5, 2016 +149.2, 2017 +15.8, 2018 +414.9, 2019 +326.3, 2020 -148.1, 2021 -340.1, 2022 -311.7, 2023 -12.2, 2024 +138.2, 2025 +270.8"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "7-15, -94.9 weighted; longest run 4 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "September 10, 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Astros",
+        "7-11",
+        "-9.0",
+        "3 straight losses"
+       ],
+       [
+        "Texans",
+        "0-4",
+        "-85.9",
+        "4 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Houston: Astros/Rockets/Texans \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Houston: Astros/Rockets/Texans \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-09/daily.html"
+  },
   {
    "date": "2026-10-08",
    "kind": "daily",

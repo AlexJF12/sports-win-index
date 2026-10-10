@@ -338,5 +338,10 @@
   "date": "2026-10-08",
   "city": "Cleveland",
   "group": "Cleveland"
+ },
+ {
+  "date": "2026-10-09",
+  "city": "Houston",
+  "group": "Houston"
  }
 ]
