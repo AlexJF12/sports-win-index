@@ -1,10 +1,79 @@
 {
- "generated": "2026-10-10",
+ "generated": "2026-10-11",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-10",
+   "kind": "daily",
+   "title": "City of the day \u2014 Kansas City",
+   "dek": "Kansas City: Royals/Chiefs",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "73-94, +10.3 weighted over 167 games; longest run 9 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "clumpier than chance (+2.1)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 +65.7, 2011 -150.2, 2012 -276.7, 2013 +151.4, 2014 +71.0, 2015 +184.0, 2016 +171.8, 2017 +81.4, 2018 +46.7, 2019 +72.6, 2020 +325.5, 2021 +118.8, 2022 +142.6, 2023 +80.6, 2024 +430.5, 2025 -81.4"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "8-11, +70.1 weighted; longest run 4 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "September 11, 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Royals",
+        "4-11",
+        "-15.8",
+        "5 straight losses"
+       ],
+       [
+        "Chiefs",
+        "4-0",
+        "+85.9",
+        "4 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Kansas City: Royals/Chiefs \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Kansas City: Royals/Chiefs \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-10/daily.html"
+  },
   {
    "date": "2026-10-09",
    "kind": "daily",

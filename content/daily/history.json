@@ -343,5 +343,10 @@
   "date": "2026-10-09",
   "city": "Houston",
   "group": "Houston"
+ },
+ {
+  "date": "2026-10-10",
+  "city": "Kansas City",
+  "group": "Kansas City"
  }
 ]
