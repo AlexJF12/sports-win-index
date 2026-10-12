@@ -348,5 +348,10 @@
   "date": "2026-10-10",
   "city": "Kansas City",
   "group": "Kansas City"
+ },
+ {
+  "date": "2026-10-11",
+  "city": "Salt Lake City",
+  "group": "Salt Lake City"
  }
 ]

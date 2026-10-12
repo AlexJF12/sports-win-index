@@ -2453,3 +2453,4 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261007,mlb,401908005,MIL,3,SD,1,MIL,Final
 20261008,mlb,401907993,CLE,9,CHW,5,CLE,Final
 20261010,mlb,401907994,CHW,0,CLE,2,CLE,Final
+20261011,mlb,401908030,LAD,1,MIL,2,MIL,Final
