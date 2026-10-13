@@ -1,10 +1,92 @@
 {
- "generated": "2026-10-12",
+ "generated": "2026-10-13",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-12",
+   "kind": "daily",
+   "title": "City of the day \u2014 Buffalo",
+   "dek": "Buffalo: Sabres/Bills",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "45-25, +157.1 weighted over 70 games; longest run 8 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.2)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -173.3, 2011 -59.2, 2012 -107.4, 2013 -192.7, 2014 -99.5, 2015 -172.8, 2016 -62.3, 2017 -85.4, 2018 -160.8, 2019 -25.4, 2020 +162.9, 2021 -61.8, 2022 +218.4, 2023 +71.7, 2024 +209.5, 2025 +142.2"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "7-4, +64.4 weighted; longest run 3 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "September 13, 2026"
+      },
+      {
+       "label": "October 2026 through day 12",
+       "value": "4-4, +0.0 weighted \u2014 the fourth-best of the 12 on record"
+      },
+      {
+       "label": "Same October in earlier years (same stretch)",
+       "value": "2010 -47.4, 2011 +8.9, 2013 -48.2, 2014 -8.9, 2015 -4.5, 2017 -17.8, 2018 +21.5, 2019 +34.8, 2023 -4.5, 2024 -30.4, 2025 -30.4"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Sabres",
+        "3-3",
+        "+0.0",
+        "2 straight wins"
+       ],
+       [
+        "Bills",
+        "4-1",
+        "+64.4",
+        "3 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Buffalo: Sabres/Bills \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Buffalo: Sabres/Bills \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Buffalo: Sabres/Bills \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-12/daily.html"
+  },
   {
    "date": "2026-10-11",
    "kind": "daily",

@@ -1,15 +1,18 @@
-# City of the day — Salt Lake City
-*Salt Lake City: Jazz/Mammoth* · 2026-10-11
+# City of the day — Buffalo
+*Buffalo: Sabres/Bills* · 2026-10-12
 
-- **2026 so far:** 41-63, -97.9 weighted over 104 games; longest run 6 straight losses
-- **Order of results:** about as clumped as coin flips (-1.3)
-- **Earlier seasons (full-year weighted):** 2010 +129.1, 2011 -75.7, 2012 +8.9, 2013 -35.6, 2014 -124.6, 2015 +4.5, 2016 +40.1, 2017 +17.8, 2018 +75.7, 2019 +111.3, 2020 +26.7, 2021 +222.6, 2022 -17.8, 2023 -53.4, 2024 -164.7, 2025 -195.9
-- **Last 30 days:** 4-2, +8.9 weighted; longest run 2 straight wins
-- **Window opens:** October 1, 2026
+- **2026 so far:** 45-25, +157.1 weighted over 70 games; longest run 8 straight wins
+- **Order of results:** about as clumped as coin flips (-0.2)
+- **Earlier seasons (full-year weighted):** 2010 -173.3, 2011 -59.2, 2012 -107.4, 2013 -192.7, 2014 -99.5, 2015 -172.8, 2016 -62.3, 2017 -85.4, 2018 -160.8, 2019 -25.4, 2020 +162.9, 2021 -61.8, 2022 +218.4, 2023 +71.7, 2024 +209.5, 2025 +142.2
+- **Last 30 days:** 7-4, +64.4 weighted; longest run 3 straight wins
+- **Window opens:** September 13, 2026
+- **October 2026 through day 12:** 4-4, +0.0 weighted — the fourth-best of the 12 on record
+- **Same October in earlier years (same stretch):** 2010 -47.4, 2011 +8.9, 2013 -48.2, 2014 -8.9, 2015 -4.5, 2017 -17.8, 2018 +21.5, 2019 +34.8, 2023 -4.5, 2024 -30.4, 2025 -30.4
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Mammoth | 4-2 | +8.9 | 2 straight wins |
+| Sabres | 3-3 | +0.0 | 2 straight wins |
+| Bills | 4-1 | +64.4 | 3 straight wins |
 
-Images: `season.png` · `form.png`
+Images: `season.png` · `month.png` · `form.png`
 

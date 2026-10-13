@@ -848,3 +848,6 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261011,nhl,401892482,SEA,5,WSH,3,SEA,Final
 20261011,nhl,401892483,VAN,2,NYR,6,NYR,Final
 20261011,nhl,401892484,CAR,4,PHI,1,CAR,Final
+20261012,nhl,401892485,FLA,3,BUF,5,BUF,Final
+20261012,nhl,401892486,OTT,4,NJ,1,OTT,Final
+20261012,nhl,401892487,VGK,2,MIN,4,MIN,Final

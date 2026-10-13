@@ -353,5 +353,10 @@
   "date": "2026-10-11",
   "city": "Salt Lake City",
   "group": "Salt Lake City"
+ },
+ {
+  "date": "2026-10-12",
+  "city": "Buffalo",
+  "group": "Buffalo"
  }
 ]
