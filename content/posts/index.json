@@ -1,10 +1,280 @@
 {
- "generated": "2026-10-13",
+ "generated": "2026-10-14",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-13",
+   "kind": "spotlight",
+   "title": "Out of the norm \u2014 three fandoms off their own script",
+   "dek": "The weekly hunt across all 88 city groups, through October 13, 2026",
+   "sections": [
+    {
+     "heading": "Los Angeles's October has come apart: 5-1 before this week, 3-5 since",
+     "subhead": "Los Angeles: Dodgers/Lakers/Ducks/Rams",
+     "stats": [
+      {
+       "label": "Before this week",
+       "value": "5-1, +32.6 weighted (+5.44 per game)"
+      },
+      {
+       "label": "Since",
+       "value": "3-5, -23.7 weighted (-2.97 per game)"
+      },
+      {
+       "label": "This month (through October 13)",
+       "value": "8-6, +8.9 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "3-5, -23.7 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Rams (0-1, -21.5)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-los-angeles-14_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Los Angeles: Dodgers/Lakers/Ducks/Rams \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "spotlight-los-angeles-14_timeline.png",
+       "caption": "Game by game this month, with the last 7 days picked out.",
+       "alt": "Los Angeles: Dodgers/Lakers/Ducks/Rams \u2014 Game by game this month, with the last 7 days picked out"
+      },
+      {
+       "file": "spotlight-los-angeles-14_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Los Angeles: Dodgers/Lakers/Ducks/Rams \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    },
+    {
+     "heading": "Philadelphia is having its worst month on record",
+     "subhead": "Philadelphia: Phillies/76ers/Flyers/Eagles",
+     "stats": [
+      {
+       "label": "This month (through October 13)",
+       "value": "0-10, -76.4 weighted \u2014 the worst of 195 months on record (0th percentile)"
+      },
+      {
+       "label": "vs past Octobers",
+       "value": "the worst October of the 16 on record"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "0-5, -39.3 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Eagles (0-1, -21.5)"
+      },
+      {
+       "label": "Active streaks",
+       "value": "Flyers L8, Eagles L3"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-philadelphia_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Philadelphia: Phillies/76ers/Flyers/Eagles \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "spotlight-philadelphia_history.png",
+       "caption": "Every comparable month on record, this one picked out.",
+       "alt": "Philadelphia: Phillies/76ers/Flyers/Eagles \u2014 Every comparable month on record, this one picked out"
+      },
+      {
+       "file": "spotlight-philadelphia_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Philadelphia: Phillies/76ers/Flyers/Eagles \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    },
+    {
+     "heading": "Nashville is having its worst year on record \u2014 77th of 88 this year",
+     "subhead": "Nashville: Predators/Titans",
+     "stats": [
+      {
+       "label": "2026 so far (through October 13)",
+       "value": "22-33, -151.1 weighted \u2014 the worst of the 17 years on record, at the same point"
+      },
+      {
+       "label": "Against the field",
+       "value": "77th of 88 city groups on the year (13th percentile)"
+      },
+      {
+       "label": "This month (through October 13)",
+       "value": "2-6, -51.8 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "1-3, -25.9 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Titans (0-1, -21.5)"
+      },
+      {
+       "label": "Active streaks",
+       "value": "Titans L5"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-nashville_year.png",
+       "caption": "Every season's cumulative index by day of year, this one in color.",
+       "alt": "Nashville: Predators/Titans \u2014 Every season's cumulative index by day of year, this one in color"
+      },
+      {
+       "file": "spotlight-nashville_field.png",
+       "caption": "All 88 city groups on this year's index, the group picked out.",
+       "alt": "Nashville: Predators/Titans \u2014 All 88 city groups on this year's index, the group picked out"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-13/spotlight.html"
+  },
+  {
+   "date": "2026-10-13",
+   "kind": "streakiness",
+   "title": "Streakiness \u2014 not how often they win, but how the wins arrive",
+   "dek": "All 88 city groups, through October 13, 2026",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "City groups measured",
+       "value": "88"
+      },
+      {
+       "label": "Furthest from its own norm this year",
+       "value": "Houston: Astros/Rockets/Texans \u2014 streak index -2.5 over 230 games, against a usual +0.6"
+      },
+      {
+       "label": "Streakiest of the last 30 days",
+       "value": "Los Angeles: Dodgers/Clippers/Kings/Rams \u2014 +1.9 (still within what chance produces), longest run 6 wins"
+      },
+      {
+       "label": "Steadiest of the last 30 days",
+       "value": "Toronto: Blue Jays/Raptors/Maple Leafs \u2014 -2.6, wins and losses taking turns"
+      },
+      {
+       "label": "Reading the index",
+       "value": "+2 or more is clumpier than chance, \u22122 or less more alternating than chance, 0 exactly as clumped as coin flips"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "streak-season_vs_history.png",
+       "caption": "This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray.",
+       "alt": "All 88 city groups, through October 13, 2026 \u2014 This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray"
+      },
+      {
+       "file": "streak-past_month.png",
+       "caption": "The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest.",
+       "alt": "All 88 city groups, through October 13, 2026 \u2014 The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-13/streakiness.html"
+  },
+  {
+   "date": "2026-10-13",
+   "kind": "daily",
+   "title": "City of the day \u2014 Las Vegas",
+   "dek": "Las Vegas: Golden Knights/Raiders",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "46-34, +87.5 weighted over 80 games; longest run 7 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+1.9)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2017 +66.8, 2018 +66.8, 2019 +0.0, 2020 +9.7, 2021 +198.7, 2022 -20.7, 2023 +29.8, 2024 -92.4, 2025 -279.1"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "8-4, +17.8 weighted; longest run 4 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "September 20, 2026"
+      },
+      {
+       "label": "October 2026 through day 13",
+       "value": "5-4, -29.6 weighted \u2014 tied for the second-worst of the 9 on record"
+      },
+      {
+       "label": "Same October in earlier years (same stretch)",
+       "value": "2017 +8.9, 2018 -8.9, 2019 +8.9, 2021 -38.5, 2022 +8.9, 2023 +8.9, 2024 -29.6, 2025 -4.5"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Golden Knights",
+        "6-2",
+        "+17.8",
+        "4 straight wins"
+       ],
+       [
+        "Raiders",
+        "2-2",
+        "+0.0",
+        "2 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Las Vegas: Golden Knights/Raiders \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Las Vegas: Golden Knights/Raiders \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Las Vegas: Golden Knights/Raiders \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-13/daily.html"
+  },
   {
    "date": "2026-10-12",
    "kind": "daily",

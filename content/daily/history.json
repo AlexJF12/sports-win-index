@@ -358,5 +358,10 @@
   "date": "2026-10-12",
   "city": "Buffalo",
   "group": "Buffalo"
+ },
+ {
+  "date": "2026-10-13",
+  "city": "Las Vegas",
+  "group": "Las Vegas"
  }
 ]

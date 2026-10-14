@@ -86,5 +86,13 @@
    "New York",
    "Minnesota"
   ]
+ },
+ {
+  "date": "2026-10-13",
+  "cities": [
+   "Los Angeles",
+   "Philadelphia",
+   "Nashville"
+  ]
  }
 ]
