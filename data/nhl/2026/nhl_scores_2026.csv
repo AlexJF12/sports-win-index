@@ -867,3 +867,5 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261013,nhl,401892501,CGY,4,ANA,2,CGY,Final
 20261013,nhl,401892502,EDM,4,LA,1,EDM,Final
 20261013,nhl,401892503,BOS,6,SJ,3,BOS,Final
+20261014,nhl,401892504,MTL,4,WSH,5,WSH,Final
+20261014,nhl,401892505,DAL,3,COL,2,DAL,Final/SO

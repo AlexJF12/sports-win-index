@@ -1,10 +1,92 @@
 {
- "generated": "2026-10-14",
+ "generated": "2026-10-15",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-14",
+   "kind": "daily",
+   "title": "City of the day \u2014 Nashville",
+   "dek": "Nashville: Predators/Titans",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "22-33, -151.1 weighted over 55 games; longest run 6 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.5)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -34.0, 2011 +40.1, 2012 +2.4, 2013 -132.0, 2014 -213.1, 2015 -211.0, 2016 -8.9, 2017 +144.5, 2018 +145.3, 2019 +51.8, 2020 +142.2, 2021 +151.9, 2022 -52.6, 2023 -105.8, 2024 -233.3, 2025 -276.2"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "2-8, -94.8 weighted; longest run 3 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "September 20, 2026"
+      },
+      {
+       "label": "October 2026 through day 14",
+       "value": "2-6, -51.8 weighted \u2014 the worst of the 15 on record"
+      },
+      {
+       "label": "Same October in earlier years (same stretch)",
+       "value": "2010 +13.4, 2011 +4.5, 2013 -47.4, 2014 +4.5, 2015 -8.1, 2016 +4.5, 2017 -47.4, 2018 -29.6, 2019 -38.5, 2021 -4.5, 2022 +47.4, 2023 -4.5, 2024 -30.4, 2025 +0.0"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Predators",
+        "2-4",
+        "-8.9",
+        "2 straight losses"
+       ],
+       [
+        "Titans",
+        "0-4",
+        "-85.9",
+        "4 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Nashville: Predators/Titans \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Nashville: Predators/Titans \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Nashville: Predators/Titans \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-14/daily.html"
+  },
   {
    "date": "2026-10-13",
    "kind": "spotlight",
