@@ -2458,3 +2458,5 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261012,mlb,401908023,CLE,7,TB,3,CLE,Final
 20261013,mlb,401908024,CLE,1,TB,3,TB,Final
 20261014,mlb,401908032,MIL,6,LAD,2,MIL,Final
+20261015,mlb,401908025,TB,2,CLE,3,CLE,Final
+20261015,mlb,401908033,MIL,6,LAD,4,MIL,Final

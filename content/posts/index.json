@@ -1,10 +1,86 @@
 {
- "generated": "2026-10-15",
+ "generated": "2026-10-16",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-15",
+   "kind": "daily",
+   "title": "City of the day \u2014 Edmonton",
+   "dek": "Edmonton: Oilers",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "28-26, +8.9 weighted over 54 games; longest run 5 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+0.3)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -138.0, 2011 -120.2, 2012 -49.0, 2013 -115.7, 2014 -133.5, 2015 -93.5, 2016 -49.0, 2017 +35.6, 2018 -35.6, 2019 -40.1, 2020 +4.5, 2021 +66.8, 2022 +57.9, 2023 +80.1, 2024 +115.7, 2025 +53.4"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "5-2, +13.4 weighted; longest run 5 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "September 29, 2026"
+      },
+      {
+       "label": "October 2026 through day 15",
+       "value": "5-1, +17.8 weighted \u2014 tied for the best of the 11 on record"
+      },
+      {
+       "label": "Same October in earlier years (same stretch)",
+       "value": "2010 +4.5, 2011 -4.5, 2013 -22.3, 2014 -17.8, 2015 -17.8, 2017 -8.9, 2018 -4.5, 2019 +17.8, 2024 -8.9, 2025 +4.5"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Oilers",
+        "5-2",
+        "+13.4",
+        "5 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Edmonton: Oilers \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Edmonton: Oilers \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Edmonton: Oilers \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-15/daily.html"
+  },
   {
    "date": "2026-10-14",
    "kind": "daily",

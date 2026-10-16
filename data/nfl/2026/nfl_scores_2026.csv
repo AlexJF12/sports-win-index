@@ -107,3 +107,4 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261011,nfl,401872992,SF,32,SEA,29,SF,Final
 20261011,nfl,401872993,BAL,30,ATL,23,BAL,Final/OT
 20261012,nfl,401872994,BUF,37,LAR,34,BUF,Final/OT
+20261015,nfl,401872995,SEA,14,DEN,17,DEN,Final/OT
