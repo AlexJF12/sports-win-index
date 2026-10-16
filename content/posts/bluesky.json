@@ -132,7 +132,14 @@
    "shared_at": "2026-10-15T00:16:41Z",
    "uri": "at://did:plc:upcxu22qs2nrtuleghymcik3/app.bsky.feed.post/3mxurv5wghu2s",
    "url": "https://alexjf12.github.io/sports-win-index/content/posts/2026-10-13/streakiness.html"
+  },
+  "2026-10-14/daily": {
+   "cid": "bafyreidzqd7ld2gadrolvrqq3sf73cgkind6gwfonoedybsd75gqo6saoe",
+   "fingerprint": "a21e163938415dca24d3ba85a46fa26da3e46518eb8f470c69a9c574c3d7de38",
+   "shared_at": "2026-10-16T00:03:12Z",
+   "uri": "at://did:plc:upcxu22qs2nrtuleghymcik3/app.bsky.feed.post/3mxxbly75qb2q",
+   "url": "https://alexjf12.github.io/sports-win-index/content/posts/2026-10-14/daily.html"
   }
  },
- "updated": "2026-10-15T00:16:41Z"
+ "updated": "2026-10-16T00:03:12Z"
 }
