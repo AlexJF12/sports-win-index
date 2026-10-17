@@ -1,10 +1,86 @@
 {
- "generated": "2026-10-16",
+ "generated": "2026-10-17",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-16",
+   "kind": "daily",
+   "title": "City of the day \u2014 Raleigh",
+   "dek": "Raleigh: Hurricanes",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "51-19, +142.4 weighted over 70 games; longest run 9 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-1.0)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 +26.7, 2011 -62.3, 2012 -8.9, 2013 -89.0, 2014 -75.7, 2015 -49.0, 2016 -44.5, 2017 -35.6, 2018 -62.3, 2019 +111.3, 2020 +0.0, 2021 +129.1, 2022 +106.8, 2023 +62.3, 2024 +120.2, 2025 +75.7"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "6-2, +17.8 weighted; longest run 6 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "September 29, 2026"
+      },
+      {
+       "label": "October 2026 through day 16",
+       "value": "6-1, +22.3 weighted \u2014 the best of the 11 on record"
+      },
+      {
+       "label": "Same October in earlier years (same stretch)",
+       "value": "2010 +4.5, 2011 -4.5, 2013 -13.4, 2014 -17.8, 2015 -8.9, 2017 -4.5, 2018 +4.5, 2019 +17.8, 2023 +4.5, 2025 +17.8"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Hurricanes",
+        "6-2",
+        "+17.8",
+        "6 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Raleigh: Hurricanes \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Raleigh: Hurricanes \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Raleigh: Hurricanes \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-16/daily.html"
+  },
   {
    "date": "2026-10-15",
    "kind": "daily",
