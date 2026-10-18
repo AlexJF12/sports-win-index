@@ -1,17 +1,19 @@
-# City of the day — Raleigh
-*Raleigh: Hurricanes* · 2026-10-16
+# City of the day — Los Angeles
+*Los Angeles: Angels/Clippers/Ducks/Chargers* · 2026-10-17
 
-- **2026 so far:** 51-19, +142.4 weighted over 70 games; longest run 9 straight wins
-- **Order of results:** about as clumped as coin flips (-1.0)
-- **Earlier seasons (full-year weighted):** 2010 +26.7, 2011 -62.3, 2012 -8.9, 2013 -89.0, 2014 -75.7, 2015 -49.0, 2016 -44.5, 2017 -35.6, 2018 -62.3, 2019 +111.3, 2020 +0.0, 2021 +129.1, 2022 +106.8, 2023 +62.3, 2024 +120.2, 2025 +75.7
-- **Last 30 days:** 6-2, +17.8 weighted; longest run 6 straight wins
-- **Window opens:** September 29, 2026
-- **October 2026 through day 16:** 6-1, +22.3 weighted — the best of the 11 on record
-- **Same October in earlier years (same stretch):** 2010 +4.5, 2011 -4.5, 2013 -13.4, 2014 -17.8, 2015 -8.9, 2017 -4.5, 2018 +4.5, 2019 +17.8, 2023 +4.5, 2025 +17.8
+- **2026 so far:** 125-156, -173.6 weighted over 281 games; longest run 10 straight wins
+- **Order of results:** about as clumped as coin flips (+0.7)
+- **Earlier seasons (full-year weighted):** 2010 -138.0, 2011 -30.9, 2012 +187.4, 2013 +186.8, 2014 +305.8, 2015 +182.7, 2016 +124.2, 2017 +120.8, 2018 +229.6, 2019 -162.7, 2020 -29.0, 2021 +16.0, 2022 -118.5, 2023 -288.7, 2024 -52.3, 2025 +79.4
+- **Last 30 days:** 7-13, -88.2 weighted; longest run 4 straight losses
+- **Window opens:** September 18, 2026
+- **October 2026 through day 17:** 4-5, -38.5 weighted — the worst of the 16 on record
+- **Same October in earlier years (same stretch):** 2010 -6.6, 2011 +13.4, 2012 -2.3, 2013 +17.8, 2014 +6.6, 2015 -17.8, 2016 -13.4, 2017 +14.8, 2018 +51.8, 2019 -29.6, 2021 +23.7, 2022 +57.7, 2023 +2.3, 2024 +25.9, 2025 +0.0
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Hurricanes | 6-2 | +17.8 | 6 straight wins |
+| Angels | 3-6 | -6.8 | 3 straight losses |
+| Ducks | 4-3 | +4.5 | 2 straight wins |
+| Chargers | 0-4 | -85.9 | 4 straight losses |
 
 Images: `season.png` · `month.png` · `form.png`
 
