@@ -1,19 +1,19 @@
-# City of the day — Los Angeles
-*Los Angeles: Angels/Clippers/Ducks/Chargers* · 2026-10-17
+# City of the day — Seattle
+*Seattle: Mariners/Kraken/Seahawks* · 2026-10-18
 
-- **2026 so far:** 125-156, -173.6 weighted over 281 games; longest run 10 straight wins
-- **Order of results:** about as clumped as coin flips (+0.7)
-- **Earlier seasons (full-year weighted):** 2010 -138.0, 2011 -30.9, 2012 +187.4, 2013 +186.8, 2014 +305.8, 2015 +182.7, 2016 +124.2, 2017 +120.8, 2018 +229.6, 2019 -162.7, 2020 -29.0, 2021 +16.0, 2022 -118.5, 2023 -288.7, 2024 -52.3, 2025 +79.4
-- **Last 30 days:** 7-13, -88.2 weighted; longest run 4 straight losses
-- **Window opens:** September 18, 2026
-- **October 2026 through day 17:** 4-5, -38.5 weighted — the worst of the 16 on record
-- **Same October in earlier years (same stretch):** 2010 -6.6, 2011 +13.4, 2012 -2.3, 2013 +17.8, 2014 +6.6, 2015 -17.8, 2016 -13.4, 2017 +14.8, 2018 +51.8, 2019 -29.6, 2021 +23.7, 2022 +57.7, 2023 +2.3, 2024 +25.9, 2025 +0.0
+- **2026 so far:** 106-120, +27.7 weighted over 226 games; longest run 8 straight losses
+- **Order of results:** about as clumped as coin flips (+0.2)
+- **Earlier seasons (full-year weighted):** 2010 -176.0, 2011 -63.1, 2012 +80.3, 2013 +148.2, 2014 +263.2, 2015 +63.4, 2016 +129.9, 2017 +50.9, 2018 +121.9, 2019 +48.8, 2020 +136.8, 2021 -120.2, 2022 -2.5, 2023 +48.6, 2024 +42.4, 2025 +218.9
+- **Last 30 days:** 11-11, -17.0 weighted; longest run 3 straight losses
+- **Window opens:** September 19, 2026
+- **October 2026 through day 18:** 6-6, -17.0 weighted — the fourth-worst of the 12 on record
+- **Same October in earlier years (same stretch):** 2010 -6.8, 2012 +23.7, 2013 +21.5, 2015 -23.7, 2016 +38.4, 2017 +40.7, 2021 -32.6, 2022 +14.8, 2023 -15.6, 2024 -38.5, 2025 +9.0
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Angels | 3-6 | -6.8 | 3 straight losses |
-| Ducks | 4-3 | +4.5 | 2 straight wins |
-| Chargers | 0-4 | -85.9 | 4 straight losses |
+| Mariners | 4-4 | +0.0 | 2 straight losses |
+| Kraken | 5-4 | +4.5 | 3 straight wins |
+| Seahawks | 2-3 | -21.5 | 2 straight losses |
 
 Images: `season.png` · `month.png` · `form.png`
 

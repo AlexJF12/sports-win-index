@@ -383,5 +383,10 @@
   "date": "2026-10-17",
   "city": "Los Angeles",
   "group": "Los Angeles 1"
+ },
+ {
+  "date": "2026-10-18",
+  "city": "Seattle",
+  "group": "Seattle"
  }
 ]

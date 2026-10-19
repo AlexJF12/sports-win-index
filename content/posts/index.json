@@ -1,10 +1,98 @@
 {
- "generated": "2026-10-18",
+ "generated": "2026-10-19",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-18",
+   "kind": "daily",
+   "title": "City of the day \u2014 Seattle",
+   "dek": "Seattle: Mariners/Kraken/Seahawks",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "106-120, +27.7 weighted over 226 games; longest run 8 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+0.2)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -176.0, 2011 -63.1, 2012 +80.3, 2013 +148.2, 2014 +263.2, 2015 +63.4, 2016 +129.9, 2017 +50.9, 2018 +121.9, 2019 +48.8, 2020 +136.8, 2021 -120.2, 2022 -2.5, 2023 +48.6, 2024 +42.4, 2025 +218.9"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "11-11, -17.0 weighted; longest run 3 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "September 19, 2026"
+      },
+      {
+       "label": "October 2026 through day 18",
+       "value": "6-6, -17.0 weighted \u2014 the fourth-worst of the 12 on record"
+      },
+      {
+       "label": "Same October in earlier years (same stretch)",
+       "value": "2010 -6.8, 2012 +23.7, 2013 +21.5, 2015 -23.7, 2016 +38.4, 2017 +40.7, 2021 -32.6, 2022 +14.8, 2023 -15.6, 2024 -38.5, 2025 +9.0"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Mariners",
+        "4-4",
+        "+0.0",
+        "2 straight losses"
+       ],
+       [
+        "Kraken",
+        "5-4",
+        "+4.5",
+        "3 straight wins"
+       ],
+       [
+        "Seahawks",
+        "2-3",
+        "-21.5",
+        "2 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Seattle: Mariners/Kraken/Seahawks \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Seattle: Mariners/Kraken/Seahawks \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Seattle: Mariners/Kraken/Seahawks \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-18/daily.html"
+  },
   {
    "date": "2026-10-17",
    "kind": "daily",
