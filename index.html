@@ -303,12 +303,19 @@ function fmtDate(d) { return `${MONTHS[+d.slice(4, 6) - 1].slice(0, 3)} ${+d.sli
 
 const DAY_ABBR = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-// Tue-through-Mon strip of day boxes for the "Best week" section, marking
-// how far the underlying data (data.reference_date) has been updated
+// today's date as YYYYMMDD in US/Eastern, the zone the scores are dated in
+function todayKey() {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York" })
+    .format(new Date()).replaceAll("-", "");
+}
+
+// Tue-through-Mon strip of day boxes for the "Best week" section: today is
+// marked, and days without scores yet (after data.reference_date) are dimmed
 function weekStrip(p) {
+  const today = todayKey();
   const boxes = [...dayRange(p.start, p.end)].map(d => {
     const dt = new Date(+d.slice(0, 4), +d.slice(4, 6) - 1, +d.slice(6, 8));
-    const cls = d === data.reference_date ? "today" : d > data.reference_date ? "future" : "";
+    const cls = d === today ? "today" : d > data.reference_date ? "future" : "";
     return `<div class="day-box ${cls}">
       <span class="dow">${DAY_ABBR[dt.getDay()]}</span>
       <span class="dom">${dt.getDate()}</span>
@@ -317,9 +324,10 @@ function weekStrip(p) {
   return `<div class="week-strip">${boxes}</div>`;
 }
 
-// how far through the month the data runs: "Day 24 of 30" plus a filled rail
+// how far through the month today is: "Day 24 of 30" plus a filled rail
 function monthProgress(p) {
-  const end = data.reference_date < p.end ? data.reference_date : p.end;
+  const today = todayKey();
+  const end = today < p.end ? today : p.end;
   const done = [...dayRange(p.start, end)].length;
   const total = [...dayRange(p.start, p.end)].length;
   return {
