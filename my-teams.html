@@ -240,12 +240,6 @@
   </div>
   <p class="tagline">Your four teams, one running score. Pick them once — the link remembers.</p>
   <div class="controls">
-      <div class="scope" role="group" aria-label="Metric">
-        <button id="metric-wins" aria-pressed="true">Wins</button>
-        <button id="metric-net" aria-pressed="false">Net W−L</button>
-        <button id="metric-weighted" aria-pressed="false"
-          title="Each game is worth 365 ÷ season length: MLB ±2.25, NBA/NHL ±4.45, NFL ±21.47">Weighted</button>
-      </div>
       <div class="scope" role="group" aria-label="Time range">
         <button id="scope-month" aria-pressed="true">Month</button>
         <button id="scope-year" aria-pressed="false">Year</button>
@@ -265,8 +259,7 @@
   <div class="hero">
     <div class="num" id="hero-num">–</div>
     <div class="caption" id="hero-caption"></div>
-    <div class="metric-note" id="hero-record"></div>
-    <div class="metric-note" id="metric-note" hidden>each game = 365 ÷ season length: MLB ±2.25 · NBA/NHL ±4.45 · NFL ±21.47</div>
+    <div class="metric-note">each game = 365 ÷ season length: MLB ±2.25 · NBA/NHL ±4.45 · NFL ±21.47</div>
   </div>
 
   <p class="trend-caption" id="trend-caption" hidden>Cumulative total across all your picked teams</p>
@@ -303,8 +296,6 @@ const state = {
   scope: "month",   // "month" | "year"
   showAllGames: false,
   defaults: null,
-  metric: "wins",   // "wins" | "net" | "weighted"  (net: ±1 per game, tie 0;
-                    //  weighted: ±LEAGUE_WEIGHT per game, tie 0)
   view: (() => { const now = new Date(); return { y: now.getFullYear(), m: now.getMonth() + 1 }; })(),
   teams: null,       // teams.json: league -> {ABBR: display name}
   picks: null,       // league -> abbr
@@ -384,12 +375,16 @@ function teamStats(league, abbr, month) {
   return { games, w, l, t };
 }
 
-function sparkline(games, start, end, metric) {
-  // cumulative wins (or net W-L) per day from start to end (Dates, inclusive)
+// a game's weighted points: ±LEAGUE_WEIGHT for a win/loss, 0 for a tie
+function gamePts(g) {
+  return g.res === "W" ? LEAGUE_WEIGHT[g.league] : g.res === "L" ? -LEAGUE_WEIGHT[g.league] : 0;
+}
+
+function sparkline(games, start, end) {
+  // cumulative weighted points per day from start to end (Dates, inclusive)
   const deltaOn = {};
   for (const g of games) {
-    const unit = metric === "weighted" ? LEAGUE_WEIGHT[g.league] : 1;
-    const d = g.res === "W" ? unit : g.res === "L" && metric !== "wins" ? -unit : 0;
+    const d = gamePts(g);
     if (d) deltaOn[g.date] = (deltaOn[g.date] || 0) + d;
   }
   let cum = 0, byDay = [];
@@ -401,7 +396,7 @@ function sparkline(games, start, end, metric) {
   const min = Math.min(0, ...byDay), max = Math.max(0, ...byDay);
   if (byDay.length < 2 || !games.length) return "";
   const W = 100, H = 28, pad = 2;
-  // a flat series (e.g. all losses in Wins mode) still draws, as a level line
+  // a flat series (e.g. only ties) still draws, as a level line
   const y = v => max === min ? H / 2 : H - pad - ((v - min) / (max - min)) * (H - 2 * pad);
   const pts = byDay.map((v, i) => {
     const x = pad + (i / (byDay.length - 1)) * (W - 2 * pad);
@@ -447,7 +442,7 @@ function niceTicks(min, max) {
 
 let combinedChartData = null;  // { days, values, dec } for hover lookup
 
-function combinedChart(games, start, end, metric) {
+function combinedChart(games, start, end) {
   const { VB_W, VB_H, PLOT } = combinedChartDims();
   const days = [];
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
@@ -457,14 +452,13 @@ function combinedChart(games, start, end, metric) {
 
   const deltaOn = {};
   for (const g of games) {
-    const unit = metric === "weighted" ? LEAGUE_WEIGHT[g.league] : 1;
-    const d = g.res === "W" ? unit : g.res === "L" && metric !== "wins" ? -unit : 0;
+    const d = gamePts(g);
     if (d) deltaOn[g.date] = (deltaOn[g.date] || 0) + d;
   }
   let cum = 0;
   const values = days.map(d => (cum += deltaOn[d] || 0));
   const min = Math.min(0, ...values), max = Math.max(0, ...values);
-  const dec = metric === "weighted" ? 1 : 0;
+  const dec = 1;
 
   const x = i => PLOT.l + (i / (days.length - 1)) * (PLOT.r - PLOT.l);
   const y = v => max === min ? (PLOT.t + PLOT.b) / 2 : PLOT.b - ((v - min) / (max - min)) * (PLOT.b - PLOT.t);
@@ -474,7 +468,7 @@ function combinedChart(games, start, end, metric) {
     <line x1="${PLOT.l}" y1="${y(v)}" x2="${PLOT.r}" y2="${y(v)}"
       stroke="${Math.abs(v) < 1e-9 ? "var(--baseline)" : "var(--hairline)"}" stroke-width="1"/>
     <text x="${PLOT.l - 6}" y="${y(v) + 4}" text-anchor="end" font-size="12"
-      fill="var(--text-muted)">${metric === "wins" ? v : fmtSigned(v, 0)}</text>`).join("");
+      fill="var(--text-muted)">${fmtSigned(v, 0)}</text>`).join("");
 
   const midIdx = Math.floor((days.length - 1) / 2);
   const xLabels = [[0, "start"], [midIdx, "middle"], [days.length - 1, "end"]]
@@ -483,8 +477,7 @@ function combinedChart(games, start, end, metric) {
 
   const points = values.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
   const lastV = values[values.length - 1];
-  const lineColor = metric === "wins" ? "var(--trend)"
-    : lastV > 0 ? "var(--win)" : lastV < 0 ? "var(--loss)" : "var(--trend)";
+  const lineColor = lastV > 0 ? "var(--win)" : lastV < 0 ? "var(--loss)" : "var(--trend)";
 
   combinedChartData = { days, values, dec };
 
@@ -521,7 +514,7 @@ function wireCombinedHover() {
     cross.setAttribute("visibility", "visible");
     const v = values[idx];
     tip.innerHTML = `<div class="tt-date">${fmtDate(days[idx])}</div>` +
-      `<div>${state.metric === "wins" ? v : fmtSigned(v, dec)}</div>`;
+      `<div>${fmtSigned(v, dec)}</div>`;
     tip.style.display = "block";
     const px = cx * rect.width / VB_W;
     tip.style.left = `${Math.min(px + 12, rect.width - tip.offsetWidth - 4)}px`;
@@ -562,57 +555,43 @@ function render() {
     : cmpMonth(state.view, currentMonth()) >= 0;
 
   let total = 0;
-  let totW = 0, totL = 0, totT = 0;
   const tiles = [];
   let allGames = [];
-  const metric = state.metric;
-  const decimals = metric === "weighted" ? 1 : 0;
+  const decimals = 1;
   for (const league of LEAGUES) {
     const abbr = state.picks[league];
     if (!abbr) continue;  // "None" selected for this league
     const name = state.teams[league][abbr] || abbr;
-    const { games, w, l, t } = teamStats(league, abbr, prefix);
-    const metricValue =
-      metric === "wins" ? w :
-      metric === "net" ? w - l :
-      (w - l) * LEAGUE_WEIGHT[league];
-    total += metricValue;
-    totW += w; totL += l; totT += t;
+    const { games, w, l } = teamStats(league, abbr, prefix);
+    const value = (w - l) * LEAGUE_WEIGHT[league];
+    total += value;
     allGames = allGames.concat(games);
     const periodShort = yearMode ? periodName : MONTHS[state.view.m - 1];
     const record = games.length
-      ? `${w}–${l}${t ? "–" + t : ""} in ${periodShort}`
+      ? `${games.length} game${games.length === 1 ? "" : "s"} in ${periodShort}`
       : `No games this ${yearMode ? "year" : "month"}`;
-    const signed = metric !== "wins";
-    const valueClass = signed && games.length ? (metricValue > 0 ? " pos" : metricValue < 0 ? " neg" : "") : "";
+    const valueClass = games.length ? (value > 0 ? " pos" : value < 0 ? " neg" : "") : "";
     tiles.push(`<div class="tile">
       <div class="label">${name} <span class="league">· ${LEAGUE_EMOJI[league]} ${LEAGUE_LABEL[league]}</span></div>
-      <div class="value${valueClass}">${games.length ? (signed ? fmtSigned(metricValue, decimals) : metricValue) : "–"}</div>
+      <div class="value${valueClass}">${games.length ? fmtSigned(value, decimals) : "–"}</div>
       <div class="record">${record}</div>
-      ${sparkline(games, start, end, metric)}
+      ${sparkline(games, start, end)}
     </div>`);
   }
   document.getElementById("tiles").innerHTML = tiles.join("");
-  const chartHtml = combinedChart(allGames, start, end, metric);
+  const chartHtml = combinedChart(allGames, start, end);
   document.getElementById("combined-chart-wrap").innerHTML = chartHtml;
   document.getElementById("trend-caption").hidden = !chartHtml;
   wireCombinedHover();
-  document.getElementById("hero-num").textContent =
-    metric === "wins" ? total : fmtSigned(total, decimals);
+  document.getElementById("hero-num").textContent = fmtSigned(total, decimals);
   document.getElementById("hero-caption").textContent =
-    metric === "wins" ? `win${total === 1 ? "" : "s"} for your teams in ${periodName}` :
-    metric === "net" ? `net wins (W − L) for your teams in ${periodName}` :
     `weighted points for your teams in ${periodName}`;
-  document.getElementById("hero-record").textContent = (totW + totL + totT)
-    ? `combined ${totW}–${totL}${totT ? "–" + totT : ""}` : "";
-  document.getElementById("metric-note").hidden = metric !== "weighted";
 
-  // running total in the selected metric, accumulated in game order
+  // running weighted total, accumulated in game order
   allGames.sort((a, b) => a.date.localeCompare(b.date) || a.league.localeCompare(b.league));
   let running = 0;
   for (const g of allGames) {
-    const unit = metric === "weighted" ? LEAGUE_WEIGHT[g.league] : 1;
-    g.pts = g.res === "W" ? unit : g.res === "L" && metric !== "wins" ? -unit : 0;
+    g.pts = gamePts(g);
     running += g.pts;
     g.cum = running;
   }
@@ -645,7 +624,7 @@ function render() {
       <td><span class="res ${g.res}">${g.res}</span></td>
       <td class="col-status">${g.status}</td>
       <td class="num col-pts">${g.pts ? fmtSigned(g.pts, decimals) : "0"}</td>
-      <td class="num">${metric === "wins" ? g.cum : fmtSigned(g.cum, decimals)}</td>
+      <td class="num">${fmtSigned(g.cum, decimals)}</td>
     </tr>`;
   }).join("");
   const more = document.getElementById("games-more");
@@ -699,14 +678,6 @@ function setScope(scope) {
   render();
 }
 
-function setMetric(metric) {
-  state.metric = metric;
-  for (const m of ["wins", "net", "weighted"]) {
-    document.getElementById(`metric-${m}`).setAttribute("aria-pressed", String(metric === m));
-  }
-  render();
-}
-
 async function init() {
   // the combined chart draws at a narrower aspect on phones; re-render when
   // crossing the breakpoint so its axis text stays legible
@@ -722,9 +693,6 @@ async function init() {
   });
   document.getElementById("scope-month").addEventListener("click", () => setScope("month"));
   document.getElementById("scope-year").addEventListener("click", () => setScope("year"));
-  for (const m of ["wins", "net", "weighted"]) {
-    document.getElementById(`metric-${m}`).addEventListener("click", () => setMetric(m));
-  }
   document.getElementById("games-more-btn").addEventListener("click", () => {
     state.showAllGames = true;
     render();

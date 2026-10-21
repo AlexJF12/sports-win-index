@@ -172,35 +172,25 @@ A run reaches back one day from the newest post (`--max-age-days`) and shares at
 
 A hand-started run fails loudly when the secrets are missing; the nightly one exits quietly, so an account that doesn't exist yet isn't a red X every evening. Because the two workflows are separate, a Bluesky outage costs a share and never the day's scores — the post stays pending and goes out the next evening. Nothing is ever posted from a local run unless you set both environment variables yourself; `--dry-run` needs no credentials, and when they are set it signs in to check them without posting.
 
-## The three scoring methods
+## Scoring
 
-The page can score your teams' games three ways:
+Every page shows one number: the **weighted index**. A win adds the game's share of the year, `365 ÷ regular-season games`, a loss subtracts it, and a tie counts zero — so a game in a short season counts for more:
 
-| Method | Win | Loss | Tie |
-|---|---|---|---|
-| **Wins** | +1 | 0 | 0 |
-| **Net W−L** | +1 | −1 | 0 |
-| **Weighted** | +365 ÷ season length | −365 ÷ season length | 0 |
+| League | Season games | Points per game |
+|---|---|---|
+| MLB | 162 | ±2.25 |
+| NBA | 82 | ±4.45 |
+| NHL | 82 | ±4.45 |
+| NFL | 17 | ±21.47 |
 
-- **Wins** — the simple count. How many times did your teams win this month?
-- **Net W−L** — wins minus losses. A 4–7 stretch shows as −3, so a losing month actually *looks* like a losing month.
-- **Weighted** — every game is worth its share of the year, `365 ÷ regular-season games`, so a game in a short season counts for more:
-
-  | League | Season games | Points per game |
-  |---|---|---|
-  | MLB | 162 | ±2.25 |
-  | NBA | 82 | ±4.45 |
-  | NHL | 82 | ±4.45 |
-  | NFL | 17 | ±21.47 |
-
-  The idea: one NFL Sunday carries about as much of a season's weight as three weeks of baseball. A Commanders win (+21.5) can cancel out a rough Nationals homestand — and a bad Wizards season can sink your whole year.
+The idea: one NFL Sunday carries about as much of a season's weight as three weeks of baseball. A Commanders win (+21.5) can cancel out a rough Nationals homestand — and a bad Wizards season can sink your whole year.
 
 ## The look
 
 Five hand-written pages and one generated one, and no build step to share a stylesheet between them — so the brand is a small block of CSS copied into each page's `<style>`, plus [`blog.css`](blog.css) for the blog and the post pages. It is short on purpose, and it is the only part that must stay in step across files.
 
 - **The bar.** Every page opens with the same sticky top bar: the wordmark on the left (three ascending bars, the tallest in the accent violet — the same shape as the favicon, and the same three `rect`s that `publish_blog.py` writes into a post page), the five destinations on the right as pills, the current one filled. The page's own `h1` sits below it, so the brand and the page name never compete for the same line.
-- **The accent.** `--accent` (`#7d3ff0` light, `#9d6bff` dark) marks *the thing you chose or the thing that won*: the pressed segment of a metric toggle, today's box in the week strip, the rule down the champion card, the active blog filter, every focus ring. It is deliberately not green or red — those two are spoken for by wins and losses, and an accent that borrows either would read as a score.
+- **The accent.** `--accent` (`#7d3ff0` light, `#9d6bff` dark) marks *the thing you chose or the thing that won*: the pressed segment of a toggle, today's box in the week strip, the rule down the champion card, the active blog filter, every focus ring. It is deliberately not green or red — those two are spoken for by wins and losses, and an accent that borrows either would read as a score.
 - **Everything else is unchanged.** Same warm paper and near-black surfaces, same type scale, same charts. Headline numbers just got tabular figures and tighter tracking, cards got 14px corners, and anything clickable got a 0.15s transition — dropped entirely under `prefers-reduced-motion`.
 
 Changing the mark means changing four things together: the `.wordmark` rules and the inline `<svg>` in each of the four hand-written pages, the same pair in `blog.css` and `publish_blog.MARK`, the `<link rel="icon">` in every page, and `publish_blog.FAVICON`. Post pages already on disk pick it up on the next `publish_blog.py` run, which rewrites all of them.

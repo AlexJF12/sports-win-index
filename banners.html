@@ -456,7 +456,6 @@ function fmtSigned(n, decimals = 1) {
   return n > 0 ? `+${s}` : s;
 }
 function signCls(n) { return n > 1e-9 ? "pos" : n < -1e-9 ? "neg" : ""; }
-function fmtRec(r) { return `${r.w}–${r.l}${r.t ? "–" + r.t : ""}`; }
 function daysIn(y, m) { return new Date(y, m, 0).getDate(); }  // m is 1-based
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
 
@@ -595,7 +594,7 @@ function bannerHtml(mo, { big = false, i = 0, raise = false } = {}) {
       <span class="v ${signCls(t.value)}">${t.played ? fmtSigned(t.value) : "—"}</span>
     </li>`).join("");
   const cls = ["banner", mo.live ? "live" : "", big ? "solo" : "", raise ? "raise" : ""].filter(Boolean).join(" ");
-  const title = `${name} ${mo.year}: ${c.g.city}, ${fmtRec(c)}, ${fmtSigned(c.value)} weighted`;
+  const title = `${name} ${mo.year}: ${c.g.city}, ${fmtSigned(c.value)} weighted`;
   return `<figure class="${cls}" style="--i:${i}">
     <div class="sway">
       <div class="wires"></div><div class="rod"></div>
@@ -608,7 +607,7 @@ function bannerHtml(mo, { big = false, i = 0, raise = false } = {}) {
           ${mo.live ? `<div class="live-tag">Day ${mo.played} of ${mo.days}</div>` : ""}
           <div class="b-rule"></div>
           <div class="b-city">${esc(c.g.city)}</div>
-          <div class="b-score"><span>${fmtRec(c)}</span><strong>${fmtSigned(c.value)}</strong></div>
+          <div class="b-score"><strong>${fmtSigned(c.value)}</strong></div>
           ${chartSvg(mo, s, big)}
           <ul class="b-legend">${legend}</ul>
         </div>
@@ -642,7 +641,7 @@ function heroHtml() {
     return `<li>
       <span>${LEAGUE_EMOJI[t.league]}</span>
       <span>${esc(t.nickname)}</span>
-      <span class="rec">${t.played ? fmtRec(t) : "off-season"}</span>
+      <span class="rec">${t.played ? "" : "off-season"}</span>
       <span class="v ${signCls(t.value)}">${t.played ? fmtSigned(t.value) : "—"}</span>
       <span class="bar-wrap"><span style="${bar};background:${LEAGUE_COLOR[t.league]}"></span></span>
     </li>`;
@@ -652,13 +651,13 @@ function heroHtml() {
     <div class="hero-copy">
       <div class="eyebrow">Latest banner raised</div>
       <div class="big">${esc(c.g.city)}<br>${MONTHS[mo.month - 1]} champions</div>
-      <p>${fmtRec(c)}${playing === 1 ? ", all of it from one team" : ` across ${playing} teams`}${mo.runnerUp
+      <p>${fmtSigned(c.value)} weighted${playing === 1 ? ", all of it from one team" : ` across ${playing} teams`}${mo.runnerUp
         ? margin < 0.05 ? `, level with ${esc(mo.runnerUp.g.city)} on points and ahead on wins`
           : `, finishing <strong>${fmtSigned(margin)}</strong> clear of ${esc(mo.runnerUp.g.city)}` : ""}.
         That's banner <strong>#${count}</strong> for ${esc(c.g.city)} since ${months[0].year}.</p>
       <div class="stat-row">
         <div class="stat"><div class="k">Weighted</div><div class="v">${fmtSigned(c.value)}</div></div>
-        <div class="stat"><div class="k">Record</div><div class="v">${fmtRec(c)}</div></div>
+        <div class="stat"><div class="k">Banner</div><div class="v">#${count}</div></div>
         <div class="stat"><div class="k">Margin</div><div class="v">${margin == null ? "—" : fmtSigned(margin)}</div></div>
       </div>
       <ul class="contrib">${contrib}</ul>

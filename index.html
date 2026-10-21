@@ -105,21 +105,6 @@
   a.glink { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--text-muted); }
   a.glink:hover { border-bottom-style: solid; }
 
-  .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 16px; }
-  .scope {
-    display: inline-flex; border: 1px solid var(--border); border-radius: 999px;
-    overflow: hidden; background: var(--surface); padding: 2px;
-  }
-  .scope button {
-    background: none; border: none; color: var(--text-secondary); border-radius: 999px;
-    font: inherit; font-size: 13px; padding: 5px 12px; cursor: pointer;
-    transition: color 0.15s ease, background 0.15s ease;
-  }
-  .scope button:hover { color: var(--text-primary); }
-  .scope button[aria-pressed="true"] {
-    background: var(--accent); color: var(--accent-ink); font-weight: 600;
-  }
-
   #sections { margin-top: 24px; }
   section.period { margin-bottom: 36px; }
   h2 { font-size: 15px; font-weight: 650; margin: 0 0 2px; }
@@ -165,7 +150,6 @@
   .champ .score { font-size: 25px; font-weight: 700; letter-spacing: -0.025em; margin-left: auto; font-variant-numeric: tabular-nums; }
   .champ .score.pos { color: var(--win); }
   .champ .score.neg { color: var(--loss); }
-  .champ .detail-record { color: var(--text-muted); font-size: 15px; }
   .champ .detail { color: var(--text-muted); font-size: 13px; flex-basis: 100%; }
 
   .race {
@@ -266,14 +250,6 @@
     <button id="share" class="share-btn" title="Share this view">Share</button>
   </div>
   <p class="tagline">Every city fields one team per league. Which one is having a banner month?</p>
-  <div class="controls">
-    <div class="scope" role="group" aria-label="Metric">
-      <button id="metric-wins" aria-pressed="false">Wins</button>
-      <button id="metric-net" aria-pressed="false">Net W−L</button>
-      <button id="metric-weighted" aria-pressed="true"
-        title="Each game is worth 365 ÷ season length: MLB ±2.25, NBA/NHL ±4.45, NFL ±21.47">Weighted</button>
-    </div>
-  </div>
   <p id="error"></p>
   <div id="sections"></div>
 </main>
@@ -296,7 +272,6 @@ const TOP_N = 5;  // default number of cities shown per period before "show all"
 let data = null;
 let teams = null;      // teams.json: league -> {ABBR: display name}
 const scores = {};     // league -> raw score rows (for the best-fandom section)
-let metric = "weighted";
 let highlightGroup = "";  // best-year comparison pick (a group name, e.g. "New York 2")
 const expanded = new Set();  // periods currently showing all cities
 
@@ -361,12 +336,11 @@ function fmtSigned(n, decimals) {
 }
 
 function score(g, period) {
-  const t = g[period];
-  return metric === "wins" ? t.w : metric === "net" ? t.w - t.l : t.weighted;
+  return g[period].weighted;
 }
 
 function fmtScore(v) {
-  return metric === "wins" ? String(v) : fmtSigned(v, metric === "weighted" ? 2 : 0);
+  return fmtSigned(v, 2);
 }
 
 function rangeLabel(period) {
@@ -376,43 +350,8 @@ function rangeLabel(period) {
   return p.start.slice(0, 4);
 }
 
-// (league, abbr) -> that team's rows, built once scores are loaded, so every
-// group's per-team record for a period is a cheap date-range filter instead
-// of a fresh scan of the whole season
-let gamesByTeam = {};
-function buildGamesIndex() {
-  gamesByTeam = {};
-  for (const league of LEAGUES) {
-    for (const r of scores[league] || []) {
-      for (const abbr of [r.away_team, r.home_team]) {
-        const key = `${league}|${abbr}`;
-        (gamesByTeam[key] || (gamesByTeam[key] = [])).push(r);
-      }
-    }
-  }
-}
-
-function teamRecord(league, abbr, period) {
-  const p = data.periods[period];
-  const rows = gamesByTeam[`${league}|${abbr}`] || [];
-  let w = 0, l = 0, t = 0;
-  for (const r of rows) {
-    if (r.date < p.start || r.date > p.end) continue;
-    if (r.winner === abbr) w++; else if (r.winner === "") t++; else l++;
-  }
-  return { w, l, t };
-}
-
-// period: when given, each team's own win-loss record for that period is
-// appended (used in the ranking table); omitted for the plain roster shown
-// in the champion callout
-function roster(g, period) {
-  return g.teams.map(t => {
-    const label = `${LEAGUE_EMOJI[t.league]} ${t.nickname}`;
-    if (!period) return label;
-    const rec = teamRecord(t.league, t.abbr, period);
-    return `${label} ${rec.w}–${rec.l}${rec.t ? "–" + rec.t : ""}`;
-  }).join("  ·  ");
+function roster(g) {
+  return g.teams.map(t => `${LEAGUE_EMOJI[t.league]} ${t.nickname}`).join("  ·  ");
 }
 
 // --- race chart -------------------------------------------------------------
@@ -442,8 +381,7 @@ function* dayRange(startKey, endKey) {
 
 function dayMetric(entry) {
   // entry: [w, l, t, weighted]
-  if (!entry) return 0;
-  return metric === "wins" ? entry[0] : metric === "net" ? entry[0] - entry[1] : entry[3];
+  return entry ? entry[3] : 0;
 }
 
 function niceTicks(min, max) {
@@ -484,14 +422,13 @@ function raceChart(period, ranked) {
   if (max === min) return "";
   const x = i => PLOT.l + (i / (days.length - 1)) * (PLOT.r - PLOT.l);
   const y = v => PLOT.b - ((v - min) / (max - min)) * (PLOT.b - PLOT.t);
-  const dec = metric === "weighted" ? 1 : 0;
 
   const ticks = niceTicks(min, max);
   const grid = ticks.map(v => `
     <line x1="${PLOT.l}" y1="${y(v)}" x2="${PLOT.r}" y2="${y(v)}"
       stroke="${v === 0 ? "var(--baseline)" : "var(--hairline)"}" stroke-width="1"/>
     <text x="${PLOT.l - 6}" y="${y(v) + 4}" text-anchor="end" font-size="12"
-      fill="var(--text-muted)">${metric === "wins" ? v : fmtSigned(v, 0)}</text>`).join("");
+      fill="var(--text-muted)">${fmtSigned(v, 0)}</text>`).join("");
 
   const midIdx = Math.floor((days.length - 1) / 2);
   const xLabels = [[0, "start"], [midIdx, "middle"], [days.length - 1, "end"]]
@@ -530,7 +467,7 @@ function raceChart(period, ranked) {
       <circle cx="${x(days.length - 1)}" cy="${y(e.v)}" r="4" fill="${e.color}"
         stroke="var(--surface)" stroke-width="2"/>
       <text x="${PLOT.r + 10}" y="${e.ly + 4}" font-size="12" fill="var(--text-secondary)">${e.name}</text>
-      <text x="${PLOT.r + 10}" y="${e.ly + 18}" font-size="11" fill="var(--text-muted)">${metric === "wins" ? e.v : fmtSigned(e.v, dec)}</text>`).join("");
+      <text x="${PLOT.r + 10}" y="${e.ly + 18}" font-size="11" fill="var(--text-muted)">${fmtSigned(e.v, 1)}</text>`).join("");
   } else {
     dots = series.map(s => `
       <circle cx="${x(days.length - 1)}" cy="${y(s.values[s.values.length - 1])}" r="4" fill="${s.color}"
@@ -547,7 +484,7 @@ function raceChart(period, ranked) {
 
   return `<div class="race" data-period="${period}">
     <div class="legend">${legend}</div>
-    <svg viewBox="0 0 ${VB_W} ${VB_H}" aria-label="Cumulative ${metric} race, top ${TOP_N} cities${others.length ? " plus " + others.length + " others" : ""}">
+    <svg viewBox="0 0 ${VB_W} ${VB_H}" aria-label="Cumulative weighted race, top ${TOP_N} cities${others.length ? " plus " + others.length + " others" : ""}">
       ${grid}${xLabels}${ghostLines}${lines}${dots}
       <line class="crosshair" x1="0" y1="${PLOT.t}" x2="0" y2="${PLOT.b}"
         stroke="var(--baseline)" stroke-width="1" visibility="hidden"/>
@@ -573,11 +510,10 @@ function wireRaceHover() {
       const cx = PLOT.l + (idx / (days.length - 1)) * (PLOT.r - PLOT.l);
       cross.setAttribute("x1", cx); cross.setAttribute("x2", cx);
       cross.setAttribute("visibility", "visible");
-      const dec = metric === "weighted" ? 1 : 0;
       tip.innerHTML = `<div class="tt-date">${fmtDate(days[idx])}</div>` + series.map(s => {
         const v = s.values[idx];
         return `<div class="tt-row"><span class="swatch" style="background:${s.color};width:8px;height:8px;border-radius:2px;display:inline-block"></span>
-          ${s.name}: ${metric === "wins" ? v : fmtSigned(v, dec)}</div>`;
+          ${s.name}: ${fmtSigned(v, 1)}</div>`;
       }).join("");
       tip.style.display = "block";
       const px = cx * rect.width / VB_W;
@@ -682,10 +618,9 @@ function render() {
     }
     const champ = ranked[0];
     const cv = score(champ, key);
-    const champCls = metric === "wins" ? "" : cv > 0 ? " pos" : cv < 0 ? " neg" : "";
+    const champCls = cv > 0 ? " pos" : cv < 0 ? " neg" : "";
     const isExpanded = expanded.has(key);
     const rowHtml = (g, i) => {
-      const t = g[key];
       // competition ranking: tied scores share a rank (1, 1, 3, ...)
       let rank = i + 1;
       while (rank > 1 && Math.abs(score(ranked[rank - 2], key) - score(g, key)) < 1e-9) rank--;
@@ -693,8 +628,7 @@ function render() {
       return `<tr${isHl ? ' class="hl"' : ""}>
         <td class="num">${cityLink(g, rank)}</td>
         <td>${cityLink(g)}</td>
-        <td class="teams">${roster(g, key)}</td>
-        <td class="num">${t.w}–${t.l}${t.t ? "–" + t.t : ""}</td>
+        <td class="teams">${roster(g)}</td>
         <td class="num">${fmtScore(score(g, key))}</td>
       </tr>`;
     };
@@ -720,14 +654,13 @@ function render() {
       ${strip}
       <div class="champ">
         <span class="city">${cityLink(champ)}</span>
-        <span class="detail-record">${champ[key].w}–${champ[key].l}${champ[key].t ? "–" + champ[key].t : ""}</span>
         <span class="score${champCls}">${fmtScore(cv)}</span>
         <span class="detail">${roster(champ)}</span>
       </div>
       ${hlControl}
       ${raceChart(key, ranked)}
       <div class="table-wrap"><table>
-        <thead><tr><th>#</th><th>City</th><th>Teams</th><th>Record</th><th>Score</th></tr></thead>
+        <thead><tr><th>#</th><th>City</th><th>Teams</th><th>Score</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>${ranked.length > TOP_N ? `<div class="show-more">
         <button data-period="${key}">${isExpanded ? `Show top ${TOP_N}` : `Show all ${ranked.length} cities`}</button>
@@ -755,8 +688,7 @@ function render() {
 // the top team in each league for a date-prefix window, regardless of city
 
 function bestFandom(prefix) {
-  const val = (e, league) => metric === "wins" ? e.w : metric === "net" ? e.w - e.l
-    : (e.w - e.l) * LEAGUE_WEIGHT[league];
+  const val = (e, league) => (e.w - e.l) * LEAGUE_WEIGHT[league];
   const picks = [];
   for (const league of LEAGUES) {
     const rec = {};
@@ -781,17 +713,16 @@ function fandomCard(title, prefix) {
       <div class="empty">No games in this period.</div></div>`;
   }
   const total = picks.reduce((s, p) => s + p.value, 0);
-  const cls = metric === "wins" ? "" : total > 0 ? " pos" : total < 0 ? " neg" : "";
+  const cls = total > 0 ? " pos" : total < 0 ? " neg" : "";
   const rows = picks.map(p => `<tr>
     <td>${LEAGUE_EMOJI[p.league]} ${LEAGUE_LABEL[p.league]}</td>
     <td>${(teams[p.league] || {})[p.abbr] || p.abbr}</td>
-    <td class="num">${p.rec.w}–${p.rec.l}${p.rec.t ? "–" + p.rec.t : ""}</td>
     <td class="num">${fmtScore(p.value)}</td>
   </tr>`).join("");
   const url = myTeamsUrl(picks.map(p => ({ league: p.league, abbr: p.abbr })));
   return `<div class="table-wrap">
     <div class="fandom-head">${title}<span class="total${cls}">${fmtScore(total)}</span></div>
-    <table><thead><tr><th>League</th><th>Team</th><th>Record</th><th>Score</th></tr></thead>
+    <table><thead><tr><th>League</th><th>Team</th><th>Score</th></tr></thead>
     <tbody>${rows}</tbody></table>
     <div class="fandom-foot"><a class="glink" href="${url}">View this fandom in My Teams →</a></div>
   </div>`;
@@ -810,14 +741,6 @@ function fandomSection() {
   </section>`;
 }
 
-function setMetric(m) {
-  metric = m;
-  for (const x of ["wins", "net", "weighted"]) {
-    document.getElementById(`metric-${x}`).setAttribute("aria-pressed", String(m === x));
-  }
-  render();
-}
-
 
 async function shareView() {
   const btn = document.getElementById("share");
@@ -833,9 +756,6 @@ async function shareView() {
 }
 
 async function init() {
-  for (const m of ["wins", "net", "weighted"]) {
-    document.getElementById(`metric-${m}`).addEventListener("click", () => setMetric(m));
-  }
   document.getElementById("share").addEventListener("click", shareView);
   // charts draw at a narrower aspect on phones; re-render when crossing the breakpoint
   let narrow = isNarrow();
@@ -852,7 +772,6 @@ async function init() {
     data = rankings;
     teams = teamsJson;
     LEAGUES.forEach((l, i) => { scores[l] = csvs[i]; });
-    buildGamesIndex();
     render();
   } catch (err) {
     const e = document.getElementById("error");
