@@ -147,21 +147,10 @@
     combination, so no group ever has two teams from the same league; the city is represented by
     whichever of its combinations scores best.</p>
 
-  <h2>The three scoring methods</h2>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Method</th><th>Win</th><th>Loss</th><th>Tie</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Wins</strong></td><td>+1</td><td>0</td><td>0</td></tr>
-        <tr><td><strong>Net W−L</strong></td><td>+1</td><td>−1</td><td>0</td></tr>
-        <tr><td><strong>Weighted</strong></td><td>+365 ÷ season length</td><td>−365 ÷ season length</td><td>0</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p><strong>Wins</strong> is the simple count. <strong>Net W−L</strong> subtracts losses, so a
-    losing month actually looks like one. <strong>Weighted</strong> makes every game worth its
-    share of the year — 365 divided by the league's regular-season length — so leagues with few
-    games count more per game:</p>
+  <h2>How scoring works</h2>
+  <p>Everything on the site is one number: the <strong>weighted index</strong>. A win adds the
+    game's share of the year — 365 divided by the league's regular-season length — a loss
+    subtracts it, and a tie counts zero. Leagues with few games count more per game:</p>
   <div class="table-wrap">
     <table>
       <thead><tr><th>League</th><th>Season games</th><th>Points per game</th></tr></thead>
@@ -179,7 +168,7 @@
 
   <h2>Details</h2>
   <p>Exhibition games (spring training, preseason) and postponed games are excluded. NFL ties are
-    recorded with no winner and score zero in every method. Scores update each morning around
+    recorded with no winner and score zero. Scores update each morning around
     10:00 UTC, covering games completed the previous day (US/Eastern).</p>
   <p>Source code and data: <a href="https://github.com/AlexJF12/sports-win-index">github.com/AlexJF12/sports-win-index</a>.</p>
 </main>
