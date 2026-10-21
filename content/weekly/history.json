@@ -94,5 +94,13 @@
    "Philadelphia",
    "Nashville"
   ]
+ },
+ {
+  "date": "2026-10-20",
+  "cities": [
+   "Chicago",
+   "Vancouver",
+   "Edmonton"
+  ]
  }
 ]
