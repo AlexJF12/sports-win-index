@@ -80,6 +80,7 @@
   h1 { font-size: 25px; font-weight: 700; letter-spacing: -0.03em; margin: 0; }
   .as-of { color: var(--text-muted); font-size: 13px; margin: 5px 0 0; }
   h2 { font-size: 15px; font-weight: 650; margin: 32px 0 8px; }
+  h3 { font-size: 14px; font-weight: 650; margin: 22px 0 6px; color: var(--text-secondary); }
   p { color: var(--text-secondary); margin: 0 0 12px; }
   p strong { color: var(--text-primary); }
   a { color: var(--text-primary); }
@@ -147,24 +148,48 @@
     combination, so no group ever has two teams from the same league; the city is represented by
     whichever of its combinations scores best.</p>
 
-  <h2>How scoring works</h2>
-  <p>Everything on the site is one number: the <strong>weighted index</strong>. A win adds the
-    game's share of the year — 365 divided by the league's regular-season length — a loss
-    subtracts it, and a tie counts zero. Leagues with few games count more per game:</p>
+  <h2 id="scoring">How scoring works</h2>
+  <p>Everything on the site is one number: the <strong>weighted index</strong>. A win adds a
+    league's points per game, a loss subtracts the same, and a tie counts zero. Leagues with
+    shorter seasons count more per game — but not in proportion to how much shorter:</p>
   <div class="table-wrap">
     <table>
       <thead><tr><th>League</th><th>Season games</th><th>Points per game</th></tr></thead>
       <tbody>
         <tr><td>MLB</td><td>162</td><td>±2.25</td></tr>
-        <tr><td>NBA</td><td>82</td><td>±4.45</td></tr>
-        <tr><td>NHL</td><td>82</td><td>±4.45</td></tr>
-        <tr><td>NFL</td><td>17</td><td>±21.47</td></tr>
+        <tr><td>NBA</td><td>82</td><td>±3.17</td></tr>
+        <tr><td>NHL</td><td>82</td><td>±3.17</td></tr>
+        <tr><td>NFL</td><td>17</td><td>±6.96</td></tr>
       </tbody>
     </table>
   </div>
-  <p>The idea: one NFL Sunday carries about as much of a season's weight as three weeks of
-    baseball. A Commanders win (+21.5) can cancel out a rough Nationals homestand — and a bad
-    Wizards season can sink your whole year.</p>
+  <h3>Why the square root</h3>
+  <p>Baseball sets the scale: an MLB game is worth its share of the year, 365 ÷ 162 = 2.25. The
+    obvious way to scale the other leagues is the same rule, 365 ÷ season length — but that made
+    one NFL game worth ±21.5, and football drowned out everything else.</p>
+  <p>The rule over-corrects because a record doesn't drift away from .500 in proportion to the
+    number of games. Luck and talent pile up roughly with the <em>square root</em> of the games
+    played, so short seasons produce extreme records all the time: 13–4 is an ordinary good NFL
+    season, while 162 games rarely let a baseball team get that far from even. So a league whose
+    season is <em>k</em> times shorter gets √<em>k</em> times MLB's points per game:
+    √(162 ÷ 17) ≈ 3.1× for the NFL and √(162 ÷ 82) ≈ 1.4× for the NBA and NHL.</p>
+  <p>The result is that every league moves the index by about the same amount. Here is how far a
+    typical team's month swings (the standard deviation), measured on every team's results from
+    2010 to 2025:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>League</th><th>Old rule (365 ÷ games)</th><th>Now</th></tr></thead>
+      <tbody>
+        <tr><td>MLB</td><td>±13.1</td><td>±13.1</td></tr>
+        <tr><td>NBA</td><td>±21.8</td><td>±15.5</td></tr>
+        <tr><td>NHL</td><td>±17.2</td><td>±12.2</td></tr>
+        <tr><td>NFL</td><td>±45.2</td><td>±14.6</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Under the old rule a football team swung its city's month 3.5 times as hard as a baseball
+    team. Now a great NFL season (13–4, +62.6) and a great MLB season (100–62, +85.6) land in
+    the same neighborhood, and a Commanders win (+7.0) counts for about three Nationals wins.</p>
 
   <h2>Details</h2>
   <p>Exhibition games (spring training, preseason) and postponed games are excluded. NFL ties are

@@ -110,7 +110,7 @@ def make_row(d, league, away, ascore, home, hscore, winner):
 def test_totals_weighted_and_ties():
     group = {"teams": [{"league": "nfl", "abbr": "CHI"}, {"league": "mlb", "abbr": "CHC"}]}
     rows_nfl = [
-        make_row("20260101", "nfl", "CHI", 20, "GB", 17, "CHI"),   # win  +21.47
+        make_row("20260101", "nfl", "CHI", 20, "GB", 17, "CHI"),   # win  +6.96
         make_row("20260108", "nfl", "CHI", 20, "GB", 20, ""),      # tie   0
     ]
     rows_mlb = [
@@ -120,4 +120,4 @@ def test_totals_weighted_and_ties():
     by_team = {("nfl", "CHI"): rows_nfl, ("mlb", "CHC"): rows_mlb}
     t = totals(by_team, group, date(2026, 1, 1), date(2026, 1, 31))
     assert (t["w"], t["l"], t["t"]) == (1, 1, 1)
-    assert t["weighted"] == round(365 / 17 - 365 / 162, 2)
+    assert t["weighted"] == round(365 / 162 * (162 / 17) ** 0.5 - 365 / 162, 2)

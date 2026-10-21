@@ -405,8 +405,12 @@
 <script>
 const LEAGUES = ["mlb", "nba", "nhl", "nfl"];
 const LEAGUE_EMOJI = { mlb: "⚾", nba: "🏀", nhl: "🏒", nfl: "🏈" };
-// a game's share of the year: 365 / regular-season games
-const LEAGUE_WEIGHT = { mlb: 365 / 162, nba: 365 / 82, nhl: 365 / 82, nfl: 365 / 17 };
+// a game's weight: an MLB game's share of the year (365 / 162), scaled up for
+// shorter seasons by the square root of how much shorter they are, so every
+// league's month or season moves the index by about the same amount
+const SEASON_GAMES = { mlb: 162, nba: 82, nhl: 82, nfl: 17 };
+const LEAGUE_WEIGHT = Object.fromEntries(Object.entries(SEASON_GAMES)
+  .map(([league, n]) => [league, 365 / 162 * Math.sqrt(162 / n)]));
 const LEAGUE_COLOR = { mlb: "var(--lg-mlb)", nba: "var(--lg-nba)", nhl: "var(--lg-nhl)", nfl: "var(--lg-nfl)" };
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 // Teams that moved into their current city after the record begins: a city
@@ -757,7 +761,7 @@ function liveHtml() {
 function render() {
   document.getElementById("app").innerHTML = heroHtml() + liveHtml() + raftersHtml() + leadersHtml()
     + `<p class="foot-note">A month's champion is the city group with the best weighted total that month — each win worth
-      365 ÷ season length (MLB ±2.25, NBA/NHL ±4.45, NFL ±21.47) — so the cities on the <a href="index.html">City Index</a>
+      MLB ±2.25, NBA/NHL ±3.17, NFL ±6.96 (<a href="about.html#scoring">why</a>) — so the cities on the <a href="index.html">City Index</a>
       fight for every one. Each banner charts the group's running total in black and every team's share of it in its league color.
       Teams that moved count for their city from the season they arrived.</p>`;
   wire();
