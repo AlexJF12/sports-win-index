@@ -35,8 +35,8 @@ MONTH_STARTS = [1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335]
 MONTH_TICKS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
-CAPTION = ("weighted index: every game = 365 ÷ season length "
-           "(MLB ±2.25, NBA/NHL ±4.45, NFL ±21.5) · records begin January 2010")
+CAPTION = ("weighted index: points per game "
+           "MLB ±2.25, NBA/NHL ±3.17, NFL ±6.96 · records begin January 2010")
 
 CROWDED_FIELD = 4       # more context lines than this and the field recedes
 LABEL_GAP = 0.035       # minimum space between end labels, as a share of the

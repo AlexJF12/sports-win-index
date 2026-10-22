@@ -174,16 +174,25 @@ A hand-started run fails loudly when the secrets are missing; the nightly one ex
 
 ## Scoring
 
-Every page shows one number: the **weighted index**. A win adds the game's share of the year, `365 ÷ regular-season games`, a loss subtracts it, and a tie counts zero — so a game in a short season counts for more:
+Every page shows one number: the **weighted index**. A win adds the league's points per game, a loss subtracts the same, and a tie counts zero:
 
 | League | Season games | Points per game |
 |---|---|---|
 | MLB | 162 | ±2.25 |
-| NBA | 82 | ±4.45 |
-| NHL | 82 | ±4.45 |
-| NFL | 17 | ±21.47 |
+| NBA | 82 | ±3.17 |
+| NHL | 82 | ±3.17 |
+| NFL | 17 | ±6.96 |
 
-The idea: one NFL Sunday carries about as much of a season's weight as three weeks of baseball. A Commanders win (+21.5) can cancel out a rough Nationals homestand — and a bad Wizards season can sink your whole year.
+An MLB game is worth its share of the year, `365 ÷ 162`. A league whose season is *k* times shorter gets `√k` times that: `365 ÷ 162 × √(162 ÷ season games)`.
+
+**Why the square root.** The index used to give every league `365 ÷ season games`, which made an NFL game worth ±21.5 and let football swamp the other three leagues. That over-corrects: a record's distance from .500 grows with the square root of the games played, not the games played, so short seasons produce extreme records (13–4) far more often than long ones. Scaling by the square root makes every league move the index by about the same amount. A typical team-month's swing (standard deviation, 2010–2025):
+
+| League | Old (`365 ÷ games`) | Now |
+|---|---|---|
+| MLB | ±13.1 | ±13.1 |
+| NBA | ±21.8 | ±15.5 |
+| NHL | ±17.2 | ±12.2 |
+| NFL | ±45.2 | ±14.6 |
 
 ## The look
 

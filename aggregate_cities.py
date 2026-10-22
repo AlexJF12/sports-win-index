@@ -27,6 +27,7 @@ import argparse
 import csv
 import json
 import logging
+import math
 import os
 from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
@@ -37,8 +38,12 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 log = logging.getLogger(__name__)
 
 LEAGUES = ["mlb", "nba", "nhl", "nfl"]
-# a game's share of the year: 365 / regular-season games
-LEAGUE_WEIGHT = {"mlb": 365 / 162, "nba": 365 / 82, "nhl": 365 / 82, "nfl": 365 / 17}
+# a game's weight: an MLB game's share of the year (365 / 162), scaled up for
+# shorter seasons by the square root of how much shorter they are, so every
+# league's month or season moves the index by about the same amount (a season's
+# spread of net W-L grows with the square root of its length, not the length)
+SEASON_GAMES = {"mlb": 162, "nba": 82, "nhl": 82, "nfl": 17}
+LEAGUE_WEIGHT = {league: 365 / 162 * math.sqrt(162 / n) for league, n in SEASON_GAMES.items()}
 DATA_DIR = "data"
 OUTPUT = os.path.join(DATA_DIR, "city_rankings.json")
 
