@@ -1,17 +1,20 @@
-# City of the day — San Diego
-*San Diego: Padres* · 2026-10-20
+# City of the day — Washington
+*Washington: Nationals/Wizards/Capitals/Commanders* · 2026-10-21
 
-- **2026 so far:** 94-74, +45.1 weighted over 168 games; longest run 8 straight wins
-- **Order of results:** about as clumped as coin flips (-0.2)
-- **Earlier seasons (full-year weighted):** 2010 +40.6, 2011 -47.3, 2012 -22.5, 2013 -22.5, 2014 -18.0, 2015 -31.5, 2016 -58.6, 2017 -45.1, 2018 -67.6, 2019 -49.6, 2020 +27.0, 2021 -9.0, 2022 +36.0, 2023 +4.5, 2024 +56.3, 2025 +38.3
-- **Last 30 days:** 7-5, +4.5 weighted; longest run 4 straight wins
+- **2026 so far:** 116-154, -185.6 weighted over 271 games; longest run 9 straight losses
+- **Order of results:** about as clumped as coin flips (-0.1)
+- **Earlier seasons (full-year weighted):** 2010 -197.8, 2011 -188.9, 2012 -57.1, 2013 -187.7, 2014 -44.1, 2015 +135.1, 2016 +214.3, 2017 +234.6, 2018 +23.9, 2019 -167.1, 2020 -162.6, 2021 -51.9, 2022 -197.3, 2023 -403.8, 2024 -138.0, 2025 -343.3
+- **Last 30 days:** 11-7, -5.8 weighted; longest run 3 straight wins
 - **Window opens:** September 22, 2026
-- **October 2026 through day 20:** 1-3, -4.5 weighted — tied for the worst of the 8 on record
-- **Same October in earlier years (same stretch):** 2010 +2.3, 2012 -2.3, 2015 -4.5, 2020 -2.3, 2021 -2.3, 2022 +9.0, 2024 +2.3
+- **October 2026 through day 21:** 6-6, -34.0 weighted — the second-worst of the 17 on record
+- **Same October in earlier years (same stretch):** 2010 +23.7, 2011 +26.7, 2012 -21.5, 2013 -8.9, 2014 -21.5, 2015 -3.6, 2016 +75.6, 2017 -0.1, 2018 +8.1, 2019 +1.0, 2020 -64.4, 2021 -14.9, 2022 -26.0, 2023 -28.1, 2024 +30.4, 2025 -8.1
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Padres | 7-5 | +4.5 | 4 straight wins |
+| Nationals | 4-1 | +6.8 | 3 straight wins |
+| Wizards | 1-0 | +4.5 | 1 straight wins |
+| Capitals | 5-4 | +4.5 | 2 straight wins |
+| Commanders | 1-2 | -21.5 | 1 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 

@@ -913,3 +913,5 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261020,nhl,401892547,DET,3,SEA,4,SEA,Final/SO
 20261020,nhl,401892548,CAR,6,VAN,3,CAR,Final
 20261020,nhl,401892549,TB,6,VGK,2,TB,Final
+20261021,nhl,401892550,PHI,3,BUF,1,PHI,Final
+20261021,nhl,401892551,FLA,1,OTT,5,OTT,Final
