@@ -838,3 +838,5 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261021,nba,401909092,GS,105,LAL,127,LAL,Final
 20261021,nba,401909841,PHX,83,POR,124,POR,Final
 20261021,nba,401909842,SAC,96,LAC,121,LAC,Final
+20261022,nba,401909093,CLE,106,PHI,114,PHI,Final
+20261022,nba,401909094,DEN,84,OKC,96,OKC,Final

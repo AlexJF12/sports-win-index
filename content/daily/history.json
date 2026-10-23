@@ -403,5 +403,10 @@
   "date": "2026-10-21",
   "city": "Washington",
   "group": "Washington"
+ },
+ {
+  "date": "2026-10-22",
+  "city": "Baltimore",
+  "group": "Baltimore"
  }
 ]
