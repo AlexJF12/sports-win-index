@@ -1,10 +1,104 @@
 {
- "generated": "2026-10-23",
+ "generated": "2026-10-24",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-23",
+   "kind": "daily",
+   "title": "City of the day \u2014 Denver",
+   "dek": "Denver: Rockies/Nuggets/Avalanche/Broncos",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "136-158, -16.3 weighted over 294 games; longest run 9 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.6)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 +13.5, 2011 -74.1, 2012 +14.5, 2013 +91.2, 2014 -46.8, 2015 -86.5, 2016 -74.6, 2017 -76.5, 2018 +73.8, 2019 +46.0, 2020 -21.1, 2021 +127.8, 2022 +65.7, 2023 +97.2, 2024 +59.3, 2025 +69.3"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "10-10, +9.4 weighted; longest run 3 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "September 24, 2026"
+      },
+      {
+       "label": "October 2026 through day 23",
+       "value": "7-7, +3.8 weighted \u2014 tied for the 8th-best of the 16 on record"
+      },
+      {
+       "label": "Same October in earlier years (same stretch)",
+       "value": "2010 -13.7, 2011 +5.7, 2012 +2.3, 2013 +29.1, 2014 +12.0, 2015 +14.5, 2016 -8.3, 2017 -14.6, 2018 +1.5, 2019 +26.0, 2021 -26.9, 2022 -22.4, 2023 +18.1, 2024 +3.8, 2025 +24.0"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Rockies",
+        "1-3",
+        "-4.5",
+        "2 straight losses"
+       ],
+       [
+        "Nuggets",
+        "0-1",
+        "-3.2",
+        "1 straight losses"
+       ],
+       [
+        "Avalanche",
+        "6-5",
+        "+3.2",
+        "2 straight wins"
+       ],
+       [
+        "Broncos",
+        "3-1",
+        "+13.9",
+        "2 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Denver: Rockies/Nuggets/Avalanche/Broncos \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Denver: Rockies/Nuggets/Avalanche/Broncos \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Denver: Rockies/Nuggets/Avalanche/Broncos \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-23/daily.html"
+  },
   {
    "date": "2026-10-22",
    "kind": "daily",

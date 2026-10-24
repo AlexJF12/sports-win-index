@@ -408,5 +408,10 @@
   "date": "2026-10-22",
   "city": "Baltimore",
   "group": "Baltimore"
+ },
+ {
+  "date": "2026-10-23",
+  "city": "Denver",
+  "group": "Denver"
  }
 ]

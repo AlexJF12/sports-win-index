@@ -927,3 +927,5 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261022,nhl,401892561,CAR,5,EDM,6,EDM,Final/SO
 20261022,nhl,401892562,UTA,3,SEA,5,SEA,Final
 20261022,nhl,401892563,DET,5,VAN,2,DET,Final
+20261023,nhl,401892564,MTL,4,CHI,1,MTL,Final
+20261023,nhl,401892565,TB,3,COL,6,COL,Final
