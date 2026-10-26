@@ -1,10 +1,104 @@
 {
- "generated": "2026-10-25",
+ "generated": "2026-10-26",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-25",
+   "kind": "daily",
+   "title": "City of the day \u2014 New York",
+   "dek": "New York: Mets/Nets/Devils/Giants",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "117-160, -112.0 weighted over 278 games; longest run 10 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-1.6)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -216.8, 2011 -19.9, 2012 -1.9, 2013 -87.5, 2014 -49.5, 2015 -62.6, 2016 -127.9, 2017 -268.0, 2018 -157.9, 2019 -96.4, 2020 -75.0, 2021 -21.8, 2022 +62.5, 2023 -62.4, 2024 -100.3, 2025 -191.0"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "11-9, +13.9 weighted; longest run 2 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "September 26, 2026"
+      },
+      {
+       "label": "October 2026 through day 25",
+       "value": "9-8, +7.0 weighted \u2014 the sixth-best of the 17 on record"
+      },
+      {
+       "label": "Same October in earlier years (same stretch)",
+       "value": "2010 +14.2, 2011 +10.1, 2012 +18.6, 2013 -32.3, 2014 -7.0, 2015 +20.7, 2016 -2.3, 2017 -0.3, 2018 -17.7, 2019 -36.7, 2020 -13.9, 2021 +4.1, 2022 +27.8, 2023 -19.3, 2024 -14.2, 2025 +5.7"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Mets",
+        "1-1",
+        "+0.0",
+        "1 straight wins"
+       ],
+       [
+        "Nets",
+        "0-3",
+        "-9.5",
+        "3 straight losses"
+       ],
+       [
+        "Devils",
+        "7-4",
+        "+9.5",
+        "3 straight wins"
+       ],
+       [
+        "Giants",
+        "3-1",
+        "+13.9",
+        "2 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "New York: Mets/Nets/Devils/Giants \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "New York: Mets/Nets/Devils/Giants \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "New York: Mets/Nets/Devils/Giants \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-25/daily.html"
+  },
   {
    "date": "2026-10-24",
    "kind": "daily",
