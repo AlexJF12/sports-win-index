@@ -946,3 +946,6 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261025,nhl,401891807,MTL,2,WPG,1,MTL,Final
 20261025,nhl,401892580,COL,2,NSH,6,NSH,Final
 20261025,nhl,401892581,MIN,4,VAN,2,MIN,Final
+20261026,nhl,401892582,LA,6,NYR,3,LA,Final
+20261026,nhl,401892583,TOR,2,CGY,5,CGY,Final
+20261026,nhl,401892584,DET,4,EDM,3,DET,Final/SO
