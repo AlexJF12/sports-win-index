@@ -180,6 +180,7 @@
     white-space: nowrap;
   }
   .combined-chart .tooltip .tt-date { color: var(--text-muted); margin-bottom: 2px; }
+  .combined-chart .tooltip .tt-rec { color: var(--text-muted); font-size: 11px; font-variant-numeric: tabular-nums; }
 
   .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
   .tile {
@@ -366,6 +367,8 @@ function syncUrl() {
   history.replaceState(null, "", `${location.pathname}?${params}`);
 }
 
+function fmtRec(w, l, t) { return `${w}–${l}${t ? "–" + t : ""}`; }
+
 function teamStats(league, abbr, month) {
   const rows = (state.scores[league] || []).filter(r =>
     r.date.startsWith(month) && (r.away_team === abbr || r.home_team === abbr));
@@ -444,7 +447,7 @@ function niceTicks(min, max) {
   return ticks;
 }
 
-let combinedChartData = null;  // { days, values, dec } for hover lookup
+let combinedChartData = null;  // { days, values, dec, games } for hover lookup
 
 function combinedChart(games, start, end) {
   const { VB_W, VB_H, PLOT } = combinedChartDims();
@@ -483,7 +486,7 @@ function combinedChart(games, start, end) {
   const lastV = values[values.length - 1];
   const lineColor = lastV > 0 ? "var(--win)" : lastV < 0 ? "var(--loss)" : "var(--trend)";
 
-  combinedChartData = { days, values, dec };
+  combinedChartData = { days, values, dec, games };
 
   return `<div class="combined-chart">
     <svg viewBox="0 0 ${VB_W} ${VB_H}" aria-label="Cumulative combined score over time">
@@ -507,7 +510,7 @@ function wireCombinedHover() {
   const svg = wrap.querySelector("svg");
   const cross = wrap.querySelector(".crosshair");
   const tip = wrap.querySelector(".tooltip");
-  const { days, values, dec } = combinedChartData;
+  const { days, values, dec, games } = combinedChartData;
   const showAt = clientX => {
     const rect = svg.getBoundingClientRect();
     const vx = (clientX - rect.left) * VB_W / rect.width;
@@ -517,8 +520,17 @@ function wireCombinedHover() {
     cross.setAttribute("x1", cx); cross.setAttribute("x2", cx);
     cross.setAttribute("visibility", "visible");
     const v = values[idx];
+    // each team's record through the hovered day
+    const recs = LEAGUES.filter(l => state.picks[l]).map(league => {
+      let w = 0, l = 0, t = 0;
+      for (const g of games) {
+        if (g.league !== league || g.date > days[idx]) continue;
+        if (g.res === "W") w++; else if (g.res === "T") t++; else l++;
+      }
+      return `<div class="tt-rec">${LEAGUE_EMOJI[league]} ${fmtRec(w, l, t)}</div>`;
+    }).join("");
     tip.innerHTML = `<div class="tt-date">${fmtDate(days[idx])}</div>` +
-      `<div>${fmtSigned(v, dec)}</div>`;
+      `<div>${fmtSigned(v, dec)}</div>${recs}`;
     tip.style.display = "block";
     const px = cx * rect.width / VB_W;
     tip.style.left = `${Math.min(px + 12, rect.width - tip.offsetWidth - 4)}px`;
@@ -566,13 +578,13 @@ function render() {
     const abbr = state.picks[league];
     if (!abbr) continue;  // "None" selected for this league
     const name = state.teams[league][abbr] || abbr;
-    const { games, w, l } = teamStats(league, abbr, prefix);
+    const { games, w, l, t } = teamStats(league, abbr, prefix);
     const value = (w - l) * LEAGUE_WEIGHT[league];
     total += value;
     allGames = allGames.concat(games);
     const periodShort = yearMode ? periodName : MONTHS[state.view.m - 1];
     const record = games.length
-      ? `${games.length} game${games.length === 1 ? "" : "s"} in ${periodShort}`
+      ? `${fmtRec(w, l, t)} in ${periodShort}`
       : `No games this ${yearMode ? "year" : "month"}`;
     const valueClass = games.length ? (value > 0 ? " pos" : value < 0 ? " neg" : "") : "";
     tiles.push(`<div class="tile">
