@@ -112,6 +112,11 @@ def test_the_banner_count_includes_the_months_already_won():
     assert data["final"]
     assert data["banner_number"] == 2         # August, then this one
     assert data["previous"]["city"] == "Denver"
+    # the year's rafters, this month's banner on the end once it is won
+    assert [(r["month"], r["city"]) for r in data["rafters"]] \
+        == [(8, "Boston"), (9, "Denver"), (10, "Boston")]
+    # the trend arrow: the last seven days, all wins
+    assert round(data["standings"][0]["week"], 2) == round(7 * MLB_W, 2)
 
 
 def test_a_dead_heat_is_called_on_wins():

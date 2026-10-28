@@ -53,6 +53,7 @@ DATA_FILE = "race.json"
 IMAGE_FILE = "race.png"
 CHECKPOINTS = (5, 12, 19, 26)   # days of the month the race is reported on
 CONTENDERS = 5                  # cities shown in the race
+WEEK = 7                        # days behind each contender's trend arrow
 LEVEL = 0.05                    # closer than this on points is a dead heat,
                                 # decided on wins (banners.html uses the same)
 
@@ -172,6 +173,21 @@ def race(by_team: dict, groups: list, ref: date) -> dict | None:
 
     series = team_series(by_team, leader["group"], ref)
     total = [round(sum(t["series"][d] for t in series), 3) for d in range(ref.day + 1)]
+
+    # who is moving: each contender's last seven days, kept inside the month
+    week_lo = max(ref - timedelta(days=WEEK - 1), ref.replace(day=1)).strftime("%Y%m%d")
+    standings = []
+    for n, row in enumerate(cities[:CONTENDERS], 1):
+        recent = group_games(by_team, row["group"], week_lo, ref.strftime("%Y%m%d"))
+        standings.append({**entry(row, n),
+                          "week": round(sum(g["weighted"] for g in recent), 4),
+                          "back": round(leader["weighted"] - row["weighted"], 4)})
+
+    # the year's rafters so far, this month's banner on the end once it is won
+    won = {**past, ym: leader} if final else past
+    rafters = [{"month": int(m[4:]), "city": c["group"]["city"],
+                "weighted": round(c["weighted"], 4)}
+               for m, c in sorted(won.items()) if m[:4] == ym[:4]]
     return {
         "reference_date": ref.isoformat(),
         "year": ref.year, "month": ref.month, "month_name": MONTH_NAMES[ref.month],
@@ -180,7 +196,8 @@ def race(by_team: dict, groups: list, ref: date) -> dict | None:
         "leader": {**entry(leader), "teams": series, "series": total},
         "runner_up": entry(runner_up) if runner_up else None,
         "margin": round(leader["weighted"] - runner_up["weighted"], 4) if runner_up else None,
-        "standings": [entry(r, n) for n, r in enumerate(cities[:CONTENDERS], 1)],
+        "standings": standings,
+        "rafters": rafters,
         "cities_in_race": len(cities),
         # the banner this would be: #1 is the city's first since the record began
         "banner_number": earlier + 1,
@@ -204,16 +221,27 @@ PEWTER, PEWTER_HI, PEWTER_LO = "#b4b8c0", "#eef0f3", "#737882"
 ACCENT = "#9d6bff"
 WIN, LOSS = "#4fd16a", "#ff6b6b"
 LEAGUE_COLOR = {"mlb": "#2f7fd6", "nba": "#e0702c", "nhl": "#159c74", "nfl": "#d04a88"}
-FONT = "DejaVu Sans"
+
+# The page sets its banners in Oswald; a runner has no web fonts, so the two
+# faces ship with the repo (both SIL Open Font License, see fonts/): Bebas Neue
+# for the display type on the cloth, Barlow for everything that has to be read.
+FONT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts")
+FONTS = {"display": "BebasNeue-Regular.ttf", "regular": "Barlow-Regular.ttf",
+         "semi": "Barlow-SemiBold.ttf", "bold": "Barlow-Bold.ttf"}
+SITE = "alexjf12.github.io/sports-win-index"
 
 
 def signed(n: float, places: int = 1) -> str:
     n = 0.0 if abs(n) < 1e-9 else n
-    return f"{n:+.{places}f}"
+    return f"{n:+.{places}f}".replace("-", "−")
 
 
 def record(r: dict) -> str:
     return f"{r['w']}-{r['l']}" + (f"-{r['t']}" if r["t"] else "")
+
+
+def hex_rgb(color: str):
+    return tuple(int(color[i:i + 2], 16) / 255 for i in (1, 3, 5))
 
 
 def render(data: dict, path: str) -> None:
@@ -221,179 +249,278 @@ def render(data: dict, path: str) -> None:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     import numpy as np
+    from matplotlib.font_manager import FontProperties
     from matplotlib.patches import FancyBboxPatch, Polygon, Rectangle
+
+    faces = {k: os.path.join(FONT_DIR, v) for k, v in FONTS.items()}
 
     fig = plt.figure(figsize=(8, 5), dpi=200)
     ax = fig.add_axes([0, 0, 1, 1])
     ax.set_xlim(0, 16)
     ax.set_ylim(0, 10)
     ax.axis("off")
-
-    # the house lights are down: a dark vertical wash, a warm glow from the
-    # catwalk and the brand violet coming up off the floor
-    yy, xx = np.mgrid[0:1:200j, 0:1:320j]
-    base = np.array([int(ARENA[i:i + 2], 16) for i in (1, 3, 5)]) / 255
-    mid = np.array([int(ARENA_2[i:i + 2], 16) for i in (1, 3, 5)]) / 255
-    wash = 1 - np.abs(yy - 0.45) / 0.55
-    img = base + (mid - base) * np.clip(wash, 0, 1)[..., None]
-    top = np.exp(-(((xx - 0.22) / 0.30) ** 2 + ((yy - 0.0) / 0.35) ** 2))
-    floor = np.exp(-(((xx - 0.6) / 0.45) ** 2 + ((yy - 1.05) / 0.35) ** 2))
-    img = img + top[..., None] * np.array([1.0, 0.92, 0.75]) * 0.16
-    img = img + floor[..., None] * np.array([0.49, 0.25, 0.94]) * 0.20
-    ax.imshow(np.clip(img, 0, 1), extent=(0, 16, 0, 10), aspect="auto", zorder=0)
-
-    def text(x, y, s, size, color, weight="normal", ha="left", va="center", spacing=0, **kw):
-        if spacing:
-            s = (" " * spacing).join(s)       # letter-spaced caps, like the page's eyebrows
-        return ax.text(x, y, s, fontsize=size, color=color, fontweight=weight, ha=ha,
-                       va=va, family=FONT, zorder=6, **kw)
-
     renderer = fig.canvas.get_renderer()
+    px_per_unit = fig.bbox.width / 16
+
+    # --- the arena: house lights down, a warm wash from the catwalk, the brand
+    # violet coming up off the floor, and two beams finding the banner
+    yy, xx = np.mgrid[1:0:250j, 0:1:400j]
+    base, mid = np.array(hex_rgb(ARENA)), np.array(hex_rgb(ARENA_2))
+    img = base + (mid - base) * np.clip(1 - np.abs(yy - 0.45) / 0.55, 0, 1)[..., None]
+    glow = np.exp(-(((xx - 0.21) / 0.28) ** 2 + ((yy - 1.0) / 0.45) ** 2))
+    floor = np.exp(-(((xx - 0.62) / 0.5) ** 2 + ((yy + 0.05) / 0.32) ** 2))
+    img += glow[..., None] * np.array([1.0, 0.9, 0.72]) * 0.13
+    img += floor[..., None] * np.array([0.49, 0.25, 0.94]) * 0.24
+    vignette = 1 - 0.35 * (((xx - 0.5) / 0.75) ** 2 + ((yy - 0.5) / 0.9) ** 2)
+    ax.imshow(np.clip(img * vignette[..., None], 0, 1), extent=(0, 16, 0, 10),
+              aspect="auto", zorder=0, interpolation="bicubic")
+    for apex, foot in ((-1.5, (1.2, 4.6)), (8.2, (2.2, 5.6))):
+        ax.add_patch(Polygon([(apex - 0.1, 10.2), (apex + 0.1, 10.2), (foot[1], 0.3),
+                              (foot[0], 0.3)], color="#fff1d6", alpha=0.035, lw=0, zorder=0.5))
+
+    def text(x, y, s, size, color, face="regular", ha="left", va="center", track=0, **kw):
+        if track:   # letter-spaced caps, like the page's eyebrows
+            s = (" " * track).join(s)
+        return ax.text(x, y, s, fontsize=size, color=color, ha=ha, va=va, zorder=6,
+                       fontproperties=FontProperties(fname=faces[face]), **kw)
 
     def fitted(x, y, s, size, color, width, **kw):
         """Text shrunk to fit `width` units: "September" and "Minneapolis-St.
         Paul" get smaller, never clipped or run into the next thing."""
         t = text(x, y, s, size, color, **kw)
-        room = width * fig.bbox.width / 16
         drawn = t.get_window_extent(renderer).width
-        if drawn > room:
-            t.set_fontsize(size * room / drawn)
+        if drawn > width * px_per_unit:
+            t.set_fontsize(size * width * px_per_unit / drawn)
         return t
 
-    leader = data["leader"]
-    final = data["final"]
-    month = data["month_name"]
+    leader, final = data["leader"], data["final"]
+    month, city = data["month_name"], leader["city"]
 
-    # --- the banner, hanging from its length of truss ---
-    x0, x1, top_y, bottom_y, notch = 0.75, 6.05, 9.05, 0.35, 0.62
+    # --- the banner, hanging from its length of truss ---------------------------
+    x0, x1, top_y, bottom_y, notch = 0.8, 6.0, 8.95, 0.42, 0.62
     cx = (x0 + x1) / 2
-    ax.add_patch(Rectangle((x0 - 0.45, 9.62), x1 - x0 + 0.9, 0.22, color="#1c1a24", zorder=1))
-    for x in np.arange(x0 - 0.45, x1 + 0.45, 0.16):
-        ax.plot([x, x + 0.08], [9.62, 9.84], color=STEEL, lw=0.8, zorder=1.1)
-        ax.plot([x + 0.08, x + 0.16], [9.84, 9.62], color=STEEL, lw=0.8, zorder=1.1)
-    ax.plot([x0 - 0.45, x1 + 0.45], [9.84, 9.84], color=STEEL_HI, lw=1.2, zorder=1.2)
-    ax.plot([x0 - 0.45, x1 + 0.45], [9.62, 9.62], color=STEEL_HI, lw=1.2, zorder=1.2)
-    for wx, lean in ((x0 + 0.85, 0.25), (x1 - 0.85, -0.25)):
-        ax.plot([wx, wx + lean], [9.18, 9.62], color="#b9b6c4", lw=0.9, zorder=1.5)
-    ax.add_patch(FancyBboxPatch((x0 - 0.12, 9.08), x1 - x0 + 0.24, 0.1,
-                                boxstyle="round,pad=0,rounding_size=0.05",
-                                color="#9b98a6", zorder=3))
+    tx0, tx1, t_lo, t_hi = x0 - 0.55, x1 + 0.55, 9.55, 9.82
+    ax.add_patch(Rectangle((tx0, t_lo), tx1 - tx0, t_hi - t_lo, color="#16141d", zorder=1))
+    xs_web = np.arange(tx0, tx1 + 1e-9, 0.27)
+    ax.plot(np.repeat(xs_web, 1), [t_lo if i % 2 else t_hi for i in range(len(xs_web))],
+            color=STEEL_HI, lw=0.9, zorder=1.1, solid_joinstyle="miter")
+    for y in (t_lo, t_hi):
+        ax.plot([tx0, tx1], [y, y], color="#8a8796", lw=1.6, zorder=1.2)
+    ax.add_patch(Rectangle((tx0, t_lo - 0.09), tx1 - tx0, 0.09, color="#000000",
+                           alpha=0.35, lw=0, zorder=1))
+    for wx, lean in ((x0 + 0.9, 0.3), (x1 - 0.9, -0.3)):
+        ax.plot([wx, wx + lean], [top_y + 0.16, t_lo], color="#c9c6d4", lw=0.8, zorder=1.5)
+    ax.add_patch(FancyBboxPatch((x0 - 0.16, top_y + 0.04), x1 - x0 + 0.32, 0.13,
+                                boxstyle="round,pad=0,rounding_size=0.065",
+                                color="#8f8c9b", zorder=3.2))
+    ax.add_patch(FancyBboxPatch((x0 - 0.12, top_y + 0.12), x1 - x0 + 0.24, 0.035,
+                                boxstyle="round,pad=0,rounding_size=0.017",
+                                color="#e2dfea", zorder=3.3))
 
-    def cloth(inset, color, z):
-        return Polygon([(x0 + inset, top_y - inset), (x1 - inset, top_y - inset),
-                        (x1 - inset, bottom_y + inset), (cx, bottom_y + notch + inset),
-                        (x0 + inset, bottom_y + inset)], closed=True, color=color, zorder=z)
+    def outline(inset, dy=0.0, dx=0.0):
+        return [(x0 + inset + dx, top_y - inset + dy), (x1 - inset + dx, top_y - inset + dy),
+                (x1 - inset + dx, bottom_y + inset + dy),
+                (cx + dx, bottom_y + notch + inset + dy), (x0 + inset + dx, bottom_y + inset + dy)]
 
-    ax.add_patch(Polygon([(x0 + 0.08, top_y - 0.1), (x1 + 0.08, top_y - 0.1),
-                          (x1 + 0.08, bottom_y - 0.12), (cx + 0.08, bottom_y + notch - 0.12),
-                          (x0 + 0.08, bottom_y - 0.12)], closed=True, color="#000000",
-                         alpha=0.45, zorder=1.8))                       # drop shadow
-    ax.add_patch(cloth(0, PEWTER, 2))
-    ax.add_patch(cloth(0.05, PEWTER_LO, 2.1))
-    ax.add_patch(cloth(0.09, FELT, 2.2))
-    # the stitched line just inside the trim
-    s = 0.24
-    ax.add_patch(Polygon([(x0 + s, top_y - s), (x1 - s, top_y - s), (x1 - s, bottom_y + s),
-                          (cx, bottom_y + notch + s), (x0 + s, bottom_y + s)], closed=True,
-                         fill=False, ec=CLOTH_MUTED, lw=0.6, ls=(0, (3, 3)), alpha=0.5,
-                         zorder=2.3))
+    for spread, alpha in ((0.28, 0.10), (0.18, 0.16), (0.09, 0.22)):   # soft drop shadow
+        ax.add_patch(Polygon(outline(-spread, dy=-0.16, dx=0.06), color="#000000",
+                             alpha=alpha, lw=0, zorder=1.8))
+    trim = Polygon(outline(0), color=PEWTER, lw=0, zorder=2)
+    ax.add_patch(trim)
+    sheen = np.linspace(0, 1, 64)[None, :] * np.ones((8, 1))
+    trim_img = ax.imshow(
+        np.array(hex_rgb(PEWTER_HI))
+        + (np.array(hex_rgb(PEWTER_LO)) - np.array(hex_rgb(PEWTER_HI))) * sheen[..., None],
+        extent=(x0, x1, bottom_y, top_y), aspect="auto", zorder=2.05,
+        interpolation="bicubic")
+    trim_img.set_clip_path(trim)
+    felt = Polygon(outline(0.1), color=FELT, lw=0, zorder=2.1)
+    ax.add_patch(felt)
+    fy, fx = np.mgrid[1:0:200j, 0:1:120j]
+    shade = (0.035 * fy                                                   # lit from above
+             + 0.05 * np.exp(-((fx - fy * 0.55 - 0.05) / 0.12) ** 2)      # the sheen
+             - 0.05 * (np.abs(fx - 0.5) * 2) ** 3)                        # edges falling away
+    rng = np.random.default_rng(7)
+    shade += rng.normal(0, 0.006, shade.shape)                            # a little nap
+    felt_img = ax.imshow(np.clip(np.array(hex_rgb(FELT)) + shade[..., None] - 0.02, 0, 1),
+                         extent=(x0, x1, bottom_y, top_y), aspect="auto", zorder=2.15,
+                         interpolation="bicubic")
+    felt_img.set_clip_path(felt)
+    ax.add_patch(Polygon(outline(0.24), fill=False, ec=CLOTH_MUTED, lw=0.7,
+                         ls=(0, (2.5, 2.5)), alpha=0.55, zorder=2.3))   # stitching
 
-    text(cx, 8.62, "CHAMPIONS" if final else "LEADING", 8, CLOTH_MUTED, "bold",
-         ha="center", spacing=1)
-    text(cx, 8.22, "★ ★ ★", 10, CLOTH_INK, ha="center")
-    fitted(cx, 7.5, month.upper(), 30, CLOTH_INK, x1 - x0 - 0.8, weight="bold", ha="center")
-    text(cx, 6.82, str(data["year"]), 13, CLOTH_MUTED, "bold", ha="center")
-    rule_y = 6.38
+    text(cx, 8.48, "CHAMPIONS" if final else "LEADING", 9, CLOTH_MUTED, "semi",
+         ha="center", track=3)
+    ax.scatter([cx - 0.32, cx, cx + 0.32], [8.12] * 3, marker=(5, 1, 0), s=46,
+               color=CLOTH_INK, lw=0, zorder=6)
+    fitted(cx, 7.22, month.upper(), 60, CLOTH_INK, x1 - x0 - 1.0, face="display", ha="center")
+    text(cx, 6.5, str(data["year"]), 22, CLOTH_MUTED, "display", ha="center")
+    rule_y = 6.06
     if not final:
-        tag = f"DAY {data['day']} OF {data['days']}"
-        ax.add_patch(FancyBboxPatch((cx - 0.85, 6.3), 1.7, 0.3,
+        ax.add_patch(FancyBboxPatch((cx - 0.88, 5.88), 1.76, 0.3,
                                     boxstyle="round,pad=0,rounding_size=0.15",
                                     color=CLOTH_INK, zorder=5))
-        text(cx, 6.45, tag, 6.5, FELT, "bold", ha="center")
-        rule_y = 6.05
-    ax.plot([cx - 1.6, cx + 1.6], [rule_y, rule_y], color=CLOTH_MUTED, lw=0.8, zorder=5)
-    city = leader["city"]
-    fitted(cx, rule_y - 0.5, city.upper(), 17, CLOTH_INK, x1 - x0 - 1.0, weight="bold",
+        text(cx, 6.03, f"DAY {data['day']} OF {data['days']}", 7.5, FELT, "bold",
+             ha="center", track=1)
+        rule_y = 5.6
+    for side in (-1, 1):
+        ax.plot([cx + side * 0.18, cx + side * 1.7], [rule_y, rule_y], color=CLOTH_MUTED,
+                lw=0.8, zorder=5)
+    ax.scatter([cx], [rule_y], marker="D", s=10, color=CLOTH_MUTED, zorder=5)
+    fitted(cx, rule_y - 0.52, city.upper(), 30, CLOTH_INK, x1 - x0 - 1.0, face="display",
            ha="center")
-    text(cx, rule_y - 1.12, signed(leader["weighted"]), 20, CLOTH_INK, "bold", ha="center")
+    text(cx, rule_y - 1.32, signed(leader["weighted"]), 38, CLOTH_INK, "display", ha="center")
 
     # the month so far: the group's running total in black over each team's share
-    chart = fig.add_axes([(x0 + 0.8) / 16, 2.45 / 10, (x1 - x0 - 1.35) / 16, 1.85 / 10])
+    chart = fig.add_axes([(x0 + 0.85) / 16, 2.42 / 10, (x1 - x0 - 1.3) / 16, 1.3 / 10])
     chart.set_facecolor("none")
     days = data["days"]
     xs = list(range(len(leader["series"])))
     for team in leader["teams"]:
         if team["played"]:
-            chart.plot(xs, team["series"], color=LEAGUE_COLOR[team["league"]], lw=1.3,
-                       alpha=0.9, solid_capstyle="round")
-    chart.fill_between(xs, leader["series"], 0, color=CLOTH_INK, alpha=0.08, lw=0)
-    chart.plot(xs, leader["series"], color=CLOTH_INK, lw=2.4, solid_capstyle="round")
-    chart.scatter([xs[-1]], [leader["series"][-1]], s=22, color=CLOTH_INK,
-                  edgecolor=FELT, linewidth=1.2, zorder=5)
-    chart.axhline(0, color=CLOTH_INK, alpha=0.3, lw=0.8, ls=(0, (3, 3)))
+            chart.plot(xs, team["series"], color=LEAGUE_COLOR[team["league"]], lw=1.4,
+                       alpha=0.95, solid_capstyle="round", solid_joinstyle="round")
+    chart.fill_between(xs, leader["series"], 0, color=CLOTH_INK, alpha=0.07, lw=0)
+    chart.plot(xs, leader["series"], color=CLOTH_INK, lw=2.6, solid_capstyle="round",
+               solid_joinstyle="round")
+    chart.scatter([xs[-1]], [leader["series"][-1]], s=26, color=CLOTH_INK,
+                  edgecolor=FELT, linewidth=1.4, zorder=5)
+    chart.axhline(0, color=CLOTH_INK, alpha=0.28, lw=0.8, ls=(0, (3, 3)))
     if not final:   # the days still to play, so a half month never reads as a whole one
-        chart.axvspan(xs[-1], days, color=CLOTH_INK, alpha=0.05, lw=0)
+        chart.axvspan(xs[-1], days, color=CLOTH_INK, alpha=0.045, lw=0)
         chart.axvline(xs[-1], color=CLOTH_INK, alpha=0.3, lw=0.8, ls=(0, (2, 3)))
     chart.set_xlim(0, days)
     chart.set_xticks([1, 15, days])
-    chart.tick_params(length=0, labelsize=6, colors=CLOTH_MUTED, pad=2)
+    chart.tick_params(length=0, labelsize=6.5, colors=CLOTH_MUTED, pad=2)
     chart.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(3, integer=True))
     chart.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(
-        lambda v, _: "0" if v == 0 else f"{v:+.0f}"))
+        lambda v, _: "0" if v == 0 else signed(v, 0)))
+    for label in chart.get_xticklabels() + chart.get_yticklabels():
+        label.set_fontproperties(FontProperties(fname=faces["semi"], size=6.5))
     for spine in chart.spines.values():
         spine.set_visible(False)
 
     # the legend: a line per team, its record and its share
     for n, team in enumerate(leader["teams"]):
-        y = 1.98 - n * 0.25
-        ax.add_patch(Rectangle((x0 + 0.62, y - 0.07), 0.14, 0.14,
-                               color=LEAGUE_COLOR[team["league"]], zorder=5))
-        text(x0 + 0.9, y, f"{team['league'].upper()}  {team['nickname']}", 7, CLOTH_INK)
+        y = 1.92 - n * 0.25
+        ax.add_patch(FancyBboxPatch((x0 + 0.66, y - 0.065), 0.13, 0.13,
+                                    boxstyle="round,pad=0,rounding_size=0.03",
+                                    color=LEAGUE_COLOR[team["league"]], zorder=5))
+        text(x0 + 0.9, y, team["league"].upper(), 7, CLOTH_MUTED, "semi")
+        text(x0 + 1.32, y, team["nickname"], 8, CLOTH_INK, "semi")
         if team["played"]:
-            text(x1 - 1.35, y, record(team), 7, CLOTH_MUTED, ha="right")
-        text(x1 - 0.62, y, signed(team["weighted"]) if team["played"] else "—", 7,
-             CLOTH_INK, "bold", ha="right")
+            text(x1 - 1.35, y, record(team), 7.5, CLOTH_MUTED, ha="right")
+        text(x1 - 0.66, y, signed(team["weighted"]) if team["played"] else "off",
+             8, CLOTH_INK if team["played"] else CLOTH_MUTED, "bold", ha="right")
 
-    # --- the race beside it ---
-    rx, rw = 7.0, 8.4
+    # --- the race beside it -------------------------------------------------------
+    rx, rr = 7.05, 15.35
+    ax.add_patch(Rectangle((rx, 9.05), 0.32, 0.05, color=ACCENT, lw=0, zorder=6))
     eyebrow = (f"FINAL  ·  {month.upper()} {data['year']}" if final
                else f"BANNER WATCH  ·  DAY {data['day']} OF {data['days']}")
-    text(rx, 9.05, eyebrow, 8.5, PEWTER, "bold")
+    text(rx + 0.45, 9.08, eyebrow, 8.5, PEWTER, "semi", track=2)
     headline = (f"{city} takes the {month} banner" if final
-                else f"{city} leads the {month} race")
-    fitted(rx, 8.35, headline, 21, ARENA_INK, rw, weight="bold")
-    text(rx, 7.68, lead_line(data), 9.5, ARENA_MUTED)
+                else f"{city} leads the {month} race").upper()
+    fitted(rx - 0.03, 8.32, headline, 46, ARENA_INK, rr - rx, face="display")
+    fitted(rx, 7.62, sub_line(data), 12, ARENA_MUTED, rr - rx)
 
-    text(rx, 6.95, "FINAL STANDINGS" if final else "THE RACE", 7.5, PEWTER, "bold", spacing=1)
+    text(rx, 7.0, "FINAL STANDINGS" if final else "THE RACE", 8, PEWTER, "semi", track=2)
+    text(rr, 7.0, "LAST 7 DAYS", 6.5, STEEL_HI, "semi", ha="right", track=2)
     rows = data["standings"]
-    best = max([abs(r["weighted"]) for r in rows] + [1e-9])
-    bar_x = rx + 4.4
-    bar_w = rx + rw - 1.5 - bar_x          # clear of the value printed after it
+    best = max([r["weighted"] for r in rows] + [1e-9])
+    bar_x0, bar_x1 = rx + 4.15, rr - 2.4
+    step = 0.8
     for n, row in enumerate(rows):
-        y = 6.3 - n * 0.98
+        y = 6.45 - n * step
         lead = n == 0
-        ax.plot([rx, rx + rw], [y + 0.49, y + 0.49], color="#ffffff", alpha=0.09, lw=0.6)
-        text(rx + 0.05, y, str(row["place"]), 15, ACCENT if lead else STEEL_HI, "bold")
-        room = bar_x - rx - 0.8
-        fitted(rx + 0.6, y + 0.13, row["city"], 12, ARENA_INK, room, weight="bold")
+        if lead:   # the leader's row sits on a faint violet band
+            ax.add_patch(FancyBboxPatch((rx - 0.15, y - step / 2 + 0.04), rr - rx + 0.3,
+                                        step - 0.08, boxstyle="round,pad=0,rounding_size=0.08",
+                                        color=ACCENT, alpha=0.12, lw=0, zorder=4))
+        else:
+            ax.plot([rx, rr], [y + step / 2, y + step / 2], color="#ffffff", alpha=0.07,
+                    lw=0.6, zorder=4)
+        text(rx + 0.22, y - 0.02, str(row["place"]), 30, ACCENT if lead else STEEL_HI,
+             "display", ha="center")
+        room = bar_x0 - rx - 0.85
+        fitted(rx + 0.62, y + 0.12, row["city"], 13, ARENA_INK, room, face="bold")
         teams = row["label"].split(": ", 1)[-1]
-        fitted(rx + 0.6, y - 0.22, f"{teams}  ·  {record(row)}", 6.5, ARENA_MUTED, room)
-        length = bar_w * max(row["weighted"], 0) / best
-        ax.add_patch(FancyBboxPatch((bar_x, y - 0.11), max(length, 0.02), 0.22,
-                                    boxstyle="round,pad=0,rounding_size=0.08",
-                                    color=ACCENT if lead else STEEL_HI, zorder=5))
-        text(rx + rw, y, signed(row["weighted"]), 12,
-             ARENA_INK if row["weighted"] >= 0 else LOSS, "bold", ha="right")
+        fitted(rx + 0.62, y - 0.17, f"{teams}  ·  {record(row)}", 7.5, ARENA_MUTED, room)
 
-    note = (f"Banner #{data['banner_number']} for {city} since {data['since']}" if final
-            else f"{data['days'] - data['day']} days to play  ·  "
-                 f"{data['cities_in_race']} cities in the race")
-    text(rx, 1.12, note, 9, PEWTER_HI, "bold")
-    text(rx, 0.55, "Banner Month  ·  weighted index: a win is worth MLB ±2.25, "
-                   "NBA/NHL ±3.17, NFL ±6.96", 6.5, ARENA_MUTED)
+        # the bar, a groove the full width with the score filling it
+        ax.add_patch(FancyBboxPatch((bar_x0, y - 0.07), bar_x1 - bar_x0, 0.14,
+                                    boxstyle="round,pad=0,rounding_size=0.07",
+                                    color="#ffffff", alpha=0.06, lw=0, zorder=5))
+        length = (bar_x1 - bar_x0) * max(row["weighted"], 0) / best
+        if length > 0.02:
+            ax.add_patch(FancyBboxPatch((bar_x0, y - 0.07), length, 0.14,
+                                        boxstyle="round,pad=0,rounding_size=0.07",
+                                        color=ACCENT if lead else "#8b889a", lw=0, zorder=5.1))
+        text(rr - 1.12, y, signed(row["weighted"]), 24,
+             ARENA_INK if row["weighted"] >= 0 else LOSS, "display", ha="right")
+        if not lead:
+            text(bar_x1, y - 0.22, f"{signed(-row['back'])} back", 6.5, ARENA_MUTED,
+                 "semi", ha="right")
+
+        week = row["week"]
+        up = week > 0.05
+        flat = abs(week) <= 0.05
+        color = ARENA_MUTED if flat else (WIN if up else LOSS)
+        ax.scatter([rr - 0.88], [y], marker="o" if flat else ("^" if up else "v"),
+                   s=16 if flat else 22, color=color, lw=0, zorder=6)
+        text(rr, y, signed(week), 10, color, "bold", ha="right")
+
+    # --- the year's rafters: who has hung a banner so far ---
+    rafters = {r["month"]: r for r in data.get("rafters", [])}
+    text(rx, 2.38, f"THE {data['year']} RAFTERS", 8, PEWTER, "semi", track=2)
+    slot = (rr - rx) / 12
+    pw, ph, pn = slot * 0.62, 0.62, 0.14
+    for m in range(1, 13):
+        px = rx + slot * (m - 0.5)
+        top = 2.05
+        shape = [(px - pw / 2, top), (px + pw / 2, top), (px + pw / 2, top - ph),
+                 (px, top - ph + pn), (px - pw / 2, top - ph)]
+        won = rafters.get(m)
+        current = m == data["month"]
+        ax.plot([px - pw / 2 - 0.04, px + pw / 2 + 0.04], [top + 0.03, top + 0.03],
+                color="#8f8c9b", lw=1.6, solid_capstyle="round", zorder=5)
+        if won:
+            ax.add_patch(Polygon(shape, color=FELT, lw=0, zorder=5))
+            if current:
+                ax.add_patch(Polygon(shape, fill=False, ec=ACCENT, lw=1.6, zorder=5.2))
+            text(px, top - 0.24, MONTH_NAMES[m][:3].upper(), 11, CLOTH_INK, "display",
+                 ha="center")
+            # staggered over two lines, so a name gets two slots of room
+            fitted(px, 1.22 if m % 2 else 1.0, won["city"], 7.5,
+                   ARENA_INK if current else ARENA_MUTED, slot * 1.9,
+                   face="semi" if current else "regular", ha="center")
+        else:
+            ax.add_patch(Polygon(shape, fill=False, ec=ACCENT if current else STEEL,
+                                 lw=1.0, ls=(0, (2, 2)) if current else "-", zorder=5))
+            text(px, top - 0.24, MONTH_NAMES[m][:3].upper(), 11,
+                 ACCENT if current else STEEL_HI, "display", ha="center")
+            if current:
+                text(px, 1.22 if m % 2 else 1.0, "in play", 7, ACCENT, "semi", ha="center")
+
+    # --- the masthead's mark and the fine print ---
+    for i, (h, color) in enumerate(((0.12, "#a5a49c"), (0.19, "#6f6e69"), (0.28, ACCENT))):
+        ax.add_patch(FancyBboxPatch((rx + i * 0.12, 0.36), 0.08, h,
+                                    boxstyle="round,pad=0,rounding_size=0.025",
+                                    color=color, lw=0, zorder=6))
+    text(rx + 0.45, 0.49, "BANNER MONTH", 13, ARENA_INK, "display", track=1)
+    text(rr, 0.48, SITE, 7.5, ARENA_MUTED, "regular", ha="right")
 
     fig.savefig(path, dpi=200, facecolor=ARENA)
     plt.close(fig)
+
+
+def sub_line(data: dict) -> str:
+    """The line under the picture's headline: the margin, then what is left."""
+    line = lead_line(data)
+    if data["final"]:
+        return f"{line}  ·  banner #{data['banner_number']} for {data['leader']['city']} since {data['since']}"
+    left = data["days"] - data["day"]
+    return f"{line}  ·  {left} day{'' if left == 1 else 's'} to play"
 
 
 def lead_line(data: dict) -> str:
