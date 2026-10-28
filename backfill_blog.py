@@ -31,7 +31,7 @@ import re
 import subprocess
 import tempfile
 
-from publish_blog import (POSTS_DIR, RETAIN_DAYS, daily_post, publish,
+from publish_blog import (POSTS_DIR, RETAIN_DAYS, banner_post, daily_post, publish,
                           spotlight_post, streakiness_post)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -45,6 +45,7 @@ BUILDERS = {
     "content/daily": daily_post,
     "content/streakiness": streakiness_post,
     "content/weekly": spotlight_post,
+    "content/banner": banner_post,
 }
 
 

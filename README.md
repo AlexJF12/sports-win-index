@@ -82,6 +82,19 @@ Replay a run with `python fandom_analysis.py --date 20260716 && python render_co
 
 > Weekly, this costs roughly **1 MB** of images — ~50 MB/year — against ~200 MB/year when the same thing ran nightly. `--top 2` trims it if that matters.
 
+## The banner race (four check-ins and a champion a month)
+
+[`banners.html`](banners.html) hangs a banner for every finished month, but it only shows the race to somebody who opens the page. [`banner_race.py`](banner_race.py) takes the same standings — the city group with the best weighted total, points then wins then name, a city counted once by its best group — and makes a post of them on five days a month:
+
+| Reference date | Post |
+|---|---|
+| the 5th, 12th, 19th, 26th | **Banner watch** — who leads, by how much over the nearest other city, the days left, and the top five cities |
+| the last day of the month | **The champion** — who won, the margin, and which banner this is for the city since 2010 |
+
+The scrape runs the morning after its reference date, so the check-ins land on the 6th, 13th, 20th and 27th and the champion on the 1st, once the month's last games are in. The last check-in is early enough that even February gets all four.
+
+Every one carries the banner itself as its picture — the leader's banner drawn the way `banners.html` hangs it (month, year, city, total, the running total in black and each team's share in its league color, "Day 14 of 31" while the month is live) beside the top five — and that picture is the image the Bluesky post goes out with. The picture also carries each contender's last seven days and the year's rafters so far, and it is set in Bebas Neue and Barlow, which ship in [`fonts/`](fonts) under the SIL Open Font License since a runner has no web fonts. Output is `content/banner/race.json` and `race.png`; on any other day the script writes nothing (`--force` writes one anyway, `--date YYYYMMDD` replays a day, `--no-images` skips matplotlib).
+
 ## The blog ([`blog.html`](blog.html))
 
 Every image above lives at a fixed path and is overwritten by the next run, which is the right shape for a working tree and the wrong shape for reading. [`publish_blog.py`](publish_blog.py) files each run's output into a dated folder and writes the manifest the page reads:
@@ -91,7 +104,7 @@ Every image above lives at a fixed path and is overwritten by the next run, whic
     content/posts/2026-08-03/daily-form.png
     content/posts/index.json
 
-**One post per run, not one per image.** The morning's city of the day is a post; Wednesday's spotlight is a post carrying its three findings; Wednesday's streakiness charts are a post. The feed is reverse-chronological, so a Wednesday shows all three and an ordinary Tuesday shows one. Chips filter it to a single kind.
+**One post per run, not one per image.** The morning's city of the day is a post; Wednesday's spotlight is a post carrying its three findings; Wednesday's streakiness charts are a post; a banner check-in or champion is a post. The feed is reverse-chronological, so a Wednesday shows all three and an ordinary Tuesday shows one. Chips filter it to a single kind.
 
 Each post is a headline, a collapsed **the numbers** panel — the same records, percentiles and per-team tables the run wrote to `summary.md` — and then the charts. The numbers sit *with* the claim rather than below the images, because a stat you meet two screens after the sentence it supports is a stat you read twice.
 
@@ -142,7 +155,7 @@ Both strings were already in the manifest. Only one of them was worth leading wi
 
 ### Not every post is worth posting
 
-The daily is a city a morning, in rotation, whether or not anything happened to it — that's right for a blog and wrong for a timeline. An account that posts an unremarkable team every single day teaches the people following it to scroll past its name, and then the one morning something *is* remarkable gets scrolled past too. So the weekly reads always go out (a spotlight only exists at all when a detector fired, and the streakiness pair is the whole field at once) and **a daily has to clear a bar**:
+The daily is a city a morning, in rotation, whether or not anything happened to it — that's right for a blog and wrong for a timeline. An account that posts an unremarkable team every single day teaches the people following it to scroll past its name, and then the one morning something *is* remarkable gets scrolled past too. So the weekly reads and the banner race always go out (a spotlight only exists at all when a detector fired, the streakiness pair is the whole field at once, and the banner race is five dated posts a month) and **a daily has to clear a bar**:
 
 | Signal | Bar | Why there |
 |---|---|---|
@@ -161,7 +174,7 @@ Measured against the blog as it stands, that's **12 shares across 16 days instea
 
 What has gone out is remembered in `content/posts/bluesky.json`, keyed on date and kind, next to a fingerprint of what was shared: the text, the URL, the alt, and the bytes of the chart. That precision is the point — `publish_blog.py` rewrites every page every morning and almost all of it comes out byte-identical, so anything looser would re-share the whole 90-day window daily. A run that changes one of those four is an update, and **an updated post is shared again**: Bluesky posts can't be edited, so the superseded share is deleted and a fresh one replaces it (`--keep-superseded` leaves the old one up). Archived posts, whose charts are gone, are never shared.
 
-A run reaches back one day from the newest post (`--max-age-days`) and shares at most four (`--max-posts`, since a Wednesday carries three) — which is what keeps the first run against a manifest full of history from posting ninety days of backlog. `--backfill` lifts the window when that's what you want. The state file rides along in the same commit as the post it refers to.
+A run reaches back one day from the newest post (`--max-age-days`) and shares at most five (`--max-posts`, since a Wednesday that is also a banner day carries four) — which is what keeps the first run against a manifest full of history from posting ninety days of backlog. `--backfill` lifts the window when that's what you want. The state file rides along in the same commit as the post it refers to.
 
 **Setting it up.** Until the account exists, `BLUESKY_HANDLE` and `BLUESKY_APP_PASSWORD` are placeholders at the top of the script, and a run that finds a placeholder says what's missing and exits 0 — the daily scrape must not start failing because the account for it doesn't exist yet. To finish it:
 
