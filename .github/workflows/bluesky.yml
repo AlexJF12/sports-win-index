@@ -32,7 +32,7 @@ on:
         default: "1"
       max_posts:
         description: "Ceiling on this run's shares"
-        default: "4"
+        default: "5"
       share_daily:
         description: "Which city-of-the-day posts go out"
         type: choice
@@ -69,7 +69,7 @@ jobs:
           # workflow_dispatch fills these in; a scheduled run leaves them empty
           # and falls back to the same defaults the script already has
           MAX_AGE_DAYS: ${{ inputs.max_age_days || '1' }}
-          MAX_POSTS: ${{ inputs.max_posts || '4' }}
+          MAX_POSTS: ${{ inputs.max_posts || '5' }}
           SHARE_DAILY: ${{ inputs.share_daily || 'notable' }}
           BACKFILL: ${{ inputs.backfill && '--backfill' || '' }}
           # A run somebody started by hand should fail loudly when the secrets

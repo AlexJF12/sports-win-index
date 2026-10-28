@@ -22,8 +22,8 @@ or not anything happened to it; an account that posts an unremarkable team every
 day teaches its followers to scroll past. So a daily has to clear a bar — a
 month at the top or bottom of its own record, a long enough run, results outside
 the band chance alone produces — measured with the analysis's own phrases and
-thresholds. The weekly reads always go out. See finding(); --share-daily
-overrides it either way.
+thresholds. The weekly reads and the banner race always go out. See finding();
+--share-daily overrides it either way.
 
 What has already gone out is remembered in content/posts/bluesky.json, keyed on
 the post's date and kind, alongside a fingerprint of what was shared — the text,
@@ -85,7 +85,8 @@ PLACEHOLDERS = {"REPLACE-ME.bsky.social", "REPLACE-ME-APP-PASSWORD"}
 # so the day's posts are the only ones in the window and a first run against a
 # manifest full of history shares today's, not ninety days of it.
 MAX_AGE_DAYS = 1
-MAX_POSTS = 4              # a Wednesday carries three; the 4th would be a bug
+MAX_POSTS = 5              # a Wednesday that is also a banner checkpoint carries
+                           # four, with a notable daily; the 6th would be a bug
 
 MAX_BLOB_BYTES = 1_000_000  # what the PDS accepts for one blob
 MIME_TYPES = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
@@ -407,6 +408,11 @@ def hook(post: dict) -> str:
     elif post["kind"] == "daily":
         claim = post.get("dek") or post.get("title") or ""
         detail = finding(post) or first_stat(post)
+    elif post["kind"] == "banner":
+        # "Boston wins the October 2026 banner", then the margin and the count —
+        # the dek is already that sentence, and the picture is the banner itself
+        claim = post.get("title") or ""
+        detail = post.get("dek") or first_stat(post)
     else:
         claim = post.get("title") or ""
         detail = next((f"{s['label']}: {s['value']}" for s in stats_of(post)

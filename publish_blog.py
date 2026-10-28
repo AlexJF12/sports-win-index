@@ -14,7 +14,8 @@ into an immutable dated folder and keeps the manifest blog.html reads:
 
 One post per run, not one per image: the morning's city of the day is a post,
 Wednesday's spotlight is a post carrying its three findings, Wednesday's
-streakiness charts are a post. Each source is keyed on its own reference date,
+streakiness charts are a post, and the banner race on the 7th, 14th, 21st, 28th
+and last day of a month is a post. Each source is keyed on its own reference date,
 read from the run's own output, so publishing on a Thursday re-files
 Wednesday's weekly folder under Wednesday and changes nothing.
 
@@ -56,6 +57,7 @@ log = logging.getLogger(__name__)
 DAILY_DIR = os.path.join("content", "daily")
 STREAK_DIR = os.path.join("content", "streakiness")
 WEEKLY_DIR = os.path.join("content", "weekly")
+BANNER_DIR = os.path.join("content", "banner")
 POSTS_DIR = os.path.join("content", "posts")
 MANIFEST = "index.json"     # posts still inside the image window
 ARCHIVE = "archive.json"    # everything older, text only
@@ -86,9 +88,10 @@ FAVICON = (
 # One row per kind: the badge the page shows, and the sort rank inside a date
 # (a Wednesday carries all three, and the weekly reads lead).
 KINDS = {
-    "spotlight": {"label": "Out of the norm", "rank": 0},
-    "streakiness": {"label": "Streakiness", "rank": 1},
-    "daily": {"label": "City of the day", "rank": 2},
+    "banner": {"label": "Banner race", "rank": 0},
+    "spotlight": {"label": "Out of the norm", "rank": 1},
+    "streakiness": {"label": "Streakiness", "rank": 2},
+    "daily": {"label": "City of the day", "rank": 3},
 }
 
 # What each chart shows, in a sentence — the caption under the image and its
@@ -126,6 +129,15 @@ SPOTLIGHT_CAPTIONS = {
     "bump": "Place in the year-to-date standings over the last 30 days.",
     "year": "Every season's cumulative index by day of year, this one in color.",
     "field": "All 88 city groups on this year's index, the group picked out.",
+}
+
+BANNER_CAPTIONS = {
+    "live": "The leader's banner as it would hang today — the running total in "
+            "black, each team's share in its league color — beside the top five "
+            "cities in the race.",
+    "final": "The banner going up to the rafters — the month's running total in "
+             "black, each team's share in its league color — beside the final "
+             "top five.",
 }
 
 COUNT_WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"}
@@ -381,6 +393,73 @@ def spotlight_post(src_dir: str = WEEKLY_DIR) -> dict | None:
     })
 
 
+def signed(n: float) -> str:
+    n = 0.0 if abs(n) < 1e-9 else n
+    return f"{n:+.1f}"
+
+
+def record(r: dict) -> str:
+    return f"{r['w']}-{r['l']}" + (f"-{r['t']}" if r["t"] else "")
+
+
+def banner_post(src_dir: str = BANNER_DIR) -> dict | None:
+    """Who is on course for this month's banner, or who won it: the banner
+    itself as the picture, the top five as the table."""
+    data = read_json(os.path.join(src_dir, "race.json"))
+    if not data or not os.path.exists(os.path.join(src_dir, "race.png")):
+        return None
+    leader, runner_up = data["leader"], data.get("runner_up")
+    month, city = f"{data['month_name']} {data['year']}", leader["city"]
+    final = data["final"]
+
+    if runner_up is None:
+        race = "with nobody else on the board"
+    elif data["margin"] < 0.05:      # a dead heat goes to wins, as on banners.html
+        race = f"level with {runner_up['city']} on points and ahead on wins"
+    elif final:
+        race = f"finishing {signed(data['margin'])} clear of {runner_up['city']}"
+    else:
+        race = f"{signed(data['margin'])} ahead of {runner_up['city']}"
+    if final:
+        title = f"{city} wins the {month} banner"
+        dek = (f"{signed(leader['weighted'])} weighted, {race} — banner "
+               f"#{data['banner_number']} for {city} since {data['since']}")
+    else:
+        to_play = data["days"] - data["day"]
+        title = f"{data['month_name']} banner watch — {city} leads at day {data['day']}"
+        dek = (f"{city} is {signed(leader['weighted'])} weighted, {race}, "
+               f"with {to_play} day{'' if to_play == 1 else 's'} to play")
+
+    stats = [{"label": "Champion" if final else "Leading",
+              "value": f"{leader['label']} — {record(leader)}, "
+                       f"{signed(leader['weighted'])} weighted"}]
+    if runner_up:
+        stats.append({"label": "Runner-up" if final else "Closest chaser",
+                      "value": f"{runner_up['label']} — {record(runner_up)}, "
+                               f"{signed(runner_up['weighted'])} weighted"})
+    stats.append({"label": "Banners since " + str(data["since"]),
+                  "value": (f"This is #{data['banner_number']} for {city}" if final
+                            else f"It would be #{data['banner_number']} for {city}")})
+    previous = data.get("previous")
+    if previous and not final:
+        stats.append({"label": "Last month's banner",
+                      "value": f"{previous['city']}, {signed(previous['weighted'])} "
+                               f"in {previous['month_name']} {previous['year']}"})
+
+    table = {"columns": ["Place", "City", "Teams", "Record", "Weighted"],
+             "rows": [[str(r["place"]), r["city"], r["label"].split(": ", 1)[-1],
+                       record(r), signed(r["weighted"])] for r in data["standings"]]}
+    caption = BANNER_CAPTIONS["final" if final else "live"]
+    return name_images({
+        "date": as_date(data["reference_date"]).isoformat(),
+        "kind": "banner",
+        "title": title,
+        "dek": dek,
+        "sections": [{"heading": None, "subhead": None, "stats": stats, "table": table,
+                      "images": [image(src_dir, "race.png", "banner", caption)]}],
+    })
+
+
 # --- filing posts into content/posts -----------------------------------------
 
 def digest(path: str) -> str:
@@ -440,7 +519,8 @@ def file_post(post: dict, posts_dir: str) -> dict:
     """Copy a post's images into content/posts/<date>/ and strip source paths."""
     folder = os.path.join(posts_dir, post["date"])
     os.makedirs(folder, exist_ok=True)
-    prefix = {"daily": "daily", "streakiness": "streak", "spotlight": "spotlight"}[post["kind"]]
+    prefix = {"daily": "daily", "streakiness": "streak", "spotlight": "spotlight",
+              "banner": "banner"}[post["kind"]]
 
     kept = set()
     for section in post["sections"]:
@@ -685,10 +765,11 @@ def publish(posts: list, posts_dir: str = POSTS_DIR, retain_days: int = RETAIN_D
     return {**out, "posts": recent + archived}
 
 
-def collect(daily_dir=DAILY_DIR, streak_dir=STREAK_DIR, weekly_dir=WEEKLY_DIR) -> list:
-    """Whatever the three analysis folders currently hold, as posts."""
+def collect(daily_dir=DAILY_DIR, streak_dir=STREAK_DIR, weekly_dir=WEEKLY_DIR,
+            banner_dir=BANNER_DIR) -> list:
+    """Whatever the four analysis folders currently hold, as posts."""
     builders = ((daily_post, daily_dir), (streakiness_post, streak_dir),
-                (spotlight_post, weekly_dir))
+                (spotlight_post, weekly_dir), (banner_post, banner_dir))
     posts = []
     for build, folder in builders:
         try:
@@ -708,6 +789,7 @@ def main():
     parser.add_argument("--daily-dir", default=DAILY_DIR)
     parser.add_argument("--streak-dir", default=STREAK_DIR)
     parser.add_argument("--weekly-dir", default=WEEKLY_DIR)
+    parser.add_argument("--banner-dir", default=BANNER_DIR)
     parser.add_argument("--posts-dir", default=POSTS_DIR)
     parser.add_argument("--retain-days", type=int, default=RETAIN_DAYS,
                         help=f"How far back the blog lists (default {RETAIN_DAYS}).")
@@ -718,7 +800,7 @@ def main():
                              f"social card (default {BASE_URL}).")
     args = parser.parse_args()
 
-    posts = collect(args.daily_dir, args.streak_dir, args.weekly_dir)
+    posts = collect(args.daily_dir, args.streak_dir, args.weekly_dir, args.banner_dir)
     manifest = publish(posts, args.posts_dir, args.retain_days, not args.no_prune,
                        args.base_url)
     log.info("Manifest: %d posts (%d archived), newest %s", len(manifest["posts"]),

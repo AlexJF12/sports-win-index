@@ -66,6 +66,13 @@ jobs:
           python fandom_analysis.py --date "${{ inputs.date }}"
           python render_content.py
 
+      # Who is on course for this month's banner, on the 7th, 14th, 21st and
+      # 28th, and who won it on the last day (filed under that day, so it is
+      # published and shared on the 1st). The script checks the date itself
+      # and writes nothing on any other day.
+      - name: Banner race
+        run: python banner_race.py --date "${{ inputs.date }}"
+
       # Every analysis above overwrites its own output, so this files each run's
       # images into content/posts/<date>/ and rewrites the manifest blog.html
       # reads. It runs daily even though the weekly folders only change on
