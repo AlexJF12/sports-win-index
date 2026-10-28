@@ -8,8 +8,9 @@ group with the month's best weighted total — but it only ever shows the race
 when somebody opens the page. This takes the same standings, measured the same
 way, and turns them into a post on five days of the month:
 
-    the 7th, 14th, 21st and 28th   "banner watch" — who leads, by how much,
-                                   and the four cities chasing
+    the 5th, 12th, 19th and 26th   "banner watch" — who leads, by how much,
+                                   and the four cities chasing; shared on
+                                   the 6th, 13th, 20th and 27th
     the last day                   the champion, published and shared on the
                                    1st once the month's final games are in
 
@@ -21,8 +22,8 @@ the top five cities in the race. That picture is what goes out on Bluesky.
 The run is keyed on its reference date like every other analysis here, so a
 day that isn't one of the five writes nothing and leaves the last run's folder
 in place; publish_blog.py re-files that folder under its own date and changes
-nothing. February has no 28th checkpoint in a common year: its 28th is the
-last day, so the champion post takes that slot.
+nothing. The last checkpoint is the 26th so that even February's falls before
+its last day: every month gets four check-ins and a champion.
 
 Usage:
     python banner_race.py                    # reference date = yesterday (ET)
@@ -50,7 +51,7 @@ DATA_DIR = "data"
 OUT_DIR = os.path.join("content", "banner")
 DATA_FILE = "race.json"
 IMAGE_FILE = "race.png"
-CHECKPOINTS = (7, 14, 21, 28)   # days of the month the race is reported on
+CHECKPOINTS = (5, 12, 19, 26)   # days of the month the race is reported on
 CONTENDERS = 5                  # cities shown in the race
 LEVEL = 0.05                    # closer than this on points is a dead heat,
                                 # decided on wins (banners.html uses the same)

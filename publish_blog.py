@@ -14,7 +14,7 @@ into an immutable dated folder and keeps the manifest blog.html reads:
 
 One post per run, not one per image: the morning's city of the day is a post,
 Wednesday's spotlight is a post carrying its three findings, Wednesday's
-streakiness charts are a post, and the banner race on the 7th, 14th, 21st, 28th
+streakiness charts are a post, and the banner race on the 5th, 12th, 19th, 26th
 and last day of a month is a post. Each source is keyed on its own reference date,
 read from the run's own output, so publishing on a Thursday re-files
 Wednesday's weekly folder under Wednesday and changes nothing.

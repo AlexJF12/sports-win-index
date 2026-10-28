@@ -49,11 +49,12 @@ GROUPS = [group("Boston 1", "Boston", "BOS", "Red Sox"),
 
 def test_the_four_checkpoints_and_the_last_day_are_feature_days():
     assert [d for d in range(1, 32) if is_feature_day(date(2026, 10, d))] \
-        == [7, 14, 21, 28, 31]
+        == [5, 12, 19, 26, 31]
 
 
-def test_february_hands_its_28th_to_the_champion():
-    assert is_feature_day(date(2026, 2, 28))
+def test_february_gets_all_four_checkpoints_and_a_champion():
+    assert [d for d in range(1, 29) if is_feature_day(date(2026, 2, d))] \
+        == [5, 12, 19, 26, 28]
     assert race_for(date(2026, 2, 28))["final"]
     assert not race_for(date(2028, 2, 28))["final"]    # a leap year plays on
 
@@ -133,11 +134,11 @@ def write_race(folder, ref, final):
 
 
 def test_a_checkpoint_post_is_the_banner_watch(tmp_path):
-    write_race(str(tmp_path), date(2026, 10, 14), final=False)
+    write_race(str(tmp_path), date(2026, 10, 12), final=False)
     post = banner_post(str(tmp_path))
-    assert post["kind"] == "banner" and post["date"] == "2026-10-14"
-    assert post["title"] == "October banner watch — Boston leads at day 14"
-    assert "ahead of Denver, with 17 days to play" in post["dek"]
+    assert post["kind"] == "banner" and post["date"] == "2026-10-12"
+    assert post["title"] == "October banner watch — Boston leads at day 12"
+    assert "ahead of Denver, with 19 days to play" in post["dek"]
     assert [img["file"] for img in post["sections"][0]["images"]] == ["banner-race.png"]
     assert [r[1] for r in post["sections"][0]["table"]["rows"]] == ["Boston", "Denver"]
 
@@ -152,6 +153,6 @@ def test_the_last_day_post_names_the_champion_and_the_count(tmp_path):
 
 
 def test_no_picture_no_post(tmp_path):
-    write_race(str(tmp_path), date(2026, 10, 14), final=False)
+    write_race(str(tmp_path), date(2026, 10, 12), final=False)
     os.remove(tmp_path / "race.png")
     assert banner_post(str(tmp_path)) is None

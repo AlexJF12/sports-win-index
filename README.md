@@ -88,10 +88,10 @@ Replay a run with `python fandom_analysis.py --date 20260716 && python render_co
 
 | Reference date | Post |
 |---|---|
-| the 7th, 14th, 21st, 28th | **Banner watch** — who leads, by how much over the nearest other city, the days left, and the top five cities |
+| the 5th, 12th, 19th, 26th | **Banner watch** — who leads, by how much over the nearest other city, the days left, and the top five cities |
 | the last day of the month | **The champion** — who won, the margin, and which banner this is for the city since 2010 |
 
-The scrape runs the morning after its reference date, so the check-ins land on the 8th, 15th, 22nd and 29th and the champion on the 1st, once the month's last games are in. In a common year February's 28th is its last day, so that month gets three check-ins and the champion.
+The scrape runs the morning after its reference date, so the check-ins land on the 6th, 13th, 20th and 27th and the champion on the 1st, once the month's last games are in. The last check-in is early enough that even February gets all four.
 
 Every one carries the banner itself as its picture — the leader's banner drawn the way `banners.html` hangs it (month, year, city, total, the running total in black and each team's share in its league color, "Day 14 of 31" while the month is live) beside the top five — and that picture is the image the Bluesky post goes out with. Output is `content/banner/race.json` and `race.png`; on any other day the script writes nothing (`--force` writes one anyway, `--date YYYYMMDD` replays a day, `--no-images` skips matplotlib).
 
