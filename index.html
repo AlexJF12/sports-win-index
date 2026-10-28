@@ -168,6 +168,7 @@
   }
   .race .tooltip .tt-date { color: var(--text-muted); margin-bottom: 2px; }
   .race .tooltip .tt-row { display: flex; align-items: center; gap: 6px; }
+  .race .tooltip .tt-recs { color: var(--text-muted); font-size: 11px; margin: 0 0 4px 14px; font-variant-numeric: tabular-nums; }
   .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
   table { border-collapse: collapse; width: 100%; font-size: 14px; }
   th, td { text-align: left; padding: 7px 14px; white-space: nowrap; }
@@ -362,8 +363,42 @@ function rangeLabel(period) {
   return p.start.slice(0, 4);
 }
 
-function roster(g) {
-  return g.teams.map(t => `${LEAGUE_EMOJI[t.league]} ${t.nickname}`).join("  ·  ");
+function fmtRec(r) { return `${r.w}–${r.l}${r.t ? "–" + r.t : ""}`; }
+
+// (league, abbr) -> that team's rows, built once scores are loaded, so every
+// group's per-team record for a period is a cheap date-range filter instead
+// of a fresh scan of the whole season
+let gamesByTeam = {};
+function buildGamesIndex() {
+  gamesByTeam = {};
+  for (const league of LEAGUES) {
+    for (const r of scores[league] || []) {
+      for (const abbr of [r.away_team, r.home_team]) {
+        const key = `${league}|${abbr}`;
+        (gamesByTeam[key] || (gamesByTeam[key] = [])).push(r);
+      }
+    }
+  }
+}
+
+// a team's win-loss record for a period, through `through` (YYYYMMDD) when given
+function teamRecord(league, abbr, period, through) {
+  const p = data.periods[period];
+  const end = through && through < p.end ? through : p.end;
+  const rows = gamesByTeam[`${league}|${abbr}`] || [];
+  let w = 0, l = 0, t = 0;
+  for (const r of rows) {
+    if (r.date < p.start || r.date > end) continue;
+    if (r.winner === abbr) w++; else if (r.winner === "") t++; else l++;
+  }
+  return { w, l, t };
+}
+
+// each team with its own win-loss record for the period
+function roster(g, period) {
+  return g.teams.map(t =>
+    `${LEAGUE_EMOJI[t.league]} ${t.nickname} ${fmtRec(teamRecord(t.league, t.abbr, period))}`
+  ).join("  ·  ");
 }
 
 // --- race chart -------------------------------------------------------------
@@ -418,13 +453,13 @@ function raceChart(period, ranked) {
     return days.map(d => (cum += dayMetric(g.daily[d])));
   };
   const series = top.map(g => ({
-    name: g.name, color: cityColors[g.city] || SLOT_COLORS[0], values: cumulative(g),
+    name: g.name, color: cityColors[g.city] || SLOT_COLORS[0], values: cumulative(g), g,
   }));
   // best-year comparison: the picked group joins the chart as a highlighted
   // line; picked from all combinations, not just each city's best one
   const hl = period === "year" && highlightGroup && !top.some(g => g.name === highlightGroup)
     ? data.groups.find(g => g.name === highlightGroup) : null;
-  if (hl) series.push({ name: hl.name, color: "var(--highlight)", values: cumulative(hl), wide: true });
+  if (hl) series.push({ name: hl.name, color: "var(--highlight)", values: cumulative(hl), g: hl, wide: true });
   // context lines: every other city, thin and de-emphasized — shown when the
   // table is expanded, or when a comparison city is picked (best year)
   const others = expanded.has(period) || hl
@@ -524,8 +559,11 @@ function wireRaceHover() {
       cross.setAttribute("visibility", "visible");
       tip.innerHTML = `<div class="tt-date">${fmtDate(days[idx])}</div>` + series.map(s => {
         const v = s.values[idx];
+        // each team's record through the hovered day
+        const recs = s.g.teams.map(t =>
+          `${LEAGUE_EMOJI[t.league]} ${fmtRec(teamRecord(t.league, t.abbr, period, days[idx]))}`).join(" · ");
         return `<div class="tt-row"><span class="swatch" style="background:${s.color};width:8px;height:8px;border-radius:2px;display:inline-block"></span>
-          ${s.name}: ${fmtSigned(v, 1)}</div>`;
+          ${s.name}: ${fmtSigned(v, 1)}</div><div class="tt-recs">${recs}</div>`;
       }).join("");
       tip.style.display = "block";
       const px = cx * rect.width / VB_W;
@@ -640,7 +678,7 @@ function render() {
       return `<tr${isHl ? ' class="hl"' : ""}>
         <td class="num">${cityLink(g, rank)}</td>
         <td>${cityLink(g)}</td>
-        <td class="teams">${roster(g)}</td>
+        <td class="teams">${roster(g, key)}</td>
         <td class="num">${fmtScore(score(g, key))}</td>
       </tr>`;
     };
@@ -667,7 +705,7 @@ function render() {
       <div class="champ">
         <span class="city">${cityLink(champ)}</span>
         <span class="score${champCls}">${fmtScore(cv)}</span>
-        <span class="detail">${roster(champ)}</span>
+        <span class="detail">${roster(champ, key)}</span>
       </div>
       ${hlControl}
       ${raceChart(key, ranked)}
@@ -729,12 +767,13 @@ function fandomCard(title, prefix) {
   const rows = picks.map(p => `<tr>
     <td>${LEAGUE_EMOJI[p.league]} ${LEAGUE_LABEL[p.league]}</td>
     <td>${(teams[p.league] || {})[p.abbr] || p.abbr}</td>
+    <td class="num">${fmtRec(p.rec)}</td>
     <td class="num">${fmtScore(p.value)}</td>
   </tr>`).join("");
   const url = myTeamsUrl(picks.map(p => ({ league: p.league, abbr: p.abbr })));
   return `<div class="table-wrap">
     <div class="fandom-head">${title}<span class="total${cls}">${fmtScore(total)}</span></div>
-    <table><thead><tr><th>League</th><th>Team</th><th>Score</th></tr></thead>
+    <table><thead><tr><th>League</th><th>Team</th><th>Record</th><th>Score</th></tr></thead>
     <tbody>${rows}</tbody></table>
     <div class="fandom-foot"><a class="glink" href="${url}">View this fandom in My Teams →</a></div>
   </div>`;
@@ -784,6 +823,7 @@ async function init() {
     data = rankings;
     teams = teamsJson;
     LEAGUES.forEach((l, i) => { scores[l] = csvs[i]; });
+    buildGamesIndex();
     render();
   } catch (err) {
     const e = document.getElementById("error");

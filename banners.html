@@ -460,6 +460,7 @@ function fmtSigned(n, decimals = 1) {
   return n > 0 ? `+${s}` : s;
 }
 function signCls(n) { return n > 1e-9 ? "pos" : n < -1e-9 ? "neg" : ""; }
+function fmtRec(r) { return `${r.w}–${r.l}${r.t ? "–" + r.t : ""}`; }
 function daysIn(y, m) { return new Date(y, m, 0).getDate(); }  // m is 1-based
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
 
@@ -595,6 +596,7 @@ function bannerHtml(mo, { big = false, i = 0, raise = false } = {}) {
   const legend = s.teams.map(t => `<li>
       <span class="sw" style="background:${LEAGUE_COLOR[t.league]}"></span>
       <span class="nm">${LEAGUE_EMOJI[t.league]} ${esc(t.nickname)}</span>
+      ${t.played ? `<span class="rec">${fmtRec(t)}</span>` : ""}
       <span class="v ${signCls(t.value)}">${t.played ? fmtSigned(t.value) : "—"}</span>
     </li>`).join("");
   const cls = ["banner", mo.live ? "live" : "", big ? "solo" : "", raise ? "raise" : ""].filter(Boolean).join(" ");
@@ -645,7 +647,7 @@ function heroHtml() {
     return `<li>
       <span>${LEAGUE_EMOJI[t.league]}</span>
       <span>${esc(t.nickname)}</span>
-      <span class="rec">${t.played ? "" : "off-season"}</span>
+      <span class="rec">${t.played ? fmtRec(t) : "off-season"}</span>
       <span class="v ${signCls(t.value)}">${t.played ? fmtSigned(t.value) : "—"}</span>
       <span class="bar-wrap"><span style="${bar};background:${LEAGUE_COLOR[t.league]}"></span></span>
     </li>`;
