@@ -1,10 +1,92 @@
 {
- "generated": "2026-10-27",
+ "generated": "2026-10-29",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-28",
+   "kind": "daily",
+   "title": "City of the day \u2014 New Orleans",
+   "dek": "New Orleans: Pelicans/Saints",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "20-39, -75.3 weighted over 59 games; longest run 8 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+0.7)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 +59.4, 2011 +61.4, 2012 -136.8, 2013 +0.6, 2014 -55.1, 2015 -46.2, 2016 -53.8, 2017 +12.6, 2018 +104.4, 2019 -6.5, 2020 +44.9, 2021 -63.3, 2022 +21.5, 2023 -12.7, 2024 -85.4, 2025 -148.8"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "1-7, -26.6 weighted; longest run 5 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "October 5, 2026"
+      },
+      {
+       "label": "October 2026 through day 28",
+       "value": "1-7, -26.6 weighted \u2014 the worst of the 17 on record"
+      },
+      {
+       "label": "Same October in earlier years (same stretch)",
+       "value": "2010 +3.2, 2011 +13.9, 2012 +7.0, 2013 +7.0, 2014 +10.1, 2015 +7.6, 2016 +0.6, 2017 +20.9, 2018 +30.4, 2019 +15.2, 2020 +20.9, 2021 -2.5, 2022 -10.7, 2023 -7.6, 2024 -24.7, 2025 -23.4"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Pelicans",
+        "0-4",
+        "-12.7",
+        "4 straight losses"
+       ],
+       [
+        "Saints",
+        "1-3",
+        "-13.9",
+        "2 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "New Orleans: Pelicans/Saints \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "New Orleans: Pelicans/Saints \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "New Orleans: Pelicans/Saints \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-28/daily.html"
+  },
   {
    "date": "2026-10-26",
    "kind": "daily",

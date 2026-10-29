@@ -428,5 +428,10 @@
   "date": "2026-10-26",
   "city": "Pittsburgh",
   "group": "Pittsburgh"
+ },
+ {
+  "date": "2026-10-28",
+  "city": "New Orleans",
+  "group": "New Orleans"
  }
 ]
