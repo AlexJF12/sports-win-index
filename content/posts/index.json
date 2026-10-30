@@ -1,10 +1,86 @@
 {
- "generated": "2026-10-29",
+ "generated": "2026-10-30",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-29",
+   "kind": "daily",
+   "title": "City of the day \u2014 Vancouver",
+   "dek": "Vancouver: Canucks",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "11-46, -110.8 weighted over 57 games; longest run 11 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.1)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 +60.2, 2011 +95.0, 2012 +25.3, 2013 +15.8, 2014 -25.3, 2015 -15.8, 2016 -44.3, 2017 -79.2, 2018 -53.8, 2019 -19.0, 2020 +12.7, 2021 -41.2, 2022 -9.5, 2023 +25.3, 2024 +22.2, 2025 -34.8"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "1-12, -34.8 weighted; longest run 11 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "October 1, 2026"
+      },
+      {
+       "label": "October 2026 through day 29",
+       "value": "1-12, -34.8 weighted \u2014 the worst of the 15 on record"
+      },
+      {
+       "label": "Same October in earlier years (same stretch)",
+       "value": "2010 -3.2, 2011 -3.2, 2013 +12.7, 2014 +9.5, 2015 -6.3, 2016 -3.2, 2017 +6.3, 2018 +3.2, 2019 +9.5, 2021 -6.3, 2022 -15.8, 2023 +6.3, 2024 +0.0, 2025 -3.2"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Canucks",
+        "1-12",
+        "-34.8",
+        "11 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Vancouver: Canucks \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Vancouver: Canucks \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Vancouver: Canucks \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-29/daily.html"
+  },
   {
    "date": "2026-10-28",
    "kind": "daily",

@@ -135,3 +135,4 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261025,nfl,401873021,LAR,35,LV,21,LAR,Final
 20261025,nfl,401873022,KC,3,SEA,20,SEA,Final
 20261026,nfl,401873009,DAL,38,PHI,21,DAL,Final
+20261029,nfl,401873023,CAR,19,GB,27,GB,Final
