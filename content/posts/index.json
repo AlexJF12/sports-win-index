@@ -1,10 +1,92 @@
 {
- "generated": "2026-10-30",
+ "generated": "2026-10-31",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-30",
+   "kind": "daily",
+   "title": "City of the day \u2014 Houston",
+   "dek": "Houston: Astros/Rockets/Texans",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "124-114, +25.9 weighted over 238 games; longest run 9 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "more alternating than chance (-2.4)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -66.2, 2011 -58.3, 2012 -52.6, 2013 -183.8, 2014 +56.2, 2015 +82.4, 2016 +85.1, 2017 +123.7, 2018 +273.9, 2019 +243.0, 2020 -47.8, 2021 -155.9, 2022 -83.5, 2023 -13.0, 2024 +81.8, 2025 +142.2"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "7-3, +12.7 weighted; longest run 5 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "October 4, 2026"
+      },
+      {
+       "label": "October 2026 through day 30",
+       "value": "7-3, +12.7 weighted \u2014 the fourth-best of the 17 on record"
+      },
+      {
+       "label": "Same October in earlier years (same stretch)",
+       "value": "2010 -4.8, 2011 +7.0, 2012 +9.2, 2013 -17.7, 2014 -7.6, 2015 -18.0, 2016 +10.1, 2017 +17.6, 2018 +15.2, 2019 +24.8, 2020 -16.2, 2021 -30.6, 2022 -7.2, 2023 -5.0, 2024 +9.4, 2025 +7.0"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Rockets",
+        "5-1",
+        "+12.7",
+        "5 straight wins"
+       ],
+       [
+        "Texans",
+        "2-2",
+        "+0.0",
+        "2 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Houston: Astros/Rockets/Texans \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Houston: Astros/Rockets/Texans \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Houston: Astros/Rockets/Texans \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-30/daily.html"
+  },
   {
    "date": "2026-10-29",
    "kind": "daily",

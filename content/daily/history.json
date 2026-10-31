@@ -438,5 +438,10 @@
   "date": "2026-10-29",
   "city": "Vancouver",
   "group": "Vancouver"
+ },
+ {
+  "date": "2026-10-30",
+  "city": "Houston",
+  "group": "Houston"
  }
 ]
