@@ -443,5 +443,10 @@
   "date": "2026-10-30",
   "city": "Houston",
   "group": "Houston"
+ },
+ {
+  "date": "2026-10-31",
+  "city": "Tampa Bay",
+  "group": "Tampa Bay"
  }
 ]

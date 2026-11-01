@@ -1,10 +1,178 @@
 {
- "generated": "2026-10-31",
+ "generated": "2026-11-01",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-10-31",
+   "kind": "banner",
+   "title": "Boston wins the October 2026 banner",
+   "dek": "+36.1 weighted, finishing +5.7 clear of Minnesota \u2014 banner #27 for Boston since 2010",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "Champion",
+       "value": "Boston: Red Sox/Celtics/Bruins/Patriots \u2014 15-6, +36.1 weighted"
+      },
+      {
+       "label": "Runner-up",
+       "value": "Minnesota: Twins/Timberwolves/Wild/Vikings \u2014 15-9, +30.4 weighted"
+      },
+      {
+       "label": "Banners since 2010",
+       "value": "This is #27 for Boston"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Place",
+       "City",
+       "Teams",
+       "Record",
+       "Weighted"
+      ],
+      "rows": [
+       [
+        "1",
+        "Boston",
+        "Red Sox/Celtics/Bruins/Patriots",
+        "15-6",
+        "+36.1"
+       ],
+       [
+        "2",
+        "Minnesota",
+        "Twins/Timberwolves/Wild/Vikings",
+        "15-9",
+        "+30.4"
+       ],
+       [
+        "3",
+        "Edmonton",
+        "Oilers",
+        "10-3",
+        "+22.2"
+       ],
+       [
+        "4",
+        "Raleigh",
+        "Hurricanes",
+        "10-3",
+        "+22.2"
+       ],
+       [
+        "5",
+        "Green Bay",
+        "Packers",
+        "4-1",
+        "+20.9"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "banner-race.png",
+       "caption": "The banner going up to the rafters \u2014 the month's running total in black, each team's share in its league color \u2014 beside the final top five.",
+       "alt": "+36.1 weighted, finishing +5.7 clear of Minnesota \u2014 banner #27 for Boston since 2010 \u2014 The banner going up to the rafters \u2014 the month's running total in black, each team's share in its league color \u2014 beside the final top five"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-31/banner.html"
+  },
+  {
+   "date": "2026-10-31",
+   "kind": "daily",
+   "title": "City of the day \u2014 Tampa Bay",
+   "dek": "Tampa Bay: Rays/Lightning/Buccaneers",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "146-100, +106.1 weighted over 246 games; longest run 9 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+1.0)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 +85.6, 2011 +14.7, 2012 +10.2, 2013 -26.4, 2014 -76.2, 2015 -1.4, 2016 -4.7, 2017 +24.1, 2018 +109.7, 2019 +114.8, 2020 +154.0, 2021 +272.2, 2022 +110.5, 2023 +53.8, 2024 +57.5, 2025 -0.3"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "17-12, +14.9 weighted; longest run 6 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "October 3, 2026"
+      },
+      {
+       "label": "October 2026",
+       "value": "17-13, +11.8 weighted \u2014 the fourth-best of the 17 on record"
+      },
+      {
+       "label": "Same October in earlier years",
+       "value": "2010 +26.6, 2011 -9.9, 2012 +9.2, 2013 -10.5, 2014 -11.4, 2015 -8.8, 2016 +7.7, 2017 +3.6, 2018 +8.9, 2019 -23.1, 2020 +13.9, 2021 +18.6, 2022 -33.5, 2023 -19.3, 2024 -1.2, 2025 +10.7"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Rays",
+        "7-6",
+        "+2.3",
+        "4 straight losses"
+       ],
+       [
+        "Lightning",
+        "8-4",
+        "+12.7",
+        "4 straight wins"
+       ],
+       [
+        "Buccaneers",
+        "2-2",
+        "+0.0",
+        "1 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-10-31/daily.html"
+  },
   {
    "date": "2026-10-30",
    "kind": "daily",
