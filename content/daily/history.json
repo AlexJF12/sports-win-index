@@ -453,5 +453,10 @@
   "date": "2026-11-01",
   "city": "Montreal",
   "group": "Montreal"
+ },
+ {
+  "date": "2026-11-02",
+  "city": "Toronto",
+  "group": "Toronto"
  }
 ]

@@ -1,15 +1,16 @@
-# City of the day — Montreal
-*Montreal: Canadiens* · 2026-11-01
+# City of the day — Toronto
+*Toronto: Blue Jays/Raptors/Maple Leafs* · 2026-11-02
 
-- **2026 so far:** 44-31, +41.2 weighted over 75 games; longest run 8 straight wins
-- **Order of results:** about as clumped as coin flips (-1.8)
-- **Earlier seasons (full-year weighted):** 2010 -3.2, 2011 -28.5, 2012 -28.5, 2013 +38.0, 2014 +60.2, 2015 +31.7, 2016 -6.3, 2017 -12.7, 2018 -47.5, 2019 -0.0, 2020 -15.8, 2021 -72.8, 2022 -82.3, 2023 -60.2, 2024 -60.2, 2025 +3.2
-- **Last 30 days:** 7-5, +6.3 weighted; longest run 4 straight wins
-- **Window opens:** October 3, 2026
+- **2026 so far:** 134-148, -40.7 weighted over 282 games; longest run 6 straight losses
+- **Order of results:** about as clumped as coin flips (-1.4)
+- **Earlier seasons (full-year weighted):** 2010 -77.0, 2011 -91.8, 2012 -156.4, 2013 -44.2, 2014 +98.6, 2015 -41.8, 2016 +89.0, 2017 +56.6, 2018 +147.6, 2019 +51.8, 2020 +71.0, 2021 +60.9, 2022 +152.7, 2023 +41.0, 2024 -113.9, 2025 +107.4
+- **Last 30 days:** 11-9, +6.3 weighted; longest run 6 straight wins
+- **Window opens:** October 6, 2026
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Canadiens | 7-5 | +6.3 | 4 straight wins |
+| Raptors | 4-3 | +3.2 | 2 straight wins |
+| Maple Leafs | 7-6 | +3.2 | 4 straight wins |
 
 Images: `season.png` · `form.png`
 
