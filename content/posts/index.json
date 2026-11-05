@@ -1,10 +1,73 @@
 {
- "generated": "2026-11-04",
+ "generated": "2026-11-05",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-11-04",
+   "kind": "daily",
+   "title": "City of the day \u2014 Memphis",
+   "dek": "Memphis: Grizzlies",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "16-41, -79.2 weighted over 57 games; longest run 8 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+1.7)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -15.8, 2011 +44.3, 2012 +82.3, 2013 +53.8, 2014 +114.0, 2015 +50.7, 2016 +12.7, 2017 -60.2, 2018 -79.2, 2019 -76.0, 2020 -0.0, 2021 +44.3, 2022 +95.0, 2023 -9.5, 2024 -12.7, 2025 -15.8"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "6-2, +12.7 weighted; longest run 6 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "October 21, 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Grizzlies",
+        "6-2",
+        "+12.7",
+        "6 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Memphis: Grizzlies \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Memphis: Grizzlies \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-11-04/daily.html"
+  },
   {
    "date": "2026-11-03",
    "kind": "spotlight",
