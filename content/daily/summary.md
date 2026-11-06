@@ -1,15 +1,19 @@
-# City of the day — Memphis
-*Memphis: Grizzlies* · 2026-11-04
+# City of the day — Minnesota
+*Minnesota: Twins/Timberwolves/Wild/Vikings* · 2026-11-05
 
-- **2026 so far:** 16-41, -79.2 weighted over 57 games; longest run 8 straight losses
-- **Order of results:** about as clumped as coin flips (+1.7)
-- **Earlier seasons (full-year weighted):** 2010 -15.8, 2011 +44.3, 2012 +82.3, 2013 +53.8, 2014 +114.0, 2015 +50.7, 2016 +12.7, 2017 -60.2, 2018 -79.2, 2019 -76.0, 2020 -0.0, 2021 +44.3, 2022 +95.0, 2023 -9.5, 2024 -12.7, 2025 -15.8
-- **Last 30 days:** 6-2, +12.7 weighted; longest run 6 straight wins
-- **Window opens:** October 21, 2026
+- **2026 so far:** 161-146, +77.5 weighted over 307 games; longest run 8 straight wins
+- **Order of results:** about as clumped as coin flips (-0.6)
+- **Earlier seasons (full-year weighted):** 2010 -145.8, 2011 -255.2, 2012 -122.7, 2013 -182.2, 2014 -115.1, 2015 -38.5, 2016 -194.8, 2017 +104.9, 2018 -9.7, 2019 +32.9, 2020 -49.0, 2021 -61.4, 2022 +134.6, 2023 +69.5, 2024 +157.0, 2025 +31.5
+- **Last 30 days:** 16-9, +26.0 weighted; longest run 5 straight wins
+- **Window opens:** October 8, 2026
+- **November 2026 through day 5:** 4-1, +5.7 weighted — tied for the 7th-best of the 16 on record
+- **Same November in earlier years (same stretch):** 2010 -3.2, 2011 +9.5, 2012 -3.8, 2013 +5.7, 2014 +7.0, 2015 -2.5, 2016 -9.5, 2017 +9.5, 2018 +0.6, 2019 -7.0, 2021 -6.3, 2022 -3.2, 2023 +13.3, 2024 +13.3, 2025 +16.5
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Grizzlies | 6-2 | +12.7 | 6 straight wins |
+| Timberwolves | 6-3 | +9.5 | 3 straight wins |
+| Wild | 8-5 | +9.5 | 2 straight wins |
+| Vikings | 2-1 | +7.0 | 2 straight wins |
 
-Images: `season.png` · `form.png`
+Images: `season.png` · `month.png` · `form.png`
 

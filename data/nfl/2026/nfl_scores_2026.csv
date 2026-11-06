@@ -149,3 +149,4 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261101,nfl,401873034,NE,24,MIA,19,NE,Final
 20261101,nfl,401873035,PHI,10,WSH,27,WSH,Final
 20261102,nfl,401873036,CHI,34,SEA,17,CHI,Final
+20261105,nfl,401873037,JAX,33,BAL,10,JAX,Final

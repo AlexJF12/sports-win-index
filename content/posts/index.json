@@ -1,10 +1,182 @@
 {
- "generated": "2026-11-05",
+ "generated": "2026-11-06",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-11-05",
+   "kind": "banner",
+   "title": "November banner watch \u2014 Los Angeles leads at day 5",
+   "dek": "Los Angeles is +26.0 weighted, +9.5 ahead of Boston, with 25 days to play",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "Leading",
+       "value": "Los Angeles: Angels/Lakers/Ducks/Rams \u2014 7-0, +26.0 weighted"
+      },
+      {
+       "label": "Closest chaser",
+       "value": "Boston: Red Sox/Celtics/Bruins/Patriots \u2014 5-1, +16.5 weighted"
+      },
+      {
+       "label": "Banners since 2010",
+       "value": "It would be #38 for Los Angeles"
+      },
+      {
+       "label": "Last month's banner",
+       "value": "Boston, +36.1 in October 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Place",
+       "City",
+       "Teams",
+       "Record",
+       "Weighted"
+      ],
+      "rows": [
+       [
+        "1",
+        "Los Angeles",
+        "Angels/Lakers/Ducks/Rams",
+        "7-0",
+        "+26.0"
+       ],
+       [
+        "2",
+        "Boston",
+        "Red Sox/Celtics/Bruins/Patriots",
+        "5-1",
+        "+16.5"
+       ],
+       [
+        "3",
+        "Jacksonville",
+        "Jaguars",
+        "2-0",
+        "+13.9"
+       ],
+       [
+        "4",
+        "Tampa Bay",
+        "Rays/Lightning/Buccaneers",
+        "3-0",
+        "+13.3"
+       ],
+       [
+        "5",
+        "New York",
+        "Mets/Knicks/Devils/Giants",
+        "4-0",
+        "+12.7"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "banner-race.png",
+       "caption": "The leader's banner as it would hang today \u2014 the running total in black, each team's share in its league color \u2014 beside the top five cities in the race.",
+       "alt": "Los Angeles is +26.0 weighted, +9.5 ahead of Boston, with 25 days to play \u2014 The leader's banner as it would hang today \u2014 the running total in black, each team's share in its league color \u2014 beside the top five cities in the race"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-11-05/banner.html"
+  },
+  {
+   "date": "2026-11-05",
+   "kind": "daily",
+   "title": "City of the day \u2014 Minnesota",
+   "dek": "Minnesota: Twins/Timberwolves/Wild/Vikings",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "161-146, +77.5 weighted over 307 games; longest run 8 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.6)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -145.8, 2011 -255.2, 2012 -122.7, 2013 -182.2, 2014 -115.1, 2015 -38.5, 2016 -194.8, 2017 +104.9, 2018 -9.7, 2019 +32.9, 2020 -49.0, 2021 -61.4, 2022 +134.6, 2023 +69.5, 2024 +157.0, 2025 +31.5"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "16-9, +26.0 weighted; longest run 5 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "October 8, 2026"
+      },
+      {
+       "label": "November 2026 through day 5",
+       "value": "4-1, +5.7 weighted \u2014 tied for the 7th-best of the 16 on record"
+      },
+      {
+       "label": "Same November in earlier years (same stretch)",
+       "value": "2010 -3.2, 2011 +9.5, 2012 -3.8, 2013 +5.7, 2014 +7.0, 2015 -2.5, 2016 -9.5, 2017 +9.5, 2018 +0.6, 2019 -7.0, 2021 -6.3, 2022 -3.2, 2023 +13.3, 2024 +13.3, 2025 +16.5"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Timberwolves",
+        "6-3",
+        "+9.5",
+        "3 straight wins"
+       ],
+       [
+        "Wild",
+        "8-5",
+        "+9.5",
+        "2 straight wins"
+       ],
+       [
+        "Vikings",
+        "2-1",
+        "+7.0",
+        "2 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Minnesota: Twins/Timberwolves/Wild/Vikings \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Minnesota: Twins/Timberwolves/Wild/Vikings \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Minnesota: Twins/Timberwolves/Wild/Vikings \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-11-05/daily.html"
+  },
   {
    "date": "2026-11-04",
    "kind": "daily",

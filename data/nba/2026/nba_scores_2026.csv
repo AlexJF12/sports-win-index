@@ -941,3 +941,5 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261104,nba,401909933,DAL,111,SA,112,SA,Final
 20261104,nba,401909934,LAL,116,SAC,103,LAL,Final
 20261104,nba,401909935,MIA,117,LAC,116,MIA,Final/OT
+20261105,nba,401909936,ORL,104,PHX,117,PHX,Final
+20261105,nba,401909937,MIA,100,GS,120,GS,Final
