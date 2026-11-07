@@ -251,7 +251,14 @@
    "shared_at": "2026-11-06T01:58:47Z",
    "uri": "at://did:plc:upcxu22qs2nrtuleghymcik3/app.bsky.feed.post/3mzmbty225p26",
    "url": "https://alexjf12.github.io/sports-win-index/content/posts/2026-11-04/daily.html"
+  },
+  "2026-11-05/banner": {
+   "cid": "bafyreibfqey4b3gxgtpbydea2ltg275ydfd4w7ltslbonvcnas22peicbe",
+   "fingerprint": "8354e5a4f0ac8e3115890bd907edbd963b158b86ecdc00be5755d858f9fe2d4c",
+   "shared_at": "2026-11-07T01:34:38Z",
+   "uri": "at://did:plc:upcxu22qs2nrtuleghymcik3/app.bsky.feed.post/3mzoqxpk7df2y",
+   "url": "https://alexjf12.github.io/sports-win-index/content/posts/2026-11-05/banner.html"
   }
  },
- "updated": "2026-11-06T01:58:47Z"
+ "updated": "2026-11-07T01:34:38Z"
 }
