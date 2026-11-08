@@ -1,10 +1,92 @@
 {
- "generated": "2026-11-07",
+ "generated": "2026-11-08",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-11-07",
+   "kind": "daily",
+   "title": "City of the day \u2014 Milwaukee",
+   "dek": "Milwaukee: Brewers/Bucks",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "133-98, +61.5 weighted over 231 games; longest run 7 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+0.5)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 +10.5, 2011 +49.5, 2012 +2.7, 2013 -126.5, 2014 -103.2, 2015 -93.4, 2016 -61.4, 2017 +35.2, 2018 +120.5, 2019 +204.8, 2020 +32.2, 2021 +188.4, 2022 +92.2, 2023 +159.1, 2024 +58.2, 2025 +71.7"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "9-8, -4.1 weighted; longest run 5 straight losses"
+      },
+      {
+       "label": "Window opens",
+       "value": "October 11, 2026"
+      },
+      {
+       "label": "November 2026 through day 7",
+       "value": "0-3, -9.5 weighted \u2014 tied for the worst of the 15 on record"
+      },
+      {
+       "label": "Same November in earlier years (same stretch)",
+       "value": "2010 -6.3, 2012 +3.2, 2013 +3.2, 2014 -6.3, 2015 +9.5, 2016 +6.3, 2017 -9.5, 2018 -3.2, 2019 +12.7, 2021 -3.2, 2022 +6.3, 2023 +3.2, 2024 -3.2, 2025 +0.0"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Brewers",
+        "8-0",
+        "+18.0",
+        "8 straight wins"
+       ],
+       [
+        "Bucks",
+        "1-8",
+        "-22.2",
+        "5 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Milwaukee: Brewers/Bucks \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Milwaukee: Brewers/Bucks \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Milwaukee: Brewers/Bucks \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-11-07/daily.html"
+  },
   {
    "date": "2026-11-06",
    "kind": "daily",

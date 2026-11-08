@@ -478,5 +478,10 @@
   "date": "2026-11-06",
   "city": "Cleveland",
   "group": "Cleveland"
+ },
+ {
+  "date": "2026-11-07",
+  "city": "Milwaukee",
+  "group": "Milwaukee"
  }
 ]
