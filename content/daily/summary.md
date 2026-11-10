@@ -1,19 +1,18 @@
-# City of the day — Chicago
-*Chicago: Cubs/Bulls/Blackhawks/Bears* · 2026-11-08
+# City of the day — Nashville
+*Nashville: Predators/Titans* · 2026-11-09
 
-- **2026 so far:** 131-163, -99.0 weighted over 294 games; longest run 13 straight losses
-- **Order of results:** clumpier than chance (+2.2)
-- **Earlier seasons (full-year weighted):** 2010 +126.8, 2011 +96.2, 2012 +42.8, 2013 +71.7, 2014 +52.1, 2015 +134.5, 2016 +65.3, 2017 -19.5, 2018 -75.8, 2019 -97.9, 2020 -30.2, 2021 -131.8, 2022 -243.0, 2023 -104.3, 2024 -177.1, 2025 -3.1
-- **Last 30 days:** 7-19, -26.6 weighted; longest run 7 straight losses
-- **Window opens:** October 10, 2026
-- **November 2026 through day 8:** 2-7, -8.3 weighted — the fourth-worst of the 16 on record
-- **Same November in earlier years (same stretch):** 2010 +0.6, 2011 +0.6, 2012 +7.0, 2013 +7.0, 2014 +3.2, 2015 -7.0, 2016 +10.8, 2017 -3.2, 2018 -8.9, 2019 -7.0, 2021 -7.0, 2022 -7.0, 2023 -16.5, 2024 -19.6, 2025 +0.6
+- **2026 so far:** 29-39, -58.2 weighted over 68 games; longest run 6 straight losses
+- **Order of results:** about as clumped as coin flips (-0.4)
+- **Earlier seasons (full-year weighted):** 2010 -7.6, 2011 +28.5, 2012 +26.6, 2013 -77.2, 2014 -51.8, 2015 -75.3, 2016 -6.3, 2017 +77.9, 2018 +86.7, 2019 +20.2, 2020 +51.2, 2021 +66.4, 2022 -29.1, 2023 -17.0, 2024 -91.1, 2025 -105.0
+- **Last 30 days:** 7-8, -10.7 weighted; longest run 3 straight losses
+- **Window opens:** October 11, 2026
+- **November 2026 through day 9:** 3-1, +2.5 weighted — the sixth-best of the 15 on record
+- **Same November in earlier years (same stretch):** 2010 -9.5, 2011 -0.6, 2013 +10.1, 2014 -0.6, 2015 -3.2, 2016 -7.0, 2017 +13.3, 2018 +16.5, 2019 -13.3, 2021 +7.0, 2022 -7.0, 2023 -13.3, 2024 +3.8, 2025 -16.5
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Bulls | 1-8 | -22.2 | 7 straight losses |
-| Blackhawks | 2-10 | -25.3 | 9 straight losses |
-| Bears | 4-1 | +20.9 | 4 straight wins |
+| Predators | 6-5 | +3.2 | 4 straight wins |
+| Titans | 1-3 | -13.9 | 2 straight losses |
 
 Images: `season.png` · `month.png` · `form.png`
 

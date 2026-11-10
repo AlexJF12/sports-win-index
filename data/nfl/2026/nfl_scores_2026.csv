@@ -163,3 +163,4 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261108,nfl,401873047,LV,17,SF,38,SF,Final
 20261108,nfl,401873048,ARI,3,SEA,17,SEA,Final
 20261108,nfl,401873050,TB,24,CHI,27,CHI,Final
+20261109,nfl,401873051,BUF,23,MIN,6,BUF,Final

@@ -1033,3 +1033,6 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261108,nhl,401892676,NJ,4,TOR,0,NJ,Final
 20261108,nhl,401892678,PHI,3,CGY,4,CGY,Final/OT
 20261108,nhl,401892679,PIT,2,ANA,5,ANA,Final
+20261109,nhl,401892680,NYR,1,EDM,3,EDM,Final
+20261109,nhl,401892681,PHI,3,VAN,1,PHI,Final
+20261109,nhl,401892682,NYI,2,SJ,3,SJ,Final/SO

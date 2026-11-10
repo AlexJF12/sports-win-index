@@ -488,5 +488,10 @@
   "date": "2026-11-08",
   "city": "Chicago",
   "group": "Chicago 1"
+ },
+ {
+  "date": "2026-11-09",
+  "city": "Nashville",
+  "group": "Nashville"
  }
 ]
