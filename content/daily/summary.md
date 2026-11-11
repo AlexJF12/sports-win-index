@@ -1,18 +1,17 @@
-# City of the day — Nashville
-*Nashville: Predators/Titans* · 2026-11-09
+# City of the day — Ottawa
+*Ottawa: Senators* · 2026-11-10
 
-- **2026 so far:** 29-39, -58.2 weighted over 68 games; longest run 6 straight losses
-- **Order of results:** about as clumped as coin flips (-0.4)
-- **Earlier seasons (full-year weighted):** 2010 -7.6, 2011 +28.5, 2012 +26.6, 2013 -77.2, 2014 -51.8, 2015 -75.3, 2016 -6.3, 2017 +77.9, 2018 +86.7, 2019 +20.2, 2020 +51.2, 2021 +66.4, 2022 -29.1, 2023 -17.0, 2024 -91.1, 2025 -105.0
-- **Last 30 days:** 7-8, -10.7 weighted; longest run 3 straight losses
-- **Window opens:** October 11, 2026
-- **November 2026 through day 9:** 3-1, +2.5 weighted — the sixth-best of the 15 on record
-- **Same November in earlier years (same stretch):** 2010 -9.5, 2011 -0.6, 2013 +10.1, 2014 -0.6, 2015 -3.2, 2016 -7.0, 2017 +13.3, 2018 +16.5, 2019 -13.3, 2021 +7.0, 2022 -7.0, 2023 -13.3, 2024 +3.8, 2025 -16.5
+- **2026 so far:** 37-29, +25.3 weighted over 66 games; longest run 4 straight losses
+- **Order of results:** about as clumped as coin flips (-1.1)
+- **Earlier seasons (full-year weighted):** 2010 -12.7, 2011 -38.0, 2012 -0.0, 2013 -19.0, 2014 -19.0, 2015 +19.0, 2016 +0.0, 2017 -25.3, 2018 -72.8, 2019 -69.7, 2020 -41.2, 2021 -63.3, 2022 -31.7, 2023 -12.7, 2024 -6.3, 2025 +6.3
+- **Last 30 days:** 7-6, +3.2 weighted; longest run 2 straight wins
+- **Window opens:** October 12, 2026
+- **November 2026 through day 10:** 2-2, +0.0 weighted — tied for the sixth-best of the 15 on record
+- **Same November in earlier years (same stretch):** 2010 +12.7, 2011 -12.7, 2013 +3.2, 2014 -3.2, 2015 +0.0, 2016 +3.2, 2017 +3.2, 2018 +0.0, 2019 +3.2, 2021 -15.8, 2022 -15.8, 2023 -6.3, 2024 -3.2, 2025 +0.0
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Predators | 6-5 | +3.2 | 4 straight wins |
-| Titans | 1-3 | -13.9 | 2 straight losses |
+| Senators | 7-6 | +3.2 | 2 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 

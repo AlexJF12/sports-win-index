@@ -1,10 +1,274 @@
 {
- "generated": "2026-11-10",
+ "generated": "2026-11-11",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-11-10",
+   "kind": "spotlight",
+   "title": "Out of the norm \u2014 three fandoms off their own script",
+   "dek": "The weekly hunt across all 88 city groups, through November 10, 2026",
+   "sections": [
+    {
+     "heading": "Los Angeles's teams have won 13 straight \u2014 their longest run on record",
+     "subhead": "Los Angeles: Angels/Lakers/Ducks/Rams",
+     "stats": [
+      {
+       "label": "The run",
+       "value": "13 straight wins since November 1, 2026, +48.8 weighted (no run this long on record)"
+      },
+      {
+       "label": "This month (through November 10)",
+       "value": "13-0, +48.7 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "8-0, +29.1 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Lakers (4-0, +12.7)"
+      },
+      {
+       "label": "Active streaks",
+       "value": "Lakers W6, Ducks W5, Rams W3"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-los-angeles-6_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Los Angeles: Angels/Lakers/Ducks/Rams \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "spotlight-los-angeles-6_timeline.png",
+       "caption": "Game by game, with the streak picked out.",
+       "alt": "Los Angeles: Angels/Lakers/Ducks/Rams \u2014 Game by game, with the streak picked out"
+      },
+      {
+       "file": "spotlight-los-angeles-6_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Los Angeles: Angels/Lakers/Ducks/Rams \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    },
+    {
+     "heading": "New York is having its worst year on record \u2014 88th of 88 this year",
+     "subhead": "New York: Mets/Nets/Rangers/Jets",
+     "stats": [
+      {
+       "label": "2026 so far (through November 10)",
+       "value": "113-179, -218.9 weighted \u2014 the worst of the 17 years on record, at the same point"
+      },
+      {
+       "label": "Against the field",
+       "value": "88th of 88 city groups on the year (0th percentile)"
+      },
+      {
+       "label": "This month (through November 10)",
+       "value": "5-7, -13.9 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "3-4, -7.0 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Jets (0-1, -7.0)"
+      },
+      {
+       "label": "Active streaks",
+       "value": "Jets L4"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-new-york-6_year.png",
+       "caption": "Every season's cumulative index by day of year, this one in color.",
+       "alt": "New York: Mets/Nets/Rangers/Jets \u2014 Every season's cumulative index by day of year, this one in color"
+      },
+      {
+       "file": "spotlight-new-york-6_field.png",
+       "caption": "All 88 city groups on this year's index, the group picked out.",
+       "alt": "New York: Mets/Nets/Rangers/Jets \u2014 All 88 city groups on this year's index, the group picked out"
+      }
+     ]
+    },
+    {
+     "heading": "Milwaukee is having its worst November on record",
+     "subhead": "Milwaukee: Brewers/Bucks",
+     "stats": [
+      {
+       "label": "This month (through November 10)",
+       "value": "0-5, -15.8 weighted \u2014 the worst November of the 15 on record"
+      },
+      {
+       "label": "vs all months",
+       "value": "the worst of 188 months on record (0th percentile)"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "0-4, -12.7 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Bucks (0-4, -12.7)"
+      },
+      {
+       "label": "Active streaks",
+       "value": "Bucks L7"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "spotlight-milwaukee_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Milwaukee: Brewers/Bucks \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "spotlight-milwaukee_history.png",
+       "caption": "Every comparable month on record, this one picked out.",
+       "alt": "Milwaukee: Brewers/Bucks \u2014 Every comparable month on record, this one picked out"
+      },
+      {
+       "file": "spotlight-milwaukee_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Milwaukee: Brewers/Bucks \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-11-10/spotlight.html"
+  },
+  {
+   "date": "2026-11-10",
+   "kind": "streakiness",
+   "title": "Streakiness \u2014 not how often they win, but how the wins arrive",
+   "dek": "All 88 city groups, through November 10, 2026",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "City groups measured",
+       "value": "88"
+      },
+      {
+       "label": "Furthest from its own norm this year",
+       "value": "Houston: Astros/Rockets/Texans \u2014 streak index -2.4 over 244 games, against a usual +0.6"
+      },
+      {
+       "label": "Streakiest of the last 30 days",
+       "value": "Los Angeles: Dodgers/Lakers/Ducks/Rams \u2014 +3.7, longest run 13 wins"
+      },
+      {
+       "label": "Steadiest of the last 30 days",
+       "value": "Buffalo: Sabres/Bills \u2014 -1.6, the most alternating, though within what chance produces"
+      },
+      {
+       "label": "Reading the index",
+       "value": "+2 or more is clumpier than chance, \u22122 or less more alternating than chance, 0 exactly as clumped as coin flips"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "streak-season_vs_history.png",
+       "caption": "This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray.",
+       "alt": "All 88 city groups, through November 10, 2026 \u2014 This season's streak index for the ten fandoms furthest from their own norm, their past seasons behind them in gray"
+      },
+      {
+       "file": "streak-past_month.png",
+       "caption": "The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest.",
+       "alt": "All 88 city groups, through November 10, 2026 \u2014 The last 30 days game by game \u2014 the three streakiest fandoms of the month, then the three steadiest"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-11-10/streakiness.html"
+  },
+  {
+   "date": "2026-11-10",
+   "kind": "daily",
+   "title": "City of the day \u2014 Ottawa",
+   "dek": "Ottawa: Senators",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "37-29, +25.3 weighted over 66 games; longest run 4 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-1.1)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -12.7, 2011 -38.0, 2012 -0.0, 2013 -19.0, 2014 -19.0, 2015 +19.0, 2016 +0.0, 2017 -25.3, 2018 -72.8, 2019 -69.7, 2020 -41.2, 2021 -63.3, 2022 -31.7, 2023 -12.7, 2024 -6.3, 2025 +6.3"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "7-6, +3.2 weighted; longest run 2 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "October 12, 2026"
+      },
+      {
+       "label": "November 2026 through day 10",
+       "value": "2-2, +0.0 weighted \u2014 tied for the sixth-best of the 15 on record"
+      },
+      {
+       "label": "Same November in earlier years (same stretch)",
+       "value": "2010 +12.7, 2011 -12.7, 2013 +3.2, 2014 -3.2, 2015 +0.0, 2016 +3.2, 2017 +3.2, 2018 +0.0, 2019 +3.2, 2021 -15.8, 2022 -15.8, 2023 -6.3, 2024 -3.2, 2025 +0.0"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Senators",
+        "7-6",
+        "+3.2",
+        "2 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Ottawa: Senators \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Ottawa: Senators \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Ottawa: Senators \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-11-10/daily.html"
+  },
   {
    "date": "2026-11-09",
    "kind": "daily",

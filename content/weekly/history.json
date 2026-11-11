@@ -110,5 +110,13 @@
    "Vancouver",
    "Raleigh"
   ]
+ },
+ {
+  "date": "2026-11-10",
+  "cities": [
+   "Los Angeles",
+   "New York",
+   "Milwaukee"
+  ]
  }
 ]
