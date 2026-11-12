@@ -272,7 +272,21 @@
    "shared_at": "2026-11-10T03:57:02Z",
    "uri": "at://did:plc:upcxu22qs2nrtuleghymcik3/app.bsky.feed.post/3mzwkd4gsun2g",
    "url": "https://alexjf12.github.io/sports-win-index/content/posts/2026-11-08/daily.html"
+  },
+  "2026-11-10/spotlight": {
+   "cid": "bafyreigzsv37bqixoatdq7ezqp4lvrmssac76vhnix2k7vwvsnubetcmqq",
+   "fingerprint": "9ba3aae49ef8fd65472daa2da49fcf35b8742d11a3aa20bed586f84d74c9f93b",
+   "shared_at": "2026-11-12T02:40:45Z",
+   "uri": "at://did:plc:upcxu22qs2nrtuleghymcik3/app.bsky.feed.post/3n23gyjs7qf2m",
+   "url": "https://alexjf12.github.io/sports-win-index/content/posts/2026-11-10/spotlight.html"
+  },
+  "2026-11-10/streakiness": {
+   "cid": "bafyreic6exmk65zpi6gullqanllm4gyqw2phrt4mf3jgrxkg7rhboy5hvq",
+   "fingerprint": "eb3d25e66618d3077d9c37f65229442b515ecd3d369a6ee4b8a8334d729c4941",
+   "shared_at": "2026-11-12T02:40:46Z",
+   "uri": "at://did:plc:upcxu22qs2nrtuleghymcik3/app.bsky.feed.post/3n23gyla3hi2b",
+   "url": "https://alexjf12.github.io/sports-win-index/content/posts/2026-11-10/streakiness.html"
   }
  },
- "updated": "2026-11-10T03:57:02Z"
+ "updated": "2026-11-12T02:40:46Z"
 }
