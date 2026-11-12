@@ -498,5 +498,10 @@
   "date": "2026-11-10",
   "city": "Ottawa",
   "group": "Ottawa"
+ },
+ {
+  "date": "2026-11-11",
+  "city": "Seattle",
+  "group": "Seattle"
  }
 ]

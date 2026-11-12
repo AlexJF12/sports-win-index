@@ -1,17 +1,18 @@
-# City of the day — Ottawa
-*Ottawa: Senators* · 2026-11-10
+# City of the day — Seattle
+*Seattle: Mariners/Kraken/Seahawks* · 2026-11-11
 
-- **2026 so far:** 37-29, +25.3 weighted over 66 games; longest run 4 straight losses
-- **Order of results:** about as clumped as coin flips (-1.1)
-- **Earlier seasons (full-year weighted):** 2010 -12.7, 2011 -38.0, 2012 -0.0, 2013 -19.0, 2014 -19.0, 2015 +19.0, 2016 +0.0, 2017 -25.3, 2018 -72.8, 2019 -69.7, 2020 -41.2, 2021 -63.3, 2022 -31.7, 2023 -12.7, 2024 -6.3, 2025 +6.3
-- **Last 30 days:** 7-6, +3.2 weighted; longest run 2 straight wins
-- **Window opens:** October 12, 2026
-- **November 2026 through day 10:** 2-2, +0.0 weighted — tied for the sixth-best of the 15 on record
-- **Same November in earlier years (same stretch):** 2010 +12.7, 2011 -12.7, 2013 +3.2, 2014 -3.2, 2015 +0.0, 2016 +3.2, 2017 +3.2, 2018 +0.0, 2019 +3.2, 2021 -15.8, 2022 -15.8, 2023 -6.3, 2024 -3.2, 2025 +0.0
+- **2026 so far:** 112-124, -9.9 weighted over 236 games; longest run 8 straight losses
+- **Order of results:** about as clumped as coin flips (-0.0)
+- **Earlier seasons (full-year weighted):** 2010 -117.9, 2011 -63.1, 2012 +7.7, 2013 +17.5, 2014 +103.5, 2015 +5.3, 2016 +57.3, 2017 +7.3, 2018 +63.9, 2019 -23.8, 2020 +35.2, 2021 -32.2, 2022 +0.9, 2023 +35.3, 2024 +10.4, 2025 +75.9
+- **Last 30 days:** 7-7, +0.0 weighted; longest run 3 straight losses
+- **Window opens:** October 13, 2026
+- **November 2026 through day 11:** 2-2, +0.0 weighted — the third-best of the 6 on record
+- **Same November in earlier years (same stretch):** 2021 -9.5, 2022 +16.5, 2023 -10.1, 2024 -13.3, 2025 +7.6
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Senators | 7-6 | +3.2 | 2 straight wins |
+| Kraken | 5-5 | +0.0 | 2 straight losses |
+| Seahawks | 2-2 | +0.0 | 1 straight losses |
 
 Images: `season.png` · `month.png` · `form.png`
 
