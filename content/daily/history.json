@@ -503,5 +503,10 @@
   "date": "2026-11-11",
   "city": "Seattle",
   "group": "Seattle"
+ },
+ {
+  "date": "2026-11-12",
+  "city": "Calgary",
+  "group": "Calgary"
  }
 ]

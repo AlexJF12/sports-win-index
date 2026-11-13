@@ -1,10 +1,170 @@
 {
- "generated": "2026-11-12",
+ "generated": "2026-11-13",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-11-12",
+   "kind": "banner",
+   "title": "November banner watch \u2014 Los Angeles leads at day 12",
+   "dek": "Los Angeles is +48.7 weighted, +26.6 ahead of Boston, with 18 days to play",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "Leading",
+       "value": "Los Angeles: Angels/Lakers/Ducks/Rams \u2014 14-1, +48.7 weighted"
+      },
+      {
+       "label": "Closest chaser",
+       "value": "Boston: Red Sox/Celtics/Bruins/Patriots \u2014 10-3, +22.2 weighted"
+      },
+      {
+       "label": "Banners since 2010",
+       "value": "It would be #38 for Los Angeles"
+      },
+      {
+       "label": "Last month's banner",
+       "value": "Boston, +36.1 in October 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Place",
+       "City",
+       "Teams",
+       "Record",
+       "Weighted"
+      ],
+      "rows": [
+       [
+        "1",
+        "Los Angeles",
+        "Angels/Lakers/Ducks/Rams",
+        "14-1",
+        "+48.7"
+       ],
+       [
+        "2",
+        "Boston",
+        "Red Sox/Celtics/Bruins/Patriots",
+        "10-3",
+        "+22.2"
+       ],
+       [
+        "3",
+        "New York",
+        "Mets/Knicks/Devils/Giants",
+        "10-3",
+        "+22.2"
+       ],
+       [
+        "4",
+        "San Antonio",
+        "Spurs",
+        "6-0",
+        "+19.0"
+       ],
+       [
+        "5",
+        "Denver",
+        "Rockies/Nuggets/Avalanche/Broncos",
+        "8-5",
+        "+17.1"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "banner-race.png",
+       "caption": "The leader's banner as it would hang today \u2014 the running total in black, each team's share in its league color \u2014 beside the top five cities in the race.",
+       "alt": "Los Angeles is +48.7 weighted, +26.6 ahead of Boston, with 18 days to play \u2014 The leader's banner as it would hang today \u2014 the running total in black, each team's share in its league color \u2014 beside the top five cities in the race"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-11-12/banner.html"
+  },
+  {
+   "date": "2026-11-12",
+   "kind": "daily",
+   "title": "City of the day \u2014 Calgary",
+   "dek": "Calgary: Flames",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "24-37, -41.2 weighted over 61 games; longest run 5 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-0.8)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -38.0, 2011 +3.2, 2012 -15.8, 2013 -69.7, 2014 +9.5, 2015 +3.2, 2016 -25.3, 2017 +6.3, 2018 +3.2, 2019 +15.8, 2020 +12.7, 2021 -3.2, 2022 +34.8, 2023 -31.7, 2024 -3.2, 2025 -9.5"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "7-6, +3.2 weighted; longest run 4 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "October 15, 2026"
+      },
+      {
+       "label": "November 2026 through day 12",
+       "value": "2-3, -3.2 weighted \u2014 tied for the fifth-best of the 15 on record"
+      },
+      {
+       "label": "Same November in earlier years (same stretch)",
+       "value": "2010 -6.3, 2011 -3.2, 2013 -12.7, 2014 +3.2, 2015 -3.2, 2016 -12.7, 2017 +6.3, 2018 +3.2, 2019 +3.2, 2021 -12.7, 2022 -15.8, 2023 -3.2, 2024 -3.2, 2025 -6.3"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Flames",
+        "7-6",
+        "+3.2",
+        "4 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Calgary: Flames \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Calgary: Flames \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Calgary: Flames \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-11-12/daily.html"
+  },
   {
    "date": "2026-11-11",
    "kind": "daily",

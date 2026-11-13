@@ -1,20 +1,20 @@
 {
- "reference_date": "2026-11-05",
+ "reference_date": "2026-11-12",
  "year": 2026,
  "month": 11,
  "month_name": "November",
- "day": 5,
+ "day": 12,
  "days": 30,
  "final": false,
  "leader": {
   "name": "Los Angeles 6",
   "city": "Los Angeles",
   "label": "Los Angeles: Angels/Lakers/Ducks/Rams",
-  "w": 7,
-  "l": 0,
+  "w": 14,
+  "l": 1,
   "t": 0,
-  "games": 7,
-  "weighted": 25.9564,
+  "games": 15,
+  "weighted": 48.7459,
   "teams": [
    {
     "league": "mlb",
@@ -31,6 +31,13 @@
      0.0,
      0.0,
      0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
      0.0
     ]
    },
@@ -38,10 +45,10 @@
     "league": "nba",
     "abbr": "LAL",
     "nickname": "Lakers",
-    "w": 3,
+    "w": 7,
     "l": 0,
     "t": 0,
-    "weighted": 9.5006,
+    "weighted": 22.168,
     "played": true,
     "series": [
      0.0,
@@ -49,17 +56,24 @@
      6.334,
      6.334,
      9.501,
-     9.501
+     9.501,
+     12.667,
+     12.667,
+     15.834,
+     19.001,
+     19.001,
+     22.168,
+     22.168
     ]
    },
    {
     "league": "nhl",
     "abbr": "ANA",
     "nickname": "Ducks",
-    "w": 3,
-    "l": 0,
+    "w": 5,
+    "l": 1,
     "t": 0,
-    "weighted": 9.5006,
+    "weighted": 12.6674,
     "played": true,
     "series": [
      0.0,
@@ -67,17 +81,24 @@
      3.167,
      6.334,
      6.334,
-     9.501
+     9.501,
+     12.667,
+     12.667,
+     15.834,
+     15.834,
+     15.834,
+     12.667,
+     12.667
     ]
    },
    {
     "league": "nfl",
     "abbr": "LAR",
     "nickname": "Rams",
-    "w": 1,
+    "w": 2,
     "l": 0,
     "t": 0,
-    "weighted": 6.9552,
+    "weighted": 13.9104,
     "played": true,
     "series": [
      0.0,
@@ -85,7 +106,14 @@
      6.955,
      6.955,
      6.955,
-     6.955
+     6.955,
+     6.955,
+     6.955,
+     13.91,
+     13.91,
+     13.91,
+     13.91,
+     13.91
     ]
    }
   ],
@@ -95,32 +123,39 @@
    16.456,
    19.623,
    22.79,
-   25.957
+   25.957,
+   32.289,
+   32.289,
+   45.578,
+   48.745,
+   48.745,
+   48.745,
+   48.745
   ]
  },
  "runner_up": {
   "name": "Boston",
   "city": "Boston",
   "label": "Boston: Red Sox/Celtics/Bruins/Patriots",
-  "w": 5,
-  "l": 1,
+  "w": 10,
+  "l": 3,
   "t": 0,
-  "games": 6,
-  "weighted": 16.4558
+  "games": 13,
+  "weighted": 22.168
  },
- "margin": 9.5006,
+ "margin": 26.5779,
  "standings": [
   {
    "place": 1,
    "name": "Los Angeles 6",
    "city": "Los Angeles",
    "label": "Los Angeles: Angels/Lakers/Ducks/Rams",
-   "w": 7,
-   "l": 0,
+   "w": 14,
+   "l": 1,
    "t": 0,
-   "games": 7,
-   "weighted": 25.9564,
-   "week": 25.9564,
+   "games": 15,
+   "weighted": 48.7459,
+   "week": 22.7895,
    "back": 0.0
   },
   {
@@ -128,52 +163,52 @@
    "name": "Boston",
    "city": "Boston",
    "label": "Boston: Red Sox/Celtics/Bruins/Patriots",
-   "w": 5,
-   "l": 1,
+   "w": 10,
+   "l": 3,
    "t": 0,
-   "games": 6,
-   "weighted": 16.4558,
-   "week": 16.4558,
-   "back": 9.5006
+   "games": 13,
+   "weighted": 22.168,
+   "week": 5.7122,
+   "back": 26.5779
   },
   {
    "place": 3,
-   "name": "Jacksonville",
-   "city": "Jacksonville",
-   "label": "Jacksonville: Jaguars",
-   "w": 2,
-   "l": 0,
-   "t": 0,
-   "games": 2,
-   "weighted": 13.9104,
-   "week": 13.9104,
-   "back": 12.046
-  },
-  {
-   "place": 4,
-   "name": "Tampa Bay",
-   "city": "Tampa Bay",
-   "label": "Tampa Bay: Rays/Lightning/Buccaneers",
-   "w": 3,
-   "l": 0,
-   "t": 0,
-   "games": 3,
-   "weighted": 13.2889,
-   "week": 13.2889,
-   "back": 12.6675
-  },
-  {
-   "place": 5,
    "name": "New York 7",
    "city": "New York",
    "label": "New York: Mets/Knicks/Devils/Giants",
-   "w": 4,
+   "w": 10,
+   "l": 3,
+   "t": 0,
+   "games": 13,
+   "weighted": 22.168,
+   "week": 9.5006,
+   "back": 26.5779
+  },
+  {
+   "place": 4,
+   "name": "San Antonio",
+   "city": "San Antonio",
+   "label": "San Antonio: Spurs",
+   "w": 6,
    "l": 0,
    "t": 0,
-   "games": 4,
-   "weighted": 12.6674,
+   "games": 6,
+   "weighted": 19.0011,
    "week": 12.6674,
-   "back": 13.289
+   "back": 29.7448
+  },
+  {
+   "place": 5,
+   "name": "Denver",
+   "city": "Denver",
+   "label": "Denver: Rockies/Nuggets/Avalanche/Broncos",
+   "w": 8,
+   "l": 5,
+   "t": 0,
+   "games": 13,
+   "weighted": 17.0773,
+   "week": 13.2889,
+   "back": 31.6686
   }
  ],
  "rafters": [
@@ -228,7 +263,7 @@
    "weighted": 36.0784
   }
  ],
- "cities_in_race": 47,
+ "cities_in_race": 48,
  "banner_number": 38,
  "since": 2010,
  "previous": {
