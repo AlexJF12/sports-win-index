@@ -508,5 +508,10 @@
   "date": "2026-11-12",
   "city": "Calgary",
   "group": "Calgary"
+ },
+ {
+  "date": "2026-11-13",
+  "city": "St. Louis",
+  "group": "St. Louis"
  }
 ]
