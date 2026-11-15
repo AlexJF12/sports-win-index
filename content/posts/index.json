@@ -1,10 +1,98 @@
 {
- "generated": "2026-11-14",
+ "generated": "2026-11-15",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-11-14",
+   "kind": "daily",
+   "title": "City of the day \u2014 Miami",
+   "dek": "Miami: Marlins/Heat/Panthers/Dolphins",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "143-154, -59.5 weighted over 297 games; longest run 12 straight losses"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (+1.4)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 +16.4, 2011 -47.5, 2012 +53.0, 2013 +22.1, 2014 -49.7, 2015 -67.2, 2016 +13.7, 2017 -40.8, 2018 -73.8, 2019 -127.7, 2020 +52.9, 2021 +60.4, 2022 +70.1, 2023 +151.5, 2024 +5.0, 2025 -7.7"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "15-13, +2.5 weighted; longest run 7 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "October 17, 2026"
+      },
+      {
+       "label": "November 2026 through day 14",
+       "value": "9-7, -1.2 weighted \u2014 the fifth-worst of the 16 on record"
+      },
+      {
+       "label": "Same November in earlier years (same stretch)",
+       "value": "2010 +0.0, 2011 +10.7, 2012 -7.6, 2013 -16.5, 2014 +0.6, 2015 -3.8, 2016 +1.2, 2017 -17.1, 2018 +9.5, 2019 +20.2, 2021 +4.4, 2022 +23.4, 2023 +24.7, 2024 +0.0, 2025 +13.3"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Heat",
+        "7-6",
+        "+3.2",
+        "4 straight losses"
+       ],
+       [
+        "Panthers",
+        "7-5",
+        "+6.3",
+        "3 straight wins"
+       ],
+       [
+        "Dolphins",
+        "1-2",
+        "-7.0",
+        "2 straight losses"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Miami: Marlins/Heat/Panthers/Dolphins \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Miami: Marlins/Heat/Panthers/Dolphins \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Miami: Marlins/Heat/Panthers/Dolphins \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "page": "content/posts/2026-11-14/daily.html"
+  },
   {
    "date": "2026-11-13",
    "kind": "daily",
