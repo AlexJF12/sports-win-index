@@ -279,6 +279,24 @@ def write_summary(path: str, prof: dict, ref: date) -> None:
         f.write("\n".join(out) + "\n")
 
 
+def facts(prof: dict, ref: date) -> dict:
+    """The handful of numbers the post's one-line pitch is made of, as numbers.
+    summary.md has the same ones worked into prose, and prose is a poor thing
+    to parse a record back out of."""
+    s, r, m = prof["season"], prof["recent"], prof["month"]
+    keep = ("w", "l", "t", "games")
+    return {
+        "date": ref.isoformat(), "year": ref.year, "city": prof["city"],
+        "label": prof["label"],
+        "season": {k: s[k] for k in keep},
+        "recent": {**{k: r[k] for k in keep}, "longest": r["longest"]},
+        "month": ({**{k: m[k] for k in keep}, "name": m["name"],
+                   "in_progress": m["in_progress"], "place": m["place"],
+                   "worse": m["worse"], "field": m["field"]}
+                  if month_drawable(prof) else None),
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--date", default=None,
@@ -323,6 +341,9 @@ def main():
              prof["recent"]["games"], WINDOW_DAYS, prof["season"]["index"])
 
     write_summary(os.path.join(args.out_dir, "summary.md"), prof, ref)
+    with open(os.path.join(args.out_dir, "facts.json"), "w") as f:
+        json.dump(facts(prof, ref), f, indent=1)
+        f.write("\n")
     history = [h for h in history if h.get("date") != ref.isoformat()]
     history.append({"date": ref.isoformat(), "city": prof["city"],
                     "group": prof["name"]})

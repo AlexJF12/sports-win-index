@@ -29,6 +29,7 @@ import os
 import random
 from datetime import date, timedelta
 
+import hooks
 from banner_race import by_city, month_tallies, ranked
 from city_of_the_day import draw, profile, qualifies
 from fandom_analysis import (FIRST_YEAR, MONTH_NAMES, display_label, group_games,
@@ -75,6 +76,11 @@ def image(kind: str, name: str, caption: str, out_root: str = OUT_ROOT) -> dict:
 def out_path(kind: str, name: str, out_root: str = OUT_ROOT) -> str:
     os.makedirs(os.path.join(out_root, kind), exist_ok=True)
     return os.path.join(out_root, kind, name)
+
+
+def count(posts: list, kind: str, ref: date) -> int:
+    """How many posts of this type came before — what turns the wording."""
+    return len(earlier(posts, kind, ref))
 
 
 def earlier(posts: list, kind: str, ref: date, days: int | None = None) -> list:
@@ -152,9 +158,8 @@ def hotcold_post(by_team: dict, groups: list, ref: date, posts: list = (),
 
     title = (f"{top['city']} has won {top['length']} straight. "
              f"{bottom['city']} has lost {bottom['length']} straight.")
-    hook = (f"🔥 {top['city']}: {run_words(top)} ({team_split(top)})\n"
-            f"🧊 {bottom['city']}: {run_words(bottom)} ({team_split(bottom)})\n"
-            f"Which run ends first?")
+    hook = hooks.hotcold_hook(top, bottom, team_split(top), team_split(bottom),
+                              count(posts, "hotcold", ref))
     stats = [
         {"label": "Hottest", "value": f"{top['label']} — {run_words(top)} since "
                                       f"{pretty_date(top['since'])}, {signed(top['weighted'])} weighted"},
@@ -175,7 +180,10 @@ def hotcold_post(by_team: dict, groups: list, ref: date, posts: list = (),
     return {
         "date": ref.isoformat(), "kind": "hotcold", "title": title,
         "dek": f"The longest active runs in every city, through {ref.strftime('%B %-d, %Y')}",
-        "hook": hook, "cities": [top["city"], bottom["city"]],
+        "hook": hook,
+        "score": hooks.hotcold_score(
+            top, bottom, (earlier(posts, "hotcold", ref)[:1] or [{}])[0].get("cities") or []),
+        "cities": [top["city"], bottom["city"]],
         "sections": [{"heading": None, "subhead": None, "stats": stats, "table": table,
                       "images": [image("hotcold", "runs.png", caption, out_root)]}],
     }
@@ -237,10 +245,12 @@ def pick_pair(standings: list, meetings: list, used: set) -> tuple | None:
                 playing |= {t["abbr"] for t in side["group"]["teams"]
                             if t["league"] == meeting["league"]}
         if a and b and {row["home_team"], row["away_team"]} <= playing:
-            options.append((abs(a["place"] - b["place"]), a["place"] + b["place"],
-                            a, b, meeting))
+            # stakes first: two cities near the top of the year beat two near
+            # the bottom, and a wide gap between them counts against the pair
+            options.append((a["place"] + b["place"] + 2 * abs(a["place"] - b["place"]),
+                            0, a, b, meeting))
     for a, b in zip(standings, standings[1:]):
-        options.append((100 + abs(a["weighted"] - b["weighted"]), a["place"], a, b, None))
+        options.append((1000 + abs(a["weighted"] - b["weighted"]), a["place"], a, b, None))
     for _, _, a, b, meeting in sorted(options, key=lambda o: o[:2]):
         if frozenset((a["group"]["city"], b["group"]["city"])) not in used:
             return (a, b, meeting) if a["place"] < b["place"] else (b, a, meeting)
@@ -274,18 +284,14 @@ def h2h_post(by_team: dict, groups: list, ref: date, posts: list = (),
 
     stats = [{"label": city_a, "value": line(a)}, {"label": city_b, "value": line(b)},
              {"label": "The gap", "value": f"{city_a} by {abs(a['weighted'] - b['weighted']):.1f}"}]
-    hook = [f"{city_a} or {city_b}: who's had the better {ref.year}?",
-            f"{city_a} {signed(a['weighted'])} ({ordinal(a['place'])} of {field}) · "
-            f"{city_b} {signed(b['weighted'])} ({ordinal(b['place'])})"]
-    if meeting:
-        played = game_line(groups, meeting)
+    played = game_line(groups, meeting) if meeting else None
+    if played:
         stats.append({"label": f"{ref.strftime('%B %-d')}", "value": played})
-        hook.append(f"{ref.strftime('%b %-d')}: {played}.")
     if met["games"]:
         stats.append({"label": f"Meetings in {ref.year}",
                       "value": f"{met['games']} — {city_a} {met['a']}, {city_b} {met['b']}"})
-        if not meeting:
-            hook.append(f"Head to head this year: {city_a} {met['a']}, {city_b} {met['b']}.")
+    hook = hooks.h2h_hook(a, b, field, ref.year, played, met, ref.strftime("%b %-d"),
+                          count(posts, "h2h", ref))
 
     series = [{"city": row["group"]["city"], "total": row["weighted"],
                "series": season_series(by_team, row["group"], ref.year, ref)}
@@ -300,7 +306,8 @@ def h2h_post(by_team: dict, groups: list, ref: date, posts: list = (),
         "title": f"{city_a} vs {city_b}: who's had the better {ref.year}?",
         "dek": f"{nicknames(a['group'])} against {nicknames(b['group'])}, "
                f"through {ref.strftime('%B %-d')}",
-        "hook": "\n".join(hook), "cities": [city_a, city_b],
+        "hook": hook, "score": hooks.h2h_score(a, b, field, bool(meeting)),
+        "cities": [city_a, city_b],
         "sections": [{"heading": None, "subhead": None, "stats": stats, "table": None,
                       "images": [image("h2h", "year.png", caption, out_root)]}],
     }
@@ -368,20 +375,20 @@ def timemachine_post(by_team: dict, groups: list, ref: date, posts: list = (),
          "value": f"{display_label(second['group'])} — {record(second)}, "
                   f"{signed(second['weighted'])} weighted"},
     ]
-    hook = [f"{years_ago} this month: {city} took the {month} {year} banner, "
-            f"{record(champ)}."]
-    if star and len(champ["group"]["teams"]) > 1:
+    if not (star and len(champ["group"]["teams"]) > 1):
+        star = None                # a one-team city carried itself
+    if star:
         stats.append({"label": "Who carried it",
                       "value": f"{star['nickname']} — {record(star)}, "
                                f"{signed(star['weighted'])} weighted"})
-        hook[0] = hook[0][:-1] + f" ({star['nickname']} went {record(star)})."
     if now:
         place, row = now
         stats.append({"label": f"{city} this {month}, through day {ref.day}",
                       "value": f"{ordinal(place)} of {len(now_rows)} — {record(row)}, "
                                f"{signed(row['weighted'])} weighted"})
-        hook.append(f"This {month} they're {ordinal(place)} of {len(now_rows)}.")
-    hook.append("Remember that month?")
+    standing_now = (now[0], len(now_rows)) if now else None
+    hook = hooks.timemachine_hook(city, month, year, years_ago, champ, star,
+                                  standing_now, count(posts, "timemachine", ref))
 
     top = [{"city": r["group"]["city"], "weighted": r["weighted"], "record": record(r)}
            for r in rows[:5]]
@@ -399,7 +406,8 @@ def timemachine_post(by_team: dict, groups: list, ref: date, posts: list = (),
         "dek": f"{years_ago} this month — {nicknames(champ['group'])}, "
                f"{signed(champ['weighted'] - second['weighted'])} clear of "
                f"{second['group']['city']}",
-        "hook": "\n".join(hook), "cities": [city], "year": year,
+        "hook": hook, "score": hooks.timemachine_score(standing_now),
+        "cities": [city], "year": year,
         "sections": [{"heading": None, "subhead": None, "stats": stats, "table": table,
                       "images": [image("timemachine", "month.png", caption, out_root)]}],
     }
@@ -443,9 +451,9 @@ def guess_post(by_team: dict, groups: list, ref: date, posts: list = (),
                                      f"({signed(best['final'])}). Worst: {worst['year']} "
                                      f"({signed(worst['final'])})"},
     ]
-    hook = (f"Guess the city 🕵️\n• {teams}\n• {clue_year}\n"
-            f"• Best year on record: {best['year']}. Worst: {worst['year']}\n"
-            f"Reply with your guess. The answer is in the link.")
+    hook = hooks.guess_hook([teams, clue_year,
+                             f"Best year on record: {best['year']}. Worst: {worst['year']}"],
+                            count(posts, "guess", ref))
     caption = ("A mystery city's cumulative weighted index this year, against "
                "its own earlier seasons in gray.")
     if images:
@@ -456,7 +464,7 @@ def guess_post(by_team: dict, groups: list, ref: date, posts: list = (),
         "title": f"Guess the city: {teams[0].lower()}{teams[1:]}, "
                  f"{season['w']}-{season['l']} this year",
         "dek": "Three clues and a chart with the name taken off",
-        "hook": hook, "cities": [prof["city"]],
+        "hook": hook, "score": hooks.GUESS_SCORE, "cities": [prof["city"]],
         "answer": {"label": prof["label"],
                    "detail": f"{season['w']}-{season['l']} in {ref.year}, "
                              f"{signed(season['weighted'])} weighted — "

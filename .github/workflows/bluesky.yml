@@ -18,6 +18,10 @@ on:
   schedule:
     - cron: "0 15 * * *"
     - cron: "0 22 * * *"
+    # three hours after each: nothing new is shared, a guess-the-city post
+    # that has stood for two hours gets its answer as a reply
+    - cron: "0 18 * * *"
+    - cron: "0 1 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -36,6 +40,10 @@ on:
         default: "1"
       prune_dead:
         description: "Delete past shares whose page is gone, instead of sharing"
+        type: boolean
+        default: false
+      reveal_only:
+        description: "Only answer guess-the-city posts that are due; share nothing new"
         type: boolean
         default: false
       share_daily:
@@ -78,6 +86,9 @@ jobs:
           SHARE_DAILY: ${{ inputs.share_daily || 'always' }}
           BACKFILL: ${{ inputs.backfill && '--backfill' || '' }}
           PRUNE: ${{ inputs.prune_dead && '--prune-dead' || '' }}
+          REVEAL: >-
+            ${{ (inputs.reveal_only || github.event.schedule == '0 18 * * *'
+                 || github.event.schedule == '0 1 * * *') && '--reveal-only' || '' }}
           # A run somebody started by hand should fail loudly when the secrets
           # are missing, rather than reporting green having done nothing. The
           # nightly one exits quietly, so an account that doesn't exist yet is
@@ -91,7 +102,7 @@ jobs:
             --max-age-days "$MAX_AGE_DAYS" \
             --max-posts "$MAX_POSTS" \
             --share-daily "$SHARE_DAILY" \
-            $BACKFILL $PRUNE $MODE
+            $BACKFILL $PRUNE $REVEAL $MODE
 
       # Runs even when the share step failed: a run that dies on its third post
       # has still shared two, and share_bluesky.py writes those to the record

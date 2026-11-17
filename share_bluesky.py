@@ -22,7 +22,8 @@ files two posts every morning, each with a slot, and each run shares the oldest
 one still waiting. A post is never shared straight after another of its type —
 the planner already orders the day that way, and pending() checks it again
 against the record. A guess-the-city post gets its answer as a reply a few
-hours later. City of the day is one type among seven now, so it always goes
+hours later (the workflow has two short --reveal-only runs for that, a few
+hours after each posting run). City of the day is one type among seven now, so it always goes
 out; --share-daily notable brings back the old bar (see finding()).
 
 What has already gone out is remembered in content/posts/bluesky.json, keyed on
@@ -87,7 +88,7 @@ PLACEHOLDERS = {"REPLACE-ME.bsky.social", "REPLACE-ME-APP-PASSWORD"}
 MAX_AGE_DAYS = 1
 MAX_POSTS = 1              # one post a run, two runs a day: the morning's two
                            # posts go out hours apart, not back to back
-REVEAL_AFTER_HOURS = 4     # how long a guess-the-city post stands before its
+REVEAL_AFTER_HOURS = 2     # how long a guess-the-city post stands before its
                            # answer is posted under it
 LINK_SHOWN = 32            # characters of the link that appear in the text
 
@@ -753,6 +754,10 @@ def main():
                         help="Instead of sharing, delete every past share whose "
                              "page no longer exists on the site. Deleting a "
                              "Bluesky post is permanent; --dry-run lists them.")
+    parser.add_argument("--reveal-only", action="store_true",
+                        help="Answer any guess-the-city post that is due and "
+                             "share nothing new — the short run between the "
+                             "day's two posts.")
     parser.add_argument("--dry-run", action="store_true",
                         help="Print what would be shared and post nothing. "
                              "Needs no credentials, but signs in to check them "
@@ -800,6 +805,8 @@ def main():
                     args.max_posts, args.backfill, args.share_daily)
 
     reveals = due_reveals(manifest, state)
+    if args.reveal_only:
+        items = []
 
     if args.dry_run:
         for item in reveals:

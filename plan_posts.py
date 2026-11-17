@@ -17,12 +17,19 @@ differs from the morning's.
                  26th and the last day of the month), when it takes the
                  evening slot
 
-Which two: the six rotating types are ordered by how long ago each last went
-out, longest first, and the first that isn't the previous post's type and has
-something to say gets the slot. A type with nothing today (no record fell, no
-city qualifies) is passed over rather than padded. Nothing here is random, so
-replaying a date picks the same two — and a date that already has its two
-posts is rebuilt as the same two types, whatever the rotation would say now.
+Which two: the best stories. Every rotating type is drafted each morning
+(numbers only — no charts yet) and comes back with a score for how much of a
+story it is today: a 17-game losing run is one, a 4-game run is not. That
+score is scaled by how long the type has been off the timeline — a type that
+went out two posts ago counts for a third of itself, one that has waited six
+posts or more counts in full — so a big story can jump the queue, a quiet type
+still comes round, and no type can take over the feed. The top two go out,
+never the previous post's type, and where it can be helped not two posts
+about the same city. Only those two are then drawn.
+
+Nothing in the choice is random, so replaying a date picks the same two — and
+a date that already has its two posts is rebuilt as the same two types,
+whatever the scores would say now.
 
 Usage:
     python plan_posts.py                  # reference date = yesterday (ET)
@@ -33,6 +40,7 @@ Usage:
 import argparse
 import json
 import logging
+import os
 import subprocess
 import sys
 from datetime import date, datetime, timedelta
@@ -49,59 +57,81 @@ ROTATION = ["daily", "record", "hotcold", "h2h", "timemachine", "guess"]
 SLOTS = 2
 
 
+FULL_VOICE = 6      # posts a type has to sit out before its score counts in full
+DEFAULT_SCORE = 0.4
+
+
 def in_order(posts: list) -> list:
     """Published posts oldest first, in the order they went out."""
     return sorted(posts, key=publish_blog.sort_key)
 
 
-def rotation(history: list) -> list:
-    """The rotating types, the one that went out longest ago first. A type
-    that has never gone out leads, in ROTATION's order."""
-    last = {}
-    for n, post in enumerate(history):
-        last[post["kind"]] = n
-    return sorted(ROTATION, key=lambda kind: (last.get(kind, -1), ROTATION.index(kind)))
+def posts_since(history: list, kind: str) -> int | None:
+    """How many posts ago this type last went out (1 = it was the last post),
+    or None if it never has."""
+    for back, post in enumerate(reversed(history), 1):
+        if post["kind"] == kind:
+            return back
+    return None
 
 
-def choose(history: list, build, forced: dict | None = None,
+def priority(post: dict, history: list) -> tuple:
+    """Story score, scaled by how long the type has been off the timeline.
+    Ties go to the type that has waited longer, then to ROTATION's order."""
+    since = posts_since(history, post["kind"])
+    waited = FULL_VOICE if since is None else since
+    voice = min(1.0, waited / FULL_VOICE)
+    return (round(post.get("score", DEFAULT_SCORE) * voice, 4),
+            float("inf") if since is None else since,
+            -ROTATION.index(post["kind"]))
+
+
+def choose(history: list, drafts: list, forced: dict | None = None,
            already: list = ()) -> list:
-    """The day's posts, in slot order.
+    """The day's posts, in slot order, out of the drafts that have something
+    to say.
 
-    `build(kind, so_far)` returns a post or None. `forced` is a post that must
-    go out today (the banner race); it takes the last slot. `already` is the
-    kinds a replayed date published the first time, which are kept.
+    `forced` is a post that must go out today (the banner race); it takes the
+    last slot. `already` is the kinds a replayed date published the first
+    time, which are kept in that order.
     """
     previous = history[-1]["kind"] if history else None
-    order = list(already) or rotation(history)
-    posts, spare = [], None
+    by_kind = {post["kind"]: post for post in drafts}
+    if already:
+        queue = [by_kind[kind] for kind in already if kind in by_kind]
+    else:
+        queue = sorted(drafts, key=lambda post: priority(post, history), reverse=True)
+
     open_slots = SLOTS - (1 if forced else 0)
-    for kind in order:
-        if len(posts) == open_slots:
+    picked, spare = [], []
+    for post in queue:
+        if len(picked) == open_slots:
             break
-        if kind == previous or (forced and kind == forced["kind"]):
-            continue
-        post = build(kind, posts)
-        if post is None:
-            log.info("Nothing to say for %s today — passing it over", kind)
-            continue
-        told = {c for p in posts + ([forced] if forced else [])
+        told = {c for p in picked + ([forced] if forced else [])
                 for c in p.get("cities") or []}
         if told & set(post.get("cities") or []) and not already:
             # a 13-game run is a record-watch post and the top of hot & cold
             # on the same morning; one of them can wait a day
-            log.info("%s would retell %s — keeping it in reserve", kind,
-                     ", ".join(sorted(told & set(post["cities"]))))
-            spare = spare or post
+            spare.append(post)
             continue
-        posts.append(post)
-        previous = kind
-    if len(posts) < open_slots and spare:
-        posts.append(spare)
+        picked.append(post)
+    picked += spare[:open_slots - len(picked)]
+
+    # the order within the day is where the no-repeat rule is kept: whichever
+    # of the two is last night's type goes second
+    if len(picked) > 1 and picked[0]["kind"] == previous:
+        picked.reverse()
+    if picked and picked[0]["kind"] == previous:
+        # one candidate, and it is last night's type: nothing this morning
+        # beats a repeat
+        log.warning("Only %s has anything to say and it went out last — "
+                    "holding the slot", previous)
+        picked = []
     if forced:
-        posts.append(forced)
-    for slot, post in enumerate(posts, 1):
+        picked.append(forced)
+    for slot, post in enumerate(picked, 1):
         post["slot"] = slot
-    return posts
+    return picked
 
 
 def run(script: str, *args: str) -> bool:
@@ -117,45 +147,98 @@ def on_date(post: dict | None, ref: date) -> dict | None:
     return post if post and post["date"] == ref.isoformat() else None
 
 
-def builder(ref: date, published: list, images: bool = True):
-    """build(kind, so_far) for the real thing: scripts for the three types
-    that have one, post_types for the rest. Scores are loaded once, lazily."""
-    stamp = ref.strftime("%Y%m%d")
-    no_images = [] if images else ["--no-images"]
-    loaded = {}
+# The two analysis scripts remember which city they featured, so they don't
+# feature it again next week. Drafting runs both every morning; only a draft
+# that is actually posted should be remembered.
+MEMORY = {"daily": os.path.join("content", "daily", "history.json"),
+          "record": os.path.join("content", "weekly", "history.json")}
 
-    def scores():
-        if not loaded:
+
+def read_text(path: str) -> str | None:
+    if not os.path.exists(path):
+        return None
+    with open(path) as f:
+        return f.read()
+
+
+def restore(path: str, text: str | None) -> None:
+    if text is None:
+        if os.path.exists(path):
+            os.remove(path)
+        return
+    with open(path, "w") as f:
+        f.write(text)
+
+
+def keep_finding(slug: str, ref: date, src_dir: str = os.path.join("content", "weekly")) -> None:
+    """Cut the hunt's output down to the one finding being posted, so only its
+    charts are drawn and only its city is remembered as featured."""
+    path = os.path.join(src_dir, "findings.json")
+    with open(path) as f:
+        data = json.load(f)
+    data["findings"] = [f for f in data["findings"] if f["slug"] == slug]
+    with open(path, "w") as f:
+        json.dump(data, f)
+    history = json.loads(read_text(MEMORY["record"]) or "[]")
+    for entry in history:
+        if entry.get("date") == ref.isoformat():
+            entry["cities"] = [f["city"] for f in data["findings"]]
+    with open(MEMORY["record"], "w") as f:
+        json.dump(history, f, indent=1)
+        f.write("\n")
+
+
+class Builder:
+    """Drafts a post of any type (numbers and words, no charts), and then
+    draws the ones that were picked. Scripts for the three types that have
+    one, post_types for the rest; scores are loaded once, and only if needed."""
+
+    def __init__(self, ref: date, published: list):
+        self.ref, self.published = ref, published
+        self.stamp = ref.strftime("%Y%m%d")
+        self._scores = None
+
+    def n(self, kind: str) -> int:
+        """How many posts of this type came before — it turns the wording."""
+        return sum(1 for p in self.published
+                   if p["kind"] == kind and p["date"] < self.ref.isoformat())
+
+    def scores(self) -> tuple:
+        if self._scores is None:
             from aggregate_cities import index_by_team, load_scores
             with open("city_groups.json") as f:
-                loaded["groups"] = json.load(f)
-            loaded["by_team"] = index_by_team(load_scores("data"))
-        return loaded["by_team"], loaded["groups"]
+                groups = json.load(f)
+            self._scores = index_by_team(load_scores("data")), groups
+        return self._scores
 
-    def build(kind: str, so_far: list) -> dict | None:
-        if kind == "daily":
-            run("city_of_the_day.py", "--date", stamp, *no_images)
-            return on_date(daily_post(), ref)
+    def draft(self, kind: str) -> dict | None:
+        return self.build(kind, images=False)
+
+    def draw(self, draft: dict) -> dict | None:
+        kind = draft["kind"]
         if kind == "record":
-            # one finding, not three: the run's own history then remembers
-            # exactly the city that was posted, and steers off it next time
-            if not run("fandom_analysis.py", "--date", stamp, "--top", "1"):
-                return None
-            if images:
-                run("render_content.py")
-            return on_date(record_post(), ref)
-        if kind == "banner":
-            run("banner_race.py", "--date", stamp, *no_images)
-            return on_date(banner_post(), ref)
-        import post_types
-        by_team, groups = scores()
-        extra = {}
-        if kind == "guess":      # never the city the day's other post is about
-            extra["exclude"] = tuple(c for p in so_far for c in p.get("cities") or [])
-        return post_types.BUILDERS[kind](by_team, groups, ref, published,
-                                         images=images, **extra)
+            keep_finding(draft["finding"], self.ref)
+            run("render_content.py")
+            return on_date(record_post(n=self.n(kind)), self.ref)
+        return self.build(kind, images=True)
 
-    return build
+    def build(self, kind: str, images: bool) -> dict | None:
+        no_images = [] if images else ["--no-images"]
+        if kind == "daily":
+            run("city_of_the_day.py", "--date", self.stamp, *no_images)
+            return on_date(daily_post(n=self.n(kind)), self.ref)
+        if kind == "record":
+            # three candidates; record_post takes the best story among them
+            if not run("fandom_analysis.py", "--date", self.stamp, "--top", "3"):
+                return None
+            return on_date(record_post(n=self.n(kind)), self.ref)
+        if kind == "banner":
+            run("banner_race.py", "--date", self.stamp, *no_images)
+            return on_date(banner_post(n=self.n(kind)), self.ref)
+        import post_types
+        by_team, groups = self.scores()
+        return post_types.BUILDERS[kind](by_team, groups, self.ref, self.published,
+                                         images=images)
 
 
 def plan(ref: date, posts_dir: str = POSTS_DIR, images: bool = True) -> list:
@@ -163,10 +246,36 @@ def plan(ref: date, posts_dir: str = POSTS_DIR, images: bool = True) -> list:
     history = [p for p in in_order(published) if p["date"] < ref.isoformat()]
     today = [p for p in in_order(published)
              if p["date"] == ref.isoformat() and p.get("slot")]
-    build = builder(ref, published, images)
-    forced = build("banner", [])
     already = [p["kind"] for p in today if p["kind"] in ROTATION]
-    return choose(history, build, forced, already)
+    builder = Builder(ref, published)
+    memory = {kind: read_text(path) for kind, path in MEMORY.items()}
+
+    drafts = []
+    for kind in already or ROTATION:
+        draft = builder.draft(kind)
+        if draft is None:
+            log.info("Nothing to say for %s today", kind)
+            continue
+        log.info("Draft — %-11s %.2f  %s", kind, draft.get("score", DEFAULT_SCORE),
+                 draft["title"])
+        drafts.append(draft)
+    forced = builder.build("banner", images=images)
+    picked = choose(history, drafts, forced, already)
+
+    chosen = {post["kind"] for post in picked}
+    for kind, text in memory.items():
+        if kind not in chosen:
+            restore(MEMORY[kind], text)        # drafted, not posted: forget it
+    if not images:
+        return picked
+    posts = []
+    for draft in picked:
+        post = draft if draft is forced else builder.draw(draft)
+        if post is None:
+            log.warning("%s drafted but could not be drawn", draft["kind"])
+            continue
+        posts.append({**post, "slot": draft["slot"]})
+    return posts
 
 
 def main():

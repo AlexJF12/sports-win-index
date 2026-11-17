@@ -49,6 +49,7 @@ import shutil
 import statistics
 from datetime import date, datetime, timezone
 
+import hooks
 from streakiness import band_reading
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -264,8 +265,12 @@ def name_images(post: dict) -> dict:
     return post
 
 
-def daily_post(src_dir: str = DAILY_DIR) -> dict | None:
-    """The morning's city of the day: two charts and the numbers behind them."""
+RECORD_FLOOR = 0.5      # below this a finding is true and not worth a post
+
+
+def daily_post(src_dir: str = DAILY_DIR, n: int = 0) -> dict | None:
+    """The morning's city of the day: two charts and the numbers behind them.
+    `n` is how many of these have gone out before, which turns the wording."""
     text = read(os.path.join(src_dir, "summary.md"))
     if not text:
         return None
@@ -283,7 +288,12 @@ def daily_post(src_dir: str = DAILY_DIR) -> dict | None:
     images = [image(src_dir, name, "daily", DAILY_CAPTIONS.get(name, ""))
               for name in body["images"]
               if os.path.exists(os.path.join(src_dir, name))]
+    pitch = {}
+    facts = read_json(os.path.join(src_dir, "facts.json"))
+    if facts and facts.get("date") == day.isoformat():     # not a stale run's
+        pitch = {"hook": hooks.daily_hook(facts, n), "score": hooks.daily_score(facts)}
     return name_images({
+        **pitch,
         "date": day.isoformat(),
         "kind": "daily",
         "title": title or "City of the day",
@@ -399,24 +409,41 @@ def spotlight_post(src_dir: str = WEEKLY_DIR) -> dict | None:
     })
 
 
-def record_post(src_dir: str = WEEKLY_DIR) -> dict | None:
-    """Record watch: the out-of-the-norm hunt's top finding, as a post of its
+def record_post(src_dir: str = WEEKLY_DIR, n: int = 0) -> dict | None:
+    """Record watch: the out-of-the-norm hunt's best story, as a post of its
     own. The spotlight carried three findings under one headline that never
-    changed; this is one fandom, and the headline is the finding."""
-    post = spotlight_post(src_dir)
-    if not post:
+    changed; this is one fandom, and the headline is the finding.
+
+    Best by news value (hooks.record_score), not by the detector's own score,
+    and nothing at all when the best there is falls under RECORD_FLOOR.
+    """
+    data = read_json(os.path.join(src_dir, "findings.json"))
+    text = read(os.path.join(src_dir, "summary.md"))
+    if not data or not text or not data["findings"]:
         return None
-    findings = read_json(os.path.join(src_dir, "findings.json"))["findings"]
-    section = post["sections"][0]
-    for img in section["images"]:
-        img["file"] = "record-" + img["file"].removeprefix("spotlight-")
-    lead = section["stats"][0] if section["stats"] else None
-    hook = section["heading"] + (f"\n{lead['label']}: {lead['value']}" if lead else "")
+    best = max(data["findings"], key=hooks.record_score)
+    score = hooks.record_score(best)
+    if score < RECORD_FLOOR:
+        log.info("Record watch: the best finding (%s) scores %.2f, under the "
+                 "floor of %.2f", best["headline"], score, RECORD_FLOOR)
+        return None
+    _, parsed = parse_summary(text)
+    body = next((s for s in parsed if s["subhead"] == best["label"]
+                 and s["tag"] == best["kind"]), {"stats": [], "table": None})
+    images = []
+    for name in best.get("images") or []:
+        suffix = name.rsplit("_", 1)[-1].removesuffix(".png")
+        caption = (SPOTLIGHT_CAPTIONS.get(f"{suffix}-{best['kind']}")
+                   or SPOTLIGHT_CAPTIONS.get(suffix, ""))
+        if os.path.exists(os.path.join(src_dir, name)):
+            images.append(image(src_dir, name, "record", caption))
     return name_images({
-        "date": post["date"], "kind": "record",
-        "title": section["heading"], "dek": section["subhead"] or "",
-        "hook": hook, "cities": [findings[0]["city"]],
-        "sections": [{**section, "heading": None, "subhead": None}],
+        "date": as_date(data["reference_date"]).isoformat(), "kind": "record",
+        "title": best["headline"], "dek": best["label"],
+        "hook": hooks.record_hook(best, n), "score": score,
+        "cities": [best["city"]], "finding": best["slug"],
+        "sections": [{"heading": None, "subhead": None, "stats": body["stats"],
+                      "table": body.get("table"), "images": images}],
     })
 
 
@@ -429,7 +456,7 @@ def record(r: dict) -> str:
     return f"{r['w']}-{r['l']}" + (f"-{r['t']}" if r["t"] else "")
 
 
-def banner_post(src_dir: str = BANNER_DIR) -> dict | None:
+def banner_post(src_dir: str = BANNER_DIR, n: int = 0) -> dict | None:
     """Who is on course for this month's banner, or who won it: the banner
     itself as the picture, the top five as the table."""
     data = read_json(os.path.join(src_dir, "race.json"))
@@ -482,6 +509,7 @@ def banner_post(src_dir: str = BANNER_DIR) -> dict | None:
         "kind": "banner",
         "title": title,
         "dek": dek,
+        "hook": hooks.banner_hook(data, n),
         "cities": [city],
         "sections": [{"heading": None, "subhead": None, "stats": stats, "table": table,
                       "images": [image(src_dir, "race.png", "banner", caption)]}],
