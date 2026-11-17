@@ -681,3 +681,25 @@ def test_a_forced_daily_with_no_finding_carries_the_lead(posts_dir):
     p = place(posts_dir, post(images=DAILY_CHARTS, stats=ORDINARY))
     (item,) = pending(manifest(p), {}, posts_dir, share_daily="always")
     assert item["image"].endswith("daily-season.png")
+
+
+# --- pruning shares whose page is gone ----------------------------------------
+
+def test_prune_deletes_only_shares_without_a_page(posts_dir):
+    live, gone = post(date="2026-08-13"), post(date="2026-08-01")
+    os.makedirs(os.path.join(posts_dir, live["date"]))
+    open(os.path.join(posts_dir, live["date"], "daily.html"), "w").close()
+    state = {"shared": {
+        "2026-08-13/daily": {"uri": "at://did:plc:test/app.bsky.feed.post/keep"},
+        "2026-08-01/daily": {"uri": "at://did:plc:test/app.bsky.feed.post/drop"}}}
+
+    dead = share_bluesky.dead_shares(state, posts_dir)
+    assert dead == ["2026-08-01/daily"]
+
+    session = FakeSession()
+    client = Bluesky("h", "p", session=session)
+    client.login()
+    share_bluesky.prune(dead, client, state)
+
+    assert [c["json"]["rkey"] for c in session.of("com.atproto.repo.deleteRecord")] == ["drop"]
+    assert list(state["shared"]) == ["2026-08-13/daily"]

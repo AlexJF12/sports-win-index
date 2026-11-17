@@ -33,6 +33,10 @@ on:
       max_posts:
         description: "Ceiling on this run's shares"
         default: "5"
+      prune_dead:
+        description: "Delete past shares whose page is gone, instead of sharing"
+        type: boolean
+        default: false
       share_daily:
         description: "Which city-of-the-day posts go out"
         type: choice
@@ -72,6 +76,7 @@ jobs:
           MAX_POSTS: ${{ inputs.max_posts || '5' }}
           SHARE_DAILY: ${{ inputs.share_daily || 'notable' }}
           BACKFILL: ${{ inputs.backfill && '--backfill' || '' }}
+          PRUNE: ${{ inputs.prune_dead && '--prune-dead' || '' }}
           # A run somebody started by hand should fail loudly when the secrets
           # are missing, rather than reporting green having done nothing. The
           # nightly one exits quietly, so an account that doesn't exist yet is
@@ -85,7 +90,7 @@ jobs:
             --max-age-days "$MAX_AGE_DAYS" \
             --max-posts "$MAX_POSTS" \
             --share-daily "$SHARE_DAILY" \
-            $BACKFILL $MODE
+            $BACKFILL $PRUNE $MODE
 
       # Runs even when the share step failed: a run that dies on its third post
       # has still shared two, and share_bluesky.py writes those to the record

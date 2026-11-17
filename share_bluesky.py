@@ -584,6 +584,27 @@ def share(items: list[dict], client: Bluesky, state: dict,
     return state
 
 
+def dead_shares(state: dict, posts_dir: str = POSTS_DIR) -> list[str]:
+    """The shares whose link no longer leads anywhere: the page they point at
+    is gone from the site. Archiving keeps a post's page, so this only ever
+    fires on a post that was deleted outright."""
+    return [name for name in sorted(state.get("shared") or {})
+            if not os.path.exists(os.path.join(posts_dir, f"{name}.html"))]
+
+
+def prune(names: list[str], client: Bluesky, state: dict) -> dict:
+    """Take each dead share down and forget it, one at a time, so a run that
+    dies halfway leaves a record that matches the account."""
+    shared = state.get("shared") or {}
+    for name in names:
+        uri = shared[name].get("uri")
+        if uri:
+            client.delete(uri)
+        del shared[name]
+        log.info("Deleted the share of %s — its page is gone", name)
+    return state
+
+
 def write_state(state: dict, path: str) -> None:
     state["updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
@@ -653,6 +674,10 @@ def main():
     parser.add_argument("--keep-superseded", action="store_true",
                         help="Leave the old share up when a post is updated, "
                              "instead of replacing it.")
+    parser.add_argument("--prune-dead", action="store_true",
+                        help="Instead of sharing, delete every past share whose "
+                             "page no longer exists on the site. Deleting a "
+                             "Bluesky post is permanent; --dry-run lists them.")
     parser.add_argument("--dry-run", action="store_true",
                         help="Print what would be shared and post nothing. "
                              "Needs no credentials, but signs in to check them "
@@ -669,6 +694,32 @@ def main():
                   os.path.join(args.posts_dir, MANIFEST))
         return 1
     state = read_json(state_path) or {}
+
+    if args.prune_dead:
+        dead = dead_shares(state, args.posts_dir)
+        if args.dry_run:
+            for name in dead:
+                log.info("Would delete the share of %s (%s)", name,
+                         state["shared"][name].get("url"))
+            log.info("%d dead share%s", len(dead), "" if len(dead) == 1 else "s")
+            return check_login(args.handle, APP_PASSWORD, args.service)
+        if not dead:
+            log.info("No dead shares")
+            return 0
+        creds = credentials(args.handle, APP_PASSWORD)
+        if creds is None:
+            return 1
+        client = Bluesky(*creds, service=args.service)
+        before = len(state["shared"])
+        try:
+            client.login()
+            prune(dead, client, state)
+        finally:
+            if len(state["shared"]) != before:
+                write_state(state, state_path)
+        log.info("Deleted %d dead share%s from Bluesky", len(dead),
+                 "" if len(dead) == 1 else "s")
+        return 0
 
     items = pending(manifest, state, args.posts_dir, args.max_age_days,
                     args.max_posts, args.backfill, args.share_daily)
