@@ -49,6 +49,11 @@ const KINDS = {
   daily:       { label: "City of the day" },
   spotlight:   { label: "Out of the norm" },
   streakiness: { label: "Streakiness" },
+  record:      { label: "Record watch" },
+  hotcold:     { label: "Hot & cold" },
+  h2h:         { label: "Head to head" },
+  timemachine: { label: "Time machine" },
+  guess:       { label: "Guess the city" },
 };
 
 let posts = [];
@@ -102,7 +107,7 @@ function figureFor(image, date) {
   return fig;
 }
 
-function numbersFor(section) {
+function numbersFor(section, open = false) {
   if (!section.stats?.length && !section.table) return null;
   const body = [];
   if (section.stats?.length) {
@@ -119,17 +124,20 @@ function numbersFor(section) {
       el("table", {}, [el("thead", {}, [head]), el("tbody", {}, rows)]),
     ]));
   }
-  return el("details", {}, [el("summary", { textContent: "The numbers" }), ...body]);
+  const details = el("details", {}, [
+    el("summary", { textContent: open ? "The clues" : "The numbers" }), ...body]);
+  details.open = open;             // a guessing post's numbers are its clues
+  return details;
 }
 
-function sectionFor(section, date, lead) {
+function sectionFor(section, date, lead, open = false) {
   const images = section.images || [];
   const rest = images.slice(lead);
   return el("section", { className: "finding" }, [
     section.heading ? el("h4", { textContent: section.heading }) : null,
     section.subhead ? el("p", { className: "subhead", textContent: section.subhead }) : null,
     // the numbers sit with the claim they support, not three charts below it
-    numbersFor(section),
+    numbersFor(section, open),
     ...images.slice(0, lead).map(image => figureFor(image, date)),
     rest.length ? el("details", { className: "more-charts" }, [
       el("summary", { textContent: `${rest.length} more chart${rest.length === 1 ? "" : "s"}` }),
@@ -156,7 +164,14 @@ function postFor(post) {
     badge,
     el("h3", { textContent: post.title }),
     post.dek ? el("p", { className: "dek", textContent: post.dek }) : null,
-    ...post.sections.map(section => sectionFor(section, post.date, lead)),
+    ...post.sections.map(section =>
+      sectionFor(section, post.date, lead, Boolean(post.answer))),
+    // closed until asked for — the post is a question
+    post.answer ? el("details", { className: "answer" }, [
+      el("summary", { textContent: "Show the answer" }),
+      el("p", {}, [el("strong", { textContent: post.answer.label })]),
+      el("p", { textContent: post.answer.detail }),
+    ]) : null,
     // past the image window the post keeps its headline and its numbers
     post.archived ? el("p", { className: "note archived-note",
                               textContent: "Charts from this post have aged out of "

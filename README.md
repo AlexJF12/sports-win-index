@@ -95,6 +95,24 @@ The scrape runs the morning after its reference date, so the check-ins land on t
 
 Every one carries the banner itself as its picture — the leader's banner drawn the way `banners.html` hangs it (month, year, city, total, the running total in black and each team's share in its league color, "Day 14 of 31" while the month is live) beside the top five — and that picture is the image the Bluesky post goes out with. The picture also carries each contender's last seven days and the year's rafters so far, and it is set in Bebas Neue and Barlow, which ship in [`fonts/`](fonts) under the SIL Open Font License since a runner has no web fonts. Output is `content/banner/race.json` and `race.png`; on any other day the script writes nothing (`--force` writes one anyway, `--date YYYYMMDD` replays a day, `--no-images` skips matplotlib).
 
+## Two posts a day, seven types
+
+[`plan_posts.py`](plan_posts.py) runs after the scrape and decides what the day publishes: **two posts, and a post is never the same type as the post before it** — the morning one differs from last night's, the evening one from the morning's.
+
+| Type | What it is | Built by |
+|---|---|---|
+| **City of the day** | one fandom's season, drawn three ways | [`city_of_the_day.py`](city_of_the_day.py) |
+| **Record watch** | one fandom off its own script — a best or worst month, year or run on record | [`fandom_analysis.py`](fandom_analysis.py) `--top 1` |
+| **Hot & cold** | the longest active winning and losing runs, one per city | [`post_types.py`](post_types.py) |
+| **Head to head** | two cities on the year, picked because their teams just played each other (or, failing that, because they sit together in the standings) | `post_types.py` |
+| **Time machine** | this calendar month in an earlier year: who took the banner, who carried it, where that city is now | `post_types.py` |
+| **Guess the city** | a season chart with the name taken off and three clues; the answer sits behind a "Show the answer" fold on the page and goes out as a reply on Bluesky a few hours later | `post_types.py` |
+| **Banner race** | the month's leader, on the 5th, 12th, 19th, 26th and the last day | [`banner_race.py`](banner_race.py) |
+
+The six rotating types are ordered by how long ago each last went out; the first that isn't the previous post's type and has something to say takes the slot. A type with nothing today (no record fell) is passed over, not padded. On its own days the banner race takes the evening slot. Where it can, the day's second post is about different cities from its first — a 13-game run would otherwise be the record-watch post *and* the top of hot & cold on the same morning. Nothing in the choice is random, so replaying a date picks the same two, and a date that already has its two posts is rebuilt as the same two types.
+
+Each post carries its own `hook` — the text that goes to Bluesky — written next to the numbers: a claim, then a question where there is one worth asking. The older three-finding spotlight and the weekly streakiness pair are no longer produced; their scripts and the posts already published under them remain.
+
 ## The blog ([`blog.html`](blog.html))
 
 Every image above lives at a fixed path and is overwritten by the next run, which is the right shape for a working tree and the wrong shape for reading. [`publish_blog.py`](publish_blog.py) files each run's output into a dated folder and writes the manifest the page reads:
@@ -140,7 +158,7 @@ So the manifest is two files: `index.json` holds the posts still inside the wind
 
 [`share_bluesky.py`](share_bluesky.py) reads the manifest the publisher just wrote and announces what's in it, on its own schedule ([`bluesky.yml`](.github/workflows/bluesky.yml)) rather than inside the scrape.
 
-**Publishing and announcing want opposite clocks.** The scrape runs at 10:00 UTC because that's comfortably after every league's last game of the previous day — and 10:00 UTC is 5–6am Eastern, close to the worst hour of the day to post anything. So the site still updates at dawn and the timeline hears about it at **22:00 UTC**: 6pm Eastern in summer, 5pm in winter (3pm / 2pm Pacific). After work, before first pitch, inside the evening window where US social traffic peaks and a sports audience is already thinking about sports.
+**Publishing and announcing want opposite clocks.** The scrape runs at 10:00 UTC because that's comfortably after every league's last game of the previous day — and 10:00 UTC is 5–6am Eastern, close to the worst hour of the day to post anything. So the site still updates at dawn and the timeline hears about it twice: at **15:00 UTC** (late morning Eastern) and **22:00 UTC** (6pm Eastern in summer, 5pm in winter). Each run shares exactly one post — the oldest still waiting, morning slot first — so the day's two go out hours apart, and it refuses to share a post of the same type as the last one that went out (the post is held for a later run). Posts filed before the two-a-day plan carry no slot and are left alone.
 
 > Cron is UTC and doesn't follow DST, so the Eastern hour drifts by one across the year. That's inside the window either way, and it's one line to change. Treat the hour as a starting hypothesis: after a few weeks of posts the account's own numbers beat any rule of thumb.
 
@@ -154,6 +172,8 @@ Above the chart go two lines: **the fandom, then the number that makes it worth 
 Both strings were already in the manifest. Only one of them was worth leading with. The image carries the alt text `publish_blog.py` already builds, which the link card had no field for and was throwing away.
 
 ### Not every post is worth posting
+
+> City of the day is now one of the seven types in the rotation and goes out whenever it is planned (`--share-daily always`, the default). The gate described below is still there as `--share-daily notable`.
 
 The daily is a city a morning, in rotation, whether or not anything happened to it — that's right for a blog and wrong for a timeline. An account that posts an unremarkable team every single day teaches the people following it to scroll past its name, and then the one morning something *is* remarkable gets scrolled past too. So the weekly reads and the banner race always go out (a spotlight only exists at all when a detector fired, the streakiness pair is the whole field at once, and the banner race is five dated posts a month) and **a daily has to clear a bar**:
 
@@ -235,9 +255,12 @@ python3 aggregate_cities.py              # rebuild data/city_rankings.json
 python3 city_of_the_day.py               # rebuild content/daily/
 python3 streakiness.py                   # rebuild content/streakiness/
 python3 fandom_analysis.py && python3 render_content.py   # rebuild content/weekly/
-python3 publish_blog.py                  # file the newest runs into content/posts/
+python3 plan_posts.py --dry-run          # which two posts the day would carry
+python3 plan_posts.py                    # build and file them into content/posts/
+python3 publish_blog.py                  # re-file whatever the analysis folders hold
 python3 publish_blog.py --retain-days 1  # see what an archived post looks like
 python3 share_bluesky.py --dry-run       # what would go out to Bluesky (no credentials needed)
+python3 share_bluesky.py --prune-dead --dry-run   # past shares whose page is gone
 python3 share_bluesky.py                 # share it (needs $BLUESKY_HANDLE, $BLUESKY_APP_PASSWORD)
 python3 backfill_blog.py --dry-run       # what the git log would add to the blog
 python3 -m pytest tests/                 # test suite (offline, fixture-based)

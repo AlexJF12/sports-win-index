@@ -12,12 +12,12 @@ into an immutable dated folder and keeps the manifest blog.html reads:
     content/posts/2026-08-03/daily-games.png
     content/posts/index.json
 
-One post per run, not one per image: the morning's city of the day is a post,
-Wednesday's spotlight is a post carrying its three findings, Wednesday's
-streakiness charts are a post, and the banner race on the 5th, 12th, 19th, 26th
-and last day of a month is a post. Each source is keyed on its own reference date,
-read from the run's own output, so publishing on a Thursday re-files
-Wednesday's weekly folder under Wednesday and changes nothing.
+One post per run, not one per image. There are seven types — city of the day,
+the banner race, record watch, hot & cold, head to head, time machine and guess
+the city — and plan_posts.py picks two of them every morning, never the type
+that went out last, and hands them here to be filed. (Two older types, the
+three-finding spotlight and the streakiness pair, are still read so the posts
+already published under them keep their pages.)
 
 The headline and the numbers behind each post are parsed out of the summary.md
 the analysis already writes, so there is one source of truth for the prose.
@@ -92,6 +92,11 @@ KINDS = {
     "spotlight": {"label": "Out of the norm", "rank": 1},
     "streakiness": {"label": "Streakiness", "rank": 2},
     "daily": {"label": "City of the day", "rank": 3},
+    "record": {"label": "Record watch", "rank": 4},
+    "hotcold": {"label": "Hot & cold", "rank": 5},
+    "h2h": {"label": "Head to head", "rank": 6},
+    "timemachine": {"label": "Time machine", "rank": 7},
+    "guess": {"label": "Guess the city", "rank": 8},
 }
 
 # What each chart shows, in a sentence — the caption under the image and its
@@ -283,6 +288,7 @@ def daily_post(src_dir: str = DAILY_DIR) -> dict | None:
         "kind": "daily",
         "title": title or "City of the day",
         "dek": body["subhead"] or "",
+        "cities": [(title or "").split(" — ", 1)[-1]] if title and " — " in title else [],
         "sections": [{"heading": None, "subhead": None, "stats": body["stats"],
                       "table": body["table"], "images": images}],
     })
@@ -393,6 +399,27 @@ def spotlight_post(src_dir: str = WEEKLY_DIR) -> dict | None:
     })
 
 
+def record_post(src_dir: str = WEEKLY_DIR) -> dict | None:
+    """Record watch: the out-of-the-norm hunt's top finding, as a post of its
+    own. The spotlight carried three findings under one headline that never
+    changed; this is one fandom, and the headline is the finding."""
+    post = spotlight_post(src_dir)
+    if not post:
+        return None
+    findings = read_json(os.path.join(src_dir, "findings.json"))["findings"]
+    section = post["sections"][0]
+    for img in section["images"]:
+        img["file"] = "record-" + img["file"].removeprefix("spotlight-")
+    lead = section["stats"][0] if section["stats"] else None
+    hook = section["heading"] + (f"\n{lead['label']}: {lead['value']}" if lead else "")
+    return name_images({
+        "date": post["date"], "kind": "record",
+        "title": section["heading"], "dek": section["subhead"] or "",
+        "hook": hook, "cities": [findings[0]["city"]],
+        "sections": [{**section, "heading": None, "subhead": None}],
+    })
+
+
 def signed(n: float) -> str:
     n = 0.0 if abs(n) < 1e-9 else n
     return f"{n:+.1f}"
@@ -455,6 +482,7 @@ def banner_post(src_dir: str = BANNER_DIR) -> dict | None:
         "kind": "banner",
         "title": title,
         "dek": dek,
+        "cities": [city],
         "sections": [{"heading": None, "subhead": None, "stats": stats, "table": table,
                       "images": [image(src_dir, "race.png", "banner", caption)]}],
     })
@@ -512,15 +540,16 @@ def load_manifest(posts_dir: str) -> dict:
 
 
 def sort_key(post: dict) -> tuple:
-    return (post["date"], -KINDS[post["kind"]]["rank"])
+    """Newest first once reversed: by date, then the evening post above the
+    morning one. Posts from before there were slots fall back to their kind."""
+    return (post["date"], post.get("slot") or 0, -KINDS[post["kind"]]["rank"])
 
 
 def file_post(post: dict, posts_dir: str) -> dict:
     """Copy a post's images into content/posts/<date>/ and strip source paths."""
     folder = os.path.join(posts_dir, post["date"])
     os.makedirs(folder, exist_ok=True)
-    prefix = {"daily": "daily", "streakiness": "streak", "spotlight": "spotlight",
-              "banner": "banner"}[post["kind"]]
+    prefix = {"streakiness": "streak"}.get(post["kind"], post["kind"])
 
     kept = set()
     for section in post["sections"]:
@@ -665,6 +694,16 @@ def render_page(post: dict, base_url: str) -> str:
                 "      </figure>",
             ]
         body.append("    </section>")
+
+    answer = post.get("answer")
+    if answer:
+        # closed until asked for: the post is a question, and the page a link
+        # from Bluesky lands on must not answer it above the fold
+        body += ['    <details class="answer">',
+                 "      <summary>Show the answer</summary>",
+                 f'      <p><strong>{esc(answer["label"])}</strong></p>',
+                 f'      <p>{esc(answer["detail"])}</p>',
+                 "    </details>"]
 
     if post.get("archived"):
         body.append('    <p class="note archived-note">The charts from this post have '
