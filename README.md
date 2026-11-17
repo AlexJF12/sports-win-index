@@ -173,6 +173,25 @@ Above the chart go two lines: **the fandom, then the number that makes it worth 
 
 Both strings were already in the manifest. Only one of them was worth leading with. The image carries the alt text `publish_blog.py` already builds, which the link card had no field for and was throwing away.
 
+### Hashtags and full names, so feeds can find it
+
+A small account's posts barely reach anyone through Following; they reach strangers through custom feeds, and Bluesky's sports feeds pick posts by **hashtag** (#nba, #NHL, a team tag) or by **keyword**, usually a league or a team's full name ("Los Angeles Kings"). "Dodgers/Lakers/Kings/Rams" matches neither. [`discovery.py`](discovery.py) reads the teams out of each post's own words (a city it names, then that city's nicknames) and adds:
+
+- **Up to three hashtags** at the foot: the lead team, then the leagues *in season* among the post's teams (no #MLB in November). A post about a whole city with no team named, such as a banner race, gets the city and its in-season leagues instead. Each tag carries a `facet#tag`, since "#NBA" sent through the API without one is plain text no feed sees. If the text runs long, the hook is cut, never the tags.
+- **Hidden tags** in the record's `tags` field (up to eight): the cities and the other teams. Searchable, never shown.
+- **One full team name**, where it reads naturally: "the Lakers" becomes "the Los Angeles Lakers", "Seattle: Mariners/…" becomes "Seattle Mariners/…". It is skipped when it would force a cut, or when the full name isn't the city plus the nickname ("Raleigh: Hurricanes" is left alone).
+
+A nickname two of the post's cities share (the Cardinals in a St. Louis–Phoenix head-to-head) is left out rather than guessed. Guess-the-city posts get league tags only, because a team or city tag would give away the answer.
+
+```
+City of the day — Seattle Mariners/Kraken/Seahawks
+2026 so far: 112-124 … longest run 8 straight losses
+
+alexjf12.github.io/sports-win...
+
+#Kraken #NHL #NFL
+```
+
 ### Not every post is worth posting
 
 > City of the day is now one of the seven types in the rotation and goes out whenever it is planned (`--share-daily always`, the default). The gate described below is still there as `--share-daily notable`.
@@ -194,7 +213,7 @@ Measured against the blog as it stands, that's **12 shares across 16 days instea
 
 ### The record
 
-What has gone out is remembered in `content/posts/bluesky.json`, keyed on date and kind, next to a fingerprint of what was shared: the text, the URL, the alt, and the bytes of the chart. That precision is the point — `publish_blog.py` rewrites every page every morning and almost all of it comes out byte-identical, so anything looser would re-share the whole 90-day window daily. A run that changes one of those four is an update, and **an updated post is shared again**: Bluesky posts can't be edited, so the superseded share is deleted and a fresh one replaces it (`--keep-superseded` leaves the old one up). Archived posts, whose charts are gone, are never shared.
+What has gone out is remembered in `content/posts/bluesky.json`, keyed on date and kind, next to a fingerprint of what was shared: the text, the URL, the alt, and the bytes of the chart. That precision is the point — `publish_blog.py` rewrites every page every morning and almost all of it comes out byte-identical, so anything looser would re-share the whole 90-day window daily. The text is fingerprinted *before* the hashtags and the full name go in, so a change to how those are picked never takes down and re-posts a share that already went out. A run that changes one of those four is an update, and **an updated post is shared again**: Bluesky posts can't be edited, so the superseded share is deleted and a fresh one replaces it (`--keep-superseded` leaves the old one up). Archived posts, whose charts are gone, are never shared.
 
 A run reaches back one day from the newest post (`--max-age-days`) and shares at most five (`--max-posts`, since a Wednesday that is also a banner day carries four) — which is what keeps the first run against a manifest full of history from posting ninety days of backlog. `--backfill` lifts the window when that's what you want. The state file rides along in the same commit as the post it refers to.
 

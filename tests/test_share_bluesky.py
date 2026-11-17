@@ -322,6 +322,58 @@ def test_a_hook_that_fits_is_left_alone():
     assert text == "Short hook\n\nx.test/p"
 
 
+def test_each_hashtag_gets_a_tag_facet_over_its_own_bytes():
+    url = "https://x.test/p.html"
+    text, facets = compose("🧊 Boston — worst week on record", url, ["RedSox", "MLB"])
+    assert text == "🧊 Boston — worst week on record\n\nx.test/p.html\n\n#RedSox #MLB"
+    raw = text.encode()
+    link, *tags = facets
+    assert raw[link["index"]["byteStart"]:link["index"]["byteEnd"]].decode() == "x.test/p.html"
+    assert [raw[f["index"]["byteStart"]:f["index"]["byteEnd"]].decode() for f in tags] == \
+        ["#RedSox", "#MLB"]
+    assert [f["features"][0] for f in tags] == [
+        {"$type": "app.bsky.richtext.facet#tag", "tag": "RedSox"},
+        {"$type": "app.bsky.richtext.facet#tag", "tag": "MLB"}]
+
+
+def test_the_hook_is_cut_to_fit_the_hashtags_never_the_hashtags():
+    text, _ = compose("word " * 100, "https://x.test/p", ["TrailBlazers", "NBA"])
+    assert len(text) <= share_bluesky.TEXT_LIMIT
+    assert text.endswith("x.test/p\n\n#TrailBlazers #NBA") and "…" in text
+
+
+def test_hidden_tags_ride_in_the_record_and_only_when_there_are_some():
+    assert image_post("t", [], {}, "a", tags=["Boston", "Celtics"])["tags"] == \
+        ["Boston", "Celtics"]
+    assert "tags" not in image_post("t", [], {}, "a")
+    assert len(image_post("t", [], {}, "a", tags=[f"t{i}" for i in range(12)])["tags"]) == 8
+
+
+def test_hashtags_do_not_change_the_fingerprint(posts_dir):
+    # a share recorded before hashtags existed must not be deleted and re-posted
+    # just because it would now carry them
+    p = place(posts_dir, post())
+    item = pending(manifest(p), {}, posts_dir)[0]
+    assert "#Orioles" in item["text"]
+    url = item["url"]
+    plain, _ = compose(hook(p), url)
+    assert item["fingerprint"] == fingerprint(plain, url, item["alt"], item["image"])
+
+
+def test_a_full_name_that_would_cost_a_cut_is_left_out(posts_dir, monkeypatch):
+    p = place(posts_dir, {**post(), "hook": "Baltimore: the Orioles lost again."})
+    url = f"{BASE_URL}/{p['page']}"
+    roomy = pending(manifest(p), {}, posts_dir)[0]["text"]
+    assert roomy.startswith("Baltimore: the Baltimore Orioles lost again.")
+    # exactly enough room for the hook as written, and not a character more
+    tight = share_bluesky.TEXT_LIMIT - (share_bluesky.room(url, ["Orioles", "MLB"])
+                                        - len(p["hook"]))
+    monkeypatch.setattr(share_bluesky, "TEXT_LIMIT", tight)
+    item = pending(manifest(p), {}, posts_dir)[0]
+    assert item["text"].startswith("Baltimore: the Orioles lost again.\n")
+    assert item["text"].endswith("#Orioles #MLB")
+
+
 def test_trim_cuts_at_a_word_boundary():
     assert trim("the quick brown fox jumps", 20) == "the quick brown…"
     assert trim("unchanged", 20) == "unchanged"
@@ -461,8 +513,12 @@ def test_share_uploads_then_creates_and_records_it(posts_dir):
     assert image["image"] == {"$type": "blob", "ref": {"$link": "bafy"}}
     assert image["alt"] == "alt daily-season.png"
     assert image["aspectRatio"] == {"width": 1600, "height": 920}
-    assert "Baltimore: Orioles/Ravens" in record["text"]
+    # August: the Orioles are playing and the Ravens aren't yet
+    assert "Baltimore Orioles/Ravens" in record["text"]
+    assert record["text"].endswith("\n\n#Orioles #MLB")
     assert record["facets"][0]["features"][0]["uri"].endswith("daily.html")
+    assert [f["features"][0].get("tag") for f in record["facets"][1:]] == ["Orioles", "MLB"]
+    assert record["tags"] == ["Baltimore", "Ravens"]
 
     entry = state["shared"]["2026-08-13/daily"]
     assert entry["uri"] == "at://did:plc:test/app.bsky.feed.post/rk1"

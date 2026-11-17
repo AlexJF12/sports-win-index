@@ -26,9 +26,16 @@ hours later (the workflow has two short --reveal-only runs for that, a few
 hours after each posting run). City of the day is one type among seven now, so it always goes
 out; --share-daily notable brings back the old bar (see finding()).
 
+Each share is also made findable (see discovery.py): up to three hashtags
+at its foot, each a tag facet, the post's cities and other teams in the
+record's hidden `tags`, and one team called by its full name where that reads
+naturally, because sports feeds pick posts by hashtag or by full team name.
+
 What has already gone out is remembered in content/posts/bluesky.json, keyed on
 the post's date and kind, alongside a fingerprint of what was shared — the text,
-the URL, the alt, and the bytes of the chart. A run that changes any of
+the URL, the alt, and the bytes of the chart. The text is fingerprinted before
+the hashtags and the full name go in, so changing how those are chosen never
+deletes and re-posts a share that already went out. A run that changes any of
 those is an *update*, and an updated post is shared again: Bluesky posts can't
 be edited, so the superseded share is deleted and a fresh one takes its place
 (--keep-superseded leaves the old one up). A run that changes none of them is a
@@ -62,6 +69,8 @@ import time
 from datetime import datetime, timezone
 
 import requests
+
+import discovery
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
@@ -185,7 +194,7 @@ class Bluesky:
 
 
 def image_post(text: str, facets: list, blob: dict, alt: str,
-               ratio: dict = None) -> dict:
+               ratio: dict = None, tags: list = ()) -> dict:
     """A post that is the chart, big, over a line of text and the link.
 
     The other shape available is a link card, which is tidier — the URL never
@@ -205,7 +214,7 @@ def image_post(text: str, facets: list, blob: dict, alt: str,
         # lets the client reserve the right box before the blob loads, instead
         # of guessing square and cropping a 1600x920 chart to fit
         image["aspectRatio"] = ratio
-    return {
+    record = {
         "$type": "app.bsky.feed.post",
         "text": text,
         "createdAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z"),
@@ -213,6 +222,10 @@ def image_post(text: str, facets: list, blob: dict, alt: str,
         "facets": facets,
         "embed": {"$type": "app.bsky.embed.images", "images": [image]},
     }
+    if tags:
+        # hashtags that aren't in the text: searchable, never shown
+        record["tags"] = list(tags)[:discovery.HIDDEN_MAX]
+    return record
 
 
 TEXT_LIMIT = 290    # the cap is 300 graphemes; len() counts code points, and
@@ -227,22 +240,52 @@ def shown(url: str) -> str:
     return bare if len(bare) <= LINK_SHOWN else bare[:LINK_SHOWN - 3] + "..."
 
 
-def compose(hook: str, url: str) -> tuple[str, list]:
-    """The post's text, and the facet that makes the link in it a link.
+def foot(tags: list) -> str:
+    return " ".join(f"#{tag}" for tag in tags)
+
+
+def room(url: str, tags: list = ()) -> int:
+    """How long the hook can be next to the link and the hashtags."""
+    tail = foot(tags)
+    return TEXT_LIMIT - len(shown(url)) - 2 - (len(tail) + 2 if tail else 0)
+
+
+def compose(hook: str, url: str, tags: list = ()) -> tuple[str, list]:
+    """The post's text, and the facets that make the link a link and each
+    hashtag a hashtag — without a tag facet, "#NBA" sent through the API is
+    plain text that no feed or search picks up.
 
     Facet offsets are UTF-8 *byte* offsets rather than character offsets. These
     headlines carry em dashes and the occasional emoji, both of which are more
     than one byte, so counting characters would hand Bluesky a link over the
     wrong slice of the string.
+
+    When it's too long, the hook is what gets cut, never the hashtags: they are
+    what gets the post in front of anyone.
     """
-    link = shown(url)
-    hook = trim(hook, TEXT_LIMIT - len(link) - 2)
-    text = f"{hook}\n\n{link}" if hook else link
+    link, tail = shown(url), foot(tags)
+    hook = trim(hook, room(url, tags))
+    text = "\n\n".join(part for part in (hook, link, tail) if part)
     start = len(text[:text.rindex(link)].encode())
-    return text, [{"index": {"byteStart": start,
-                             "byteEnd": start + len(link.encode())},
-                   "features": [{"$type": "app.bsky.richtext.facet#link",
-                                 "uri": url}]}]
+    facets = [{"index": {"byteStart": start, "byteEnd": start + len(link.encode())},
+               "features": [{"$type": "app.bsky.richtext.facet#link", "uri": url}]}]
+    at = len(text.encode()) - len(tail.encode())
+    for tag in tags:
+        size = len(f"#{tag}".encode())
+        facets.append({"index": {"byteStart": at, "byteEnd": at + size},
+                       "features": [{"$type": "app.bsky.richtext.facet#tag",
+                                     "tag": tag}]})
+        at += size + 1
+    return text, facets
+
+
+def findable(post: dict, words: str) -> dict:
+    """discovery.discover(), but a share without hashtags beats no share."""
+    try:
+        return discovery.discover(post, words)
+    except (OSError, ValueError, KeyError) as exc:
+        log.warning("%s: no hashtags this time (%s)", key(post), exc)
+        return {"inline": [], "hidden": [], "named": None}
 
 
 def trim(text: str, room: int) -> str:
@@ -554,13 +597,20 @@ def pending(manifest: dict, state: dict, posts_dir: str = POSTS_DIR,
 
         url = post_url(post, base_url)
         alt = image.get("alt") or ""
-        text, facets = compose(hook(post), url)
-        mark = fingerprint(text, url, alt, path)
+        words = hook(post)
+        found = findable(post, words)
+        if found["named"] and len(found["named"]) <= room(url, found["inline"]):
+            words = found["named"]         # only if the full name costs no cut
+        text, facets = compose(words, url, found["inline"])
+        # what the post says, before the hashtags and the full name: a change
+        # to how those are picked must not re-post a share that went out
+        mark = fingerprint(compose(hook(post), url)[0], url, alt, path)
         before = shared.get(name)
         if before and before.get("fingerprint") == mark:
             continue                       # unchanged since it was shared
         out.append({"post": post, "key": name, "url": url, "image": path,
                     "alt": alt, "text": text, "facets": facets,
+                    "tags": found["hidden"],
                     "ratio": png_size(path), "fingerprint": mark,
                     "supersedes": before})
 
@@ -604,7 +654,7 @@ def share(items: list[dict], client: Bluesky, state: dict,
         old = item["supersedes"]
         blob = client.upload(item["image"])
         record = image_post(item["text"], item["facets"], blob, item["alt"],
-                            item["ratio"])
+                            item["ratio"], item.get("tags") or ())
         created = client.create(record)
 
         if old and old.get("uri") and not keep_superseded:

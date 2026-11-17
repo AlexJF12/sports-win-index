@@ -13,6 +13,8 @@ from share_bluesky import TEXT_LIMIT, compose
 URL = "https://alexjf12.github.io/sports-win-index/content/posts/2026-11-15/timemachine.html"
 # the longest names on the map, so a variant that fits these fits anything
 LONG, LONG_2 = "Salt Lake City", "Oklahoma City"
+# the longest foot discovery.py can write: the longest team tag and two leagues
+TAGS = ["GoldenKnights", "NBA", "NHL"]
 LABEL = "Minnesota: Timberwolves/Golden Knights/Trail Blazers/Diamondbacks"
 
 FACTS = {"date": "2026-11-15", "year": 2026, "city": LONG, "label": LABEL.replace("Minnesota", LONG),
@@ -78,9 +80,9 @@ WRITERS = {
 
 
 @pytest.mark.parametrize("name", WRITERS)
-def test_every_variant_fits_untrimmed_and_speaks_plainly(name):
+def test_every_variant_fits_untrimmed_with_hashtags_and_speaks_plainly(name):
     for n in range(12):
-        text, _ = compose(WRITERS[name](n), URL)
+        text, _ = compose(WRITERS[name](n), URL, TAGS)
         assert len(text) <= TEXT_LIMIT and "…" not in text, (name, n, text)
         assert "weighted" not in text
 
