@@ -1,10 +1,120 @@
 {
- "generated": "2026-11-16",
+ "generated": "2026-11-17",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-11-16",
+   "kind": "h2h",
+   "title": "Minnesota vs Portland: who's had the better 2026?",
+   "dek": "Twins/Timberwolves/Wild/Vikings against Trail Blazers, through November 16",
+   "hook": "Minnesota or Portland: who's had the better 2026?\nMinnesota: 170-149 (8th of 49 cities) \u00b7 Portland: 38-28 (19th)\nNov 16: Timberwolves 106, Trail Blazers 98.",
+   "score": 0.783,
+   "cities": [
+    "Minnesota",
+    "Portland"
+   ],
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "Minnesota",
+       "value": "Minnesota: Twins/Timberwolves/Wild/Vikings \u2014 170-149, +96.5 weighted, 8th of 49"
+      },
+      {
+       "label": "Portland",
+       "value": "Portland: Trail Blazers \u2014 38-28, +31.7 weighted, 19th of 49"
+      },
+      {
+       "label": "The gap",
+       "value": "Minnesota by 64.9"
+      },
+      {
+       "label": "November 16",
+       "value": "Timberwolves 106, Trail Blazers 98"
+      },
+      {
+       "label": "Meetings in 2026",
+       "value": "4 \u2014 Minnesota 3, Portland 1"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "h2h-year.png",
+       "caption": "Both cities' cumulative weighted index this year, every game since January 1 added up.",
+       "alt": "Twins/Timberwolves/Wild/Vikings against Trail Blazers, through November 16 \u2014 Both cities' cumulative weighted index this year, every game since January 1 added up"
+      }
+     ]
+    }
+   ],
+   "slot": 2,
+   "page": "content/posts/2026-11-16/h2h.html"
+  },
+  {
+   "date": "2026-11-16",
+   "kind": "record",
+   "title": "Salt Lake City's teams have lost 13 straight \u2014 their longest since April 9, 2024",
+   "dek": "Salt Lake City: Jazz/Mammoth",
+   "hook": "Salt Lake City's teams have lost 13 straight \u2014 their longest since April 9, 2024\nTheir longest before this one: 13. Jazz L12, Mammoth L6.\nHow much worse can it get?",
+   "score": 0.9,
+   "cities": [
+    "Salt Lake City"
+   ],
+   "finding": "salt-lake-city",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "The run",
+       "value": "13 straight losses since November 4, 2026, -41.2 weighted (previous best 13)"
+      },
+      {
+       "label": "This month (through November 16)",
+       "value": "1-15, -44.3 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "0-8, -25.3 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Jazz (0-4, -12.7)"
+      },
+      {
+       "label": "Active streaks",
+       "value": "Jazz L12, Mammoth L6"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "record-salt-lake-city_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Salt Lake City: Jazz/Mammoth \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "record-salt-lake-city_timeline.png",
+       "caption": "Game by game, with the streak picked out.",
+       "alt": "Salt Lake City: Jazz/Mammoth \u2014 Game by game, with the streak picked out"
+      },
+      {
+       "file": "record-salt-lake-city_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Salt Lake City: Jazz/Mammoth \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    }
+   ],
+   "slot": 1,
+   "page": "content/posts/2026-11-16/record.html"
+  },
   {
    "date": "2026-11-15",
    "kind": "daily",

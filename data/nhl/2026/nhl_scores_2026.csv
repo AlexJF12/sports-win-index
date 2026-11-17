@@ -1081,3 +1081,5 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261115,nhl,401892723,CGY,1,ANA,6,ANA,Final
 20261115,nhl,401892724,VAN,6,VGK,3,VAN,Final
 20261115,nhl,401892725,NSH,2,SJ,4,SJ,Final
+20261116,nhl,401892726,MTL,1,NYR,3,NYR,Final
+20261116,nhl,401892727,VAN,3,UTA,2,VAN,Final

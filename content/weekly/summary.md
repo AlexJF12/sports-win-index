@@ -1,36 +1,35 @@
-# Fandom spotlight — 2026-11-10
+# Fandom spotlight — 2026-11-16
 
-## 1. 📈 Los Angeles's teams have won 13 straight — their longest run on record
-*Los Angeles: Angels/Lakers/Ducks/Rams* · `streak`
+## 1. 📉 Salt Lake City's teams have lost 13 straight — their longest since April 9, 2024
+*Salt Lake City: Jazz/Mammoth* · `streak`
 
-- **The run:** 13 straight wins since November 1, 2026, +48.8 weighted (no run this long on record)
-- **This month (through November 10):** 13-0, +48.7 weighted
-- **Last 7 days:** 8-0, +29.1 weighted
-- **Driving it this week:** Lakers (4-0, +12.7)
-- **Active streaks:** Lakers W6, Ducks W5, Rams W3
+- **The run:** 13 straight losses since November 4, 2026, -41.2 weighted (previous best 13)
+- **This month (through November 16):** 1-15, -44.3 weighted
+- **Last 7 days:** 0-8, -25.3 weighted
+- **Driving it this week:** Jazz (0-4, -12.7)
+- **Active streaks:** Jazz L12, Mammoth L6
 
-Images: `los-angeles-6_race.png` · `los-angeles-6_timeline.png` · `los-angeles-6_teams.png`
+Images: `salt-lake-city_race.png` · `salt-lake-city_timeline.png` · `salt-lake-city_teams.png`
 
-## 2. 🧊 New York is having its worst year on record — 88th of 88 this year
-*New York: Mets/Nets/Rangers/Jets* · `year`
+## 2. 🔄 Cleveland has flipped its November: 1-6 before this week, 4-1 since
+*Cleveland: Guardians/Cavaliers/Browns* · `turnaround`
 
-- **2026 so far (through November 10):** 113-179, -218.9 weighted — the worst of the 17 years on record, at the same point
-- **Against the field:** 88th of 88 city groups on the year (0th percentile)
-- **This month (through November 10):** 5-7, -13.9 weighted
-- **Last 7 days:** 3-4, -7.0 weighted
-- **Driving it this week:** Jets (0-1, -7.0)
-- **Active streaks:** Jets L4
+- **Before this week:** 1-6, -23.4 weighted (-3.34 per game)
+- **Since:** 4-1, +13.3 weighted (+2.66 per game)
+- **This month (through November 16):** 5-7, -10.1 weighted
+- **Last 7 days:** 4-1, +13.3 weighted
+- **Driving it this week:** Browns (1-0, +7.0)
 
-Images: `new-york-6_year.png` · `new-york-6_field.png`
+Images: `cleveland_race.png` · `cleveland_timeline.png` · `cleveland_teams.png`
 
-## 3. 🥶 Milwaukee is having its worst November on record
-*Milwaukee: Brewers/Bucks* · `month`
+## 3. 🧊 Indianapolis is having its worst year on record — 75th of 88 this year
+*Indianapolis: Pacers/Colts* · `year`
 
-- **This month (through November 10):** 0-5, -15.8 weighted — the worst November of the 15 on record
-- **vs all months:** the worst of 188 months on record (0th percentile)
-- **Last 7 days:** 0-4, -12.7 weighted
-- **Driving it this week:** Bucks (0-4, -12.7)
-- **Active streaks:** Bucks L7
+- **2026 so far (through November 16):** 21-52, -117.1 weighted — the worst of the 17 years on record, at the same point
+- **Against the field:** 75th of 88 city groups on the year (15th percentile)
+- **This month (through November 16):** 4-7, -13.3 weighted
+- **Last 7 days:** 3-1, +10.1 weighted
+- **Driving it this week:** Colts (1-0, +7.0)
 
-Images: `milwaukee_race.png` · `milwaukee_history.png` · `milwaukee_teams.png`
+Images: `indianapolis_year.png` · `indianapolis_field.png`
 

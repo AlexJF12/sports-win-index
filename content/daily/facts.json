@@ -1,0 +1,33 @@
+{
+ "date": "2026-11-16",
+ "year": 2026,
+ "city": "Boston",
+ "label": "Boston: Red Sox/Celtics/Bruins/Patriots",
+ "season": {
+  "w": 184,
+  "l": 131,
+  "t": 0,
+  "games": 315
+ },
+ "recent": {
+  "w": 18,
+  "l": 10,
+  "t": 0,
+  "games": 28,
+  "longest": {
+   "type": "W",
+   "length": 5
+  }
+ },
+ "month": {
+  "w": 11,
+  "l": 6,
+  "t": 0,
+  "games": 17,
+  "name": "November",
+  "in_progress": true,
+  "place": 11,
+  "worse": 6,
+  "field": 17
+ }
+}
