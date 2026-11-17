@@ -40,49 +40,16 @@ jobs:
       - name: Aggregate city rankings
         run: python aggregate_cities.py
 
-      - name: City of the day
-        run: python city_of_the_day.py --date "${{ inputs.date }}"
+      # Two posts a day from seven types, never the same type twice running:
+      # plan_posts.py picks the two, runs the analysis behind each, draws the
+      # charts, files them into content/posts/<date>/ and rewrites the manifest
+      # blog.html reads. The banner race is one of the seven but only on its
+      # own days (the 5th, 12th, 19th, 26th and the last of the month).
+      - name: Plan and publish the day's two posts
+        run: python plan_posts.py --date "${{ inputs.date }}"
 
-      # Both weekly jobs overwrite the same files, and the numbers behind them
-      # move slowly, so a weekly refresh is plenty — daily would mean new image
-      # blobs in history every morning for pictures nobody would see change.
-      - name: Wednesday?
-        id: cal
-        run: |
-          if [ "$(date -u +%u)" = "3" ]; then echo "run=true" >> "$GITHUB_OUTPUT";
-          else echo "run=false" >> "$GITHUB_OUTPUT"; fi
-
-      - name: Refresh streakiness charts
-        if: steps.cal.outputs.run == 'true' || github.event_name == 'workflow_dispatch'
-        run: python streakiness.py --date "${{ inputs.date }}"
-
-      # The out-of-the-norm analysis: month-to-date against every past month
-      # and against past same-months, year-to-date against the group's own
-      # past years and against the field. All of it moves slowly enough that
-      # a weekly read is the honest cadence.
-      - name: Weekly out-of-the-norm analysis
-        if: steps.cal.outputs.run == 'true' || github.event_name == 'workflow_dispatch'
-        run: |
-          python fandom_analysis.py --date "${{ inputs.date }}"
-          python render_content.py
-
-      # Who is on course for this month's banner, on the 5th, 12th, 19th and
-      # 26th (shared the day after), and who won it on the last day (filed under that day, so it is
-      # published and shared on the 1st). The script checks the date itself
-      # and writes nothing on any other day.
-      - name: Banner race
-        run: python banner_race.py --date "${{ inputs.date }}"
-
-      # Every analysis above overwrites its own output, so this files each run's
-      # images into content/posts/<date>/ and rewrites the manifest blog.html
-      # reads. It runs daily even though the weekly folders only change on
-      # Wednesdays: re-filing an unchanged folder under its own reference date
-      # is a no-op, and it is what prunes posts out of the retention window.
-      - name: Publish the blog
-        run: python publish_blog.py
-
-      # The morning's post is announced on Bluesky by .github/workflows/bluesky.yml
-      # at 22:00 UTC, not from here. This job's hour is dictated by when the
+      # The two posts are announced on Bluesky by .github/workflows/bluesky.yml,
+      # one at 15:00 UTC and one at 22:00 UTC, not from here. This job's hour is dictated by when the
       # games finish; that one's is dictated by when anybody is awake to read it.
 
       - name: Commit and push updated data

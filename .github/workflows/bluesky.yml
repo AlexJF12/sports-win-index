@@ -6,17 +6,22 @@ name: Share to Bluesky
 # post anything. Publishing and announcing want opposite clocks, so the site
 # still updates at dawn and the timeline hears about it in the evening.
 #
-# 22:00 UTC is 6pm Eastern in summer and 5pm in winter (3pm / 2pm Pacific):
-# after work, before first pitch, inside the evening window where US social
-# traffic peaks and a sports audience is already thinking about sports. Cron
-# is UTC and does not follow DST, so the Eastern hour drifts by one across the
-# year; that is inside the window either way, and this is one line to change.
-# Treat it as a starting hypothesis — once there are a few weeks of posts,
-# the account's own numbers beat any rule of thumb.
+# Two posts a day, one per run. 15:00 UTC is late morning Eastern (11am in
+# summer, 10am in winter) and 22:00 UTC is the evening (6pm / 5pm): the first
+# catches the lunch scroll, the second lands after work and before first pitch.
+# Each run shares exactly one post — the oldest still waiting — so the day's
+# two never go out back to back. Scheduled runs on GitHub start late, sometimes
+# by hours; seven hours apart leaves room for that. Cron is UTC and does not
+# follow DST, so the Eastern hours drift by one across the year.
 
 on:
   schedule:
+    - cron: "0 15 * * *"
     - cron: "0 22 * * *"
+    # three hours after each: nothing new is shared, a guess-the-city post
+    # that has stood for two hours gets its answer as a reply
+    - cron: "0 18 * * *"
+    - cron: "0 1 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -32,12 +37,20 @@ on:
         default: "1"
       max_posts:
         description: "Ceiling on this run's shares"
-        default: "5"
+        default: "1"
+      prune_dead:
+        description: "Delete past shares whose page is gone, instead of sharing"
+        type: boolean
+        default: false
+      reveal_only:
+        description: "Only answer guess-the-city posts that are due; share nothing new"
+        type: boolean
+        default: false
       share_daily:
         description: "Which city-of-the-day posts go out"
         type: choice
-        default: notable
-        options: [notable, always, never]
+        default: always
+        options: [always, notable, never]
 
 permissions:
   contents: write
@@ -69,9 +82,13 @@ jobs:
           # workflow_dispatch fills these in; a scheduled run leaves them empty
           # and falls back to the same defaults the script already has
           MAX_AGE_DAYS: ${{ inputs.max_age_days || '1' }}
-          MAX_POSTS: ${{ inputs.max_posts || '5' }}
-          SHARE_DAILY: ${{ inputs.share_daily || 'notable' }}
+          MAX_POSTS: ${{ inputs.max_posts || '1' }}
+          SHARE_DAILY: ${{ inputs.share_daily || 'always' }}
           BACKFILL: ${{ inputs.backfill && '--backfill' || '' }}
+          PRUNE: ${{ inputs.prune_dead && '--prune-dead' || '' }}
+          REVEAL: >-
+            ${{ (inputs.reveal_only || github.event.schedule == '0 18 * * *'
+                 || github.event.schedule == '0 1 * * *') && '--reveal-only' || '' }}
           # A run somebody started by hand should fail loudly when the secrets
           # are missing, rather than reporting green having done nothing. The
           # nightly one exits quietly, so an account that doesn't exist yet is
@@ -85,7 +102,7 @@ jobs:
             --max-age-days "$MAX_AGE_DAYS" \
             --max-posts "$MAX_POSTS" \
             --share-daily "$SHARE_DAILY" \
-            $BACKFILL $MODE
+            $BACKFILL $PRUNE $REVEAL $MODE
 
       # Runs even when the share step failed: a run that dies on its third post
       # has still shared two, and share_bluesky.py writes those to the record

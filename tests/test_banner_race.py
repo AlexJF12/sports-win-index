@@ -154,7 +154,10 @@ def test_the_last_day_post_names_the_champion_and_the_count(tmp_path):
     assert post["title"] == "Boston wins the September 2026 banner"
     assert "clear of Denver — banner #1 for Boston since 2010" in post["dek"]
     lines = hook(post).splitlines()
-    assert lines == [post["title"], post["dek"]]
+    # said the way a fan would: the win, the records, the count, the next race
+    assert lines[0] == "Boston wins the September 2026 banner 🏆"
+    assert "Banner #" in lines[1] and "weighted" not in hook(post)
+    assert lines[2] == "Who takes October?"
 
 
 def test_no_picture_no_post(tmp_path):

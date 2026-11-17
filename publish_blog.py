@@ -12,12 +12,12 @@ into an immutable dated folder and keeps the manifest blog.html reads:
     content/posts/2026-08-03/daily-games.png
     content/posts/index.json
 
-One post per run, not one per image: the morning's city of the day is a post,
-Wednesday's spotlight is a post carrying its three findings, Wednesday's
-streakiness charts are a post, and the banner race on the 5th, 12th, 19th, 26th
-and last day of a month is a post. Each source is keyed on its own reference date,
-read from the run's own output, so publishing on a Thursday re-files
-Wednesday's weekly folder under Wednesday and changes nothing.
+One post per run, not one per image. There are seven types — city of the day,
+the banner race, record watch, hot & cold, head to head, time machine and guess
+the city — and plan_posts.py picks two of them every morning, never the type
+that went out last, and hands them here to be filed. (Two older types, the
+three-finding spotlight and the streakiness pair, are still read so the posts
+already published under them keep their pages.)
 
 The headline and the numbers behind each post are parsed out of the summary.md
 the analysis already writes, so there is one source of truth for the prose.
@@ -49,6 +49,7 @@ import shutil
 import statistics
 from datetime import date, datetime, timezone
 
+import hooks
 from streakiness import band_reading
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -92,6 +93,11 @@ KINDS = {
     "spotlight": {"label": "Out of the norm", "rank": 1},
     "streakiness": {"label": "Streakiness", "rank": 2},
     "daily": {"label": "City of the day", "rank": 3},
+    "record": {"label": "Record watch", "rank": 4},
+    "hotcold": {"label": "Hot & cold", "rank": 5},
+    "h2h": {"label": "Head to head", "rank": 6},
+    "timemachine": {"label": "Time machine", "rank": 7},
+    "guess": {"label": "Guess the city", "rank": 8},
 }
 
 # What each chart shows, in a sentence — the caption under the image and its
@@ -259,8 +265,12 @@ def name_images(post: dict) -> dict:
     return post
 
 
-def daily_post(src_dir: str = DAILY_DIR) -> dict | None:
-    """The morning's city of the day: two charts and the numbers behind them."""
+RECORD_FLOOR = 0.5      # below this a finding is true and not worth a post
+
+
+def daily_post(src_dir: str = DAILY_DIR, n: int = 0) -> dict | None:
+    """The morning's city of the day: two charts and the numbers behind them.
+    `n` is how many of these have gone out before, which turns the wording."""
     text = read(os.path.join(src_dir, "summary.md"))
     if not text:
         return None
@@ -278,11 +288,17 @@ def daily_post(src_dir: str = DAILY_DIR) -> dict | None:
     images = [image(src_dir, name, "daily", DAILY_CAPTIONS.get(name, ""))
               for name in body["images"]
               if os.path.exists(os.path.join(src_dir, name))]
+    pitch = {}
+    facts = read_json(os.path.join(src_dir, "facts.json"))
+    if facts and facts.get("date") == day.isoformat():     # not a stale run's
+        pitch = {"hook": hooks.daily_hook(facts, n), "score": hooks.daily_score(facts)}
     return name_images({
+        **pitch,
         "date": day.isoformat(),
         "kind": "daily",
         "title": title or "City of the day",
         "dek": body["subhead"] or "",
+        "cities": [(title or "").split(" — ", 1)[-1]] if title and " — " in title else [],
         "sections": [{"heading": None, "subhead": None, "stats": body["stats"],
                       "table": body["table"], "images": images}],
     })
@@ -393,6 +409,44 @@ def spotlight_post(src_dir: str = WEEKLY_DIR) -> dict | None:
     })
 
 
+def record_post(src_dir: str = WEEKLY_DIR, n: int = 0) -> dict | None:
+    """Record watch: the out-of-the-norm hunt's best story, as a post of its
+    own. The spotlight carried three findings under one headline that never
+    changed; this is one fandom, and the headline is the finding.
+
+    Best by news value (hooks.record_score), not by the detector's own score,
+    and nothing at all when the best there is falls under RECORD_FLOOR.
+    """
+    data = read_json(os.path.join(src_dir, "findings.json"))
+    text = read(os.path.join(src_dir, "summary.md"))
+    if not data or not text or not data["findings"]:
+        return None
+    best = max(data["findings"], key=hooks.record_score)
+    score = hooks.record_score(best)
+    if score < RECORD_FLOOR:
+        log.info("Record watch: the best finding (%s) scores %.2f, under the "
+                 "floor of %.2f", best["headline"], score, RECORD_FLOOR)
+        return None
+    _, parsed = parse_summary(text)
+    body = next((s for s in parsed if s["subhead"] == best["label"]
+                 and s["tag"] == best["kind"]), {"stats": [], "table": None})
+    images = []
+    for name in best.get("images") or []:
+        suffix = name.rsplit("_", 1)[-1].removesuffix(".png")
+        caption = (SPOTLIGHT_CAPTIONS.get(f"{suffix}-{best['kind']}")
+                   or SPOTLIGHT_CAPTIONS.get(suffix, ""))
+        if os.path.exists(os.path.join(src_dir, name)):
+            images.append(image(src_dir, name, "record", caption))
+    return name_images({
+        "date": as_date(data["reference_date"]).isoformat(), "kind": "record",
+        "title": best["headline"], "dek": best["label"],
+        "hook": hooks.record_hook(best, n), "score": score,
+        "cities": [best["city"]], "finding": best["slug"],
+        "sections": [{"heading": None, "subhead": None, "stats": body["stats"],
+                      "table": body.get("table"), "images": images}],
+    })
+
+
 def signed(n: float) -> str:
     n = 0.0 if abs(n) < 1e-9 else n
     return f"{n:+.1f}"
@@ -402,7 +456,7 @@ def record(r: dict) -> str:
     return f"{r['w']}-{r['l']}" + (f"-{r['t']}" if r["t"] else "")
 
 
-def banner_post(src_dir: str = BANNER_DIR) -> dict | None:
+def banner_post(src_dir: str = BANNER_DIR, n: int = 0) -> dict | None:
     """Who is on course for this month's banner, or who won it: the banner
     itself as the picture, the top five as the table."""
     data = read_json(os.path.join(src_dir, "race.json"))
@@ -455,6 +509,8 @@ def banner_post(src_dir: str = BANNER_DIR) -> dict | None:
         "kind": "banner",
         "title": title,
         "dek": dek,
+        "hook": hooks.banner_hook(data, n),
+        "cities": [city],
         "sections": [{"heading": None, "subhead": None, "stats": stats, "table": table,
                       "images": [image(src_dir, "race.png", "banner", caption)]}],
     })
@@ -512,15 +568,16 @@ def load_manifest(posts_dir: str) -> dict:
 
 
 def sort_key(post: dict) -> tuple:
-    return (post["date"], -KINDS[post["kind"]]["rank"])
+    """Newest first once reversed: by date, then the evening post above the
+    morning one. Posts from before there were slots fall back to their kind."""
+    return (post["date"], post.get("slot") or 0, -KINDS[post["kind"]]["rank"])
 
 
 def file_post(post: dict, posts_dir: str) -> dict:
     """Copy a post's images into content/posts/<date>/ and strip source paths."""
     folder = os.path.join(posts_dir, post["date"])
     os.makedirs(folder, exist_ok=True)
-    prefix = {"daily": "daily", "streakiness": "streak", "spotlight": "spotlight",
-              "banner": "banner"}[post["kind"]]
+    prefix = {"streakiness": "streak"}.get(post["kind"], post["kind"])
 
     kept = set()
     for section in post["sections"]:
@@ -665,6 +722,16 @@ def render_page(post: dict, base_url: str) -> str:
                 "      </figure>",
             ]
         body.append("    </section>")
+
+    answer = post.get("answer")
+    if answer:
+        # closed until asked for: the post is a question, and the page a link
+        # from Bluesky lands on must not answer it above the fold
+        body += ['    <details class="answer">',
+                 "      <summary>Show the answer</summary>",
+                 f'      <p><strong>{esc(answer["label"])}</strong></p>',
+                 f'      <p>{esc(answer["detail"])}</p>',
+                 "    </details>"]
 
     if post.get("archived"):
         body.append('    <p class="note archived-note">The charts from this post have '

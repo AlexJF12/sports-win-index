@@ -96,10 +96,10 @@ def png(path, body=b"chart", size=None):
 
 
 def post(date="2026-08-13", kind="daily", title="City of the day — Baltimore",
-         images=("daily-season.png",), archived=False, stats=None):
+         images=("daily-season.png",), archived=False, stats=None, slot=1):
     return {
         "date": date, "kind": kind, "title": title, "dek": "Baltimore: Orioles/Ravens",
-        "archived": archived,
+        "archived": archived, "slot": slot,
         "sections": [{"heading": None, "subhead": None,
                       "stats": NOTABLE if stats is None else list(stats),
                       "table": None,
@@ -222,7 +222,9 @@ def test_the_weekly_reads_never_need_a_finding(posts_dir):
 
 def test_an_ordinary_daily_is_skipped(posts_dir):
     p = place(posts_dir, post(stats=ORDINARY))
-    assert pending(manifest(p), {}, posts_dir) == []
+    assert pending(manifest(p), {}, posts_dir, share_daily="notable") == []
+    # in the rotation it goes out like any other type
+    assert len(pending(manifest(p), {}, posts_dir)) == 1
 
 
 def test_share_daily_always_posts_it_anyway(posts_dir):
@@ -239,12 +241,13 @@ def test_share_daily_never_skips_even_a_notable_one(posts_dir):
 
 def test_a_daily_leads_with_the_fandom_then_the_finding():
     claim, detail = hook(post(stats=NOTABLE)).splitlines()
-    assert claim == "Baltimore: Orioles/Ravens"
+    assert claim == "City of the day — Baltimore: Orioles/Ravens"
     assert "the worst of the 11 on record" in detail
 
 
-def test_a_daily_never_leads_with_the_filing_label():
-    assert "City of the day" not in hook(post(stats=NOTABLE))
+def test_a_post_that_wrote_its_own_hook_is_shared_with_it():
+    assert hook({**post(), "hook": "Boston or Denver?\nWho's had the better year?"}) \
+        == "Boston or Denver?\nWho's had the better year?"
 
 
 def test_a_spotlight_leads_with_its_headline():
@@ -289,7 +292,7 @@ def test_the_url_is_linked_at_utf8_byte_offsets():
     url = "https://x.test/p.html"
     text, facets = compose("Baltimore — worst August on record", url)
     span = facets[0]["index"]
-    assert text.encode()[span["byteStart"]:span["byteEnd"]].decode() == url
+    assert text.encode()[span["byteStart"]:span["byteEnd"]].decode() == "x.test/p.html"
     assert facets[0]["features"][0]["uri"] == url
     assert facets[0]["features"][0]["$type"] == "app.bsky.richtext.facet#link"
 
@@ -298,22 +301,25 @@ def test_an_emoji_headline_still_links_the_right_bytes():
     url = "https://x.test/p.html"
     text, facets = compose("🧊 New York is having its worst year on record", url)
     span = facets[0]["index"]
-    assert text.encode()[span["byteStart"]:span["byteEnd"]].decode() == url
+    assert text.encode()[span["byteStart"]:span["byteEnd"]].decode() == "x.test/p.html"
 
 
 def test_the_hook_is_trimmed_to_fit_around_the_url():
     url = "https://x.test/" + "p" * 60 + ".html"
     text, facets = compose("word " * 100, url)
     assert len(text) <= share_bluesky.TEXT_LIMIT
-    assert text.endswith(url)
+    link = share_bluesky.shown(url)
+    assert len(link) == share_bluesky.LINK_SHOWN and link.endswith("...")
+    assert text.endswith(link)
     assert "…" in text
     span = facets[0]["index"]
-    assert text.encode()[span["byteStart"]:span["byteEnd"]].decode() == url
+    assert text.encode()[span["byteStart"]:span["byteEnd"]].decode() == link
+    assert facets[0]["features"][0]["uri"] == url
 
 
 def test_a_hook_that_fits_is_left_alone():
     text, _ = compose("Short hook", "https://x.test/p")
-    assert text == "Short hook\n\nhttps://x.test/p"
+    assert text == "Short hook\n\nx.test/p"
 
 
 def test_trim_cuts_at_a_word_boundary():
@@ -394,18 +400,20 @@ def test_reworded_text_counts_as_an_update():
 
 def test_older_posts_are_out_of_the_window(posts_dir):
     new = place(posts_dir, post(date="2026-08-13"))
-    old = place(posts_dir, post(date="2026-07-30"))
+    old = place(posts_dir, post(date="2026-07-30", kind="spotlight",
+                                images=("spotlight-a.png",)))
     assert [d["key"] for d in pending(manifest(new, old), {}, posts_dir)] == \
         ["2026-08-13/daily"]
     # ...unless asked for
-    assert len(pending(manifest(new, old), {}, posts_dir, backfill=True)) == 2
+    assert len(pending(manifest(new, old), {}, posts_dir, max_posts=5,
+                       backfill=True)) == 2
 
 
 def test_a_wednesday_shares_all_three_oldest_kind_first(posts_dir):
     day = "2026-08-12"
     posts = [place(posts_dir, post(date=day, kind=kind, images=(f"{kind}-a.png",)))
              for kind in ("daily", "spotlight", "streakiness")]
-    due = pending(manifest(*posts), {}, posts_dir)
+    due = pending(manifest(*posts), {}, posts_dir, max_posts=5)
     assert [d["post"]["kind"] for d in due] == ["daily", "spotlight", "streakiness"]
 
 
@@ -496,7 +504,7 @@ def test_what_did_go_out_is_recorded_when_a_later_post_fails(posts_dir, monkeypa
     posts = [place(posts_dir, post(date="2026-08-13", kind=kind,
                                    images=(f"{kind}-a.png",)))
              for kind in ("daily", "spotlight")]
-    due = pending(manifest(*posts), {}, posts_dir)
+    due = pending(manifest(*posts), {}, posts_dir, max_posts=5)
     session = FakeSession()
     c = client(session)
 
@@ -600,7 +608,8 @@ def test_nothing_due_is_success_even_without_credentials(posts_dir, monkeypatch)
 def test_an_ordinary_morning_alone_is_not_worth_signing_in_for(posts_dir, monkeypatch):
     write_manifest(posts_dir, manifest(place(posts_dir, post(stats=ORDINARY))))
     monkeypatch.setattr(share_bluesky, "APP_PASSWORD", "REPLACE-ME-APP-PASSWORD")
-    assert run(monkeypatch, posts_dir, "--require-credentials") == 0
+    assert run(monkeypatch, posts_dir, "--require-credentials",
+               "--share-daily", "notable") == 0
 
 
 def test_a_missing_manifest_is_an_error(posts_dir, monkeypatch):
@@ -681,3 +690,75 @@ def test_a_forced_daily_with_no_finding_carries_the_lead(posts_dir):
     p = place(posts_dir, post(images=DAILY_CHARTS, stats=ORDINARY))
     (item,) = pending(manifest(p), {}, posts_dir, share_daily="always")
     assert item["image"].endswith("daily-season.png")
+
+
+# --- pruning shares whose page is gone ----------------------------------------
+
+def test_prune_deletes_only_shares_without_a_page(posts_dir):
+    live, gone = post(date="2026-08-13"), post(date="2026-08-01")
+    os.makedirs(os.path.join(posts_dir, live["date"]))
+    open(os.path.join(posts_dir, live["date"], "daily.html"), "w").close()
+    state = {"shared": {
+        "2026-08-13/daily": {"uri": "at://did:plc:test/app.bsky.feed.post/keep"},
+        "2026-08-01/daily": {"uri": "at://did:plc:test/app.bsky.feed.post/drop"}}}
+
+    dead = share_bluesky.dead_shares(state, posts_dir)
+    assert dead == ["2026-08-01/daily"]
+
+    session = FakeSession()
+    client = Bluesky("h", "p", session=session)
+    client.login()
+    share_bluesky.prune(dead, client, state)
+
+    assert [c["json"]["rkey"] for c in session.of("com.atproto.repo.deleteRecord")] == ["drop"]
+    assert list(state["shared"]) == ["2026-08-13/daily"]
+
+
+# --- two a day, never the same type twice running -----------------------------
+
+def two(posts_dir, day="2026-08-13", kinds=("guess", "h2h")):
+    return [place(posts_dir, post(date=day, kind=kind, slot=slot,
+                                  images=(f"{kind}-a.png",)))
+            for slot, kind in enumerate(kinds, 1)]
+
+
+def test_one_post_a_run_morning_slot_first(posts_dir):
+    evening, morning = reversed(two(posts_dir))
+    due = pending(manifest(evening, morning), {}, posts_dir)
+    assert [d["key"] for d in due] == ["2026-08-13/guess"]
+
+
+def test_a_post_of_the_same_type_as_the_last_one_shared_is_held(posts_dir):
+    posts = two(posts_dir)
+    state = {"shared": {"2026-08-12/guess": {"uri": "at://x/y/z", "fingerprint": "f",
+                                             "shared_at": "2026-08-12T22:00:00Z"}}}
+    due = pending(manifest(*posts), state, posts_dir, max_posts=5)
+    # the guess waits for the h2h to go out between it and the last guess
+    assert [d["key"] for d in due] == ["2026-08-13/h2h"]
+
+
+def test_posts_filed_before_the_plan_are_left_alone(posts_dir):
+    p = place(posts_dir, post(slot=None))
+    assert pending(manifest(p), {}, posts_dir) == []
+    assert len(pending(manifest(p), {}, posts_dir, backfill=True)) == 1
+
+
+def test_a_guess_is_answered_in_a_reply_once_it_has_stood_a_while(posts_dir):
+    from datetime import datetime, timezone
+    guess = {**post(kind="guess"), "answer": {"label": "Edmonton: Oilers",
+                                               "detail": "39-30 in 2026"}}
+    state = {"shared": {"2026-08-13/guess": {"uri": "at://did:plc:test/app.bsky.feed.post/q",
+                                             "cid": "cidq",
+                                             "shared_at": "2026-08-14T15:00:00Z"}}}
+    at = lambda hour: datetime(2026, 8, 14, hour, tzinfo=timezone.utc)
+    assert share_bluesky.due_reveals(manifest(guess), state, at(16)) == []
+
+    due = share_bluesky.due_reveals(manifest(guess), state, at(22))
+    assert due[0]["text"] == "The answer: Edmonton: Oilers. 39-30 in 2026."
+    session = FakeSession()
+    share_bluesky.reveal(due, client(session))
+    record = session.of("com.atproto.repo.createRecord")[0]["json"]["record"]
+    assert record["reply"]["parent"] == {"uri": "at://did:plc:test/app.bsky.feed.post/q",
+                                         "cid": "cidq"}
+    # answered once
+    assert share_bluesky.due_reveals(manifest(guess), state, at(23)) == []

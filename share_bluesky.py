@@ -17,13 +17,14 @@ picture arrives as a gray smudge. An images embed renders full width and opens
 to full size on a tap. The two embeds are exclusive, so the link then has to
 live in the text as a rich-text facet.
 
-And not every post goes out. The daily is a city a morning in rotation, whether
-or not anything happened to it; an account that posts an unremarkable team every
-day teaches its followers to scroll past. So a daily has to clear a bar — a
-month at the top or bottom of its own record, a long enough run, results outside
-the band chance alone produces — measured with the analysis's own phrases and
-thresholds. The weekly reads and the banner race always go out. See finding();
---share-daily overrides it either way.
+One post goes out per run, and the workflow runs twice a day: plan_posts.py
+files two posts every morning, each with a slot, and each run shares the oldest
+one still waiting. A post is never shared straight after another of its type —
+the planner already orders the day that way, and pending() checks it again
+against the record. A guess-the-city post gets its answer as a reply a few
+hours later (the workflow has two short --reveal-only runs for that, a few
+hours after each posting run). City of the day is one type among seven now, so it always goes
+out; --share-daily notable brings back the old bar (see finding()).
 
 What has already gone out is remembered in content/posts/bluesky.json, keyed on
 the post's date and kind, alongside a fingerprint of what was shared — the text,
@@ -85,8 +86,11 @@ PLACEHOLDERS = {"REPLACE-ME.bsky.social", "REPLACE-ME-APP-PASSWORD"}
 # so the day's posts are the only ones in the window and a first run against a
 # manifest full of history shares today's, not ninety days of it.
 MAX_AGE_DAYS = 1
-MAX_POSTS = 5              # a Wednesday that is also a banner checkpoint carries
-                           # four, with a notable daily; the 6th would be a bug
+MAX_POSTS = 1              # one post a run, two runs a day: the morning's two
+                           # posts go out hours apart, not back to back
+REVEAL_AFTER_HOURS = 2     # how long a guess-the-city post stands before its
+                           # answer is posted under it
+LINK_SHOWN = 32            # characters of the link that appear in the text
 
 MAX_BLOB_BYTES = 1_000_000  # what the PDS accepts for one blob
 MIME_TYPES = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
@@ -215,19 +219,28 @@ TEXT_LIMIT = 290    # the cap is 300 graphemes; len() counts code points, and
                     # the gap between the two is the headroom
 
 
+def shown(url: str) -> str:
+    """The link as it appears in the text: no scheme, cut short — the way the
+    Bluesky app itself displays a long URL. The facet still carries the whole
+    address; a 75-character URL spelled out would take a quarter of the post."""
+    bare = re.sub(r"^https?://", "", url)
+    return bare if len(bare) <= LINK_SHOWN else bare[:LINK_SHOWN - 3] + "..."
+
+
 def compose(hook: str, url: str) -> tuple[str, list]:
-    """The post's text, and the facet that makes the URL in it a link.
+    """The post's text, and the facet that makes the link in it a link.
 
     Facet offsets are UTF-8 *byte* offsets rather than character offsets. These
     headlines carry em dashes and the occasional emoji, both of which are more
     than one byte, so counting characters would hand Bluesky a link over the
     wrong slice of the string.
     """
-    hook = trim(hook, TEXT_LIMIT - len(url) - 2)
-    text = f"{hook}\n\n{url}" if hook else url
-    start = len(text[:text.rindex(url)].encode())
+    link = shown(url)
+    hook = trim(hook, TEXT_LIMIT - len(link) - 2)
+    text = f"{hook}\n\n{link}" if hook else link
+    start = len(text[:text.rindex(link)].encode())
     return text, [{"index": {"byteStart": start,
-                             "byteEnd": start + len(url.encode())},
+                             "byteEnd": start + len(link.encode())},
                    "features": [{"$type": "app.bsky.richtext.facet#link",
                                  "uri": url}]}]
 
@@ -396,6 +409,10 @@ def hook(post: dict) -> str:
     somebody stops for. Both are already in the manifest; only one of them is
     worth leading with.
     """
+    if post.get("hook"):
+        # the newer post types write their own, next to the numbers
+        return post["hook"]
+
     sections = post.get("sections") or []
     lead = sections[0] if sections else {}
 
@@ -406,13 +423,15 @@ def hook(post: dict) -> str:
         stats = lead.get("stats") or []
         detail = f"{stats[0]['label']}: {stats[0]['value']}" if stats else ""
     elif post["kind"] == "daily":
-        claim = post.get("dek") or post.get("title") or ""
+        claim = "City of the day — " + (post.get("dek") or post.get("title") or "")
         detail = finding(post) or first_stat(post)
     elif post["kind"] == "banner":
         # "Boston wins the October 2026 banner", then the margin and the count —
         # the dek is already that sentence, and the picture is the banner itself
         claim = post.get("title") or ""
         detail = post.get("dek") or first_stat(post)
+        if "banner watch" in claim:
+            detail += "\nCan anyone catch them?"
     else:
         claim = post.get("title") or ""
         detail = next((f"{s['label']}: {s['value']}" for s in stats_of(post)
@@ -463,6 +482,15 @@ def key(post: dict) -> str:
     return f"{post['date']}/{post['kind']}"
 
 
+def last_kind(state: dict) -> str | None:
+    """The type of the post that went out most recently."""
+    shared = state.get("shared") or {}
+    if not shared:
+        return None
+    newest = max(shared, key=lambda name: shared[name].get("shared_at") or "")
+    return newest.split("/", 1)[1]
+
+
 def fingerprint(text: str, url: str, alt: str, image_path: str | None) -> str:
     """What a share is made of, as one hash.
 
@@ -483,12 +511,13 @@ def fingerprint(text: str, url: str, alt: str, image_path: str | None) -> str:
 
 def pending(manifest: dict, state: dict, posts_dir: str = POSTS_DIR,
             max_age_days: int = MAX_AGE_DAYS, max_posts: int = MAX_POSTS,
-            backfill: bool = False, share_daily: str = "notable") -> list[dict]:
-    """The posts that should go out on this run, oldest first.
-
-    Oldest first so a Wednesday's three land on the timeline in the order the
-    blog lists them, and so an interrupted run resumes where it stopped rather
-    than leaving a hole in the middle.
+            backfill: bool = False, share_daily: str = "always") -> list[dict]:
+    """The posts that should go out on this run, oldest first — the morning
+    slot before the evening one — and never one of the same type as the post
+    before it. plan_posts.py already orders the day that way; this is the
+    check at the door, for the days a run is missed and the queue is not the
+    one that was planned. A post held back for that reason stays pending and
+    goes out after the next post of another type.
     """
     posts = manifest.get("posts") or []
     if not posts:
@@ -498,12 +527,15 @@ def pending(manifest: dict, state: dict, posts_dir: str = POSTS_DIR,
     shared = state.get("shared") or {}
 
     out = []
-    for post in sorted(posts, key=lambda p: (p["date"], p["kind"])):
+    for post in sorted(posts, key=lambda p: (p["date"], p.get("slot") or 0, p["kind"])):
         name = key(post)
         if not backfill and days_between(post["date"], newest) > max_age_days:
             continue
         if post.get("archived"):
             continue                       # its charts are gone; nothing to show
+        if not post.get("slot") and not backfill:
+            continue                       # filed before the two-a-day plan, and
+                                           # shared or passed over under its rules
         if post["kind"] == "daily" and share_daily != "always":
             if share_daily == "never" or not finding(post):
                 log.info("%s — %s: nothing in it worth a post, skipping",
@@ -532,12 +564,22 @@ def pending(manifest: dict, state: dict, posts_dir: str = POSTS_DIR,
                     "ratio": png_size(path), "fingerprint": mark,
                     "supersedes": before})
 
-    if len(out) > max_posts:
-        log.warning("%d posts are due but --max-posts is %d — sharing the "
-                    "oldest %d, the rest on the next run",
-                    len(out), max_posts, max_posts)
-        out = out[:max_posts]
-    return out
+    # a post being re-shared is replacing itself, not following itself
+    settled = {"shared": {name: entry for name, entry in shared.items()
+                          if name not in {item["key"] for item in out}}}
+    previous, queue = last_kind(settled), []
+    for item in out:
+        if item["post"]["kind"] == previous:
+            log.info("%s is the same type as the post before it — held for a "
+                     "later run", item["key"])
+            continue
+        queue.append(item)
+        previous = item["post"]["kind"]
+    if len(queue) > max_posts:
+        log.info("%d posts are due and --max-posts is %d — the rest go out "
+                 "on the next run", len(queue), max_posts)
+        queue = queue[:max_posts]
+    return queue
 
 
 def days_between(earlier: str, later: str) -> int:
@@ -582,6 +624,60 @@ def share(items: list[dict], client: Bluesky, state: dict,
         }
         log.info("Shared %s%s", describe(item), " (update)" if old else "")
     return state
+
+
+def dead_shares(state: dict, posts_dir: str = POSTS_DIR) -> list[str]:
+    """The shares whose link no longer leads anywhere: the page they point at
+    is gone from the site. Archiving keeps a post's page, so this only ever
+    fires on a post that was deleted outright."""
+    return [name for name in sorted(state.get("shared") or {})
+            if not os.path.exists(os.path.join(posts_dir, f"{name}.html"))]
+
+
+def prune(names: list[str], client: Bluesky, state: dict) -> dict:
+    """Take each dead share down and forget it, one at a time, so a run that
+    dies halfway leaves a record that matches the account."""
+    shared = state.get("shared") or {}
+    for name in names:
+        uri = shared[name].get("uri")
+        if uri:
+            client.delete(uri)
+        del shared[name]
+        log.info("Deleted the share of %s — its page is gone", name)
+    return state
+
+
+def reply_post(text: str, parent: dict) -> dict:
+    """A plain reply directly under one of our own posts."""
+    ref = {"uri": parent["uri"], "cid": parent["cid"]}
+    return {"$type": "app.bsky.feed.post", "text": text,
+            "createdAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+            "langs": ["en"], "reply": {"root": ref, "parent": ref}}
+
+
+def due_reveals(manifest: dict, state: dict, now: datetime | None = None) -> list[dict]:
+    """Guess-the-city shares old enough to be answered, and not answered yet."""
+    now = now or datetime.now(timezone.utc)
+    posts = {key(p): p for p in manifest.get("posts") or []}
+    out = []
+    for name, entry in sorted((state.get("shared") or {}).items()):
+        answer = (posts.get(name) or {}).get("answer")
+        if not answer or entry.get("reveal") or not entry.get("uri"):
+            continue
+        at = datetime.strptime(entry["shared_at"], "%Y-%m-%dT%H:%M:%SZ").replace(
+            tzinfo=timezone.utc)
+        if (now - at).total_seconds() >= REVEAL_AFTER_HOURS * 3600:
+            out.append({"key": name, "entry": entry,
+                        "text": trim(f"The answer: {answer['label']}. "
+                                     f"{answer['detail']}.", TEXT_LIMIT)})
+    return out
+
+
+def reveal(items: list[dict], client: Bluesky) -> None:
+    for item in items:
+        created = client.create(reply_post(item["text"], item["entry"]))
+        item["entry"]["reveal"] = created.get("uri")
+        log.info("Answered %s", item["key"])
 
 
 def write_state(state: dict, path: str) -> None:
@@ -646,13 +742,22 @@ def main():
                         help="Ignore the age window and consider every post in "
                              "the manifest (--max-posts still applies).")
     parser.add_argument("--share-daily", choices=("notable", "always", "never"),
-                        default="notable",
-                        help="Which city-of-the-day posts go out: only the ones "
-                             "with a finding in them (default), all of them, or "
-                             "none. The weekly reads always go out.")
+                        default="always",
+                        help="Which city-of-the-day posts go out: all of them "
+                             "(default — it is one of the seven types in the "
+                             "rotation), only the ones with a finding in them, "
+                             "or none.")
     parser.add_argument("--keep-superseded", action="store_true",
                         help="Leave the old share up when a post is updated, "
                              "instead of replacing it.")
+    parser.add_argument("--prune-dead", action="store_true",
+                        help="Instead of sharing, delete every past share whose "
+                             "page no longer exists on the site. Deleting a "
+                             "Bluesky post is permanent; --dry-run lists them.")
+    parser.add_argument("--reveal-only", action="store_true",
+                        help="Answer any guess-the-city post that is due and "
+                             "share nothing new — the short run between the "
+                             "day's two posts.")
     parser.add_argument("--dry-run", action="store_true",
                         help="Print what would be shared and post nothing. "
                              "Needs no credentials, but signs in to check them "
@@ -670,10 +775,42 @@ def main():
         return 1
     state = read_json(state_path) or {}
 
+    if args.prune_dead:
+        dead = dead_shares(state, args.posts_dir)
+        if args.dry_run:
+            for name in dead:
+                log.info("Would delete the share of %s (%s)", name,
+                         state["shared"][name].get("url"))
+            log.info("%d dead share%s", len(dead), "" if len(dead) == 1 else "s")
+            return check_login(args.handle, APP_PASSWORD, args.service)
+        if not dead:
+            log.info("No dead shares")
+            return 0
+        creds = credentials(args.handle, APP_PASSWORD)
+        if creds is None:
+            return 1
+        client = Bluesky(*creds, service=args.service)
+        before = len(state["shared"])
+        try:
+            client.login()
+            prune(dead, client, state)
+        finally:
+            if len(state["shared"]) != before:
+                write_state(state, state_path)
+        log.info("Deleted %d dead share%s from Bluesky", len(dead),
+                 "" if len(dead) == 1 else "s")
+        return 0
+
     items = pending(manifest, state, args.posts_dir, args.max_age_days,
                     args.max_posts, args.backfill, args.share_daily)
 
+    reveals = due_reveals(manifest, state)
+    if args.reveal_only:
+        items = []
+
     if args.dry_run:
+        for item in reveals:
+            log.info("Would answer %s: %s", item["key"], item["text"])
         for item in items:
             log.info("Would share %s%s", describe(item),
                      " (update)" if item["supersedes"] else "")
@@ -686,7 +823,7 @@ def main():
             log.info("Nothing new to share")
         return check_login(args.handle, APP_PASSWORD, args.service)
 
-    if not items:
+    if not items and not reveals:
         log.info("Nothing new to share")
         return 0
 
@@ -700,6 +837,7 @@ def main():
     before = json.dumps(state.get("shared") or {}, sort_keys=True)
     try:
         client.login()
+        reveal(reveals, client)
         share(items, client, state, args.keep_superseded)
     finally:
         # Whatever did go out is recorded even if a later one threw; a run that

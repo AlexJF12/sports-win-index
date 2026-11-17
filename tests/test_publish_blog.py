@@ -192,14 +192,15 @@ def test_streakiness_post_measures_distance_from_the_groups_own_norm(tmp_path):
 
 def test_missing_folders_are_skipped_not_fatal(tmp_path):
     assert collect(str(tmp_path / "nope"), str(tmp_path / "nope"),
-                   str(tmp_path / "nope")) == []
+                   str(tmp_path / "nope"), str(tmp_path / "nope")) == []
 
 
 # --- filing and retention ----------------------------------------------------
 
 def test_publish_copies_images_and_writes_a_manifest(tmp_path):
     posts_dir = str(tmp_path / "posts")
-    posts = collect(daily_dir(tmp_path), streak_dir(tmp_path), weekly_dir(tmp_path))
+    posts = collect(daily_dir(tmp_path), streak_dir(tmp_path), weekly_dir(tmp_path),
+                    str(tmp_path / "nope"))
     manifest = publish(posts, posts_dir)
 
     assert [p["kind"] for p in manifest["posts"]] == ["daily", "spotlight", "streakiness"]
@@ -215,10 +216,9 @@ def test_publish_copies_images_and_writes_a_manifest(tmp_path):
 
 def test_republishing_a_date_replaces_it_rather_than_duplicating(tmp_path):
     posts_dir = str(tmp_path / "posts")
-    publish(collect(daily_dir(tmp_path), str(tmp_path / "x"), str(tmp_path / "x")),
-            posts_dir)
-    manifest = publish(collect(daily_dir(tmp_path), str(tmp_path / "x"),
-                               str(tmp_path / "x")), posts_dir)
+    publish(collect(daily_dir(tmp_path), *[str(tmp_path / "x")] * 3), posts_dir)
+    manifest = publish(collect(daily_dir(tmp_path), *[str(tmp_path / "x")] * 3),
+                       posts_dir)
     assert len(manifest["posts"]) == 1
 
 
