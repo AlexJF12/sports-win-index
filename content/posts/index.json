@@ -1,10 +1,166 @@
 {
- "generated": "2026-11-17",
+ "generated": "2026-11-18",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-11-17",
+   "kind": "guess",
+   "title": "Guess the city: two teams (NBA/NHL), 49-85 this year",
+   "dek": "Three clues and a chart with the name taken off",
+   "hook": "Guess the city \ud83d\udd75\ufe0f\n\u2022 Two teams (NBA/NHL)\n\u2022 49-85 this year, 45th of 49 cities\n\u2022 Best year on record: 2021. Worst: 2025\nReply with your guess. Answer in a couple of hours.",
+   "score": 0.5,
+   "cities": [
+    "Salt Lake City"
+   ],
+   "answer": {
+    "label": "Salt Lake City: Jazz/Mammoth",
+    "detail": "49-85 in 2026, -114.0 weighted \u2014 45th of 49 cities"
+   },
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "Clue 1",
+       "value": "Two teams (NBA/NHL)"
+      },
+      {
+       "label": "Clue 2",
+       "value": "49-85 this year, 45th of 49 cities (-114.0 weighted)"
+      },
+      {
+       "label": "Clue 3",
+       "value": "Best year on record: 2021 (+158.3). Worst: 2025 (-139.3)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "guess-season.png",
+       "caption": "A mystery city's cumulative weighted index this year, against its own earlier seasons in gray.",
+       "alt": "Three clues and a chart with the name taken off \u2014 A mystery city's cumulative weighted index this year, against its own earlier seasons in gray"
+      }
+     ]
+    }
+   ],
+   "slot": 2,
+   "page": "content/posts/2026-11-17/guess.html"
+  },
+  {
+   "date": "2026-11-17",
+   "kind": "hotcold",
+   "title": "Edmonton has won 6 straight. Toronto has lost 11 straight.",
+   "dek": "The longest active runs in every city, through November 17, 2026",
+   "hook": "\ud83d\udd25 Edmonton: 6 straight wins (Oilers)\n\ud83e\uddca Toronto: 11 straight losses (Maple Leafs 6, Raptors 5)\nWhich run ends first?",
+   "score": 0.69,
+   "cities": [
+    "Edmonton",
+    "Toronto"
+   ],
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "Hottest",
+       "value": "Edmonton: Oilers \u2014 6 straight wins since November 7, 2026, +19.0 weighted"
+      },
+      {
+       "label": "Coldest",
+       "value": "Toronto: Blue Jays/Raptors/Maple Leafs \u2014 11 straight losses since November 7, 2026, -34.8 weighted"
+      },
+      {
+       "label": "How a run is counted",
+       "value": "Every game by every team in the group, in the order they were played. One loss by any of them ends it."
+      }
+     ],
+     "table": {
+      "columns": [
+       "Run",
+       "City",
+       "Teams in it",
+       "Since"
+      ],
+      "rows": [
+       [
+        "W6",
+        "Edmonton",
+        "Oilers",
+        "November 7, 2026"
+       ],
+       [
+        "W5",
+        "Cincinnati",
+        "Bengals",
+        "October 11, 2026"
+       ],
+       [
+        "W4",
+        "Los Angeles",
+        "Lakers 2, Chargers 1, Kings 1",
+        "November 15, 2026"
+       ],
+       [
+        "W4",
+        "Minnesota",
+        "Timberwolves 2, Vikings 1, Wild 1",
+        "November 15, 2026"
+       ],
+       [
+        "W4",
+        "New York",
+        "Islanders 2, Knicks 2",
+        "November 14, 2026"
+       ],
+       [
+        "L11",
+        "Toronto",
+        "Maple Leafs 6, Raptors 5",
+        "November 7, 2026"
+       ],
+       [
+        "L10",
+        "Milwaukee",
+        "Bucks",
+        "October 28, 2026"
+       ],
+       [
+        "L6",
+        "Sacramento",
+        "Kings",
+        "November 4, 2026"
+       ],
+       [
+        "L6",
+        "Washington",
+        "Capitals 3, Wizards 3",
+        "November 12, 2026"
+       ],
+       [
+        "L5",
+        "Baltimore",
+        "Ravens",
+        "October 18, 2026"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "hotcold-runs.png",
+       "caption": "The five longest active winning runs and the five longest active losing runs, one bar per city.",
+       "alt": "The longest active runs in every city, through November 17, 2026 \u2014 The five longest active winning runs and the five longest active losing runs, one bar per city"
+      }
+     ]
+    }
+   ],
+   "slot": 1,
+   "page": "content/posts/2026-11-17/hotcold.html"
+  },
   {
    "date": "2026-11-16",
    "kind": "h2h",

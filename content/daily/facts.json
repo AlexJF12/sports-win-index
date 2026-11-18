@@ -1,33 +1,33 @@
 {
- "date": "2026-11-16",
+ "date": "2026-11-17",
  "year": 2026,
- "city": "Boston",
- "label": "Boston: Red Sox/Celtics/Bruins/Patriots",
+ "city": "Philadelphia",
+ "label": "Philadelphia: Phillies/76ers/Flyers/Eagles",
  "season": {
-  "w": 184,
-  "l": 131,
+  "w": 170,
+  "l": 160,
   "t": 0,
-  "games": 315
+  "games": 330
  },
  "recent": {
   "w": 18,
-  "l": 10,
+  "l": 13,
   "t": 0,
-  "games": 28,
+  "games": 31,
   "longest": {
    "type": "W",
-   "length": 5
+   "length": 4
   }
  },
  "month": {
-  "w": 11,
-  "l": 6,
+  "w": 10,
+  "l": 9,
   "t": 0,
-  "games": 17,
+  "games": 19,
   "name": "November",
   "in_progress": true,
-  "place": 11,
-  "worse": 6,
-  "field": 17
+  "place": 10,
+  "worse": 5,
+  "field": 16
  }
 }
