@@ -1,33 +1,33 @@
 {
- "date": "2026-11-17",
+ "date": "2026-11-18",
  "year": 2026,
- "city": "Philadelphia",
- "label": "Philadelphia: Phillies/76ers/Flyers/Eagles",
+ "city": "Pittsburgh",
+ "label": "Pittsburgh: Pirates/Penguins/Steelers",
  "season": {
-  "w": 170,
-  "l": 160,
+  "w": 122,
+  "l": 121,
   "t": 0,
-  "games": 330
+  "games": 243
  },
  "recent": {
-  "w": 18,
-  "l": 13,
+  "w": 6,
+  "l": 7,
   "t": 0,
-  "games": 31,
+  "games": 13,
   "longest": {
    "type": "W",
-   "length": 4
+   "length": 3
   }
  },
  "month": {
-  "w": 10,
-  "l": 9,
+  "w": 3,
+  "l": 5,
   "t": 0,
-  "games": 19,
+  "games": 8,
   "name": "November",
   "in_progress": true,
-  "place": 10,
-  "worse": 5,
-  "field": 16
+  "place": 16,
+  "worse": 1,
+  "field": 17
  }
 }

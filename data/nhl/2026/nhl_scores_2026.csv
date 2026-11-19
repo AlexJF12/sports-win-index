@@ -1094,3 +1094,6 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261117,nhl,401892735,NSH,3,MIN,7,MIN,Final
 20261117,nhl,401892737,DAL,4,VGK,3,DAL,Final/OT
 20261117,nhl,401892738,CGY,5,SJ,2,CGY,Final
+20261118,nhl,401892739,BOS,4,DET,1,BOS,Final
+20261118,nhl,401892740,MTL,3,NJ,2,MTL,Final
+20261118,nhl,401892741,COL,1,UTA,4,UTA,Final

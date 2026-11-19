@@ -1,36 +1,36 @@
-# Fandom spotlight — 2026-11-17
+# Fandom spotlight — 2026-11-18
 
-## 1. 🔄 Indianapolis has flipped its November: 1-6 before this week, 3-1 since
-*Indianapolis: Pacers/Colts* · `turnaround`
+## 1. 🔄 Las Vegas's November has come apart: 5-2 before this week, 0-4 since
+*Las Vegas: Golden Knights/Raiders* · `turnaround`
 
-- **Before this week:** 1-6, -23.4 weighted (-3.34 per game)
-- **Since:** 3-1, +10.1 weighted (+2.53 per game)
-- **This month (through November 17):** 4-7, -13.3 weighted
-- **Last 7 days:** 3-1, +10.1 weighted
-- **Driving it this week:** Colts (1-0, +7.0)
+- **Before this week:** 5-2, +9.5 weighted (+1.36 per game)
+- **Since:** 0-4, -16.5 weighted (-4.11 per game)
+- **This month (through November 18):** 5-6, -7.0 weighted
+- **Last 7 days:** 0-4, -16.5 weighted
+- **Driving it this week:** Golden Knights (0-3, -9.5)
+- **Active streaks:** Golden Knights L3
 
-Images: `indianapolis_race.png` · `indianapolis_timeline.png` · `indianapolis_teams.png`
+Images: `las-vegas_race.png` · `las-vegas_timeline.png` · `las-vegas_teams.png`
 
-## 2. 🔥 Edmonton is having its best November on record
-*Edmonton: Oilers* · `month`
+## 2. 📉 Toronto's teams have lost 12 straight — their longest since November 10, 2010
+*Toronto: Blue Jays/Raptors/Maple Leafs* · `streak`
 
-- **This month (through November 17):** 7-2, +15.8 weighted — the best November of the 15 on record
-- **vs all months:** tied for the third-best of 117 months on record (97th percentile)
-- **Last 7 days:** 4-0, +12.7 weighted
-- **Driving it this week:** Oilers (4-0, +12.7)
-- **Active streaks:** Oilers W6
+- **The run:** 12 straight losses since November 7, 2026, -38.0 weighted (previous best 12)
+- **This month (through November 18):** 2-15, -41.2 weighted
+- **Last 7 days:** 0-7, -22.2 weighted
+- **Driving it this week:** Raptors (0-4, -12.7)
+- **Active streaks:** Raptors L6, Maple Leafs L7
 
-Images: `edmonton_race.png` · `edmonton_history.png` · `edmonton_teams.png`
+Images: `toronto_race.png` · `toronto_timeline.png` · `toronto_teams.png`
 
-## 3. 🏆 Buffalo is having its best year on record — 17th of 88 this year
-*Buffalo: Sabres/Bills* · `year`
+## 3. 🔥 Minnesota is having its best month since December 2025
+*Minnesota: Twins/Timberwolves/Wild/Vikings* · `month`
 
-- **2026 so far (through November 17):** 53-35, +87.3 weighted — the best of the 17 years on record, at the same point
-- **Against the field:** 17th of 88 city groups on the year (82nd percentile)
-- **This month (through November 17):** 4-6, +5.0 weighted
-- **Last 7 days:** 1-4, -5.7 weighted
-- **Driving it this week:** Sabres (0-4, -12.7)
-- **Active streaks:** Sabres L5, Bills W5
+- **This month (through November 18):** 15-4, +31.0 weighted — the fourth-best of 198 months on record (98th percentile)
+- **vs past Novembers:** the second-best November of the 17 on record
+- **Last 7 days:** 7-1, +22.8 weighted
+- **Driving it this week:** Wild (3-0, +9.5)
+- **Active streaks:** Wild W4
 
-Images: `buffalo_year.png` · `buffalo_field.png`
+Images: `minnesota_race.png` · `minnesota_history.png` · `minnesota_teams.png`
 

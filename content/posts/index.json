@@ -1,10 +1,161 @@
 {
- "generated": "2026-11-18",
+ "generated": "2026-11-19",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-11-18",
+   "kind": "record",
+   "title": "Toronto's teams have lost 12 straight \u2014 their longest since November 10, 2010",
+   "dek": "Toronto: Blue Jays/Raptors/Maple Leafs",
+   "hook": "Toronto's teams have lost 12 straight \u2014 their longest since November 10, 2010\nTheir longest before this one: 12. Raptors L6, Maple Leafs L7.\nWhere's the bottom?",
+   "score": 0.88,
+   "cities": [
+    "Toronto"
+   ],
+   "finding": "toronto",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "The run",
+       "value": "12 straight losses since November 7, 2026, -38.0 weighted (previous best 12)"
+      },
+      {
+       "label": "This month (through November 18)",
+       "value": "2-15, -41.2 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "0-7, -22.2 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Raptors (0-4, -12.7)"
+      },
+      {
+       "label": "Active streaks",
+       "value": "Raptors L6, Maple Leafs L7"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "record-toronto_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Toronto: Blue Jays/Raptors/Maple Leafs \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "record-toronto_timeline.png",
+       "caption": "Game by game, with the streak picked out.",
+       "alt": "Toronto: Blue Jays/Raptors/Maple Leafs \u2014 Game by game, with the streak picked out"
+      },
+      {
+       "file": "record-toronto_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Toronto: Blue Jays/Raptors/Maple Leafs \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    }
+   ],
+   "slot": 2,
+   "page": "content/posts/2026-11-18/record.html"
+  },
+  {
+   "date": "2026-11-18",
+   "kind": "timemachine",
+   "title": "November 2019: the banner went to Milwaukee",
+   "dek": "7 years ago this month \u2014 Brewers/Bucks, +5.1 clear of New York",
+   "hook": "7 years ago this month: Milwaukee took the November 2019 banner, 15-1.\nThis November they're 46th of 48.\nRemember that month?",
+   "score": 0.6,
+   "cities": [
+    "Milwaukee"
+   ],
+   "year": 2019,
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "November 2019 banner",
+       "value": "Milwaukee: Brewers/Bucks \u2014 15-1, +44.3 weighted"
+      },
+      {
+       "label": "Runner-up",
+       "value": "New York: Mets/Nets/Islanders/Jets \u2014 21-11, +39.2 weighted"
+      },
+      {
+       "label": "Who carried it",
+       "value": "Bucks \u2014 15-1, +44.3 weighted"
+      },
+      {
+       "label": "Milwaukee this November, through day 18",
+       "value": "46th of 48 \u2014 0-9, -28.5 weighted"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Place",
+       "City",
+       "Teams",
+       "Record",
+       "Weighted"
+      ],
+      "rows": [
+       [
+        "1",
+        "Milwaukee",
+        "Brewers/Bucks",
+        "15-1",
+        "+44.3"
+       ],
+       [
+        "2",
+        "New York",
+        "Mets/Nets/Islanders/Jets",
+        "21-11",
+        "+39.2"
+       ],
+       [
+        "3",
+        "Boston",
+        "Red Sox/Celtics/Bruins/Patriots",
+        "21-10",
+        "+38.6"
+       ],
+       [
+        "4",
+        "Los Angeles",
+        "Angels/Lakers/Kings/Chargers",
+        "22-10",
+        "+34.2"
+       ],
+       [
+        "5",
+        "Dallas",
+        "Rangers/Mavericks/Stars/Cowboys",
+        "21-11",
+        "+27.9"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "timemachine-month.png",
+       "caption": "The top five cities of November 2019 on the weighted index, the banner winner picked out.",
+       "alt": "7 years ago this month \u2014 Brewers/Bucks, +5.1 clear of New York \u2014 The top five cities of November 2019 on the weighted index, the banner winner picked out"
+      }
+     ]
+    }
+   ],
+   "slot": 1,
+   "page": "content/posts/2026-11-18/timemachine.html"
+  },
   {
    "date": "2026-11-17",
    "kind": "guess",
