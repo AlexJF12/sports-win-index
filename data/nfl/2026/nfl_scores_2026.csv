@@ -178,3 +178,4 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261115,nfl,401873063,SF,46,DAL,40,SF,Final
 20261115,nfl,401873064,PIT,18,CIN,38,CIN,Final
 20261116,nfl,401873065,LAC,23,BAL,20,LAC,Final
+20261119,nfl,401873066,IND,3,HOU,26,HOU,Final

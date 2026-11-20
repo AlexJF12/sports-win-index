@@ -1,10 +1,149 @@
 {
- "generated": "2026-11-19",
+ "generated": "2026-11-20",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-11-19",
+   "kind": "banner",
+   "title": "November banner watch \u2014 Los Angeles leads at day 19",
+   "dek": "Los Angeles is +52.5 weighted, +21.5 ahead of Minnesota, with 11 days to play",
+   "hook": "November banner watch: Los Angeles sets the pace.\nLos Angeles 18-5 this month \u00b7 Minnesota 16-5.\nIs this one already over?",
+   "cities": [
+    "Los Angeles"
+   ],
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "Leading",
+       "value": "Los Angeles: Angels/Lakers/Ducks/Rams \u2014 18-5, +52.5 weighted"
+      },
+      {
+       "label": "Closest chaser",
+       "value": "Minnesota: Twins/Timberwolves/Wild/Vikings \u2014 16-5, +31.0 weighted"
+      },
+      {
+       "label": "Banners since 2010",
+       "value": "It would be #38 for Los Angeles"
+      },
+      {
+       "label": "Last month's banner",
+       "value": "Boston, +36.1 in October 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Place",
+       "City",
+       "Teams",
+       "Record",
+       "Weighted"
+      ],
+      "rows": [
+       [
+        "1",
+        "Los Angeles",
+        "Angels/Lakers/Ducks/Rams",
+        "18-5",
+        "+52.5"
+       ],
+       [
+        "2",
+        "Minnesota",
+        "Twins/Timberwolves/Wild/Vikings",
+        "16-5",
+        "+31.0"
+       ],
+       [
+        "3",
+        "New York",
+        "Mets/Knicks/Devils/Giants",
+        "14-5",
+        "+28.5"
+       ],
+       [
+        "4",
+        "San Antonio",
+        "Spurs",
+        "9-1",
+        "+25.3"
+       ],
+       [
+        "5",
+        "Denver",
+        "Rockies/Nuggets/Avalanche/Broncos",
+        "12-7",
+        "+23.4"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "banner-race.png",
+       "caption": "The leader's banner as it would hang today \u2014 the running total in black, each team's share in its league color \u2014 beside the top five cities in the race.",
+       "alt": "Los Angeles is +52.5 weighted, +21.5 ahead of Minnesota, with 11 days to play \u2014 The leader's banner as it would hang today \u2014 the running total in black, each team's share in its league color \u2014 beside the top five cities in the race"
+      }
+     ]
+    }
+   ],
+   "slot": 2,
+   "page": "content/posts/2026-11-19/banner.html"
+  },
+  {
+   "date": "2026-11-19",
+   "kind": "h2h",
+   "title": "New York vs Minnesota: who's had the better 2026?",
+   "dek": "Yankees/Knicks/Devils/Giants against Twins/Timberwolves/Wild/Vikings, through November 19",
+   "hook": "New York vs Minnesota. Whose 2026 would you rather have?\nNew York: 190-130-1 (2nd of 49 cities) \u00b7 Minnesota: 173-150 (7th)\nNov 19: Knicks 102, Timberwolves 99.",
+   "score": 0.867,
+   "cities": [
+    "New York",
+    "Minnesota"
+   ],
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "New York",
+       "value": "New York: Yankees/Knicks/Devils/Giants \u2014 190-130-1, +179.4 weighted, 2nd of 49"
+      },
+      {
+       "label": "Minnesota",
+       "value": "Minnesota: Twins/Timberwolves/Wild/Vikings \u2014 173-150, +102.9 weighted, 7th of 49"
+      },
+      {
+       "label": "The gap",
+       "value": "New York by 76.6"
+      },
+      {
+       "label": "November 19",
+       "value": "Knicks 102, Timberwolves 99"
+      },
+      {
+       "label": "Meetings in 2026",
+       "value": "8 \u2014 New York 5, Minnesota 3"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "h2h-year.png",
+       "caption": "Both cities' cumulative weighted index this year, every game since January 1 added up.",
+       "alt": "Yankees/Knicks/Devils/Giants against Twins/Timberwolves/Wild/Vikings, through November 19 \u2014 Both cities' cumulative weighted index this year, every game since January 1 added up"
+      }
+     ]
+    }
+   ],
+   "slot": 1,
+   "page": "content/posts/2026-11-19/h2h.html"
+  },
   {
    "date": "2026-11-18",
    "kind": "record",

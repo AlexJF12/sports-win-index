@@ -1,33 +1,33 @@
 {
- "date": "2026-11-18",
+ "date": "2026-11-19",
  "year": 2026,
- "city": "Pittsburgh",
- "label": "Pittsburgh: Pirates/Penguins/Steelers",
+ "city": "Raleigh",
+ "label": "Raleigh: Hurricanes",
  "season": {
-  "w": 122,
-  "l": 121,
+  "w": 60,
+  "l": 23,
   "t": 0,
-  "games": 243
+  "games": 83
  },
  "recent": {
-  "w": 6,
-  "l": 7,
+  "w": 7,
+  "l": 3,
   "t": 0,
-  "games": 13,
+  "games": 10,
   "longest": {
    "type": "W",
-   "length": 3
+   "length": 4
   }
  },
  "month": {
-  "w": 3,
-  "l": 5,
+  "w": 5,
+  "l": 2,
   "t": 0,
-  "games": 8,
+  "games": 7,
   "name": "November",
   "in_progress": true,
-  "place": 16,
-  "worse": 1,
-  "field": 17
+  "place": 2,
+  "worse": 12,
+  "field": 15
  }
 }
