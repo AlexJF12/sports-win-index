@@ -1,33 +1,33 @@
 {
- "date": "2026-11-19",
+ "date": "2026-11-20",
  "year": 2026,
- "city": "Raleigh",
- "label": "Raleigh: Hurricanes",
+ "city": "Indianapolis",
+ "label": "Indianapolis: Pacers/Colts",
  "season": {
-  "w": 60,
-  "l": 23,
+  "w": 21,
+  "l": 55,
   "t": 0,
-  "games": 83
+  "games": 76
  },
  "recent": {
-  "w": 7,
-  "l": 3,
+  "w": 5,
+  "l": 15,
   "t": 0,
-  "games": 10,
+  "games": 20,
   "longest": {
-   "type": "W",
-   "length": 4
+   "type": "L",
+   "length": 6
   }
  },
  "month": {
-  "w": 5,
-  "l": 2,
+  "w": 4,
+  "l": 10,
   "t": 0,
-  "games": 7,
+  "games": 14,
   "name": "November",
   "in_progress": true,
-  "place": 2,
-  "worse": 12,
-  "field": 15
+  "place": 16,
+  "worse": 0,
+  "field": 16
  }
 }

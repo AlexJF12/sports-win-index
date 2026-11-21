@@ -1,33 +1,34 @@
-# Fandom spotlight — 2026-11-19
+# Fandom spotlight — 2026-11-20
 
-## 1. 🔄 Memphis has flipped its November: 1-4 before this week, 5-0 since
-*Memphis: Grizzlies* · `turnaround`
+## 1. 🔄 Las Vegas's November has come apart: 5-3 before this week, 0-4 since
+*Las Vegas: Golden Knights/Raiders* · `turnaround`
 
-- **Before this week:** 1-4, -9.5 weighted (-1.90 per game)
-- **Since:** 5-0, +15.8 weighted (+3.17 per game)
-- **This month (through November 19):** 6-4, +6.3 weighted
-- **Last 7 days:** 5-0, +15.8 weighted
-- **Driving it this week:** Grizzlies (5-0, +15.8)
-- **Active streaks:** Grizzlies W5
+- **Before this week:** 5-3, +6.3 weighted (+0.79 per game)
+- **Since:** 0-4, -16.5 weighted (-4.11 per game)
+- **This month (through November 20):** 5-7, -10.1 weighted
+- **Last 7 days:** 0-4, -16.5 weighted
+- **Driving it this week:** Golden Knights (0-3, -9.5)
+- **Active streaks:** Golden Knights L4
 
-Images: `memphis_race.png` · `memphis_timeline.png` · `memphis_teams.png`
+Images: `las-vegas_race.png` · `las-vegas_timeline.png` · `las-vegas_teams.png`
 
 ## 2. 🧊 Indianapolis is having its worst year on record — 79th of 88 this year
 *Indianapolis: Pacers/Colts* · `year`
 
-- **2026 so far (through November 19):** 21-54, -127.2 weighted — the worst of the 17 years on record, at the same point
+- **2026 so far (through November 20):** 21-55, -130.4 weighted — the worst of the 17 years on record, at the same point
 - **Against the field:** 79th of 88 city groups on the year (10th percentile)
-- **This month (through November 19):** 4-9, -23.4 weighted
-- **Last 7 days:** 2-3, -3.2 weighted
-- **Driving it this week:** Pacers (1-2, -3.2)
+- **This month (through November 20):** 4-10, -26.6 weighted
+- **Last 7 days:** 1-4, -9.5 weighted
+- **Driving it this week:** Pacers (0-3, -9.5)
+- **Active streaks:** Pacers L3
 
 Images: `indianapolis_year.png` · `indianapolis_field.png`
 
 ## 3. 🔥 Cincinnati is tied for its best month on record
 *Cincinnati: Reds/Bengals* · `month`
 
-- **This month (through November 19):** 3-0, +20.9 weighted — tied for the best of 131 months on record (98th percentile)
-- **vs past Novembers:** the best November of the 7 on record
+- **This month (through November 20):** 3-0, +20.9 weighted — tied for the best of 135 months on record (99th percentile)
+- **vs past Novembers:** the best November of the 8 on record
 - **Last 7 days:** 1-0, +7.0 weighted
 - **Driving it this week:** Bengals (1-0, +7.0)
 - **Active streaks:** Bengals W5

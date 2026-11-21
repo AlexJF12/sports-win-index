@@ -523,5 +523,10 @@
   "date": "2026-11-15",
   "city": "Portland",
   "group": "Portland"
+ },
+ {
+  "date": "2026-11-20",
+  "city": "Indianapolis",
+  "group": "Indianapolis"
  }
 ]
