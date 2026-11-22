@@ -1,10 +1,160 @@
 {
- "generated": "2026-11-21",
+ "generated": "2026-11-22",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-11-21",
+   "kind": "record",
+   "title": "Indianapolis is having its worst year on record \u2014 78th of 88 this year",
+   "dek": "Indianapolis: Pacers/Colts",
+   "hook": "Indianapolis is having its worst year on record \u2014 78th of 88 this year\n21-55 on the year. This month: 4-10.\nWhen does it turn around?",
+   "score": 0.7,
+   "cities": [
+    "Indianapolis"
+   ],
+   "finding": "indianapolis",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far (through November 21)",
+       "value": "21-55, -130.4 weighted \u2014 the worst of the 17 years on record, at the same point"
+      },
+      {
+       "label": "Against the field",
+       "value": "78th of 88 city groups on the year (11th percentile)"
+      },
+      {
+       "label": "This month (through November 21)",
+       "value": "4-10, -26.6 weighted"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "1-4, -9.5 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Pacers (0-3, -9.5)"
+      },
+      {
+       "label": "Active streaks",
+       "value": "Pacers L3"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "record-indianapolis_year.png",
+       "caption": "Every season's cumulative index by day of year, this one in color.",
+       "alt": "Indianapolis: Pacers/Colts \u2014 Every season's cumulative index by day of year, this one in color"
+      },
+      {
+       "file": "record-indianapolis_field.png",
+       "caption": "All 88 city groups on this year's index, the group picked out.",
+       "alt": "Indianapolis: Pacers/Colts \u2014 All 88 city groups on this year's index, the group picked out"
+      }
+     ]
+    }
+   ],
+   "slot": 2,
+   "page": "content/posts/2026-11-21/record.html"
+  },
+  {
+   "date": "2026-11-21",
+   "kind": "timemachine",
+   "title": "November 2018: the banner went to Toronto",
+   "dek": "8 years ago this month \u2014 Blue Jays/Raptors/Maple Leafs, +5.1 clear of Los Angeles",
+   "hook": "Throwback: November 2018 belonged to Toronto. 22-7 (Raptors went 12-3).\nThis November they're 48th of 48.\nWho was on those teams?",
+   "score": 0.6,
+   "cities": [
+    "Toronto"
+   ],
+   "year": 2018,
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "November 2018 banner",
+       "value": "Toronto: Blue Jays/Raptors/Maple Leafs \u2014 22-7, +47.5 weighted"
+      },
+      {
+       "label": "Runner-up",
+       "value": "Los Angeles: Angels/Clippers/Ducks/Chargers \u2014 22-11, +42.4 weighted"
+      },
+      {
+       "label": "Who carried it",
+       "value": "Raptors \u2014 12-3, +28.5 weighted"
+      },
+      {
+       "label": "Toronto this November, through day 21",
+       "value": "48th of 48 \u2014 3-17, -44.3 weighted"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Place",
+       "City",
+       "Teams",
+       "Record",
+       "Weighted"
+      ],
+      "rows": [
+       [
+        "1",
+        "Toronto",
+        "Blue Jays/Raptors/Maple Leafs",
+        "22-7",
+        "+47.5"
+       ],
+       [
+        "2",
+        "Los Angeles",
+        "Angels/Clippers/Ducks/Chargers",
+        "22-11",
+        "+42.4"
+       ],
+       [
+        "3",
+        "Dallas",
+        "Rangers/Mavericks/Stars/Cowboys",
+        "19-13",
+        "+30.4"
+       ],
+       [
+        "4",
+        "Houston",
+        "Astros/Rockets/Texans",
+        "12-6",
+        "+30.4"
+       ],
+       [
+        "5",
+        "Buffalo",
+        "Sabres/Bills",
+        "13-5",
+        "+29.1"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "timemachine-month.png",
+       "caption": "The top five cities of November 2018 on the weighted index, the banner winner picked out.",
+       "alt": "8 years ago this month \u2014 Blue Jays/Raptors/Maple Leafs, +5.1 clear of Los Angeles \u2014 The top five cities of November 2018 on the weighted index, the banner winner picked out"
+      }
+     ]
+    }
+   ],
+   "slot": 1,
+   "page": "content/posts/2026-11-21/timemachine.html"
+  },
   {
    "hook": "Spotlight on Indianapolis (Pacers, Colts)\n21-55 in 2026. November so far: 4-10, the worst of the 16 on record.\nWhere does this year end up?",
    "score": 0.75,

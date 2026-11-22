@@ -1,33 +1,33 @@
 {
- "date": "2026-11-20",
+ "date": "2026-11-21",
  "year": 2026,
- "city": "Indianapolis",
- "label": "Indianapolis: Pacers/Colts",
+ "city": "Vancouver",
+ "label": "Vancouver: Canucks",
  "season": {
-  "w": 21,
-  "l": 55,
+  "w": 14,
+  "l": 53,
   "t": 0,
-  "games": 76
+  "games": 67
  },
  "recent": {
-  "w": 5,
-  "l": 15,
+  "w": 3,
+  "l": 9,
   "t": 0,
-  "games": 20,
+  "games": 12,
   "longest": {
    "type": "L",
-   "length": 6
+   "length": 8
   }
  },
  "month": {
-  "w": 4,
-  "l": 10,
+  "w": 3,
+  "l": 6,
   "t": 0,
-  "games": 14,
+  "games": 9,
   "name": "November",
   "in_progress": true,
-  "place": 16,
-  "worse": 0,
-  "field": 16
+  "place": 8,
+  "worse": 7,
+  "field": 15
  }
 }
