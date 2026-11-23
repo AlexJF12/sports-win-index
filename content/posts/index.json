@@ -1,10 +1,105 @@
 {
- "generated": "2026-11-22",
+ "generated": "2026-11-23",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-11-22",
+   "kind": "guess",
+   "title": "Guess the city: four teams (MLB/NBA/NHL/NFL), 174-152 this year",
+   "dek": "Three clues and a chart with the name taken off",
+   "hook": "Name that city \ud83d\udd75\ufe0f\n\u2022 Four teams (MLB/NBA/NHL/NFL)\n\u2022 174-152 this year, 9th of 49 cities\n\u2022 Best year on record: 2024. Worst: 2011\nThink you know? Reply before we reveal it.",
+   "score": 0.5,
+   "cities": [
+    "Minnesota"
+   ],
+   "answer": {
+    "label": "Minnesota: Twins/Timberwolves/Wild/Vikings",
+    "detail": "174-152 in 2026, +95.9 weighted \u2014 9th of 49 cities"
+   },
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "Clue 1",
+       "value": "Four teams (MLB/NBA/NHL/NFL)"
+      },
+      {
+       "label": "Clue 2",
+       "value": "174-152 this year, 9th of 49 cities (+95.9 weighted)"
+      },
+      {
+       "label": "Clue 3",
+       "value": "Best year on record: 2024 (+157.0). Worst: 2011 (-255.2)"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "guess-season.png",
+       "caption": "A mystery city's cumulative weighted index this year, against its own earlier seasons in gray.",
+       "alt": "Three clues and a chart with the name taken off \u2014 A mystery city's cumulative weighted index this year, against its own earlier seasons in gray"
+      }
+     ]
+    }
+   ],
+   "slot": 2,
+   "page": "content/posts/2026-11-22/guess.html"
+  },
+  {
+   "date": "2026-11-22",
+   "kind": "h2h",
+   "title": "Tampa Bay vs Buffalo: who's had the better 2026?",
+   "dek": "Rays/Lightning/Buccaneers against Sabres/Bills, through November 22",
+   "hook": "Pick one: Tampa Bay's 2026 or Buffalo's?\nTampa Bay: 154-105 (6th of 49 cities) \u00b7 Buffalo: 56-36 (8th)\nNov 22: Sabres 6, Lightning 2.",
+   "score": 0.844,
+   "cities": [
+    "Tampa Bay",
+    "Buffalo"
+   ],
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "Tampa Bay",
+       "value": "Tampa Bay: Rays/Lightning/Buccaneers \u2014 154-105, +111.8 weighted, 6th of 49"
+      },
+      {
+       "label": "Buffalo",
+       "value": "Buffalo: Sabres/Bills \u2014 56-36, +97.4 weighted, 8th of 49"
+      },
+      {
+       "label": "The gap",
+       "value": "Tampa Bay by 14.4"
+      },
+      {
+       "label": "November 22",
+       "value": "Sabres 6, Lightning 2"
+      },
+      {
+       "label": "Meetings in 2026",
+       "value": "6 \u2014 Tampa Bay 2, Buffalo 4"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "h2h-year.png",
+       "caption": "Both cities' cumulative weighted index this year, every game since January 1 added up.",
+       "alt": "Rays/Lightning/Buccaneers against Sabres/Bills, through November 22 \u2014 Both cities' cumulative weighted index this year, every game since January 1 added up"
+      }
+     ]
+    }
+   ],
+   "slot": 1,
+   "page": "content/posts/2026-11-22/h2h.html"
+  },
   {
    "date": "2026-11-21",
    "kind": "record",

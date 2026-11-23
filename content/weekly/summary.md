@@ -1,35 +1,36 @@
-# Fandom spotlight — 2026-11-21
+# Fandom spotlight — 2026-11-22
 
-## 1. 🔄 Cleveland has flipped its November: 3-7 before this week, 3-1 since
-*Cleveland: Guardians/Cavaliers/Browns* · `turnaround`
+## 1. 🔄 St. Louis has flipped its November: 2-4 before this week, 4-0 since
+*St. Louis: Cardinals/Blues* · `turnaround`
 
-- **Before this week:** 3-7, -20.2 weighted (-2.02 per game)
-- **Since:** 3-1, +10.1 weighted (+2.53 per game)
-- **This month (through November 21):** 6-8, -10.1 weighted
-- **Last 7 days:** 3-1, +10.1 weighted
-- **Driving it this week:** Browns (1-0, +7.0)
+- **Before this week:** 2-4, -6.3 weighted (-1.06 per game)
+- **Since:** 4-0, +12.7 weighted (+3.17 per game)
+- **This month (through November 22):** 6-4, +6.3 weighted
+- **Last 7 days:** 4-0, +12.7 weighted
+- **Driving it this week:** Blues (4-0, +12.7)
+- **Active streaks:** Blues W4
 
-Images: `cleveland_race.png` · `cleveland_timeline.png` · `cleveland_teams.png`
+Images: `st-louis_race.png` · `st-louis_timeline.png` · `st-louis_teams.png`
 
-## 2. 🧊 Indianapolis is having its worst year on record — 78th of 88 this year
-*Indianapolis: Pacers/Colts* · `year`
+## 2. 🏆 Raleigh is having its best year on record — 9th of 88 this year
+*Raleigh: Hurricanes* · `year`
 
-- **2026 so far (through November 21):** 21-55, -130.4 weighted — the worst of the 17 years on record, at the same point
-- **Against the field:** 78th of 88 city groups on the year (11th percentile)
-- **This month (through November 21):** 4-10, -26.6 weighted
-- **Last 7 days:** 1-4, -9.5 weighted
-- **Driving it this week:** Pacers (0-3, -9.5)
-- **Active streaks:** Pacers L3
+- **2026 so far (through November 22):** 62-23, +123.5 weighted — the best of the 17 years on record, at the same point
+- **Against the field:** 9th of 88 city groups on the year (91st percentile)
+- **This month (through November 22):** 7-2, +15.8 weighted
+- **Last 7 days:** 2-1, +3.2 weighted
+- **Driving it this week:** Hurricanes (2-1, +3.2)
 
-Images: `indianapolis_year.png` · `indianapolis_field.png`
+Images: `raleigh_year.png` · `raleigh_field.png`
 
-## 3. 🔥 Minnesota is having its best month since December 2025
-*Minnesota: Twins/Timberwolves/Wild/Vikings* · `month`
+## 3. 🥶 Baltimore is having its worst November on record
+*Baltimore: Orioles/Ravens* · `month`
 
-- **This month (through November 21):** 17-6, +31.0 weighted — the third-best of 199 months on record (99th percentile)
-- **vs past Novembers:** the second-best November of the 17 on record
-- **Last 7 days:** 6-2, +16.5 weighted
-- **Driving it this week:** Vikings (1-0, +7.0)
+- **This month (through November 22):** 0-4, -27.8 weighted — the worst November of the 12 on record
+- **vs all months:** the second-worst of 147 months on record (1st percentile)
+- **Last 7 days:** 0-2, -13.9 weighted
+- **Driving it this week:** Ravens (0-2, -13.9)
+- **Active streaks:** Ravens L6
 
-Images: `minnesota_race.png` · `minnesota_history.png` · `minnesota_teams.png`
+Images: `baltimore_race.png` · `baltimore_history.png` · `baltimore_teams.png`
 

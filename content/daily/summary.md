@@ -1,17 +1,18 @@
-# City of the day — Vancouver
-*Vancouver: Canucks* · 2026-11-21
+# City of the day — Atlanta
+*Atlanta: Braves/Hawks/Falcons* · 2026-11-22
 
-- **2026 so far:** 14-53, -123.5 weighted over 67 games; longest run 17 straight losses
-- **Order of results:** about as clumped as coin flips (+0.4)
-- **Earlier seasons (full-year weighted):** 2010 +60.2, 2011 +95.0, 2012 +25.3, 2013 +15.8, 2014 -25.3, 2015 -15.8, 2016 -44.3, 2017 -79.2, 2018 -53.8, 2019 -19.0, 2020 +12.7, 2021 -41.2, 2022 -9.5, 2023 +25.3, 2024 +22.2, 2025 -34.8
-- **Last 30 days:** 3-9, -19.0 weighted; longest run 8 straight losses
-- **Window opens:** October 25, 2026
-- **November 2026 through day 21:** 3-6, -9.5 weighted — the 8th-best of the 15 on record
-- **Same November in earlier years (same stretch):** 2010 +3.2, 2011 +3.2, 2013 -12.7, 2014 +6.3, 2015 -12.7, 2016 -12.7, 2017 -6.3, 2018 -19.0, 2019 -15.8, 2021 -12.7, 2022 -6.3, 2023 +12.7, 2024 +3.2, 2025 -12.7
+- **2026 so far:** 144-106, +86.1 weighted over 250 games; longest run 11 straight wins
+- **Order of results:** about as clumped as coin flips (+0.3)
+- **Earlier seasons (full-year weighted):** 2010 +163.9, 2011 +60.1, 2012 +186.1, 2013 +4.3, 2014 -26.4, 2015 +42.0, 2016 -12.7, 2017 -46.3, 2018 -79.2, 2019 -41.3, 2020 -33.0, 2021 +55.6, 2022 +49.6, 2023 +83.3, 2024 +18.3, 2025 -75.1
+- **Last 30 days:** 10-9, -4.4 weighted; longest run 4 straight wins
+- **Window opens:** October 24, 2026
+- **November 2026 through day 22:** 8-5, -1.9 weighted — the 7th-best of the 16 on record
+- **Same November in earlier years (same stretch):** 2010 +17.7, 2011 +7.0, 2012 +13.3, 2013 -15.2, 2014 +20.2, 2015 -14.5, 2016 +3.2, 2017 -15.2, 2018 -42.4, 2019 -5.1, 2021 -4.7, 2022 -0.6, 2023 -13.9, 2024 -13.3, 2025 -11.4
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Canucks | 3-9 | -19.0 | 8 straight losses |
+| Hawks | 9-6 | +9.5 | 4 straight wins |
+| Falcons | 1-3 | -13.9 | 3 straight losses |
 
 Images: `season.png` · `month.png` · `form.png`
 
