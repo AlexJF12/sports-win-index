@@ -1,33 +1,33 @@
 {
- "date": "2026-11-22",
+ "date": "2026-11-23",
  "year": 2026,
- "city": "Atlanta",
- "label": "Atlanta: Braves/Hawks/Falcons",
+ "city": "Raleigh",
+ "label": "Raleigh: Hurricanes",
  "season": {
-  "w": 144,
-  "l": 106,
+  "w": 62,
+  "l": 23,
   "t": 0,
-  "games": 250
+  "games": 85
  },
  "recent": {
-  "w": 10,
-  "l": 9,
+  "w": 8,
+  "l": 2,
   "t": 0,
-  "games": 19,
+  "games": 10,
   "longest": {
    "type": "W",
    "length": 4
   }
  },
  "month": {
-  "w": 8,
-  "l": 5,
+  "w": 7,
+  "l": 2,
   "t": 0,
-  "games": 13,
+  "games": 9,
   "name": "November",
   "in_progress": true,
-  "place": 7,
-  "worse": 9,
-  "field": 16
+  "place": 1,
+  "worse": 14,
+  "field": 15
  }
 }
