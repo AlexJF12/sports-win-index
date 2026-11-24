@@ -207,6 +207,7 @@
   "2026-11-22/guess": {
    "cid": "bafyreicehjbmmdqdfvuhjaygtx5lgobl2kpsf4q7m666hjwbhfu7vg5gru",
    "fingerprint": "8ac6d7b56d2612de0616d7a59b2f5a6af813809579462d23a3b01992acbb4335",
+   "reveal": "at://did:plc:upcxu22qs2nrtuleghymcik3/app.bsky.feed.post/3n32hh2svfk2a",
    "shared_at": "2026-11-24T05:43:38Z",
    "uri": "at://did:plc:upcxu22qs2nrtuleghymcik3/app.bsky.feed.post/3n2zwsm77f32t",
    "url": "https://alexjf12.github.io/sports-win-index/content/posts/2026-11-22/guess.html"
@@ -219,5 +220,5 @@
    "url": "https://alexjf12.github.io/sports-win-index/content/posts/2026-11-22/h2h.html"
   }
  },
- "updated": "2026-11-24T05:43:38Z"
+ "updated": "2026-11-24T10:41:23Z"
 }
