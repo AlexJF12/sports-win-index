@@ -1,10 +1,120 @@
 {
- "generated": "2026-11-24",
+ "generated": "2026-11-25",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-11-24",
+   "kind": "h2h",
+   "title": "Edmonton vs Las Vegas: who's had the better 2026?",
+   "dek": "Oilers against Golden Knights/Raiders, through November 24",
+   "hook": "Edmonton fans, Las Vegas fans: who's winning 2026?\nEdmonton: 40-34 (21st of 49 cities) \u00b7 Las Vegas: 55-48 (22nd)\nNov 24: Golden Knights 5, Oilers 3.",
+   "score": 0.708,
+   "cities": [
+    "Edmonton",
+    "Las Vegas"
+   ],
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "Edmonton",
+       "value": "Edmonton: Oilers \u2014 40-34, +19.0 weighted, 21st of 49"
+      },
+      {
+       "label": "Las Vegas",
+       "value": "Las Vegas: Golden Knights/Raiders \u2014 55-48, +14.6 weighted, 22nd of 49"
+      },
+      {
+       "label": "The gap",
+       "value": "Edmonton by 4.4"
+      },
+      {
+       "label": "November 24",
+       "value": "Golden Knights 5, Oilers 3"
+      },
+      {
+       "label": "Meetings in 2026",
+       "value": "4 \u2014 Edmonton 2, Las Vegas 2"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "h2h-year.png",
+       "caption": "Both cities' cumulative weighted index this year, every game since January 1 added up.",
+       "alt": "Oilers against Golden Knights/Raiders, through November 24 \u2014 Both cities' cumulative weighted index this year, every game since January 1 added up"
+      }
+     ]
+    }
+   ],
+   "slot": 2,
+   "page": "content/posts/2026-11-24/h2h.html"
+  },
+  {
+   "date": "2026-11-24",
+   "kind": "record",
+   "title": "Pittsburgh is having its worst November on record",
+   "dek": "Pittsburgh: Pirates/Penguins/Steelers",
+   "hook": "Pittsburgh is having its worst November on record\n3-9 this month. The Penguins are 0-3 this week.\nRock bottom, or not yet?",
+   "score": 0.8,
+   "cities": [
+    "Pittsburgh"
+   ],
+   "finding": "pittsburgh",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "This month (through November 24)",
+       "value": "3-9, -22.8 weighted \u2014 the worst November of the 17 on record"
+      },
+      {
+       "label": "vs all months",
+       "value": "the 7th-worst of 198 months on record (3rd percentile)"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "0-4, -16.5 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Penguins (0-3, -9.5)"
+      },
+      {
+       "label": "Active streaks",
+       "value": "Penguins L4"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "record-pittsburgh_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Pittsburgh: Pirates/Penguins/Steelers \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "record-pittsburgh_history.png",
+       "caption": "Every comparable month on record, this one picked out.",
+       "alt": "Pittsburgh: Pirates/Penguins/Steelers \u2014 Every comparable month on record, this one picked out"
+      },
+      {
+       "file": "record-pittsburgh_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Pittsburgh: Pirates/Penguins/Steelers \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    }
+   ],
+   "slot": 1,
+   "page": "content/posts/2026-11-24/record.html"
+  },
   {
    "date": "2026-11-23",
    "kind": "hotcold",

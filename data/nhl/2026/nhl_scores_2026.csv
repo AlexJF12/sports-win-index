@@ -1135,3 +1135,4 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261123,nhl,401892777,UTA,2,WPG,4,WPG,Final
 20261123,nhl,401892778,ANA,2,SEA,3,SEA,Final
 20261123,nhl,401892779,MIN,5,SJ,2,MIN,Final
+20261124,nhl,401892780,VGK,5,EDM,3,VGK,Final

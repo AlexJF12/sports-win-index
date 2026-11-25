@@ -1,33 +1,33 @@
 {
- "date": "2026-11-23",
+ "date": "2026-11-24",
  "year": 2026,
- "city": "Raleigh",
- "label": "Raleigh: Hurricanes",
+ "city": "Washington",
+ "label": "Washington: Nationals/Wizards/Capitals/Commanders",
  "season": {
-  "w": 62,
-  "l": 23,
-  "t": 0,
-  "games": 85
+  "w": 130,
+  "l": 174,
+  "t": 1,
+  "games": 305
  },
  "recent": {
-  "w": 8,
-  "l": 2,
+  "w": 12,
+  "l": 19,
   "t": 0,
-  "games": 10,
+  "games": 31,
   "longest": {
-   "type": "W",
-   "length": 4
+   "type": "L",
+   "length": 6
   }
  },
  "month": {
-  "w": 7,
-  "l": 2,
+  "w": 9,
+  "l": 17,
   "t": 0,
-  "games": 9,
+  "games": 26,
   "name": "November",
   "in_progress": true,
-  "place": 1,
-  "worse": 14,
-  "field": 15
+  "place": 12,
+  "worse": 5,
+  "field": 17
  }
 }
