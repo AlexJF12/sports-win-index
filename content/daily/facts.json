@@ -1,33 +1,33 @@
 {
- "date": "2026-11-24",
+ "date": "2026-11-25",
  "year": 2026,
- "city": "Washington",
- "label": "Washington: Nationals/Wizards/Capitals/Commanders",
+ "city": "Orlando",
+ "label": "Orlando: Magic",
  "season": {
-  "w": 130,
-  "l": 174,
-  "t": 1,
-  "games": 305
+  "w": 37,
+  "l": 37,
+  "t": 0,
+  "games": 74
  },
  "recent": {
-  "w": 12,
-  "l": 19,
+  "w": 6,
+  "l": 8,
   "t": 0,
-  "games": 31,
+  "games": 14,
   "longest": {
    "type": "L",
-   "length": 6
+   "length": 4
   }
  },
  "month": {
-  "w": 9,
-  "l": 17,
+  "w": 5,
+  "l": 7,
   "t": 0,
-  "games": 26,
+  "games": 12,
   "name": "November",
   "in_progress": true,
-  "place": 12,
-  "worse": 5,
-  "field": 17
+  "place": 8,
+  "worse": 6,
+  "field": 15
  }
 }

@@ -191,3 +191,4 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261122,nfl,401873069,JAX,18,NYG,23,NYG,Final
 20261122,nfl,401873077,MIN,10,SF,35,SF,Final
 20261123,nfl,401873078,CIN,20,WSH,22,WSH,Final
+20261125,nfl,401873079,GB,13,LAR,26,LAR,Final
