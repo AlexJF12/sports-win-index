@@ -261,7 +261,14 @@
    "shared_at": "2026-11-26T23:25:35Z",
    "uri": "at://did:plc:upcxu22qs2nrtuleghymcik3/app.bsky.feed.post/3n3at3evf552w",
    "url": "https://alexjf12.github.io/sports-win-index/content/posts/2026-11-25/timemachine.html"
+  },
+  "2026-11-26/record": {
+   "cid": "bafyreifynfbm6fs6z6szycnaefluig2p6pa3uuqb46wbeweq27x6uo33t4",
+   "fingerprint": "13f2439c4369728253d4896b4c513e7d20d76009d72b1afb33a3c8a5df3ad5b6",
+   "shared_at": "2026-11-27T23:05:17Z",
+   "uri": "at://did:plc:upcxu22qs2nrtuleghymcik3/app.bsky.feed.post/3n3dcfysh7i2t",
+   "url": "https://alexjf12.github.io/sports-win-index/content/posts/2026-11-26/record.html"
   }
  },
- "updated": "2026-11-27T09:26:30Z"
+ "updated": "2026-11-27T23:05:17Z"
 }
