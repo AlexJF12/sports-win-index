@@ -1,17 +1,18 @@
-# City of the day — Orlando
-*Orlando: Magic* · 2026-11-25
+# City of the day — Las Vegas
+*Las Vegas: Golden Knights/Raiders* · 2026-11-26
 
-- **2026 so far:** 37-37, +0.0 weighted over 74 games; longest run 7 straight wins
-- **Order of results:** about as clumped as coin flips (+0.7)
-- **Earlier seasons (full-year weighted):** 2010 +114.0, 2011 +41.2, 2012 -12.7, 2013 -145.7, 2014 -107.7, 2015 -53.8, 2016 -69.7, 2017 -104.5, 2018 -72.8, 2019 -6.3, 2020 -6.3, 2021 -174.2, 2022 -85.5, 2023 +9.5, 2024 +34.8, 2025 -12.7
-- **Last 30 days:** 6-8, -6.3 weighted; longest run 4 straight losses
-- **Window opens:** October 28, 2026
-- **November 2026 through day 25:** 5-7, -6.3 weighted — tied for the 7th-worst of the 15 on record
-- **Same November in earlier years (same stretch):** 2010 +19.0, 2012 -9.5, 2013 -9.5, 2014 -6.3, 2015 +3.2, 2016 -3.2, 2017 -22.2, 2018 +9.5, 2019 -12.7, 2021 -19.0, 2022 -12.7, 2023 +19.0, 2024 +12.7, 2025 +15.8
+- **2026 so far:** 55-48, +14.6 weighted over 103 games; longest run 7 straight wins
+- **Order of results:** clumpier than chance (+2.0)
+- **Earlier seasons (full-year weighted):** 2017 +47.5, 2018 +47.5, 2019 -0.0, 2020 +15.2, 2021 +124.8, 2022 +1.9, 2023 +54.5, 2024 -7.5, 2025 -90.4
+- **Last 30 days:** 7-9, -13.9 weighted; longest run 5 straight losses
+- **Window opens:** October 30, 2026
+- **November 2026 through day 26:** 7-8, -10.7 weighted — the fourth-worst of the 10 on record
+- **Same November in earlier years (same stretch):** 2017 +9.5, 2018 +3.2, 2019 -19.0, 2020 +13.9, 2021 -1.2, 2022 +2.5, 2023 -3.2, 2024 -11.4, 2025 -40.5
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Magic | 6-8 | -6.3 | 4 straight losses |
+| Golden Knights | 6-6 | +0.0 | 4 straight wins |
+| Raiders | 1-3 | -13.9 | 3 straight losses |
 
 Images: `season.png` · `month.png` · `form.png`
 

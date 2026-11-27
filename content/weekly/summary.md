@@ -1,37 +1,35 @@
-# Fandom spotlight — 2026-11-25
+# Fandom spotlight — 2026-11-26
 
-## 1. 🔄 Edmonton's November has come apart: 7-2 before this week, 0-4 since
-*Edmonton: Oilers* · `turnaround`
+## 1. 🔄 Tampa Bay's November has come apart: 8-3 before this week, 0-3 since
+*Tampa Bay: Rays/Lightning/Buccaneers* · `turnaround`
 
-- **Before this week:** 7-2, +15.8 weighted (+1.76 per game)
-- **Since:** 0-4, -12.7 weighted (-3.17 per game)
-- **This month (through November 25):** 7-6, +3.2 weighted
-- **Last 7 days:** 0-4, -12.7 weighted
-- **Driving it this week:** Oilers (0-4, -12.7)
-- **Active streaks:** Oilers L4
+- **Before this week:** 8-3, +15.8 weighted (+1.44 per game)
+- **Since:** 0-3, -13.3 weighted (-4.43 per game)
+- **This month (through November 26):** 8-6, +2.5 weighted
+- **Last 7 days:** 0-3, -13.3 weighted
+- **Driving it this week:** Buccaneers (0-1, -7.0)
 
-Images: `edmonton_race.png` · `edmonton_timeline.png` · `edmonton_teams.png`
+Images: `tampa-bay_race.png` · `tampa-bay_timeline.png` · `tampa-bay_teams.png`
 
-## 2. 🏆 Raleigh is having its best year on record — 8th of 88 this year
-*Raleigh: Hurricanes* · `year`
+## 2. 🧊 Sacramento is having its worst year on record — 85th of 88 this year
+*Sacramento: Athletics/Kings* · `year`
 
-- **2026 so far (through November 25):** 63-23, +126.7 weighted — the best of the 17 years on record, at the same point
-- **Against the field:** 8th of 88 city groups on the year (91st percentile)
-- **This month (through November 25):** 8-2, +19.0 weighted
-- **Last 7 days:** 3-1, +6.3 weighted
-- **Driving it this week:** Hurricanes (3-1, +6.3)
+- **2026 so far (through November 26):** 80-148, -184.3 weighted — the worst of the 17 years on record, at the same point
+- **Against the field:** 85th of 88 city groups on the year (3rd percentile)
+- **This month (through November 26):** 2-10, -25.3 weighted
+- **Last 7 days:** 1-3, -6.3 weighted
+- **Driving it this week:** Kings (1-3, -6.3)
+
+Images: `sacramento_year.png` · `sacramento_field.png`
+
+## 3. 🔥 Raleigh is having its best November on record
+*Raleigh: Hurricanes* · `month`
+
+- **This month (through November 26):** 8-2, +19.0 weighted — the best November of the 15 on record
+- **vs all months:** tied for the fourth-best of 121 months on record (95th percentile)
+- **Last 7 days:** 3-0, +9.5 weighted
+- **Driving it this week:** Hurricanes (3-0, +9.5)
 - **Active streaks:** Hurricanes W3
 
-Images: `raleigh_year.png` · `raleigh_field.png`
-
-## 3. 🥶 New Orleans is having its worst month since November 2025
-*New Orleans: Pelicans/Saints* · `month`
-
-- **This month (through November 25):** 4-12, -29.1 weighted — tied for the fourth-worst of 127 months on record (3rd percentile)
-- **vs past Novembers:** tied for the second-worst November of the 16 on record
-- **Last 7 days:** 0-4, -16.5 weighted
-- **Driving it this week:** Pelicans (0-3, -9.5)
-- **Active streaks:** Pelicans L4
-
-Images: `new-orleans_race.png` · `new-orleans_history.png` · `new-orleans_teams.png`
+Images: `raleigh_race.png` · `raleigh_history.png` · `raleigh_teams.png`
 

@@ -192,3 +192,6 @@ date,league,game_id,away_team,away_score,home_team,home_score,winner,status
 20261122,nfl,401873077,MIN,10,SF,35,SF,Final
 20261123,nfl,401873078,CIN,20,WSH,22,WSH,Final
 20261125,nfl,401873079,GB,13,LAR,26,LAR,Final
+20261126,nfl,401873081,CHI,39,DET,35,CHI,Final
+20261126,nfl,401873080,PHI,39,DAL,38,PHI,Final
+20261126,nfl,401873082,KC,10,BUF,13,BUF,Final

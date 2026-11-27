@@ -1,10 +1,159 @@
 {
- "generated": "2026-11-26",
+ "generated": "2026-11-27",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "date": "2026-11-26",
+   "kind": "banner",
+   "title": "November banner watch \u2014 Los Angeles leads at day 26",
+   "dek": "Los Angeles is +62.7 weighted, +14.5 ahead of New York, with 4 days to play",
+   "hook": "4 days left in November. Los Angeles has the lead.\nLos Angeles 22-7 this month \u00b7 New York 20-6.\nDoes New York have a run in them?",
+   "cities": [
+    "Los Angeles"
+   ],
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "Leading",
+       "value": "Los Angeles: Angels/Lakers/Ducks/Rams \u2014 22-7, +62.7 weighted"
+      },
+      {
+       "label": "Closest chaser",
+       "value": "New York: Mets/Knicks/Devils/Giants \u2014 20-6, +48.1 weighted"
+      },
+      {
+       "label": "Banners since 2010",
+       "value": "It would be #38 for Los Angeles"
+      },
+      {
+       "label": "Last month's banner",
+       "value": "Boston, +36.1 in October 2026"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Place",
+       "City",
+       "Teams",
+       "Record",
+       "Weighted"
+      ],
+      "rows": [
+       [
+        "1",
+        "Los Angeles",
+        "Angels/Lakers/Ducks/Rams",
+        "22-7",
+        "+62.7"
+       ],
+       [
+        "2",
+        "New York",
+        "Mets/Knicks/Devils/Giants",
+        "20-6",
+        "+48.1"
+       ],
+       [
+        "3",
+        "Denver",
+        "Rockies/Nuggets/Avalanche/Broncos",
+        "16-8",
+        "+36.7"
+       ],
+       [
+        "4",
+        "Minnesota",
+        "Twins/Timberwolves/Wild/Vikings",
+        "20-8",
+        "+30.4"
+       ],
+       [
+        "5",
+        "San Antonio",
+        "Spurs",
+        "11-2",
+        "+28.5"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "banner-race.png",
+       "caption": "The leader's banner as it would hang today \u2014 the running total in black, each team's share in its league color \u2014 beside the top five cities in the race.",
+       "alt": "Los Angeles is +62.7 weighted, +14.5 ahead of New York, with 4 days to play \u2014 The leader's banner as it would hang today \u2014 the running total in black, each team's share in its league color \u2014 beside the top five cities in the race"
+      }
+     ]
+    }
+   ],
+   "slot": 2,
+   "page": "content/posts/2026-11-26/banner.html"
+  },
+  {
+   "date": "2026-11-26",
+   "kind": "record",
+   "title": "Raleigh is having its best November on record",
+   "dek": "Raleigh: Hurricanes",
+   "hook": "Raleigh is having its best November on record\n8-2 this month.\nToo good to last?",
+   "score": 0.8,
+   "cities": [
+    "Raleigh"
+   ],
+   "finding": "raleigh",
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "This month (through November 26)",
+       "value": "8-2, +19.0 weighted \u2014 the best November of the 15 on record"
+      },
+      {
+       "label": "vs all months",
+       "value": "tied for the fourth-best of 121 months on record (95th percentile)"
+      },
+      {
+       "label": "Last 7 days",
+       "value": "3-0, +9.5 weighted"
+      },
+      {
+       "label": "Driving it this week",
+       "value": "Hurricanes (3-0, +9.5)"
+      },
+      {
+       "label": "Active streaks",
+       "value": "Hurricanes W3"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "record-raleigh_race.png",
+       "caption": "The group against the whole field this month, cumulative weighted index.",
+       "alt": "Raleigh: Hurricanes \u2014 The group against the whole field this month, cumulative weighted index"
+      },
+      {
+       "file": "record-raleigh_history.png",
+       "caption": "Every comparable month on record, this one picked out.",
+       "alt": "Raleigh: Hurricanes \u2014 Every comparable month on record, this one picked out"
+      },
+      {
+       "file": "record-raleigh_teams.png",
+       "caption": "Per-team contribution \u2014 the full month against the last 7 days.",
+       "alt": "Raleigh: Hurricanes \u2014 Per-team contribution \u2014 the full month against the last 7 days"
+      }
+     ]
+    }
+   ],
+   "slot": 1,
+   "page": "content/posts/2026-11-26/record.html"
+  },
   {
    "date": "2026-11-25",
    "kind": "guess",

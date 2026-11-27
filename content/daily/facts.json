@@ -1,33 +1,33 @@
 {
- "date": "2026-11-25",
+ "date": "2026-11-26",
  "year": 2026,
- "city": "Orlando",
- "label": "Orlando: Magic",
+ "city": "Las Vegas",
+ "label": "Las Vegas: Golden Knights/Raiders",
  "season": {
-  "w": 37,
-  "l": 37,
+  "w": 55,
+  "l": 48,
   "t": 0,
-  "games": 74
+  "games": 103
  },
  "recent": {
-  "w": 6,
-  "l": 8,
+  "w": 7,
+  "l": 9,
   "t": 0,
-  "games": 14,
+  "games": 16,
   "longest": {
    "type": "L",
-   "length": 4
+   "length": 5
   }
  },
  "month": {
-  "w": 5,
-  "l": 7,
+  "w": 7,
+  "l": 8,
   "t": 0,
-  "games": 12,
+  "games": 15,
   "name": "November",
   "in_progress": true,
-  "place": 8,
-  "worse": 6,
-  "field": 15
+  "place": 7,
+  "worse": 3,
+  "field": 10
  }
 }
