@@ -250,6 +250,7 @@
   "2026-11-25/guess": {
    "cid": "bafyreic2k4cv7cygbjuyzf5swymnqgsaxsl5zogggncp4ljaarnmh4ytvm",
    "fingerprint": "d5d6c96b401c4ac51834dcd14a5c70ba58de20453cbf7ec21ad2283c6ae70905",
+   "reveal": "at://did:plc:upcxu22qs2nrtuleghymcik3/app.bsky.feed.post/3n3bunwclgq2s",
    "shared_at": "2026-11-27T03:55:55Z",
    "uri": "at://did:plc:upcxu22qs2nrtuleghymcik3/app.bsky.feed.post/3n3bc6rjcqg2r",
    "url": "https://alexjf12.github.io/sports-win-index/content/posts/2026-11-25/guess.html"
@@ -262,5 +263,5 @@
    "url": "https://alexjf12.github.io/sports-win-index/content/posts/2026-11-25/timemachine.html"
   }
  },
- "updated": "2026-11-27T03:55:55Z"
+ "updated": "2026-11-27T09:26:30Z"
 }
