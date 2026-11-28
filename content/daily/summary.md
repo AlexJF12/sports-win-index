@@ -1,18 +1,18 @@
-# City of the day — Las Vegas
-*Las Vegas: Golden Knights/Raiders* · 2026-11-26
+# City of the day — Buffalo
+*Buffalo: Sabres/Bills* · 2026-11-27
 
-- **2026 so far:** 55-48, +14.6 weighted over 103 games; longest run 7 straight wins
-- **Order of results:** clumpier than chance (+2.0)
-- **Earlier seasons (full-year weighted):** 2017 +47.5, 2018 +47.5, 2019 -0.0, 2020 +15.2, 2021 +124.8, 2022 +1.9, 2023 +54.5, 2024 -7.5, 2025 -90.4
-- **Last 30 days:** 7-9, -13.9 weighted; longest run 5 straight losses
-- **Window opens:** October 30, 2026
-- **November 2026 through day 26:** 7-8, -10.7 weighted — the fourth-worst of the 10 on record
-- **Same November in earlier years (same stretch):** 2017 +9.5, 2018 +3.2, 2019 -19.0, 2020 +13.9, 2021 -1.2, 2022 +2.5, 2023 -3.2, 2024 -11.4, 2025 -40.5
+- **2026 so far:** 58-37, +104.4 weighted over 95 games; longest run 8 straight wins
+- **Order of results:** about as clumped as coin flips (-1.0)
+- **Earlier seasons (full-year weighted):** 2010 -73.4, 2011 -8.8, 2012 -34.8, 2013 -103.8, 2014 -87.4, 2015 -114.6, 2016 -44.3, 2017 -69.0, 2018 -72.8, 2019 -51.4, 2020 +49.3, 2021 -85.6, 2022 +63.8, 2023 +9.4, 2024 +57.5, 2025 +51.2
+- **Last 30 days:** 11-8, +28.4 weighted; longest run 4 straight wins
+- **Window opens:** October 29, 2026
+- **November 2026 through day 27:** 9-8, +22.1 weighted — the third-best of the 17 on record
+- **Same November in earlier years (same stretch):** 2010 +3.8, 2011 -24.7, 2012 -13.9, 2013 -22.8, 2014 -16.5, 2015 +0.6, 2016 -8.9, 2017 -32.9, 2018 +35.5, 2019 -11.4, 2020 +7.0, 2021 -22.2, 2022 -19.0, 2023 -17.1, 2024 +27.2, 2025 -6.3
 
 | Team | Last 30 days | Weighted | Longest run |
 |---|---|---|---|
-| Golden Knights | 6-6 | +0.0 | 4 straight wins |
-| Raiders | 1-3 | -13.9 | 3 straight losses |
+| Sabres | 6-8 | -6.3 | 5 straight losses |
+| Bills | 5-0 | +34.8 | 5 straight wins |
 
 Images: `season.png` · `month.png` · `form.png`
 

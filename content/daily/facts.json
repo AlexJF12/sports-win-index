@@ -1,33 +1,33 @@
 {
- "date": "2026-11-26",
+ "date": "2026-11-27",
  "year": 2026,
- "city": "Las Vegas",
- "label": "Las Vegas: Golden Knights/Raiders",
+ "city": "Buffalo",
+ "label": "Buffalo: Sabres/Bills",
  "season": {
-  "w": 55,
-  "l": 48,
+  "w": 58,
+  "l": 37,
   "t": 0,
-  "games": 103
+  "games": 95
  },
  "recent": {
-  "w": 7,
-  "l": 9,
+  "w": 11,
+  "l": 8,
   "t": 0,
-  "games": 16,
+  "games": 19,
   "longest": {
-   "type": "L",
-   "length": 5
+   "type": "W",
+   "length": 4
   }
  },
  "month": {
-  "w": 7,
+  "w": 9,
   "l": 8,
   "t": 0,
-  "games": 15,
+  "games": 17,
   "name": "November",
   "in_progress": true,
-  "place": 7,
-  "worse": 3,
-  "field": 10
+  "place": 3,
+  "worse": 14,
+  "field": 17
  }
 }

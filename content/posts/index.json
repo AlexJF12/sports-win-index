@@ -1,10 +1,148 @@
 {
- "generated": "2026-11-27",
+ "generated": "2026-11-28",
  "retain_days": 90,
  "base_url": "https://alexjf12.github.io/sports-win-index",
  "archive": null,
  "archived_count": 0,
  "posts": [
+  {
+   "hook": "Today's city: Buffalo. Sabres, Bills.\n58-37 in 2026. November so far: 9-8, the third-best of the 17 on record.\nWhat's the mood in Buffalo?",
+   "score": 0.5,
+   "date": "2026-11-27",
+   "kind": "daily",
+   "title": "City of the day \u2014 Buffalo",
+   "dek": "Buffalo: Sabres/Bills",
+   "cities": [
+    "Buffalo"
+   ],
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "2026 so far",
+       "value": "58-37, +104.4 weighted over 95 games; longest run 8 straight wins"
+      },
+      {
+       "label": "Order of results",
+       "value": "about as clumped as coin flips (-1.0)"
+      },
+      {
+       "label": "Earlier seasons (full-year weighted)",
+       "value": "2010 -73.4, 2011 -8.8, 2012 -34.8, 2013 -103.8, 2014 -87.4, 2015 -114.6, 2016 -44.3, 2017 -69.0, 2018 -72.8, 2019 -51.4, 2020 +49.3, 2021 -85.6, 2022 +63.8, 2023 +9.4, 2024 +57.5, 2025 +51.2"
+      },
+      {
+       "label": "Last 30 days",
+       "value": "11-8, +28.4 weighted; longest run 4 straight wins"
+      },
+      {
+       "label": "Window opens",
+       "value": "October 29, 2026"
+      },
+      {
+       "label": "November 2026 through day 27",
+       "value": "9-8, +22.1 weighted \u2014 the third-best of the 17 on record"
+      },
+      {
+       "label": "Same November in earlier years (same stretch)",
+       "value": "2010 +3.8, 2011 -24.7, 2012 -13.9, 2013 -22.8, 2014 -16.5, 2015 +0.6, 2016 -8.9, 2017 -32.9, 2018 +35.5, 2019 -11.4, 2020 +7.0, 2021 -22.2, 2022 -19.0, 2023 -17.1, 2024 +27.2, 2025 -6.3"
+      }
+     ],
+     "table": {
+      "columns": [
+       "Team",
+       "Last 30 days",
+       "Weighted",
+       "Longest run"
+      ],
+      "rows": [
+       [
+        "Sabres",
+        "6-8",
+        "-6.3",
+        "5 straight losses"
+       ],
+       [
+        "Bills",
+        "5-0",
+        "+34.8",
+        "5 straight wins"
+       ]
+      ]
+     },
+     "images": [
+      {
+       "file": "daily-season.png",
+       "caption": "The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year.",
+       "alt": "Buffalo: Sabres/Bills \u2014 The group's cumulative weighted index this year, drawn against its own earlier seasons, day of year for day of year"
+      },
+      {
+       "file": "daily-month.png",
+       "caption": "This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date.",
+       "alt": "Buffalo: Sabres/Bills \u2014 This calendar month against the same month in every earlier year, added up day by day, with the dots marking where each one stood on the same date"
+      },
+      {
+       "file": "daily-form.png",
+       "caption": "Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar.",
+       "alt": "Buffalo: Sabres/Bills \u2014 Each team's running record against .500 over the last 30 days, one panel per team, on a shared calendar"
+      }
+     ]
+    }
+   ],
+   "slot": 2,
+   "page": "content/posts/2026-11-27/daily.html"
+  },
+  {
+   "date": "2026-11-27",
+   "kind": "h2h",
+   "title": "Los Angeles vs San Antonio: who's had the better 2026?",
+   "dek": "Dodgers/Lakers/Ducks/Rams against Spurs, through November 27",
+   "hook": "Settle it: Los Angeles or San Antonio in 2026?\nLos Angeles: 205-139 (2nd of 49 cities) \u00b7 San Antonio: 66-25 (4th)\nNov 27: Spurs 99, Lakers 96.",
+   "score": 0.881,
+   "cities": [
+    "Los Angeles",
+    "San Antonio"
+   ],
+   "sections": [
+    {
+     "heading": null,
+     "subhead": null,
+     "stats": [
+      {
+       "label": "Los Angeles",
+       "value": "Los Angeles: Dodgers/Lakers/Ducks/Rams \u2014 205-139, +195.1 weighted, 2nd of 49"
+      },
+      {
+       "label": "San Antonio",
+       "value": "San Antonio: Spurs \u2014 66-25, +129.8 weighted, 4th of 49"
+      },
+      {
+       "label": "The gap",
+       "value": "Los Angeles by 65.2"
+      },
+      {
+       "label": "November 27",
+       "value": "Spurs 99, Lakers 96"
+      },
+      {
+       "label": "Meetings in 2026",
+       "value": "3 \u2014 Los Angeles 0, San Antonio 3"
+      }
+     ],
+     "table": null,
+     "images": [
+      {
+       "file": "h2h-year.png",
+       "caption": "Both cities' cumulative weighted index this year, every game since January 1 added up.",
+       "alt": "Dodgers/Lakers/Ducks/Rams against Spurs, through November 27 \u2014 Both cities' cumulative weighted index this year, every game since January 1 added up"
+      }
+     ]
+    }
+   ],
+   "slot": 1,
+   "page": "content/posts/2026-11-27/h2h.html"
+  },
   {
    "date": "2026-11-26",
    "kind": "banner",
